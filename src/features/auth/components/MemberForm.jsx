@@ -32,23 +32,28 @@ export default function MemberForm({
     const [name, setName] = useState(initialData?.name || '');
     const [phone, setPhone] = useState(initialPhone);
     const [countryCode, setCountryCode] = useState(initialCountryCode);
-    const [selectedRole, setSelectedRole] = useState(initialData?.role || null);
+    const [selectedRole, setSelectedRole] = useState(initialData?.roleId || null);
 
-    // Role options
+    // Role options - hardcoded with specific IDs
     const roleOptions = [
-        { value: 'contractorPartner', label: t('createWorkspace.addNewMember.roles.contractorPartner', { ns: 'auth', defaultValue: 'Contractor Partner' }) },
-        { value: 'supervisorEngineer', label: t('createWorkspace.addNewMember.roles.supervisorEngineer', { ns: 'auth', defaultValue: 'Supervisor/Engineer' }) },
-        { value: 'builder', label: t('createWorkspace.addNewMember.roles.builder', { ns: 'auth', defaultValue: 'Builder' }) },
+        { value: 8, label: t('createWorkspace.addNewMember.roles.contractorPartner', { ns: 'auth', defaultValue: 'Contractor Partner' }) },
+        { value: 6, label: t('createWorkspace.addNewMember.roles.supervisorEngineer', { ns: 'auth', defaultValue: 'Supervisor/Engineer' }) },
+        { value: 5, label: t('createWorkspace.addNewMember.roles.builder', { ns: 'auth', defaultValue: 'Builder' }) },
     ];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!name.trim() || !phone.trim() || !selectedRole) return;
 
+        // Remove spaces from phone number
+        const phoneNumber = phone.trim().replace(/\s/g, '');
+
         const memberData = {
             name: name.trim(),
-            phone: `${countryCode} ${phone.trim()}`,
-            role: selectedRole,
+            phone: `${countryCode} ${phoneNumber}`,
+            phone_number: phoneNumber,
+            country_code: countryCode,
+            roleId: selectedRole,
         };
 
         onSubmit?.(memberData);

@@ -97,6 +97,31 @@ export const getWorkspaces = async () => {
 };
 
 /**
+ * Create workspace
+ * @param {Object} data - Workspace creation data
+ * @param {string} data.name - Workspace name
+ * @param {string} [data.role] - User role (default: "owner")
+ * @returns {Promise<Object>} API response with workspace details
+ */
+export const createWorkspace = async (data) => {
+  const requestBody = {
+    name: data.name.trim(),
+    role: data.role || 'owner', // Default role is "owner"
+  };
+
+  return http.post(ENDPOINTS_FLAT.WORKSPACE_CREATE, requestBody);
+};
+
+/**
+ * Get workspace members
+ * @param {string|number} workspaceId - Workspace ID
+ * @returns {Promise<Array>} List of workspace members
+ */
+export const getWorkspaceMembers = async (workspaceId) => {
+  return http.get(`${ENDPOINTS_FLAT.WORKSPACE_MEMBERS}/${workspaceId}`);
+};
+
+/**
  * Update user language preference
  * @param {string} language - Language code (e.g., 'en', 'hi', 'gu')
  * @returns {Promise<Object>} API response
@@ -111,5 +136,35 @@ export const updateLanguage = async (language) => {
  */
 export const logout = async () => {
   return http.post(ENDPOINTS_FLAT.LOGOUT);
+};
+
+/**
+ * Get all roles
+ * @returns {Promise<Array>} List of roles
+ */
+export const getAllRoles = async () => {
+  return http.get(ENDPOINTS_FLAT.ADMIN_GET_ALL_ROLE);
+};
+
+/**
+ * Add member to workspace
+ * @param {Object} data - Member data
+ * @param {string} data.country_code - Country code (e.g., "+91")
+ * @param {string} data.phone_number - Phone number
+ * @param {string} data.name - Member name
+ * @param {number} data.roleId - Role ID
+ * @param {number} data.workspace_id - Workspace ID
+ * @param {string} data.language - Language code (e.g., "en")
+ * @returns {Promise<Object>} API response
+ */
+export const addMember = async (data) => {
+  return http.post(ENDPOINTS_FLAT.MEMBER_ADD, {
+    country_code: data.country_code,
+    phone_number: data.phone_number,
+    name: data.name,
+    roleId: data.roleId,
+    workspace_id: data.workspace_id,
+    language: data.language,
+  });
 };
 

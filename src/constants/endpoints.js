@@ -19,18 +19,24 @@ export const ENDPOINTS = {
   // Workspace Endpoints
   WORKSPACE: {
     LIST: '/workspace',
-    CREATE: '/workspace/create',
+    CREATE: '/workspace',
     UPDATE: '/workspace/update',
     DELETE: '/workspace/delete',
     DETAILS: '/workspace/details',
+    MEMBERS: '/workspace/member', // Base path for workspace members
   },
 
   // Member Endpoints
   MEMBER: {
-    ADD: '/member/add',
+    ADD: '/workspace/addmember',
     UPDATE: '/member/update',
     DELETE: '/member/delete',
     LIST: '/member/list',
+  },
+
+  // Admin Endpoints
+  ADMIN: {
+    GET_ALL_ROLE: '/admin/getAllRole',
   },
 };
 
@@ -51,12 +57,16 @@ export const ENDPOINTS_FLAT = {
   WORKSPACE_UPDATE: ENDPOINTS.WORKSPACE.UPDATE,
   WORKSPACE_DELETE: ENDPOINTS.WORKSPACE.DELETE,
   WORKSPACE_DETAILS: ENDPOINTS.WORKSPACE.DETAILS,
+  WORKSPACE_MEMBERS: ENDPOINTS.WORKSPACE.MEMBERS,
 
   // Member
   MEMBER_ADD: ENDPOINTS.MEMBER.ADD,
   MEMBER_UPDATE: ENDPOINTS.MEMBER.UPDATE,
   MEMBER_DELETE: ENDPOINTS.MEMBER.DELETE,
   MEMBER_LIST: ENDPOINTS.MEMBER.LIST,
+
+  // Admin
+  ADMIN_GET_ALL_ROLE: ENDPOINTS.ADMIN.GET_ALL_ROLE,
 };
 
 export default ENDPOINTS_FLAT;

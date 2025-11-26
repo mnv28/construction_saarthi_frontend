@@ -58,11 +58,7 @@ export default function LanguageSwitcher({ className = '' }) {
       className="flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
       aria-label="Change Language"
     >
-      <Globe className="w-4 h-4 text-secondary flex-shrink-0" />    
-
-
-
-      
+      <Globe className="w-4 h-4 text-secondary flex-shrink-0" />
 
       {/* Circular badge with first letter */}
       <div

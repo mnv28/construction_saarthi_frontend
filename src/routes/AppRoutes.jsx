@@ -1,8 +1,8 @@
-/**
- * App Routes Configuration
- * Centralized routing for 400+ screen project
- * Uses lazy loading for better performance
- */
+  /**
+   * App Routes Configuration
+   * Centralized routing for 400+ screen project
+   * Uses lazy loading for better performance
+   */
 
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
@@ -14,55 +14,65 @@ import Layout from '../components/layout/Layout';
 import Projects from '../pages/Projects';
 import Settings from '../pages/Settings';
 
-// Lazy load components for better performance (important for 400+ screens)
-// Auth Routes
-const Login = lazy(() => import('../features/auth/pages/Login'));
-const Register = lazy(() => import('../features/auth/pages/Register'));
-const VerifyOTP = lazy(() => import('../features/auth/pages/VerifyOTP'));
+  // Lazy load components for better performance (important for 400+ screens)
+  // Auth Routes
+  const Login = lazy(() => import('../features/auth/pages/Login'));
+  const Register = lazy(() => import('../features/auth/pages/Register'));
+  const VerifyOTP = lazy(() => import('../features/auth/pages/VerifyOTP'));
+  const LanguageSelection = lazy(() => import('../features/auth/pages/LanguageSelection'));
+  const WorkspaceSelection = lazy(() => import('../features/auth/pages/WorkspaceSelection'));
+  const CreateWorkspace = lazy(() => import('../features/auth/pages/CreateWorkspace'));
+  const AddNewMember = lazy(() => import('../features/auth/pages/AddNewMember'));
+  const EditMember = lazy(() => import('../features/auth/pages/EditMember'));
 
-// Dashboard (will be created later)
-// const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
+  // Dashboard (will be created later)
+  // const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 
-// Projects (will be created later)
-// const Projects = lazy(() => import('../features/projects/pages/Projects'));
-// const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
+  // Projects (will be created later)
+  // const Projects = lazy(() => import('../features/projects/pages/Projects'));
+  // const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
 
-// Bookings (will be created later)
-// const Bookings = lazy(() => import('../features/bookings/pages/Bookings'));
+  // Bookings (will be created later)
+  // const Bookings = lazy(() => import('../features/bookings/pages/Bookings'));
 
-// Workers (will be created later)
-// const Workers = lazy(() => import('../features/workers/pages/Workers'));
+  // Workers (will be created later)
+  // const Workers = lazy(() => import('../features/workers/pages/Workers'));
 
-// Vendors (will be created later)
-// const Vendors = lazy(() => import('../features/vendors/pages/Vendors'));
+  // Vendors (will be created later)
+  // const Vendors = lazy(() => import('../features/vendors/pages/Vendors'));
 
-// Materials (will be created later)
-// const Materials = lazy(() => import('../features/materials/pages/Materials'));
+  // Materials (will be created later)
+  // const Materials = lazy(() => import('../features/materials/pages/Materials'));
 
-// Payments (will be created later)
-// const Payments = lazy(() => import('../features/payments/pages/Payments'));
+  // Payments (will be created later)
+  // const Payments = lazy(() => import('../features/payments/pages/Payments'));
 
-// Profile (will be created later)
-// const Profile = lazy(() => import('../features/profile/pages/Profile'));
+  // Profile (will be created later)
+  // const Profile = lazy(() => import('../features/profile/pages/Profile'));
 
-// Chat (will be created later)
-// const Chat = lazy(() => import('../features/chat/pages/Chat'));
+  // Chat (will be created later)
+  // const Chat = lazy(() => import('../features/chat/pages/Chat'));
 
-// Loading Component for Suspense fallback
-const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <Loader size="lg" />
-  </div>
-);
+  // Loading Component for Suspense fallback
+  const LoadingFallback = () => (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader size="lg" />
+    </div>
+  );
 
-function AppRoutes() {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <Routes>
-        {/* Public Routes - Auth */}
-        <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.VERIFY_OTP} element={<VerifyOTP />} />
+  function AppRoutes() {
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          {/* Public Routes - Auth */}
+          <Route path={ROUTES_FLAT.LOGIN} element={<Login />} />
+          <Route path={ROUTES_FLAT.REGISTER} element={<Register />} />
+          <Route path={ROUTES_FLAT.VERIFY_OTP} element={<VerifyOTP />} />
+          <Route path={ROUTES_FLAT.LANGUAGE_SELECTION} element={<LanguageSelection />} />
+          <Route path={ROUTES_FLAT.WORKSPACE_SELECTION} element={<WorkspaceSelection />} />
+          <Route path={ROUTES_FLAT.CREATE_WORKSPACE} element={<CreateWorkspace />} />
+          <Route path={ROUTES_FLAT.ADD_NEW_MEMBER} element={<AddNewMember />} />
+          <Route path={ROUTES_FLAT.EDIT_MEMBER} element={<EditMember />} />
 
         {/* Protected Routes - Will be added as features are developed */}
 
@@ -175,4 +185,4 @@ function AppRoutes() {
   );
 }
 
-export default AppRoutes;
+  export default AppRoutes;

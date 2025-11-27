@@ -76,9 +76,9 @@ import Settings from '../pages/Settings';
         {/* Protected Routes - Will be added as features are developed */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path={ROUTES_FLAT.DASHBOARD} element={<Dashboard />} />
+            <Route path={ROUTES_FLAT.PROJECTS} element={<Projects />} />
+            <Route path={ROUTES_FLAT.SETTINGS} element={<Settings />} />
           </Route>
         </Route>
     

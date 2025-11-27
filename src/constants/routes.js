@@ -1,6 +1,6 @@
 /**
  * Routes Configuration
- * Always use ROUTES constants instead of hardcoded paths
+ * All routes in one place - simple and easy to manage
  */
 
 export const ROUTES = {
@@ -16,9 +16,15 @@ export const ROUTES = {
     EDIT_MEMBER: '/edit-member',
   },
 
+  // Dashboard Routes
+  DASHBOARD: {
+    HOME: '/dashboard',
+    PROJECTS: '/projects',
+    SETTINGS: '/settings',
+  },
 };
 
-// Flattened routes for backward compatibility and easier access
+// Flattened routes for easier access
 export const ROUTES_FLAT = {
   // Auth
   LOGIN: ROUTES.AUTH.LOGIN,
@@ -29,6 +35,11 @@ export const ROUTES_FLAT = {
   CREATE_WORKSPACE: ROUTES.AUTH.CREATE_WORKSPACE,
   ADD_NEW_MEMBER: ROUTES.AUTH.ADD_NEW_MEMBER,
   EDIT_MEMBER: ROUTES.AUTH.EDIT_MEMBER,
+  
+  // Dashboard
+  DASHBOARD: ROUTES.DASHBOARD.HOME,
+  PROJECTS: ROUTES.DASHBOARD.PROJECTS,
+  SETTINGS: ROUTES.DASHBOARD.SETTINGS,
 };
 
 /**

@@ -2,8 +2,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
-import { ROUTES } from "../../constants/routes";
-import StatusBadge from "../ui/StatusBadge";
+import { useTranslation } from "react-i18next";
+import { ROUTES_FLAT } from "../../constants/routes";
+import { StatusAvatar } from "../ui/StatusBadge";
 
 import expand from "../../assets/icons/expand.svg";
 import { Users, Check, CirclePlus, LogOut } from "lucide-react";

@@ -84,6 +84,34 @@
     "terms": "চৰ্তাৱলী",
     "privacyPolicy": "গোপনীয়তা নীতি",
     "and": "আৰু"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "মেইন মেনু",
+      "dashboard": "ড্যাস্ব'ৰ্ড",
+      "projects": "প্ৰজেক্টসমূহ",
+      "dpr": "দৈনিক অগ্ৰগতি প্ৰতিবেদন (DPR)",
+      "gallery": "প্ৰজেক্ট গ্যালাৰী",
+      "buildersClients": "বিল্ডাৰ আৰু ক্লায়েণ্ট",
+      "vendors": "ভেণ্ডৰ নিয়ন্ত্ৰণ",
+      "pastWork": "মোৰ আগৰ কাম",
+      "businessCard": "বিজনেছ কাৰ্ড",
+      "referEarn": "ৰেফাৰ আৰু উপাৰ্জন",
+      "subscription": "মোৰ ছাবস্ক্ৰিপচন",
+      "account": "মোৰ একাউণ্ট"
+    },
+    "settings": {
+      "title": "ছেটিংছ",
+      "settings": "ছেটিংছ",
+      "help": "সহায়",
+      "contact": "যোগাযোগ"
+    }
+  },
+  "sidebarHeader": {
+    "title": "ৱৰ্কস্পেচ",
+    "inviteMembers": "মেম্বৰ আমন্ত্ৰণ কৰক আৰু চাওক",
+    "createWorkspace": "ৱৰ্কস্পেচ সৃষ্টি কৰক",
+    "logout": "লগ আউট"
   }
 }
 

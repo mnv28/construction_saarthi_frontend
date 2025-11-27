@@ -73,14 +73,19 @@ import Settings from '../pages/Settings';
           <Route path={ROUTES_FLAT.ADD_NEW_MEMBER} element={<AddNewMember />} />
           <Route path={ROUTES_FLAT.EDIT_MEMBER} element={<EditMember />} />
 
-          {/* Protected Routes - Sidebar and Navbar are globally available via Layout */}
-          <Route element={<ProtectedRoute />}>
-            <Route element={<Layout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
-          </Route>
+        {/* Protected Routes - Will be added as features are developed */}
+
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
     
            {/* 
         <Route

@@ -84,6 +84,34 @@
     "terms": "شرائط و ضوابط",
     "privacyPolicy": "رازداری کی پالیسی",
     "and": "اور"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "مین مینو",
+      "dashboard": "ڈیش بورڈ",
+      "projects": "پراجیکٹس",
+      "dpr": "ڈیلی پروگریس رپورٹ (DPR)",
+      "gallery": "پراجیکٹ گیلری",
+      "buildersClients": "بلڈرز اور کلائنٹس",
+      "vendors": "وینڈرز مینج کریں",
+      "pastWork": "میرا پچھلا کام",
+      "businessCard": "بزنس کارڈ",
+      "referEarn": "ریفَر کر کے کمائیں",
+      "subscription": "میری سبسکرپشن",
+      "account": "میرا اکاؤنٹ"
+    },
+    "settings": {
+      "title": "سیٹنگز",
+      "settings": "سیٹنگز",
+      "help": "مدد",
+      "contact": "رابطہ"
+    }
+  },
+  "sidebarHeader": {
+    "title": "ورک اسپیسز",
+    "inviteMembers": "ممبرز کو مدعو کریں اور دیکھیں",
+    "createWorkspace": "ورک اسپیس بنائیں",
+    "logout": "لاگ آؤٹ"
   }
 }
 

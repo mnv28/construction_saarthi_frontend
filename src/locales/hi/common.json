@@ -90,6 +90,34 @@
     "terms": "नियम और शर्तें",
     "privacyPolicy": "गोपनीयता नीति",
     "and": "और"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "मुख्य मेनू",
+      "dashboard": "डैशबोर्ड",
+      "projects": "प्रोजेक्ट्स",
+      "dpr": "डेली प्रोग्रेस रिपोर्ट (DPR)",
+      "gallery": "प्रोजेक्ट गैलरी",
+      "buildersClients": "बिल्डर और क्लाइंट्स",
+      "vendors": "वेंडर्स प्रबंधन",
+      "pastWork": "मेरा पिछला काम",
+      "businessCard": "बिज़नेस कार्ड",
+      "referEarn": "रेफ़र और कमाएँ",
+      "subscription": "मेरी सब्सक्रिप्शन",
+      "account": "मेरा अकाउंट"
+    },
+    "settings": {
+      "title": "सेटिंग्स",
+      "settings": "सेटिंग्स",
+      "help": "हेल्प",
+      "contact": "संपर्क"
+    }
+  },
+  "sidebarHeader": {
+    "title": "वर्कस्पेसेज़",
+    "inviteMembers": "मेंबर्स को आमंत्रित करें और देखें",
+    "createWorkspace": "वर्कस्पेस बनाएं",
+    "logout": "लॉग आउट"
   }
 }
 

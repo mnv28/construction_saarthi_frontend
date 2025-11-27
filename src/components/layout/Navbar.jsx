@@ -1,11 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-// Icons
-import { Globe, ChevronDown } from "lucide-react";
 import Breadcrumbs from "../../assets/icons/breadcrumbs.svg";
+import LanguageSwitcher from "../ui/LanguageSwitcher";
+
+// Map URL segments to translation keys in common.json
+const BREADCRUMB_TRANSLATION_KEYS = {
+  dashboard: "sidebar.mainMenu.dashboard",
+  projects: "sidebar.mainMenu.projects",
+  dpr: "sidebar.mainMenu.dpr",
+  gallery: "sidebar.mainMenu.gallery",
+  clients: "sidebar.mainMenu.buildersClients",
+  vendors: "sidebar.mainMenu.vendors",
+  "past-work": "sidebar.mainMenu.pastWork",
+  "business-card": "sidebar.mainMenu.businessCard",
+  refer: "sidebar.mainMenu.referEarn",
+  subscription: "sidebar.mainMenu.subscription",
+  account: "sidebar.mainMenu.account",
+  settings: "sidebar.settings.settings",
+  help: "sidebar.settings.help",
+  contact: "sidebar.settings.contact",
+};
 
 const Navbar = () => {
+  const { t } = useTranslation("common");
   const location = useLocation();
   const [user, setUser] = useState({
     name: "Admin's Workspace",
@@ -39,16 +58,22 @@ const Navbar = () => {
 
   const breadcrumbs = useMemo(() => {
     const segments = location.pathname.split("/").filter(Boolean);
-    if (segments.length === 0) return ["Dashboard"];
-
-    return segments.map((segment) => segment.replace(/-/g, " "));
+    if (segments.length === 0) return ["dashboard"];
+    return segments;
   }, [location.pathname]);
+
+  const currentBreadcrumb = useMemo(() => {
+    const last = breadcrumbs[breadcrumbs.length - 1] || "dashboard";
+    return t(BREADCRUMB_TRANSLATION_KEYS[last.toLowerCase()] || "", {
+      defaultValue: last.replace(/-/g, " "),
+    });
+  }, [breadcrumbs, t]);
 
   return (
     <header className="
       fixed top-0 left-0 right-0 
-      md:left-[300px]
-      h-16 
+      lg:left-[300px]
+      py-3
       px-4 md:px-8 
       bg-white 
       border-b border-gray-100 
@@ -56,14 +81,20 @@ const Navbar = () => {
       flex items-center justify-between
     ">
       {/* LEFT – BREADCRUMBS */}
-      <div className="flex items-center gap-2 min-w-0 flex-1">
-        <img src={Breadcrumbs} alt="Breadcrumbs" className="w-5 h-5 flex-shrink-0" />
+      <div className="flex items-center gap-2 min-w-0 flex-1 ml-10 md:ml-7 lg:ml-0 ">
+        {/* Icon only on tablet & desktop (>= 768px) */}
+        <img
+          src={Breadcrumbs}
+          alt="Breadcrumbs"
+          className="hidden md:block w-5 h-5 flex-shrink-0"
+        />
 
-        <div className="flex items-center gap-2 flex-wrap text-sm text-gray-500 min-w-0">
+        {/* Full breadcrumb trail on desktop */}
+        <div className="hidden lg:flex items-center gap-2 flex-wrap text-sm text-gray-500 min-w-0">
           {breadcrumbs.map((crumb, index) => (
             <span
               key={index}
-              className="flex items-center gap-2 capitalize whitespace-nowrap text-ellipsis overflow-hidden ml-4 md:ml-0"
+              className="flex items-center gap-2 capitalize whitespace-nowrap text-ellipsis overflow-hidden"
             >
               {index > 0 && <span className="text-gray-300">/</span>}
               <span
@@ -73,28 +104,24 @@ const Navbar = () => {
                     : "text-gray-400 truncate"
                 }
               >
-                {crumb}
+                {t(BREADCRUMB_TRANSLATION_KEYS[crumb.toLowerCase()] || "", {
+                  defaultValue: crumb.replace(/-/g, " "),
+                })}
               </span>
             </span>
           ))}
+        </div>
+
+        {/* Mobile / tablet: only current page label */}
+        <div className="flex lg:hidden items-center text-sm font-medium text-gray-900 truncate">
+          {currentBreadcrumb}
         </div>
       </div>
 
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
-        
-        {/* Language Button */}
-        <button className="
-          flex items-center gap-2 border border-gray-200 rounded-full 
-          px-3 py-1.5 sm:px-4 sm:py-2 
-          text-xs sm:text-sm text-gray-700
-          whitespace-nowrap
-        ">
-          <Globe className="w-4 h-4" />
-          <span className="hidden sm:inline">English</span>
-          <span className="sm:hidden">EN</span>
-          <ChevronDown className="w-4 h-4 text-gray-400" />
-        </button>
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* USER PROFILE */}
         <div className="flex items-center gap-2 sm:gap-3">

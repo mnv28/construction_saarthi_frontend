@@ -90,6 +90,34 @@
     "terms": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
     "and": "and"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "MAIN MENU",
+      "dashboard": "Dashboard",
+      "projects": "Projects",
+      "dpr": "Daily Progress Report (DPR)",
+      "gallery": "Project Gallery",
+      "buildersClients": "Builders & Clients",
+      "vendors": "Manage Vendors",
+      "pastWork": "My Past Work",
+      "businessCard": "Business Card",
+      "referEarn": "Refer & Earn",
+      "subscription": "My Subscription",
+      "account": "My Account"
+    },
+    "settings": {
+      "title": "SETTINGS",
+      "settings": "Settings",
+      "help": "Help",
+      "contact": "Contact"
+    }
+  },
+  "sidebarHeader": {
+    "title": "Workspaces",
+    "inviteMembers": "Invite & View Members",
+    "createWorkspace": "Create Workspace",
+    "logout": "Log out"
   }
 }
 

@@ -2,22 +2,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../constants/routes";
-import StatusBadge from "../ui/StatusBadge";
+import { StatusAvatar } from "../ui/StatusBadge";
 
 import expand from "../../assets/icons/expand.svg";
 import { Users, Check, CirclePlus, LogOut } from "lucide-react";
-
-/* -----------------------------------------------------
-   Color Mapping (Synced With StatusBadge)
------------------------------------------------------- */
-const colorMap = {
-  red: { bg: "bg-red-50", border: "border border-red-200", text: "text-red-600", sb: "red" },
-  green: { bg: "bg-green-50", border: "border border-green-200", text: "text-green-600", sb: "green" },
-  orange: { bg: "bg-yellow-50", border: "border border-yellow-200", text: "text-yellow-600", sb: "yellow" },
-  blue: { bg: "bg-blue-50", border: "border border-blue-200", text: "text-blue-600", sb: "blue" },
-  purple: { bg: "bg-purple-50", border: "border border-purple-200", text: "text-purple-600", sb: "purple" },
-};
 
 /* -----------------------------------------------------
    Utility Functions
@@ -31,37 +21,14 @@ const getInitials = (name = "", fallback = "AD") => {
   return fallback;
 };
 
-const getAvatarColorClasses = (color) => {
-  return colorMap[color] || colorMap.red;
-};
-
 const getWorkspaceInitials = (workspace) => {
   return workspace.initials || getInitials(workspace.name);
 };
 
-/* -----------------------------------------------------
-   Avatar Component
------------------------------------------------------- */
-const Avatar = ({ workspace }) => {
-  if (!workspace) {
-    workspace = {
-      color: "red",
-      initials: "AD",
-      name: "Workspace",
-    };
-  }
-
-  const colors = colorMap[workspace.color] || colorMap.red;
-
-  return (
-    <div
-      className={`w-10 h-10 rounded-lg flex items-center justify-center ${colors.bg} ${colors.border}`}
-    >
-      <span className={`font-bold text-sm ${colors.text}`}>
-        {workspace.initials || getInitials(workspace.name)}
-      </span>
-    </div>
-  );
+// Map workspace color keys to StatusAvatar color tokens
+const getStatusAvatarColor = (color) => {
+  if (color === "orange") return "yellow";
+  return color || "red";
 };
 
 
@@ -69,19 +36,18 @@ const Avatar = ({ workspace }) => {
    Workspace List Item
 ------------------------------------------------------ */
 const WorkspaceItem = ({ workspace, isActive, onSwitch }) => {
-  const colors = getAvatarColorClasses(workspace.color);
-
   return (
     <button
       onClick={() => onSwitch(workspace)}
       className="w-full hover:bg-gray-50 flex items-center justify-between transition-colors py-1 rounded-lg cursor-pointer mb-2"
     >
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0 ${colors.bg} ${colors.border}`}>
-          <span className={`font-bold text-sm ${colors.text}`}>
-            {getWorkspaceInitials(workspace)}
-          </span>
-        </div>
+        <StatusAvatar
+          label={getWorkspaceInitials(workspace)}
+          color={getStatusAvatarColor(workspace.color)}
+          variant="square"
+          size="sm"
+        />
         <div className="text-left">
           <div className="flex items-center gap-2">
             <h4 className="text-gray-900 font-medium">{workspace.name}</h4>
@@ -100,21 +66,22 @@ const WorkspaceItem = ({ workspace, isActive, onSwitch }) => {
 };
 
 /* -----------------------------------------------------
-   Footer Actions
+   Footer Actions (Logout only)
+   "Create Workspace" button is now placed under the list
 ------------------------------------------------------ */
-const FooterActions = ({ onLogout }) => (
-  <div className="border-t border-gray-200 pt-3 space-y-2">
-    <button className="w-full text-[#B02E0C] flex items-center gap-2 transition-colors rounded-lg cursor-pointer">
-      <CirclePlus className="w-5 h-5" />
-      <span className="text-sm font-medium">Create Workspace</span>
-    </button>
-
+const FooterActions = ({ onLogout, t }) => (
+  <div className="border-t border-gray-200 pt-3">
     <button
       onClick={onLogout}
       className="w-full text-gray-900 flex items-center gap-2 transition-colors rounded-lg mt-1 cursor-pointer"
     >
       <LogOut className="w-5 h-5" />
-      <span className="text-sm">Log out</span>
+      <span className="text-sm">
+        {t("sidebarHeader.logout", {
+          ns: "common",
+          defaultValue: "Log out",
+        })}
+      </span>
     </button>
   </div>
 );
@@ -123,6 +90,7 @@ const FooterActions = ({ onLogout }) => (
    Main Component
 ------------------------------------------------------ */
 const SidebarHeader = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -141,8 +109,8 @@ const SidebarHeader = () => {
         { id: 1, name: "Admin's Workspace", role: "Contractor", initials: "AD", color: "red" },
         { id: 2, name: "Shree Villa", role: "Contractor", initials: "SV", color: "orange" },
         { id: 3, name: "Royal Villa", role: "Contractor", initials: "RV", color: "green" },
-        { id: 3, name: "Royal Villa", role: "Contractor", initials: "RV", color: "green" },
-        { id: 3, name: "Royal Villa", role: "Contractor", initials: "RV", color: "green" },
+        { id: 4, name: "Royal Villa", role: "Contractor", initials: "RV", color: "green" },
+        { id: 5, name: "Royal Villa", role: "Contractor", initials: "RV", color: "green" },
       ];
 
       const list = Array.isArray(saved) && saved.length ? saved : defaultData;
@@ -182,19 +150,13 @@ const SidebarHeader = () => {
         className="w-full flex items-center justify-between hover:bg-gray-50 rounded-lg p-2 transition-colors"
       >
         <div className="flex items-center gap-3">
-          {/* User Avatar with Initials */}
-          {(() => {
-            const colors = currentWorkspace
-              ? getAvatarColorClasses(currentWorkspace.color)
-              : getAvatarColorClasses("red");
-            return (
-              <div className={`w-10 h-10 rounded-[8px] border flex items-center justify-center flex-shrink-0 ${colors.bg} ${colors.border}`}>
-                <span className={`font-bold text-sm ${colors.text}`}>
-                  {currentWorkspace ? getWorkspaceInitials(currentWorkspace) : "AD"}
-                </span>
-              </div>
-            );
-          })()}
+          {/* User Avatar with Initials (using shared StatusAvatar UI) */}
+          <StatusAvatar
+            label={currentWorkspace ? getWorkspaceInitials(currentWorkspace) : "AD"}
+            color={currentWorkspace?.color || "red"}
+            variant="square"
+            size="md"
+          />
           {/* User Info */}
           <div className="text-left">
             <h2 className="font-medium">{currentWorkspace?.name || "Admin's Workspace"}</h2>
@@ -223,21 +185,27 @@ const SidebarHeader = () => {
           >
             {/* Title */}
             <div className="mb-2">
-              <h3 className="text-lg font-medium">Workspaces</h3>
+              <h3 className="text-lg font-medium">
+                {t("sidebarHeader.title", {
+                  ns: "common",
+                  defaultValue: "Workspaces",
+                })}
+              </h3>
             </div>
 
             <div className="max-h-96 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {/* Current Active Workspace Section */}
               {currentWorkspace && (() => {
-                const colors = getAvatarColorClasses(currentWorkspace.color);
                 return (
                   <div className="border-b border-gray-200 pb-5">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className={`w-13 h-13 rounded-[14px] border flex items-center justify-center flex-shrink-0 ${colors.bg} ${colors.border}`}>
-                        <span className={`font-bold text-sm ${colors.text}`}>
-                          {getWorkspaceInitials(currentWorkspace)}
-                        </span>
-                      </div>
+                      <StatusAvatar
+                        label={getWorkspaceInitials(currentWorkspace)}
+                        color={getStatusAvatarColor(currentWorkspace.color)}
+                        variant="square"
+                        size="md"
+                        className="w-13 h-13 rounded-[14px]"
+                      />
                       <div className="flex-1">
                         <h4 className="text-gray-900 font-medium">{currentWorkspace.name}</h4>
                         <p className="text-gray-500 text-sm">{currentWorkspace.role}</p>
@@ -245,33 +213,51 @@ const SidebarHeader = () => {
                     </div>
                     <button className="w-full bg-[#FBFBFB] border border-gray-200 rounded-[10px] py-2 px-3 flex items-center justify-center gap-2 transition-colors cursor-pointer">
                       <Users className="w-5 h-5" />
-                      <span className="text-sm text-gray-500">Invite & View Members</span>
+                      <span className="text-sm text-gray-500">
+                        {t("sidebarHeader.inviteMembers", {
+                          ns: "common",
+                          defaultValue: "Invite & View Members",
+                        })}
+                      </span>
                     </button>
                   </div>
                 );
               })()}
 
               {/* All Workspaces List */}
-              <div className="pt-4">
-                {workspaces && workspaces.length > 0 ? (
-                  workspaces.map((workspace) => (
-                    <WorkspaceItem
-                      key={workspace.id}
-                      workspace={workspace}
-                      isActive={workspace.id === currentWorkspace?.id}
-                      onSwitch={handleWorkspaceSwitch}
-                    />
-                  ))
-                ) : (
-                  <div className="text-center text-gray-500 py-4">
-                    No workspaces available
-                  </div>
-                )}
+              <div className="py-4 space-y-2">
+                <div>
+                  {workspaces && workspaces.length > 0 ? (
+                    workspaces.map((workspace) => (
+                      <WorkspaceItem
+                        key={workspace.id}
+                        workspace={workspace}
+                        isActive={workspace.id === currentWorkspace?.id}
+                        onSwitch={handleWorkspaceSwitch}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500 py-4">
+                      No workspaces available
+                    </div>
+                  )}
+                </div>
+
+                {/* Create Workspace button should appear just below list */}
+                <button className="w-full text-[#B02E0C] flex items-center gap-2 transition-colors rounded-lg cursor-pointer">
+                  <CirclePlus className="w-5 h-5" />
+                  <span className="text-sm font-medium">
+                    {t("sidebarHeader.createWorkspace", {
+                      ns: "common",
+                      defaultValue: "Create Workspace",
+                    })}
+                  </span>
+                </button>
               </div>
             </div>
 
             {/* Bottom Actions */}
-            <FooterActions onLogout={handleLogout} />
+            <FooterActions onLogout={handleLogout} t={t} />
           </div>
         </>,
         document.body

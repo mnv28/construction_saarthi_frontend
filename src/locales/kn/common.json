@@ -84,6 +84,34 @@
     "terms": "ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳು",
     "privacyPolicy": "ಗೌಪ್ಯತಾ ನೀತಿ",
     "and": "ಮತ್ತು"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "ಮೇನ್ ಮೆನು",
+      "dashboard": "ಡ್ಯಾಶ್\u200cಬೋರ್ಡ್",
+      "projects": "ಪ್ರಾಜೆಕ್ಟ್ಗಳು",
+      "dpr": "ಡೇಲಿ ಪ್ರೋಗ್ರೆಸ್ ರಿಪೋರ್ಟ್ (DPR)",
+      "gallery": "ಪ್ರಾಜೆಕ್ಟ್ ಗ್ಯಾಲರಿ",
+      "buildersClients": "ಬಿಲ್ಡರ್ ಮತ್ತು ಕ್ಲೈಯಿಂಟ್\u200cಗಳು",
+      "vendors": "ವೆಂಡರ್\u200cಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+      "pastWork": "ನನ್ನ ಹಿಂದಿನ ಕೆಲಸ",
+      "businessCard": "ಬಿಸಿನೆಸ್ ಕಾರ್ಡ್",
+      "referEarn": "ರಿಫರ್ ಮಾಡಿ ಸಂಪಾದಿಸಿ",
+      "subscription": "ನನ್ನ ಸಬ್ಸ್ಕ್ರಿಪ್ಷನ್",
+      "account": "ನನ್ನ ಖಾತೆ"
+    },
+    "settings": {
+      "title": "ಸೆಟ್ಟಿಂಗ್ಸ್",
+      "settings": "ಸೆಟ್ಟಿಂಗ್ಸ್",
+      "help": "ಸಹಾಯ",
+      "contact": "ಸಂಪರ್ಕ"
+    }
+  },
+  "sidebarHeader": {
+    "title": "ವರ್ಕ್\u200cಸ್ಪೇಸ್\u200cಗಳು",
+    "inviteMembers": "ಸದಸ್ಯರನ್ನು ಆಹ್ವಾನಿಸಿ ಮತ್ತು ನೋಡಿ",
+    "createWorkspace": "ವರ್ಕ್\u200cಸ್ಪೇಸ್ ರಚಿಸಿ",
+    "logout": "ಲಾಗ್ ಔಟ್"
   }
 }
 

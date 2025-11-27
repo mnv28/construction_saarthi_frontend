@@ -78,9 +78,9 @@ import Settings from '../pages/Settings';
 
         <Route
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Layout />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         >
           <Route path="/dashboard" element={<Dashboard />} />

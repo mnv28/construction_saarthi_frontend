@@ -1,6 +1,7 @@
 // src/layout/Sidebar.jsx
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import SidebarHeader from "./SidebarHeader";
 import { Menu, X, Settings, HelpCircle, Phone } from "lucide-react";
 
@@ -29,9 +30,11 @@ import userLight from "../../assets/icons/user-light.svg";
 
 
 const Sidebar = () => {
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(() => {
     if (typeof window !== "undefined") {
-      return window.innerWidth >= 768;
+      return window.innerWidth >= 1024;
     }
     return true;
   });
@@ -39,7 +42,7 @@ const Sidebar = () => {
   // Collapse sidebar automatically on screens smaller than md
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1024) {
         setOpen(false);
       } else {
         setOpen(true);
@@ -57,66 +60,77 @@ const Sidebar = () => {
   const mainMenu = [
     {
       label: "Dashboard",
+      labelKey: "sidebar.mainMenu.dashboard",
       icon: home,
       activeIcon: homeLight,
       path: "/dashboard",
     },
     {
       label: "Projects",
+      labelKey: "sidebar.mainMenu.projects",
       icon: project,
       activeIcon: projectLight,
       path: "/projects",
     },
     {
       label: "Daily Progress Report (DPR)",
+      labelKey: "sidebar.mainMenu.dpr",
       icon: progressReport,
       activeIcon: progressReportLight,
       path: "/dpr",
     },
     {
       label: "Project Gallery",
+      labelKey: "sidebar.mainMenu.gallery",
       icon: gallery,
       activeIcon: galleryLight,
       path: "/gallery",
     },
     {
       label: "Builders & Clients",
+      labelKey: "sidebar.mainMenu.buildersClients",
       icon: builderClient,
       activeIcon: builderLight,
       path: "/clients",
     },
     {
       label: "Manage Vendors",
+      labelKey: "sidebar.mainMenu.vendors",
       icon: vendorsIcon,
       activeIcon: vendorsLight,
       path: "/vendors",
     },
     {
       label: "My Past Work",
+      labelKey: "sidebar.mainMenu.pastWork",
       icon: pastWork,
       activeIcon: projectLight,
       path: "/past-work",
     },
     {
       label: "Business Card",
+      labelKey: "sidebar.mainMenu.businessCard",
       icon: businessCard,
       activeIcon: businessCardLight,
       path: "/business-card",
     },
     {
       label: "Refer & Earn",
+      labelKey: "sidebar.mainMenu.referEarn",
       icon: referEarn,
       activeIcon: referEarnLight,
       path: "/refer",
     },
     {
       label: "My Subscription",
+      labelKey: "sidebar.mainMenu.subscription",
       icon: subscription,
       activeIcon:   subscriptionLight,
       path: "/subscription",
     },
     {
       label: "My Account",
+      labelKey: "sidebar.mainMenu.account",
       icon: builderClient,
       activeIcon: userLight,
       path: "/account",
@@ -126,18 +140,21 @@ const Sidebar = () => {
   const settingsMenu = [
     {
       label: "Settings",
+      labelKey: "sidebar.settings.settings",
       icon: Settings,
       activeIcon: Settings,
       path: "/settings",
     },
     {
       label: "Help",
+      labelKey: "sidebar.settings.help",
       icon: HelpCircle,
       activeIcon: HelpCircle,
       path: "/help",
     },
     {
       label: "Contact",
+      labelKey: "sidebar.settings.contact",
       icon: Phone,
       activeIcon: Phone,
       path: "/contact",
@@ -146,30 +163,46 @@ const Sidebar = () => {
 
   // auto close menu in mobile
   const handleClose = () => {
-    if (window.innerWidth < 768) setOpen(false);
+    if (window.innerWidth < 1024) setOpen(false);
   };
 
   return (
     <>
-      {/* MOBILE MENU BUTTON */}
-      <button
-        className="md:hidden p-2 rounded-full shadow-sm bg-white fixed top-4 left-4 z-[999]"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label="Toggle sidebar"
-      >
-        {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
+      {/* MOBILE MENU BUTTON (only when sidebar is closed) */}
+      {!open && (
+        <button
+          className="lg:hidden p-2 rounded-full bg-white fixed top-2.5 md:top-4.5 sm:top-4.5 left-4 z-[999]"
+          onClick={() => setOpen(true)}
+          aria-label="Open sidebar"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      )}
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-[260px] md:w-[300px] bg-white shadow-lg border-r border-gray-100 px-4 py-6.5 z-50 flex flex-col overflow-y-auto transition-transform duration-300
-        ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+        className={`fixed top-0 left-0 h-screen w-[260px] lg:w-[300px] bg-white border-r border-gray-100 px-4 py-6.5 z-50 flex flex-col overflow-y-auto transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
+        {/* MOBILE CLOSE BUTTON (inside sidebar, top-right) */}
+        <button
+          className="lg:hidden absolute top-1.5 right-4 p-2 rounded-full bg-white shadow-sm border border-gray-200"
+          onClick={() => setOpen(false)}
+          aria-label="Close sidebar"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
         {/* HEADER */}
         <SidebarHeader />
 
         {/* MAIN MENU */}
-        <p className="text-xs font-medium text-[#8B8B8B] mb-2">MAIN MENU</p>
+         <p className="text-xs font-medium text-[#8B8B8B] mb-2">
+           {t("sidebar.mainMenu.title", {
+             ns: "common",
+             defaultValue: "MAIN MENU",
+           })}
+         </p>
         <div className="flex flex-col gap-1 mb-6">
           {mainMenu.map((item, i) => (
             <NavLink
@@ -191,7 +224,10 @@ const Sidebar = () => {
                     />
                   )}
                   <span className="text-sm">
-                    {item.label}
+                     {t(item.labelKey || item.label, {
+                       ns: "common",
+                       defaultValue: item.label,
+                     })}
                   </span>
                 </>
               )}
@@ -200,7 +236,12 @@ const Sidebar = () => {
         </div>
 
         {/* SETTINGS MENU */}
-        <p className="text-xs font-semibold text-gray-400 mb-2">SETTINGS</p>
+         <p className="text-xs font-semibold text-gray-400 mb-2">
+           {t("sidebar.settings.title", {
+             ns: "common",
+             defaultValue: "SETTINGS",
+           })}
+         </p>
         <div className="flex flex-col gap-1">
           {settingsMenu.map((item, i) => (
             <NavLink
@@ -217,7 +258,10 @@ const Sidebar = () => {
                 return (
                   <>
                     {Icon && <Icon className="w-5 h-5" />}
-                    {item.label}
+                     {t(item.labelKey || item.label, {
+                       ns: "common",
+                       defaultValue: item.label,
+                     })}
                   </>
                 );
               }}

@@ -84,6 +84,34 @@
     "terms": "শর্তাবলী",
     "privacyPolicy": "গোপনীয়তা নীতি",
     "and": "এবং"
+  },
+  "sidebar": {
+    "mainMenu": {
+      "title": "মেইন মেনু",
+      "dashboard": "ড্যাশবোর্ড",
+      "projects": "প্রজেক্টস",
+      "dpr": "ডেইলি প্রগ্রেস রিপোর্ট (DPR)",
+      "gallery": "প্রজেক্ট গ্যালারি",
+      "buildersClients": "বিল্ডার এবং ক্লায়েন্টস",
+      "vendors": "ভেন্ডর ম্যানেজ করুন",
+      "pastWork": "আমার পূর্বের কাজ",
+      "businessCard": "বিজনেস কার্ড",
+      "referEarn": "রেফার অ্যান্ড আর্ন",
+      "subscription": "আমার সাবস্ক্রিপশন",
+      "account": "আমার একাউন্ট"
+    },
+    "settings": {
+      "title": "সেটিংস",
+      "settings": "সেটিংস",
+      "help": "হেল্প",
+      "contact": "কন্ট্যাক্ট"
+    }
+  },
+  "sidebarHeader": {
+    "title": "ওয়ার্কস্পেস",
+    "inviteMembers": "মেম্বার ইনভাইট ও ভিউ করুন",
+    "createWorkspace": "ওয়ার্কস্পেস তৈরি করুন",
+    "logout": "লগ আউট"
   }
 }
 

@@ -50,43 +50,45 @@ export default function LanguageSwitcher({ className = '' }) {
     localStorage.setItem('lang', langCode);
   };
 
-  // Custom button renderer
+  // Custom button renderer (responsive)
   const customButton = (isOpen, setIsOpen) => (
     <button
       type="button"
       onClick={() => setIsOpen(!isOpen)}
-      className="flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
+      className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer overflow-hidden"
       aria-label="Change Language"
     >
-      <Globe className="w-4 h-4 text-secondary flex-shrink-0" />
+      <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary flex-shrink-0" />
 
-      {/* Circular badge with first letter */}
+      {/* Circular badge with first letter - hidden on small screens */}
       <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 ${statusBadgeBgColors[currentLang.color] || statusBadgeBgColors.red}`}
+        className={`hidden sm:flex w-8 h-8 rounded-full items-center justify-center font-bold text-sm flex-shrink-0 ${statusBadgeBgColors[currentLang.color] || statusBadgeBgColors.red}`}
         style={{ color: statusBadgeColorHex[currentLang.color] || statusBadgeColorHex.red }}
       >
         {currentLang.firstLetter}
       </div>
 
-      <span className="text-sm font-medium text-primary">{currentLang.nativeName}</span>
+      <span className="text-xs sm:text-sm font-semibold text-primary whitespace-nowrap">
+        {currentLang.nativeName}
+      </span>
 
       <ChevronDown
-        className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""
+        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""
           }`}
       />
     </button>
   );
 
-  // Custom option renderer
+  // Custom option renderer (responsive)
   const renderOption = (option, isActive) => {
     const lang = languages.find(l => l.code === option.value);
     if (!lang) return option.label;
 
     return (
-      <div className="flex items-center gap-3 w-full cursor-pointer">
-        {/* Circular badge with first letter */}
+      <div className="flex items-center gap-3 w-full cursor-pointer overflow-hidden">
+        {/* Circular badge with first letter - hidden on small screens */}
         <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 ${statusBadgeBgColors[lang.color] || statusBadgeBgColors.red}`}
+          className={`hidden sm:flex w-8 h-8 rounded-full items-center justify-center font-bold text-sm flex-shrink-0 ${statusBadgeBgColors[lang.color] || statusBadgeBgColors.red}`}
           style={{ color: statusBadgeColorHex[lang.color] || statusBadgeColorHex.red }}
         >
           {lang.firstLetter}
@@ -94,7 +96,7 @@ export default function LanguageSwitcher({ className = '' }) {
 
         {/* Language name */}
         <span
-          className="flex-1 text-left text-sm"
+          className="flex-1 text-left text-sm truncate"
           style={{
             color: isActive
               ? "text-primary font-bold" 

@@ -16,6 +16,13 @@ export const ROUTES = {
     EDIT_MEMBER: '/edit-member',
   },
 
+  // Projects Routes
+  PROJECTS: {
+    LIST: '/projects',
+    DETAILS: '/projects/:id',
+    ADD_NEW: '/projects/add-new',
+    EDIT: '/projects/:id/edit',
+  },
 };
 
 // Flattened routes for backward compatibility and easier access
@@ -29,6 +36,12 @@ export const ROUTES_FLAT = {
   CREATE_WORKSPACE: ROUTES.AUTH.CREATE_WORKSPACE,
   ADD_NEW_MEMBER: ROUTES.AUTH.ADD_NEW_MEMBER,
   EDIT_MEMBER: ROUTES.AUTH.EDIT_MEMBER,
+
+  // Projects
+  PROJECTS: ROUTES.PROJECTS.LIST,
+  PROJECT_DETAILS: ROUTES.PROJECTS.DETAILS,
+  ADD_NEW_PROJECT: ROUTES.PROJECTS.ADD_NEW,
+  EDIT_PROJECT: ROUTES.PROJECTS.EDIT,
 };
 
 /**

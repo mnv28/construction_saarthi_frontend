@@ -79,14 +79,14 @@ export default function DropdownMenu({
             {/* Dropdown Menu */}
             {isOpen && (
                 <div
-                    className={`absolute ${positionClasses[position]} top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[180px] `}
+                    className={`absolute ${positionClasses[position]} top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[180px] px-2`}
                 >
                     {items.map((item, index) => (
                         <button
                             key={index}
                             type="button"
                             onClick={() => handleItemClick(item)}
-                            className="w-full px-4 py-2 flex items-center gap-3 text-left hover:bg-gray-50 transition-colors cursor-pointer disabled:cursor-not-allowed rounded-lg"
+                            className="w-full px-2  py-2 flex items-center gap-3 text-left hover:bg-gray-50 transition-colors cursor-pointer disabled:cursor-not-allowed rounded-lg"
                             disabled={item.disabled}
                         >
                             {item.icon && (

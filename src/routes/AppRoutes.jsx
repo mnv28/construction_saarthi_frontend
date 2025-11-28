@@ -10,7 +10,6 @@ import Loader from '../components/ui/Loader';
 import { ROUTES_FLAT , ROUTES } from '../constants/routes';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import Layout from '../components/layout/Layout';
-import Projects from '../pages/Projects';
 import Settings from '../pages/Settings';
 
   // Lazy load components for better performance (important for 400+ screens)
@@ -27,9 +26,10 @@ import Settings from '../pages/Settings';
   // Dashboard
   const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 
-  // Projects (will be created later)
-  // const Projects = lazy(() => import('../features/projects/pages/Projects'));
-  // const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
+  // Projects
+  const Projects = lazy(() => import('../features/projects/pages/Projects'));
+  const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
+  const AddNewProject = lazy(() => import('../features/projects/pages/AddNewProject'));
 
   // Bookings (will be created later)
   // const Bookings = lazy(() => import('../features/bookings/pages/Bookings'));
@@ -78,6 +78,9 @@ import Settings from '../pages/Settings';
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/add-new" element={<AddNewProject />} />
+            <Route path="/projects/:id" element={<ProjectDetails />} />
+            <Route path="/projects/:id/edit" element={<AddNewProject />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>

@@ -60,6 +60,41 @@
             "message": "மாற்று கோரிக்கைகள் எதுவும் கிடைக்கவில்லை"
         }
     },
+    "approveModal": {
+        "title": "மாற்று கோரிக்கையை அனுமதிக்கவும்",
+        "confirmationMessage": "{{fromProject}} இலிருந்து {{materialName}} இன் மாற்று கோரிக்கையை அனுமதிக்க விரும்புகிறீர்களா?",
+        "quantity": "அளவு",
+        "quantityPlaceholder": "அளவை உள்ளிடவும்",
+        "costPerUnit": "ஒரு அலகுக்கான செலவு",
+        "totalPrice": "மொத்த விலை",
+        "cancel": "ரத்துசெய்",
+        "approve": "அனுமதி",
+        "approving": "அனுமதிக்கப்படுகிறது...",
+        "errors": {
+            "quantityRequired": "அளவு தேவை",
+            "totalPriceRequired": "மொத்த விலை தேவை"
+        }
+    },
+    "rejectModal": {
+        "title": "மாற்று கோரிக்கையை நிராகரிக்கவும்",
+        "confirmationMessage": "{{fromProject}} இலிருந்து {{materialName}} இன் மாற்று கோரிக்கையை நிராகரிக்க விரும்புகிறீர்களா?",
+        "reasonForRejection": "நிராகரிப்பதற்கான காரணம்",
+        "voice": "குரல்",
+        "text": "உரை",
+        "both": "இரண்டும்",
+        "voiceNote": "குரல் குறிப்பு",
+        "holdMicToRecord": "உங்கள் குரலை பதிவு செய்ய மைக்கை அழுத்திப் பிடிக்கவும்",
+        "recording": "பதிவு செய்கிறது... நிறுத்த விடவும்",
+        "textReason": "உரை காரணம்",
+        "textReasonPlaceholder": "நிராகரிப்பதற்கான காரணத்தை உள்ளிடவும்",
+        "cancel": "ரத்துசெய்",
+        "reject": "நிராகரி",
+        "rejecting": "நிராகரிக்கப்படுகிறது...",
+        "errors": {
+            "voiceNoteRequired": "குரல் குறிப்பு தேவை",
+            "textReasonRequired": "உரை காரணம் தேவை"
+        }
+    },
     "errors": {
         "createFailed": "தள சரக்கு உருப்படியை உருவாக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
         "updateFailed": "தள சரக்கு உருப்படியை புதுப்பிக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
@@ -67,5 +102,142 @@
     },
     "purchased": "வாங்கப்பட்டது",
     "currentStock": "தற்போதைய பங்கு",
-    "purchasedPrice": "வாங்கிய விலை"
+    "purchasedPrice": "வாங்கிய விலை",
+    "logUsageModal": {
+        "title": "பயன்பாட்டை பதிவு செய்யவும்",
+        "subtitle": "உங்கள் தளத்தில் பயன்படுத்தப்பட்ட அளவை உள்ளிடவும்.",
+        "quantity": "அளவு",
+        "description": "விளக்கம்",
+        "descriptionPlaceholder": "இங்கே உரையை உள்ளிடவும்",
+        "cancel": "ரத்துசெய்",
+        "addLog": "பதிவைச் சேர்க்கவும்",
+        "adding": "சேர்க்கப்படுகிறது...",
+        "errors": {
+            "quantityRequired": "அளவு தேவை"
+        }
+    },
+    "addStock": {
+        "title": "பொருட்களை மீண்டும் சேர்க்கவும்",
+        "quantity": "அளவு",
+        "costPerUnit": "ஒரு அலகுக்கான விலை",
+        "vendor": "விற்பனையாளர்",
+        "vendorPlaceholder": "விற்பனையாளரைத் தேர்ந்தெடுக்கவும்",
+        "totalPrice": "மொத்த விலை",
+        "cancel": "ரத்துசெய்",
+        "restockMaterial": "பொருட்களை மீண்டும் சேர்க்கவும்",
+        "restocking": "மீண்டும் சேர்க்கப்படுகிறது...",
+        "addNewVendor": "புதிய விற்பனையாளரைச் சேர்க்கவும்",
+        "vendorName": "விற்பனையாளர் பெயர்",
+        "vendorNamePlaceholder": "விற்பனையாளர் பெயரை உள்ளிடவும்",
+        "contactNumber": "தொடர்பு எண்",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "விற்பனையாளரைச் சேர்க்கவும்",
+        "adding": "சேர்க்கப்படுகிறது...",
+        "vendorAdded": "விற்பனையாளர் வெற்றிகரமாக சேர்க்கப்பட்டது",
+        "vendorAddFailed": "விற்பனையாளரைச் சேர்க்க முடியவில்லை",
+        "errors": {
+            "quantityRequired": "அளவு தேவை",
+            "vendorRequired": "விற்பனையாளர் தேவை",
+            "totalPriceRequired": "மொத்த விலை தேவை",
+            "vendorNameRequired": "விற்பனையாளர் பெயர் தேவை",
+            "contactNumberRequired": "தொடர்பு எண் தேவை",
+            "invalidContactNumber": "செல்லுபடியாகும் 10-இலக்க தொடர்பு எண்ணை உள்ளிடவும்"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "புதிய கோரிக்கையைச் சேர்க்கவும்",
+        "from": "இலிருந்து",
+        "status": {
+            "approved": "அனுமதிக்கப்பட்டது",
+            "rejected": "நிராகரிக்கப்பட்டது",
+            "pending": "நிலுவையில்"
+        },
+        "rejectionReason": "நிராகரிப்பதற்கான காரணம்",
+        "emptyState": {
+            "title": "பொருள் கோரிக்கைகள் இல்லை",
+            "message": "பொருள் கோரிக்கைகள் எதுவும் கிடைக்கவில்லை"
+        }
+    },
+    "restockRequests": {
+        "quantity": "அளவு",
+        "from": "இலிருந்து",
+        "approve": "அனுமதி",
+        "reject": "நிராகரி",
+        "approved": "அனுமதிக்கப்பட்டது",
+        "addStock": "பங்கு சேர்",
+        "emptyState": {
+            "title": "மறுநிரப்பு கோரிக்கைகள் இல்லை",
+            "message": "மறுநிரப்பு கோரிக்கைகள் எதுவும் கிடைக்கவில்லை"
+        }
+    },
+    "addNewAsk": {
+        "title": "புதிய கோரிக்கையைச் சேர்க்கவும்",
+        "material": "பொருள்",
+        "materialPlaceholder": "பொருளைத் தேர்ந்தெடுக்கவும்",
+        "addNewMaterial": "புதிய பொருளைச் சேர்க்கவும்",
+        "addNewItem": "புதிய உருப்படியைச் சேர்க்கவும்",
+        "itemName": "உருப்படியின் பெயர்",
+        "itemNamePlaceholder": "உருப்படியின் பெயரை உள்ளிடவும்",
+        "unit": "அலகு",
+        "unitPlaceholder": "அலகைத் தேர்ந்தெடுக்கவும்",
+        "addNewUnit": "புதிய அலகைச் சேர்க்கவும்",
+        "unitAdded": "அலகு வெற்றிகரமாக சேர்க்கப்பட்டது",
+        "unitAddFailed": "அலகைச் சேர்க்க முடியவில்லை",
+        "adding": "சேர்க்கப்படுகிறது...",
+        "add": "சேர்க்கவும்",
+        "materialAdded": "பொருள் வெற்றிகரமாக சேர்க்கப்பட்டது",
+        "materialAddFailed": "பொருளைச் சேர்க்க முடியவில்லை",
+        "quantity": "அளவு",
+        "requestFrom": "பொருளைக் கோரவும்",
+        "requestFromPlaceholder": "திட்டத்தைத் தேர்ந்தெடுக்கவும்",
+        "description": "விளக்கம்",
+        "descriptionPlaceholder": "இங்கே உரையை உள்ளிடவும்",
+        "cancel": "ரத்துசெய்",
+        "sendRequest": "கோரிக்கையை அனுப்பவும்",
+        "sending": "அனுப்பப்படுகிறது...",
+        "errors": {
+            "materialRequired": "பொருள் தேவை",
+            "quantityRequired": "அளவு தேவை",
+            "requestFromRequired": "குறைந்தபட்சம் ஒரு திட்டத்தைத் தேர்ந்தெடுக்கவும்",
+            "itemNameRequired": "உருப்படியின் பெயர் தேவை",
+            "unitRequired": "அலகு தேவை"
+        }
+    },
+    "addInventory": {
+        "title": "புதிய சரக்கு சேர்க்கவும்",
+        "reusable": "மீண்டும் பயன்படுத்தக்கூடிய",
+        "consumable": "நுகர்வு",
+        "material": "பொருள்",
+        "materialPlaceholder": "பொருளைத் தேர்ந்தெடுக்கவும்",
+        "quantity": "அளவு",
+        "costPerUnit": "ஒரு அலகுக்கான விலை",
+        "totalPrice": "மொத்த விலை",
+        "checkInDate": "செக் இன் தேதி",
+        "vendor": "விற்பனையாளர்",
+        "vendorPlaceholder": "விற்பனையாளரைத் தேர்ந்தெடுக்கவும்",
+        "lowStockAlert": "குறைந்த பங்கு எச்சரிக்கை",
+        "uploadPhotosVideos": "புகைப்படங்கள்/வீடியோக்களை பதிவேற்றவும்",
+        "upload": "பதிவேற்றவும்",
+        "supportedFormat": "ஆதரவு வடிவம்:",
+        "conditionDescription": "நிலை விளக்கம்",
+        "conditionDescriptionPlaceholder": "இங்கே உரையை உள்ளிடவும்",
+        "assignToProject": "திட்டத்திற்கு ஒதுக்கவும்",
+        "selectProjects": "திட்டங்களைத் தேர்ந்தெடுக்கவும்",
+        "cancel": "ரத்துசெய்",
+        "addMaterial": "பொருளைச் சேர்க்கவும்",
+        "adding": "சேர்க்கப்படுகிறது...",
+        "success": "சரக்கு உருப்படி வெற்றிகரமாக சேர்க்கப்பட்டது",
+        "errors": {
+            "materialRequired": "பொருள் தேவை",
+            "quantityRequired": "அளவு தேவை",
+            "checkInDateRequired": "செக் இன் தேதி தேவை",
+            "vendorRequired": "விற்பனையாளர் தேவை",
+            "lowStockAlertRequired": "குறைந்த பங்கு எச்சரிக்கை தேவை",
+            "filesRequired": "குறைந்தபட்சம் ஒரு புகைப்படம் அல்லது வீடியோ தேவை",
+            "projectsRequired": "குறைந்தபட்சம் ஒரு திட்டம் தேர்ந்தெடுக்கப்பட வேண்டும்",
+            "invalidFileType": "JPG, PNG, மற்றும் MP4 கோப்புகள் மட்டுமே அனுமதிக்கப்படுகின்றன",
+            "fileTooLarge": "கோப்பு அளவு 10MB க்கும் குறைவாக இருக்க வேண்டும்",
+            "createFailed": "சரக்கு உருப்படியை உருவாக்க முடியவில்லை"
+        }
+    }
 }

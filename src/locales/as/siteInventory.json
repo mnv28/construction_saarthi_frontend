@@ -60,6 +60,41 @@
             "message": "কোনো স্থানান্তৰ অনুৰোধ পোৱা নগ\u0027ল"
         }
     },
+    "approveModal": {
+        "title": "স্থানান্তৰ অনুৰোধ অনুমোদন কৰক",
+        "confirmationMessage": "আপুনি {{fromProject}} ৰ পৰা {{materialName}} ৰ স্থানান্তৰ অনুৰোধ অনুমোদন কৰিব বিচাৰে?",
+        "quantity": "পৰিমাণ",
+        "quantityPlaceholder": "পৰিমাণ লিখক",
+        "costPerUnit": "প্ৰতি একক খৰচ",
+        "totalPrice": "মুঠ মূল্য",
+        "cancel": "বাতিল কৰক",
+        "approve": "অনুমোদন কৰক",
+        "approving": "অনুমোদন কৰা হৈছে...",
+        "errors": {
+            "quantityRequired": "পৰিমাণ প্ৰয়োজন",
+            "totalPriceRequired": "মুঠ মূল্য প্ৰয়োজন"
+        }
+    },
+    "rejectModal": {
+        "title": "স্থানান্তৰ অনুৰোধ প্ৰত্যাখ্যান কৰক",
+        "confirmationMessage": "আপুনি {{fromProject}} ৰ পৰা {{materialName}} ৰ স্থানান্তৰ অনুৰোধ প্ৰত্যাখ্যান কৰিব বিচাৰে?",
+        "reasonForRejection": "প্ৰত্যাখ্যানৰ কাৰণ",
+        "voice": "ভইচ",
+        "text": "টেক্সট",
+        "both": "দুয়োটা",
+        "voiceNote": "ভইচ নোট",
+        "holdMicToRecord": "আপোনাৰ ভইচ ৰেকৰ্ড কৰিবলৈ মাইক টিপি ধৰক",
+        "recording": "ৰেকৰ্ডিং... ৰখাবলৈ এৰি দিয়ক",
+        "textReason": "টেক্সট কাৰণ",
+        "textReasonPlaceholder": "প্ৰত্যাখ্যানৰ কাৰণ লিখক",
+        "cancel": "বাতিল কৰক",
+        "reject": "প্ৰত্যাখ্যান কৰক",
+        "rejecting": "প্ৰত্যাখ্যান কৰা হৈছে...",
+        "errors": {
+            "voiceNoteRequired": "ভইচ নোট প্ৰয়োজন",
+            "textReasonRequired": "টেক্সট কাৰণ প্ৰয়োজন"
+        }
+    },
     "errors": {
         "createFailed": "ছাইট ইনভেন্টৰী আইটেম সৃষ্টি কৰাত ব্যৰ্থ। অনুগ্ৰহ কৰি পুনৰ চেষ্টা কৰক।",
         "updateFailed": "ছাইট ইনভেন্টৰী আইটেম আপডেট কৰাত ব্যৰ্থ। অনুগ্ৰহ কৰি পুনৰ চেষ্টা কৰক।",
@@ -67,5 +102,142 @@
     },
     "purchased": "কিনা হৈছে",
     "currentStock": "বৰ্তমান স্টক",
-    "purchasedPrice": "ক্ৰয় মূল্য"
+    "purchasedPrice": "ক্ৰয় মূল্য",
+    "logUsageModal": {
+        "title": "ব্যৱহাৰ লগ কৰক",
+        "subtitle": "আপোনাৰ ছাইটত ব্যৱহৃত পৰিমাণ লিখক।",
+        "quantity": "পৰিমাণ",
+        "description": "বিৱৰণ",
+        "descriptionPlaceholder": "ইয়াত টেক্সট লিখক",
+        "cancel": "বাতিল কৰক",
+        "addLog": "লগ যোগ কৰক",
+        "adding": "যোগ কৰা হৈছে...",
+        "errors": {
+            "quantityRequired": "পৰিমাণ প্ৰয়োজন"
+        }
+    },
+    "addStock": {
+        "title": "বস্তু ৰিষ্টক কৰক",
+        "quantity": "পৰিমাণ",
+        "costPerUnit": "প্ৰতি একক খৰচ",
+        "vendor": "বিক্ৰেতা",
+        "vendorPlaceholder": "বিক্ৰেতা নির্বাচন কৰক",
+        "totalPrice": "মুঠ মূল্য",
+        "cancel": "বাতিল কৰক",
+        "restockMaterial": "বস্তু ৰিষ্টক কৰক",
+        "restocking": "ৰিষ্টক কৰা হৈছে...",
+        "addNewVendor": "নতুন বিক্ৰেতা যোগ কৰক",
+        "vendorName": "বিক্ৰেতাৰ নাম",
+        "vendorNamePlaceholder": "বিক্ৰেতাৰ নাম লিখক",
+        "contactNumber": "যোগাযোগৰ নম্বৰ",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "বিক্ৰেতা যোগ কৰক",
+        "adding": "যোগ কৰা হৈছে...",
+        "vendorAdded": "বিক্ৰেতা সফলভাবে যোগ কৰা হ''ল",
+        "vendorAddFailed": "বিক্ৰেতা যোগ কৰাত ব্যৰ্থ",
+        "errors": {
+            "quantityRequired": "পৰিমাণ প্ৰয়োজন",
+            "vendorRequired": "বিক্ৰেতা প্ৰয়োজন",
+            "totalPriceRequired": "মুঠ মূল্য প্ৰয়োজন",
+            "vendorNameRequired": "বিক্ৰেতাৰ নাম প্ৰয়োজন",
+            "contactNumberRequired": "যোগাযোগৰ নম্বৰ প্ৰয়োজন",
+            "invalidContactNumber": "অনুগ্ৰহ কৰি এটা বৈধ 10-অংকৰ যোগাযোগৰ নম্বৰ লিখক"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "নতুন অনুৰোধ যোগ কৰক",
+        "from": "ৰ পৰা",
+        "status": {
+            "approved": "অনুমোদিত",
+            "rejected": "প্ৰত্যাখ্যান",
+            "pending": "বাকী"
+        },
+        "rejectionReason": "প্ৰত্যাখ্যানৰ কাৰণ",
+        "emptyState": {
+            "title": "কোনো বস্তু অনুৰোধ নাই",
+            "message": "কোনো বস্তু অনুৰোধ পোৱা নগ''ল"
+        }
+    },
+    "restockRequests": {
+        "quantity": "পৰিমাণ",
+        "from": "ৰ পৰা",
+        "approve": "অনুমোদন কৰক",
+        "reject": "প্ৰত্যাখ্যান কৰক",
+        "approved": "অনুমোদিত",
+        "addStock": "ষ্টক যোগ কৰক",
+        "emptyState": {
+            "title": "কোনো ৰিষ্টক অনুৰোধ নাই",
+            "message": "কোনো ৰিষ্টক অনুৰোধ পোৱা নগ''ল"
+        }
+    },
+    "addNewAsk": {
+        "title": "নতুন অনুৰোধ যোগ কৰক",
+        "material": "বস্তু",
+        "materialPlaceholder": "বস্তু নির্বাচন কৰক",
+        "addNewMaterial": "নতুন বস্তু যোগ কৰক",
+        "addNewItem": "নতুন বস্তু যোগ কৰক",
+        "itemName": "বস্তুৰ নাম",
+        "itemNamePlaceholder": "বস্তুৰ নাম লিখক",
+        "unit": "একক",
+        "unitPlaceholder": "একক নির্বাচন কৰক",
+        "addNewUnit": "নতুন একক যোগ কৰক",
+        "unitAdded": "একক সফলভাবে যোগ কৰা হ''ল",
+        "unitAddFailed": "একক যোগ কৰাত ব্যৰ্থ",
+        "adding": "যোগ কৰা হৈছে...",
+        "add": "যোগ কৰক",
+        "materialAdded": "বস্তু সফলভাবে যোগ কৰা হ''ল",
+        "materialAddFailed": "বস্তু যোগ কৰাত ব্যৰ্থ",
+        "quantity": "পৰিমাণ",
+        "requestFrom": "বস্তু অনুৰোধ কৰক",
+        "requestFromPlaceholder": "প্ৰকল্প নির্বাচন কৰক",
+        "description": "বিৱৰণ",
+        "descriptionPlaceholder": "ইয়াত টেক্সট লিখক",
+        "cancel": "বাতিল কৰক",
+        "sendRequest": "অনুৰোধ প্ৰেৰণ কৰক",
+        "sending": "প্ৰেৰণ কৰা হৈছে...",
+        "errors": {
+            "materialRequired": "বস্তু প্ৰয়োজন",
+            "quantityRequired": "পৰিমাণ প্ৰয়োজন",
+            "requestFromRequired": "অনুগ্ৰহ কৰি অন্ততঃ এটা প্ৰকল্প নির্বাচন কৰক",
+            "itemNameRequired": "বস্তুৰ নাম প্ৰয়োজন",
+            "unitRequired": "একক প্ৰয়োজন"
+        }
+    },
+    "addInventory": {
+        "title": "নতুন ইনভেন্টৰী যোগ কৰক",
+        "reusable": "পুনৰ ব্যৱহাৰ কৰিব পৰা",
+        "consumable": "ব্যৱহাৰ কৰিব পৰা",
+        "material": "বস্তু",
+        "materialPlaceholder": "বস্তু নির্বাচন কৰক",
+        "quantity": "পৰিমাণ",
+        "costPerUnit": "প্ৰতি একক খৰচ",
+        "totalPrice": "মুঠ মূল্য",
+        "checkInDate": "চেক ইন তাৰিখ",
+        "vendor": "বিক্ৰেতা",
+        "vendorPlaceholder": "বিক্ৰেতা নির্বাচন কৰক",
+        "lowStockAlert": "কম স্টক এলাৰ্ট",
+        "uploadPhotosVideos": "ছবি/ভিডিঅ' আপলোড কৰক",
+        "upload": "আপলোড কৰক",
+        "supportedFormat": "সমৰ্থিত ফৰমেট:",
+        "conditionDescription": "অৱস্থাৰ বিৱৰণ",
+        "conditionDescriptionPlaceholder": "ইয়াত টেক্সট লিখক",
+        "assignToProject": "প্ৰকল্পত নিযুক্ত কৰক",
+        "selectProjects": "প্ৰকল্প নির্বাচন কৰক",
+        "cancel": "বাতিল কৰক",
+        "addMaterial": "বস্তু যোগ কৰক",
+        "adding": "যোগ কৰা হৈছে...",
+        "success": "ইনভেন্টৰী আইটেম সফলভাবে যোগ কৰা হ'ল",
+        "errors": {
+            "materialRequired": "বস্তু প্ৰয়োজন",
+            "quantityRequired": "পৰিমাণ প্ৰয়োজন",
+            "checkInDateRequired": "চেক ইন তাৰিখ প্ৰয়োজন",
+            "vendorRequired": "বিক্ৰেতা প্ৰয়োজন",
+            "lowStockAlertRequired": "কম স্টক এলাৰ্ট প্ৰয়োজন",
+            "filesRequired": "অন্ততঃ এটা ছবি বা ভিডিঅ' প্ৰয়োজন",
+            "projectsRequired": "অন্ততঃ এটা প্ৰকল্প নির্বাচন কৰিব লাগিব",
+            "invalidFileType": "কেবল JPG, PNG, আৰু MP4 ফাইল অনুমোদিত",
+            "fileTooLarge": "ফাইলৰ আকাৰ 10MB তকৈ কম হ'ব লাগিব",
+            "createFailed": "ইনভেন্টৰী আইটেম সৃষ্টি কৰাত ব্যৰ্থ"
+        }
+    }
 }

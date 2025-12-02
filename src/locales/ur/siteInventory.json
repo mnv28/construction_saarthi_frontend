@@ -1,71 +1,243 @@
 ﻿{
-    "title":  "سائٹ انوینٹری",
-    "searchPlaceholder":  "مواد تلاش کریں",
-    "addButton":  "نیا انوینٹری شامل کریں",
-    "tabs":  {
-                 "inventory":  "انوینٹری مواد",
-                 "transfer":  "منتقلی کی درخواستیں",
-                 "ask":  "مواد مانگیں",
-                 "restock":  "دوبارہ اسٹاک کی درخواستیں",
-                 "destroy":  "مواد تباہ کریں"
-             },
-    "materialType":  {
-                         "reusable":  "دوبارہ استعمال ہونے والا",
-                         "consumable":  "استعمال ہونے والا"
-                     },
-    "quantity":  "مقدار",
-    "costPerUnit":  "فی یونٹ لاگت",
-    "totalPrice":  "کل قیمت",
-    "transfer":  "منتقلی",
-    "actions":  {
-                    "restock":  "مواد دوبارہ اسٹاک کریں",
-                    "destroy":  "مواد تباہ کریں",
-                    "downloadPDF":  "PDF کے طور پر ڈاؤن لوڈ کریں",
-                    "edit":  "ترمیم کریں",
-                    "delete":  "حذف کریں",
-                    "deleteItem":  "{{itemName}} حذف کریں",
-                    "addLogUsage":  "لاگ استعمال شامل کریں"
-                },
-    "emptyState":  {
-                       "title":  "کوئی آئٹم شامل نہیں کیا گیا",
-                       "message":  "اپنی سائٹ انوینٹری کو ٹریک کرنے کے لیے آئٹمز شامل کریں",
-                       "createButton":  "سائٹ انوینٹری شامل کریں"
-                   },
-    "add":  {
-                "title":  "سائٹ انوینٹری شامل کریں"
-            },
-    "edit":  {
-                 "title":  "سائٹ انوینٹری میں ترمیم کریں"
-             },
-    "deleteConfirm":  "ہاں، حذف کریں",
-    "cancel":  "منسوخ کریں",
-    "deleteModal":  {
-                        "title":  "{{itemName}} حذف کریں",
-                        "message":  "کیا آپ واقعی انوینٹری سے {{itemName}} حذف کرنا چاہتے ہیں؟ یہ عمل ناقابل واپسی ہے، اور آپ کا ڈیٹا بازیافت نہیں کیا جا سکتا۔"
-                    },
-    "tabComingSoon":  "یہ خصوصیت جلد آرہی ہے...",
-    "transferRequests":  {
-                             "beingSent":  "آپ کے پروجیکٹ سے بھیجے جا رہے ہیں",
-                             "to":  "سے",
-                             "status":  {
-                                            "approved":  "منظور شدہ",
-                                            "rejected":  "مسترد",
-                                            "pending":  "زیر التواء"
-                                        },
-                             "approve":  "منظور کریں",
-                             "reject":  "مسترد کریں",
-                             "rejectionReason":  "آپ کی مسترد کرنے کی وجہ",
-                             "emptyState":  {
-                                                "title":  "کوئی منتقلی کی درخواستیں نہیں",
-                                                "message":  "کوئی منتقلی کی درخواستیں نہیں ملیں"
-                                            }
-                         },
-    "errors":  {
-                   "createFailed":  "سائٹ انوینٹری آئٹم بنانے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
-                   "updateFailed":  "سائٹ انوینٹری آئٹم اپ ڈیٹ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
-                   "fetchFailed":  "سائٹ انوینٹری آئٹمز لوڈ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔"
-               },
+    "title": "سائٹ انوینٹری",
+    "searchPlaceholder": "مواد تلاش کریں",
+    "addButton": "نیا انوینٹری شامل کریں",
+    "tabs": {
+        "inventory": "انوینٹری مواد",
+        "transfer": "منتقلی کی درخواستیں",
+        "ask": "مواد مانگیں",
+        "restock": "دوبارہ اسٹاک کی درخواستیں",
+        "destroy": "مواد تباہ کریں"
+    },
+    "materialType": {
+        "reusable": "دوبارہ استعمال ہونے والا",
+        "consumable": "استعمال ہونے والا"
+    },
+    "quantity": "مقدار",
+    "costPerUnit": "فی یونٹ لاگت",
+    "totalPrice": "کل قیمت",
+    "transfer": "منتقلی",
+    "actions": {
+        "restock": "مواد دوبارہ اسٹاک کریں",
+        "destroy": "مواد تباہ کریں",
+        "downloadPDF": "PDF کے طور پر ڈاؤن لوڈ کریں",
+        "edit": "ترمیم کریں",
+        "delete": "حذف کریں",
+        "deleteItem": "{{itemName}} حذف کریں",
+        "addLogUsage": "لاگ استعمال شامل کریں"
+    },
+    "emptyState": {
+        "title": "کوئی آئٹم شامل نہیں کیا گیا",
+        "message": "اپنی سائٹ انوینٹری کو ٹریک کرنے کے لیے آئٹمز شامل کریں",
+        "createButton": "سائٹ انوینٹری شامل کریں"
+    },
+    "add": {
+        "title": "سائٹ انوینٹری شامل کریں"
+    },
+    "edit": {
+        "title": "سائٹ انوینٹری میں ترمیم کریں"
+    },
+    "deleteConfirm": "ہاں، حذف کریں",
+    "cancel": "منسوخ کریں",
+    "deleteModal": {
+        "title": "{{itemName}} حذف کریں",
+        "message": "کیا آپ واقعی انوینٹری سے {{itemName}} حذف کرنا چاہتے ہیں؟ یہ عمل ناقابل واپسی ہے، اور آپ کا ڈیٹا بازیافت نہیں کیا جا سکتا۔"
+    },
+    "tabComingSoon": "یہ خصوصیت جلد آرہی ہے...",
+    "transferRequests": {
+        "beingSent": "آپ کے پروجیکٹ سے بھیجے جا رہے ہیں",
+        "to": "سے",
+        "status": {
+            "approved": "منظور شدہ",
+            "rejected": "مسترد",
+            "pending": "زیر التواء"
+        },
+        "approve": "منظور کریں",
+        "reject": "مسترد کریں",
+        "rejectionReason": "آپ کی مسترد کرنے کی وجہ",
+        "emptyState": {
+            "title": "کوئی منتقلی کی درخواستیں نہیں",
+            "message": "کوئی منتقلی کی درخواستیں نہیں ملیں"
+        }
+    },
+    "approveModal": {
+        "title": "منتقلی کی درخواست منظور کریں",
+        "confirmationMessage": "کیا آپ {{fromProject}} سے {{materialName}} کی منتقلی کی درخواست کو منظور کرنا چاہتے ہیں؟",
+        "quantity": "مقدار",
+        "quantityPlaceholder": "مقدار درج کریں",
+        "costPerUnit": "فی یونٹ لاگت",
+        "totalPrice": "کل قیمت",
+        "cancel": "منسوخ کریں",
+        "approve": "منظور کریں",
+        "approving": "منظور کیا جا رہا ہے...",
+        "errors": {
+            "quantityRequired": "مقدار درکار ہے",
+            "totalPriceRequired": "کل قیمت درکار ہے"
+        }
+    },
+    "rejectModal": {
+        "title": "منتقلی کی درخواست مسترد کریں",
+        "confirmationMessage": "کیا آپ {{fromProject}} سے {{materialName}} کی منتقلی کی درخواست کو مسترد کرنا چاہتے ہیں؟",
+        "reasonForRejection": "مسترد کرنے کی وجہ",
+        "voice": "آواز",
+        "text": "متن",
+        "both": "دونوں",
+        "voiceNote": "وائس نوٹ",
+        "holdMicToRecord": "اپنی آواز ریکارڈ کرنے کے لیے مائک دبائیں",
+        "recording": "ریکارڈنگ... روکنے کے لیے چھوڑیں",
+        "textReason": "متن کی وجہ",
+        "textReasonPlaceholder": "مسترد کرنے کی وجہ درج کریں",
+        "cancel": "منسوخ کریں",
+        "reject": "مسترد کریں",
+        "rejecting": "مسترد کیا جا رہا ہے...",
+        "errors": {
+            "voiceNoteRequired": "وائس نوٹ درکار ہے",
+            "textReasonRequired": "متن کی وجہ درکار ہے"
+        }
+    },
+    "errors": {
+        "createFailed": "سائٹ انوینٹری آئٹم بنانے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
+        "updateFailed": "سائٹ انوینٹری آئٹم اپ ڈیٹ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
+        "fetchFailed": "سائٹ انوینٹری آئٹمز لوڈ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔"
+    },
     "purchased": "خریدا گیا",
     "currentStock": "موجودہ اسٹاک",
-    "purchasedPrice": "خریداری کی قیمت"
+    "purchasedPrice": "خریداری کی قیمت",
+    "logUsageModal": {
+        "title": "استعمال لاگ کریں",
+        "subtitle": "اپنی سائٹ پر استعمال شدہ مقدار درج کریں۔",
+        "quantity": "مقدار",
+        "description": "تفصیل",
+        "descriptionPlaceholder": "یہاں متن درج کریں",
+        "cancel": "منسوخ کریں",
+        "addLog": "لاگ شامل کریں",
+        "adding": "شامل کیا جا رہا ہے...",
+        "errors": {
+            "quantityRequired": "مقدار درکار ہے"
+        }
+    },
+    "addStock": {
+        "title": "مواد دوبارہ اسٹاک کریں",
+        "quantity": "مقدار",
+        "costPerUnit": "فی یونٹ لاگت",
+        "vendor": "فروش",
+        "vendorPlaceholder": "فروش منتخب کریں",
+        "totalPrice": "کل قیمت",
+        "cancel": "منسوخ کریں",
+        "restockMaterial": "مواد دوبارہ اسٹاک کریں",
+        "restocking": "دوبارہ اسٹاک کیا جا رہا ہے...",
+        "addNewVendor": "نیا فروش شامل کریں",
+        "vendorName": "فروش کا نام",
+        "vendorNamePlaceholder": "فروش کا نام درج کریں",
+        "contactNumber": "رابطہ نمبر",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "فروش شامل کریں",
+        "adding": "شامل کیا جا رہا ہے...",
+        "vendorAdded": "فروش کامیابی سے شامل ہو گیا",
+        "vendorAddFailed": "فروش شامل کرنے میں ناکام",
+        "errors": {
+            "quantityRequired": "مقدار درکار ہے",
+            "vendorRequired": "فروش درکار ہے",
+            "totalPriceRequired": "کل قیمت درکار ہے",
+            "vendorNameRequired": "فروش کا نام درکار ہے",
+            "contactNumberRequired": "رابطہ نمبر درکار ہے",
+            "invalidContactNumber": "براہ کرم درست 10 ہندسوں کا رابطہ نمبر درج کریں"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "نیا درخواست شامل کریں",
+        "from": "سے",
+        "status": {
+            "approved": "منظور",
+            "rejected": "مسترد",
+            "pending": "زیر التواء"
+        },
+        "rejectionReason": "مسترد کرنے کی وجہ",
+        "emptyState": {
+            "title": "کوئی مواد کی درخواستیں نہیں",
+            "message": "کوئی مواد کی درخواستیں نہیں ملیں"
+        }
+    },
+    "restockRequests": {
+        "quantity": "مقدار",
+        "from": "سے",
+        "approve": "منظور کریں",
+        "reject": "مسترد کریں",
+        "approved": "منظور",
+        "addStock": "اسٹاک شامل کریں",
+        "emptyState": {
+            "title": "کوئی ریسٹاک درخواستیں نہیں",
+            "message": "کوئی ریسٹاک درخواستیں نہیں ملیں"
+        }
+    },
+    "addNewAsk": {
+        "title": "نیا درخواست شامل کریں",
+        "material": "مواد",
+        "materialPlaceholder": "مواد منتخب کریں",
+        "addNewMaterial": "نیا مواد شامل کریں",
+        "addNewItem": "نیا آئٹم شامل کریں",
+        "itemName": "آئٹم کا نام",
+        "itemNamePlaceholder": "آئٹم کا نام درج کریں",
+        "unit": "یونٹ",
+        "unitPlaceholder": "یونٹ منتخب کریں",
+        "addNewUnit": "نیا یونٹ شامل کریں",
+        "unitAdded": "یونٹ کامیابی سے شامل ہو گیا",
+        "unitAddFailed": "یونٹ شامل کرنے میں ناکام",
+        "adding": "شامل کیا جا رہا ہے...",
+        "add": "شامل کریں",
+        "materialAdded": "مواد کامیابی سے شامل ہو گیا",
+        "materialAddFailed": "مواد شامل کرنے میں ناکام",
+        "quantity": "مقدار",
+        "requestFrom": "مواد کی درخواست کریں",
+        "requestFromPlaceholder": "پروجیکٹ منتخب کریں",
+        "description": "تفصیل",
+        "descriptionPlaceholder": "یہاں متن درج کریں",
+        "cancel": "منسوخ کریں",
+        "sendRequest": "درخواست بھیجیں",
+        "sending": "بھیجا جا رہا ہے...",
+        "errors": {
+            "materialRequired": "مواد درکار ہے",
+            "quantityRequired": "مقدار درکار ہے",
+            "requestFromRequired": "براہ کرم کم از کم ایک پروجیکٹ منتخب کریں",
+            "itemNameRequired": "آئٹم کا نام درکار ہے",
+            "unitRequired": "یونٹ درکار ہے"
+        }
+    },
+    "addInventory": {
+        "title": "نیا انوینٹری شامل کریں",
+        "reusable": "دوبارہ استعمال کرنے کے قابل",
+        "consumable": "استعمال کرنے کے قابل",
+        "material": "مواد",
+        "materialPlaceholder": "مواد منتخب کریں",
+        "quantity": "مقدار",
+        "costPerUnit": "فی یونٹ لاگت",
+        "totalPrice": "کل قیمت",
+        "checkInDate": "چیک ان تاریخ",
+        "vendor": "فروش",
+        "vendorPlaceholder": "فروش منتخب کریں",
+        "lowStockAlert": "کم اسٹاک الرٹ",
+        "uploadPhotosVideos": "فوٹو/ویڈیو اپ لوڈ کریں",
+        "upload": "اپ لوڈ کریں",
+        "supportedFormat": "معاون فارمیٹ:",
+        "conditionDescription": "حالت کی تفصیل",
+        "conditionDescriptionPlaceholder": "یہاں متن درج کریں",
+        "assignToProject": "پروجیکٹ کو تفویض کریں",
+        "selectProjects": "پروجیکٹس منتخب کریں",
+        "cancel": "منسوخ کریں",
+        "addMaterial": "مواد شامل کریں",
+        "adding": "شامل کیا جا رہا ہے...",
+        "success": "انوینٹری آئٹم کامیابی سے شامل ہو گیا",
+        "errors": {
+            "materialRequired": "مواد درکار ہے",
+            "quantityRequired": "مقدار درکار ہے",
+            "checkInDateRequired": "چیک ان تاریخ درکار ہے",
+            "vendorRequired": "فروش درکار ہے",
+            "lowStockAlertRequired": "کم اسٹاک الرٹ درکار ہے",
+            "filesRequired": "کم از کم ایک فوٹو یا ویڈیو درکار ہے",
+            "projectsRequired": "کم از کم ایک پروجیکٹ منتخب کرنا ضروری ہے",
+            "invalidFileType": "صرف JPG, PNG, اور MP4 فائلیں اجازت ہیں",
+            "fileTooLarge": "فائل کا سائز 10MB سے کم ہونا چاہیے",
+            "createFailed": "انوینٹری آئٹم بنانے میں ناکام"
+        }
+    }
 }

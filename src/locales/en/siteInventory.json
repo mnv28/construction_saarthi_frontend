@@ -63,6 +63,180 @@
       "message": "No transfer requests found"
     }
   },
+  "askForMaterials": {
+    "addNewAsk": "Add New Ask",
+    "from": "from",
+    "status": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "pending": "Pending"
+    },
+    "rejectionReason": "Reason for rejection",
+    "emptyState": {
+      "title": "No Material Requests",
+      "message": "No material requests found"
+    }
+  },
+  "restockRequests": {
+    "quantity": "Quantity",
+    "from": "From",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approved": "Approved",
+    "addStock": "Add Stock",
+    "emptyState": {
+      "title": "No Restock Requests",
+      "message": "No restock requests found"
+    }
+  },
+    "addNewAsk": {
+    "title": "Add New Ask",
+    "material": "Material",
+    "materialPlaceholder": "Select material",
+    "addNewMaterial": "Add New Material",
+    "addNewItem": "Add New Item",
+    "name": "Name",
+    "itemName": "Item Name",
+    "itemNamePlaceholder": "Enter item name",
+    "materialNamePlaceholder": "Enter new material name",
+    "unit": "Unit",
+    "unitPlaceholder": "Select Unit",
+    "addNewUnit": "Add New Unit",
+    "unitAdded": "Unit added successfully",
+    "unitAddFailed": "Failed to add unit",
+    "adding": "Adding...",
+    "add": "Add",
+    "materialAdded": "Material added successfully",
+    "materialAddFailed": "Failed to add material",
+    "quantity": "Quantity",
+    "requestFrom": "Request Material From",
+    "requestFromPlaceholder": "Select project",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter text here",
+    "cancel": "Cancel",
+    "sendRequest": "Send Request",
+    "sending": "Sending...",
+    "errors": {
+      "materialRequired": "Material is required",
+      "quantityRequired": "Quantity is required",
+      "requestFromRequired": "Please select at least one project",
+      "itemNameRequired": "Item name is required",
+      "unitRequired": "Unit is required"
+    }
+  },
+  "approveModal": {
+    "title": "Approve Transfer Request",
+    "confirmationMessage": "Are you sure you want to approve transfer request of {{materialName}} from {{fromProject}}?",
+    "quantity": "Quantity",
+    "quantityPlaceholder": "Enter quantity",
+    "costPerUnit": "Cost Per Unit",
+    "totalPrice": "Total Price",
+    "cancel": "Cancel",
+    "approve": "Approve",
+    "approving": "Approving...",
+    "errors": {
+      "quantityRequired": "Quantity is required",
+      "totalPriceRequired": "Total price is required"
+    }
+  },
+  "rejectModal": {
+    "title": "Reject Transfer Request",
+    "confirmationMessage": "Are you sure you want to reject transfer request of {{materialName}} from {{fromProject}}?",
+    "reasonForRejection": "Reason for Rejection",
+    "voice": "Voice",
+    "text": "Text",
+    "both": "Both",
+    "voiceNote": "Voice Note",
+    "holdMicToRecord": "Hold mic to record your voice",
+    "recording": "Recording... Release to stop",
+    "textReason": "Text Reason",
+    "textReasonPlaceholder": "Enter reason for rejection",
+    "cancel": "Cancel",
+    "reject": "Reject",
+    "rejecting": "Rejecting...",
+    "errors": {
+      "voiceNoteRequired": "Voice note is required",
+      "textReasonRequired": "Text reason is required"
+    }
+  },
+  "logUsageModal": {
+    "title": "Log Usage",
+    "subtitle": "Enter the quantity used on your site.",
+    "quantity": "Quantity",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter text here",
+    "cancel": "Cancel",
+    "addLog": "Add Log",
+    "adding": "Adding...",
+    "errors": {
+      "quantityRequired": "Quantity is required"
+    }
+  },
+  "addStock": {
+    "title": "Restock Material",
+    "quantity": "Quantity",
+    "costPerUnit": "Cost Per Unit",
+    "vendor": "Vendor",
+    "vendorPlaceholder": "Select Vendor",
+    "totalPrice": "Total Price",
+    "cancel": "Cancel",
+    "restockMaterial": "Restock Material",
+    "restocking": "Restocking...",
+    "addNewVendor": "Add New Vendor",
+    "vendorName": "Vendor Name",
+    "vendorNamePlaceholder": "Enter vendor name",
+    "contactNumber": "Contact Number",
+    "contactNumberPlaceholder": "000 000 0000",
+    "addVendor": "Add Vendor",
+    "adding": "Adding...",
+    "vendorAdded": "Vendor added successfully",
+    "vendorAddFailed": "Failed to add vendor",
+    "errors": {
+      "quantityRequired": "Quantity is required",
+      "vendorRequired": "Vendor is required",
+      "totalPriceRequired": "Total price is required",
+      "vendorNameRequired": "Vendor name is required",
+      "contactNumberRequired": "Contact number is required",
+      "invalidContactNumber": "Please enter a valid 10-digit contact number"
+    }
+  },
+  "addInventory": {
+    "title": "Add New Inventory",
+    "reusable": "Reusable",
+    "consumable": "Consumable",
+    "material": "Material",
+    "materialPlaceholder": "Select material",
+    "quantity": "Quantity",
+    "costPerUnit": "Cost Per Unit",
+    "totalPrice": "Total Price",
+    "checkInDate": "Check In Date",
+    "vendor": "Vendor",
+    "vendorPlaceholder": "Select Vendor",
+    "lowStockAlert": "Low Stock Alert",
+    "uploadPhotosVideos": "Upload Photos/Videos",
+    "upload": "Upload",
+    "supportedFormat": "Supported Format:",
+    "conditionDescription": "Condition Description",
+    "conditionDescriptionPlaceholder": "Enter text here",
+    "assignToProject": "Assign to Project",
+    "selectProjects": "Select projects",
+    "cancel": "Cancel",
+    "addMaterial": "Add Material",
+    "adding": "Adding...",
+    "success": "Inventory item added successfully",
+    "errors": {
+      "materialRequired": "Material is required",
+      "quantityRequired": "Quantity is required",
+      "checkInDateRequired": "Check in date is required",
+      "vendorRequired": "Vendor is required",
+      "lowStockAlertRequired": "Low stock alert is required",
+      "filesRequired": "At least one photo or video is required",
+      "projectsRequired": "At least one project must be selected",
+      "invalidFileType": "Only JPG, PNG, and MP4 files are allowed",
+      "fileTooLarge": "File size must be less than 10MB",
+      "createFailed": "Failed to create inventory item"
+    }
+  },
   "errors": {
     "createFailed": "Failed to create site inventory item. Please try again.",
     "updateFailed": "Failed to update site inventory item. Please try again.",

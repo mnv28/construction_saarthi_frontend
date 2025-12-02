@@ -60,6 +60,41 @@
             "message": "കൈമാറ്റ അഭ്യർത്ഥനകൾ കണ്ടെത്തിയില്ല"
         }
     },
+    "approveModal": {
+        "title": "കൈമാറ്റ അഭ്യർത്ഥന അനുവദിക്കുക",
+        "confirmationMessage": "{{fromProject}} ൽ നിന്ന് {{materialName}} ന്റെ കൈമാറ്റ അഭ്യർത്ഥന അനുവദിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവോ?",
+        "quantity": "അളവ്",
+        "quantityPlaceholder": "അളവ് നൽകുക",
+        "costPerUnit": "യൂണിറ്റിന് ചെലവ്",
+        "totalPrice": "മൊത്തം വില",
+        "cancel": "റദ്ദാക്കുക",
+        "approve": "അനുവദിക്കുക",
+        "approving": "അനുവദിക്കുന്നു...",
+        "errors": {
+            "quantityRequired": "അളവ് ആവശ്യമാണ്",
+            "totalPriceRequired": "മൊത്തം വില ആവശ്യമാണ്"
+        }
+    },
+    "rejectModal": {
+        "title": "കൈമാറ്റ അഭ്യർത്ഥന നിരസിക്കുക",
+        "confirmationMessage": "{{fromProject}} ൽ നിന്ന് {{materialName}} ന്റെ കൈമാറ്റ അഭ്യർത്ഥന നിരസിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവോ?",
+        "reasonForRejection": "നിരസിക്കാനുള്ള കാരണം",
+        "voice": "വോയ്‌സ്",
+        "text": "ടെക്സ്റ്റ്",
+        "both": "രണ്ടും",
+        "voiceNote": "വോയ്‌സ് നോട്ട്",
+        "holdMicToRecord": "നിങ്ങളുടെ വോയ്‌സ് റെക്കോർഡ് ചെയ്യാൻ മൈക്ക് അമർത്തി പിടിക്കുക",
+        "recording": "റെക്കോർഡിംഗ്... നിർത്താൻ വിടുക",
+        "textReason": "ടെക്സ്റ്റ് കാരണം",
+        "textReasonPlaceholder": "നിരസിക്കാനുള്ള കാരണം നൽകുക",
+        "cancel": "റദ്ദാക്കുക",
+        "reject": "നിരസിക്കുക",
+        "rejecting": "നിരസിക്കുന്നു...",
+        "errors": {
+            "voiceNoteRequired": "വോയ്‌സ് നോട്ട് ആവശ്യമാണ്",
+            "textReasonRequired": "ടെക്സ്റ്റ് കാരണം ആവശ്യമാണ്"
+        }
+    },
     "errors": {
         "createFailed": "സൈറ്റ് ഇൻവെന്ററി ഇനം സൃഷ്ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
         "updateFailed": "സൈറ്റ് ഇൻവെന്ററി ഇനം അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
@@ -67,5 +102,142 @@
     },
     "purchased": "വാങ്ങിയത്",
     "currentStock": "നിലവിലെ സ്റ്റോക്ക്",
-    "purchasedPrice": "വാങ്ങിയ വില"
+    "purchasedPrice": "വാങ്ങിയ വില",
+    "logUsageModal": {
+        "title": "ഉപയോഗം ലോഗ് ചെയ്യുക",
+        "subtitle": "നിങ്ങളുടെ സൈറ്റിൽ ഉപയോഗിച്ച അളവ് നൽകുക.",
+        "quantity": "അളവ്",
+        "description": "വിവരണം",
+        "descriptionPlaceholder": "ഇവിടെ ടെക്സ്റ്റ് നൽകുക",
+        "cancel": "റദ്ദാക്കുക",
+        "addLog": "ലോഗ് ചേർക്കുക",
+        "adding": "ചേർക്കുന്നു...",
+        "errors": {
+            "quantityRequired": "അളവ് ആവശ്യമാണ്"
+        }
+    },
+    "addStock": {
+        "title": "വസ്തുക്കൾ റീസ്റ്റോക്ക് ചെയ്യുക",
+        "quantity": "അളവ്",
+        "costPerUnit": "യൂണിറ്റിന് ചെലവ്",
+        "vendor": "വിൽപ്പനക്കാരൻ",
+        "vendorPlaceholder": "വിൽപ്പനക്കാരനെ തിരഞ്ഞെടുക്കുക",
+        "totalPrice": "മൊത്തം വില",
+        "cancel": "റദ്ദാക്കുക",
+        "restockMaterial": "വസ്തുക്കൾ റീസ്റ്റോക്ക് ചെയ്യുക",
+        "restocking": "റീസ്റ്റോക്ക് ചെയ്യുന്നു...",
+        "addNewVendor": "പുതിയ വിൽപ്പനക്കാരനെ ചേർക്കുക",
+        "vendorName": "വിൽപ്പനക്കാരന്റെ പേര്",
+        "vendorNamePlaceholder": "വിൽപ്പനക്കാരന്റെ പേര് നൽകുക",
+        "contactNumber": "ബന്ധപ്പെടാനുള്ള നമ്പർ",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "വിൽപ്പനക്കാരനെ ചേർക്കുക",
+        "adding": "ചേർക്കുന്നു...",
+        "vendorAdded": "വിൽപ്പനക്കാരൻ വിജയകരമായി ചേർത്തു",
+        "vendorAddFailed": "വിൽപ്പനക്കാരനെ ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു",
+        "errors": {
+            "quantityRequired": "അളവ് ആവശ്യമാണ്",
+            "vendorRequired": "വിൽപ്പനക്കാരൻ ആവശ്യമാണ്",
+            "totalPriceRequired": "മൊത്തം വില ആവശ്യമാണ്",
+            "vendorNameRequired": "വിൽപ്പനക്കാരന്റെ പേര് ആവശ്യമാണ്",
+            "contactNumberRequired": "ബന്ധപ്പെടാനുള്ള നമ്പർ ആവശ്യമാണ്",
+            "invalidContactNumber": "ദയവായി സാധുവായ 10-അക്ക ബന്ധപ്പെടാനുള്ള നമ്പർ നൽകുക"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "പുതിയ അഭ്യർത്ഥന ചേർക്കുക",
+        "from": "എന്നിൽ നിന്ന്",
+        "status": {
+            "approved": "അനുവദിച്ചു",
+            "rejected": "നിരസിച്ചു",
+            "pending": "തീർപ്പാക്കാത്ത"
+        },
+        "rejectionReason": "നിരസിക്കാനുള്ള കാരണം",
+        "emptyState": {
+            "title": "വസ്തു അഭ്യർത്ഥനകൾ ഇല്ല",
+            "message": "വസ്തു അഭ്യർത്ഥനകൾ കണ്ടെത്തിയില്ല"
+        }
+    },
+    "restockRequests": {
+        "quantity": "അളവ്",
+        "from": "എന്നിൽ നിന്ന്",
+        "approve": "അനുവദിക്കുക",
+        "reject": "നിരസിക്കുക",
+        "approved": "അനുവദിച്ചു",
+        "addStock": "സ്റ്റോക്ക് ചേർക്കുക",
+        "emptyState": {
+            "title": "റീസ്റ്റോക്ക് അഭ്യർത്ഥനകൾ ഇല്ല",
+            "message": "റീസ്റ്റോക്ക് അഭ്യർത്ഥനകൾ കണ്ടെത്തിയില്ല"
+        }
+    },
+    "addNewAsk": {
+        "title": "പുതിയ അഭ്യർത്ഥന ചേർക്കുക",
+        "material": "വസ്തു",
+        "materialPlaceholder": "വസ്തു തിരഞ്ഞെടുക്കുക",
+        "addNewMaterial": "പുതിയ വസ്തു ചേർക്കുക",
+        "addNewItem": "പുതിയ ഇനം ചേർക്കുക",
+        "itemName": "ഇനത്തിന്റെ പേര്",
+        "itemNamePlaceholder": "ഇനത്തിന്റെ പേര് നൽകുക",
+        "unit": "യൂണിറ്റ്",
+        "unitPlaceholder": "യൂണിറ്റ് തിരഞ്ഞെടുക്കുക",
+        "addNewUnit": "പുതിയ യൂണിറ്റ് ചേർക്കുക",
+        "unitAdded": "യൂണിറ്റ് വിജയകരമായി ചേർത്തു",
+        "unitAddFailed": "യൂണിറ്റ് ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു",
+        "adding": "ചേർക്കുന്നു...",
+        "add": "ചേർക്കുക",
+        "materialAdded": "വസ്തു വിജയകരമായി ചേർത്തു",
+        "materialAddFailed": "വസ്തു ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു",
+        "quantity": "അളവ്",
+        "requestFrom": "വസ്തു അഭ്യർത്ഥിക്കുക",
+        "requestFromPlaceholder": "പ്രോജക്റ്റ് തിരഞ്ഞെടുക്കുക",
+        "description": "വിവരണം",
+        "descriptionPlaceholder": "ഇവിടെ ടെക്സ്റ്റ് നൽകുക",
+        "cancel": "റദ്ദാക്കുക",
+        "sendRequest": "അഭ്യർത്ഥന അയയ്ക്കുക",
+        "sending": "അയയ്ക്കുന്നു...",
+        "errors": {
+            "materialRequired": "വസ്തു ആവശ്യമാണ്",
+            "quantityRequired": "അളവ് ആവശ്യമാണ്",
+            "requestFromRequired": "ദയവായി കുറഞ്ഞത് ഒരു പ്രോജക്റ്റ് തിരഞ്ഞെടുക്കുക",
+            "itemNameRequired": "ഇനത്തിന്റെ പേര് ആവശ്യമാണ്",
+            "unitRequired": "യൂണിറ്റ് ആവശ്യമാണ്"
+        }
+    },
+    "addInventory": {
+        "title": "പുതിയ ഇൻവെന്ററി ചേർക്കുക",
+        "reusable": "വീണ്ടും ഉപയോഗിക്കാവുന്ന",
+        "consumable": "ഉപയോഗിക്കാവുന്ന",
+        "material": "വസ്തു",
+        "materialPlaceholder": "വസ്തു തിരഞ്ഞെടുക്കുക",
+        "quantity": "അളവ്",
+        "costPerUnit": "യൂണിറ്റിന് ചെലവ്",
+        "totalPrice": "മൊത്തം വില",
+        "checkInDate": "ചെക്ക് ഇൻ തീയതി",
+        "vendor": "വിൽപ്പനക്കാരൻ",
+        "vendorPlaceholder": "വിൽപ്പനക്കാരനെ തിരഞ്ഞെടുക്കുക",
+        "lowStockAlert": "കുറഞ്ഞ സ്റ്റോക്ക് അലേർട്ട്",
+        "uploadPhotosVideos": "ഫോട്ടോകൾ/വീഡിയോകൾ അപ്‌ലോഡ് ചെയ്യുക",
+        "upload": "അപ്‌ലോഡ് ചെയ്യുക",
+        "supportedFormat": "പിന്തുണയ്ക്കുന്ന ഫോർമാറ്റ്:",
+        "conditionDescription": "അവസ്ഥ വിവരണം",
+        "conditionDescriptionPlaceholder": "ഇവിടെ ടെക്സ്റ്റ് നൽകുക",
+        "assignToProject": "പ്രോജക്റ്റിലേക്ക് നിയോഗിക്കുക",
+        "selectProjects": "പ്രോജക്റ്റുകൾ തിരഞ്ഞെടുക്കുക",
+        "cancel": "റദ്ദാക്കുക",
+        "addMaterial": "വസ്തു ചേർക്കുക",
+        "adding": "ചേർക്കുന്നു...",
+        "success": "ഇൻവെന്ററി ഇനം വിജയകരമായി ചേർത്തു",
+        "errors": {
+            "materialRequired": "വസ്തു ആവശ്യമാണ്",
+            "quantityRequired": "അളവ് ആവശ്യമാണ്",
+            "checkInDateRequired": "ചെക്ക് ഇൻ തീയതി ആവശ്യമാണ്",
+            "vendorRequired": "വിൽപ്പനക്കാരൻ ആവശ്യമാണ്",
+            "lowStockAlertRequired": "കുറഞ്ഞ സ്റ്റോക്ക് അലേർട്ട് ആവശ്യമാണ്",
+            "filesRequired": "കുറഞ്ഞത് ഒരു ഫോട്ടോ അല്ലെങ്കിൽ വീഡിയോ ആവശ്യമാണ്",
+            "projectsRequired": "കുറഞ്ഞത് ഒരു പ്രോജക്റ്റ് തിരഞ്ഞെടുക്കണം",
+            "invalidFileType": "JPG, PNG, MP4 ഫൈലുകൾ മാത്രം അനുവദനീയമാണ്",
+            "fileTooLarge": "ഫൈൽ വലുപ്പം 10MB ൽ കുറവായിരിക്കണം",
+            "createFailed": "ഇൻവെന്ററി ഇനം സൃഷ്ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു"
+        }
+    }
 }

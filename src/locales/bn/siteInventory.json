@@ -60,6 +60,41 @@
             "message": "কোন স্থানান্তর অনুরোধ পাওয়া যায়নি"
         }
     },
+    "approveModal": {
+        "title": "স্থানান্তর অনুরোধ অনুমোদন করুন",
+        "confirmationMessage": "আপনি কি {{fromProject}} থেকে {{materialName}} এর স্থানান্তর অনুরোধ অনুমোদন করতে চান?",
+        "quantity": "পরিমাণ",
+        "quantityPlaceholder": "পরিমাণ লিখুন",
+        "costPerUnit": "প্রতি ইউনিট খরচ",
+        "totalPrice": "মোট মূল্য",
+        "cancel": "বাতিল করুন",
+        "approve": "অনুমোদন করুন",
+        "approving": "অনুমোদন করা হচ্ছে...",
+        "errors": {
+            "quantityRequired": "পরিমাণ প্রয়োজন",
+            "totalPriceRequired": "মোট মূল্য প্রয়োজন"
+        }
+    },
+    "rejectModal": {
+        "title": "স্থানান্তর অনুরোধ প্রত্যাখ্যান করুন",
+        "confirmationMessage": "আপনি কি {{fromProject}} থেকে {{materialName}} এর স্থানান্তর অনুরোধ প্রত্যাখ্যান করতে চান?",
+        "reasonForRejection": "প্রত্যাখ্যানের কারণ",
+        "voice": "ভয়েস",
+        "text": "টেক্সট",
+        "both": "উভয়",
+        "voiceNote": "ভয়েস নোট",
+        "holdMicToRecord": "আপনার ভয়েস রেকর্ড করতে মাইক চেপে ধরুন",
+        "recording": "রেকর্ডিং... থামাতে ছেড়ে দিন",
+        "textReason": "টেক্সট কারণ",
+        "textReasonPlaceholder": "প্রত্যাখ্যানের কারণ লিখুন",
+        "cancel": "বাতিল করুন",
+        "reject": "প্রত্যাখ্যান করুন",
+        "rejecting": "প্রত্যাখ্যান করা হচ্ছে...",
+        "errors": {
+            "voiceNoteRequired": "ভয়েস নোট প্রয়োজন",
+            "textReasonRequired": "টেক্সট কারণ প্রয়োজন"
+        }
+    },
     "errors": {
         "createFailed": "সাইট ইনভেন্টরি আইটেম তৈরি করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।",
         "updateFailed": "সাইট ইনভেন্টরি আইটেম আপডেট করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।",
@@ -67,5 +102,142 @@
     },
     "purchased": "ক্রয় করা হয়েছে",
     "currentStock": "বর্তমান স্টক",
-    "purchasedPrice": "ক্রয় মূল্য"
+    "purchasedPrice": "ক্রয় মূল্য",
+    "logUsageModal": {
+        "title": "ব্যবহার লগ করুন",
+        "subtitle": "আপনার সাইটে ব্যবহৃত পরিমাণ লিখুন।",
+        "quantity": "পরিমাণ",
+        "description": "বিবরণ",
+        "descriptionPlaceholder": "এখানে টেক্সট লিখুন",
+        "cancel": "বাতিল করুন",
+        "addLog": "লগ যোগ করুন",
+        "adding": "যোগ করা হচ্ছে...",
+        "errors": {
+            "quantityRequired": "পরিমাণ প্রয়োজন"
+        }
+    },
+    "addStock": {
+        "title": "সামগ্রী রিস্টক করুন",
+        "quantity": "পরিমাণ",
+        "costPerUnit": "প্রতি ইউনিট খরচ",
+        "vendor": "বিক্রেতা",
+        "vendorPlaceholder": "বিক্রেতা নির্বাচন করুন",
+        "totalPrice": "মোট মূল্য",
+        "cancel": "বাতিল করুন",
+        "restockMaterial": "সামগ্রী রিস্টক করুন",
+        "restocking": "রিস্টক করা হচ্ছে...",
+        "addNewVendor": "নতুন বিক্রেতা যোগ করুন",
+        "vendorName": "বিক্রেতার নাম",
+        "vendorNamePlaceholder": "বিক্রেতার নাম লিখুন",
+        "contactNumber": "যোগাযোগের নম্বর",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "বিক্রেতা যোগ করুন",
+        "adding": "যোগ করা হচ্ছে...",
+        "vendorAdded": "বিক্রেতা সফলভাবে যোগ করা হয়েছে",
+        "vendorAddFailed": "বিক্রেতা যোগ করতে ব্যর্থ",
+        "errors": {
+            "quantityRequired": "পরিমাণ প্রয়োজন",
+            "vendorRequired": "বিক্রেতা প্রয়োজন",
+            "totalPriceRequired": "মোট মূল্য প্রয়োজন",
+            "vendorNameRequired": "বিক্রেতার নাম প্রয়োজন",
+            "contactNumberRequired": "যোগাযোগের নম্বর প্রয়োজন",
+            "invalidContactNumber": "অনুগ্রহ করে একটি বৈধ 10-অঙ্কের যোগাযোগের নম্বর লিখুন"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "নতুন অনুরোধ যোগ করুন",
+        "from": "থেকে",
+        "status": {
+            "approved": "অনুমোদিত",
+            "rejected": "প্রত্যাখ্যান",
+            "pending": "মুলতবি"
+        },
+        "rejectionReason": "প্রত্যাখ্যানের কারণ",
+        "emptyState": {
+            "title": "কোনো উপাদান অনুরোধ নেই",
+            "message": "কোনো উপাদান অনুরোধ পাওয়া যায়নি"
+        }
+    },
+    "restockRequests": {
+        "quantity": "পরিমাণ",
+        "from": "থেকে",
+        "approve": "অনুমোদন করুন",
+        "reject": "প্রত্যাখ্যান করুন",
+        "approved": "অনুমোদিত",
+        "addStock": "স্টক যোগ করুন",
+        "emptyState": {
+            "title": "কোনো রিস্টক অনুরোধ নেই",
+            "message": "কোনো রিস্টক অনুরোধ পাওয়া যায়নি"
+        }
+    },
+    "addNewAsk": {
+        "title": "নতুন অনুরোধ যোগ করুন",
+        "material": "উপাদান",
+        "materialPlaceholder": "উপাদান নির্বাচন করুন",
+        "addNewMaterial": "নতুন উপাদান যোগ করুন",
+        "addNewItem": "নতুন আইটেম যোগ করুন",
+        "itemName": "আইটেমের নাম",
+        "itemNamePlaceholder": "আইটেমের নাম লিখুন",
+        "unit": "ইউনিট",
+        "unitPlaceholder": "ইউনিট নির্বাচন করুন",
+        "addNewUnit": "নতুন ইউনিট যোগ করুন",
+        "unitAdded": "ইউনিট সফলভাবে যোগ করা হয়েছে",
+        "unitAddFailed": "ইউনিট যোগ করতে ব্যর্থ",
+        "adding": "যোগ করা হচ্ছে...",
+        "add": "যোগ করুন",
+        "materialAdded": "উপাদান সফলভাবে যোগ করা হয়েছে",
+        "materialAddFailed": "উপাদান যোগ করতে ব্যর্থ",
+        "quantity": "পরিমাণ",
+        "requestFrom": "উপাদান অনুরোধ করুন",
+        "requestFromPlaceholder": "প্রকল্প নির্বাচন করুন",
+        "description": "বিবরণ",
+        "descriptionPlaceholder": "এখানে টেক্সট লিখুন",
+        "cancel": "বাতিল করুন",
+        "sendRequest": "অনুরোধ পাঠান",
+        "sending": "পাঠানো হচ্ছে...",
+        "errors": {
+            "materialRequired": "উপাদান প্রয়োজন",
+            "quantityRequired": "পরিমাণ প্রয়োজন",
+            "requestFromRequired": "অনুগ্রহ করে অন্তত একটি প্রকল্প নির্বাচন করুন",
+            "itemNameRequired": "আইটেমের নাম প্রয়োজন",
+            "unitRequired": "ইউনিট প্রয়োজন"
+        }
+    },
+    "addInventory": {
+        "title": "নতুন ইনভেন্টরি যোগ করুন",
+        "reusable": "পুনরায় ব্যবহারযোগ্য",
+        "consumable": "ব্যবহারযোগ্য",
+        "material": "উপাদান",
+        "materialPlaceholder": "উপাদান নির্বাচন করুন",
+        "quantity": "পরিমাণ",
+        "costPerUnit": "প্রতি ইউনিট খরচ",
+        "totalPrice": "মোট মূল্য",
+        "checkInDate": "চেক ইন তারিখ",
+        "vendor": "বিক্রেতা",
+        "vendorPlaceholder": "বিক্রেতা নির্বাচন করুন",
+        "lowStockAlert": "কম স্টক সতর্কতা",
+        "uploadPhotosVideos": "ছবি/ভিডিও আপলোড করুন",
+        "upload": "আপলোড করুন",
+        "supportedFormat": "সমর্থিত ফরম্যাট:",
+        "conditionDescription": "অবস্থার বিবরণ",
+        "conditionDescriptionPlaceholder": "এখানে টেক্সট লিখুন",
+        "assignToProject": "প্রকল্পে নির্ধারণ করুন",
+        "selectProjects": "প্রকল্প নির্বাচন করুন",
+        "cancel": "বাতিল করুন",
+        "addMaterial": "উপাদান যোগ করুন",
+        "adding": "যোগ করা হচ্ছে...",
+        "success": "ইনভেন্টরি আইটেম সফলভাবে যোগ করা হয়েছে",
+        "errors": {
+            "materialRequired": "উপাদান প্রয়োজন",
+            "quantityRequired": "পরিমাণ প্রয়োজন",
+            "checkInDateRequired": "চেক ইন তারিখ প্রয়োজন",
+            "vendorRequired": "বিক্রেতা প্রয়োজন",
+            "lowStockAlertRequired": "কম স্টক সতর্কতা প্রয়োজন",
+            "filesRequired": "কমপক্ষে একটি ছবি বা ভিডিও প্রয়োজন",
+            "projectsRequired": "কমপক্ষে একটি প্রকল্প নির্বাচন করতে হবে",
+            "invalidFileType": "শুধুমাত্র JPG, PNG, এবং MP4 ফাইল অনুমোদিত",
+            "fileTooLarge": "ফাইলের আকার 10MB এর কম হতে হবে",
+            "createFailed": "ইনভেন্টরি আইটেম তৈরি করতে ব্যর্থ"
+        }
+    }
 }

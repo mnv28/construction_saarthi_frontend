@@ -60,6 +60,41 @@
             "message": "कोई स्थानांतरण अनुरोध ना मिलल"
         }
     },
+    "approveModal": {
+        "title": "ट्रांसफर अनुरोध मंजूर करीं",
+        "confirmationMessage": "का तूं {{fromProject}} सूं {{materialName}} के ट्रांसफर अनुरोध के मंजूर करे के चाहत बानी?",
+        "quantity": "मात्रा",
+        "quantityPlaceholder": "मात्रा दर्ज करीं",
+        "costPerUnit": "प्रति इकाई लागत",
+        "totalPrice": "कुल मूल्य",
+        "cancel": "रद्द करीं",
+        "approve": "मंजूर करीं",
+        "approving": "मंजूर हो रहल बा...",
+        "errors": {
+            "quantityRequired": "मात्रा जरूरी बा",
+            "totalPriceRequired": "कुल मूल्य जरूरी बा"
+        }
+    },
+    "rejectModal": {
+        "title": "ट्रांसफर अनुरोध अस्वीकार करीं",
+        "confirmationMessage": "का तूं {{fromProject}} सूं {{materialName}} के ट्रांसफर अनुरोध के अस्वीकार करे के चाहत बानी?",
+        "reasonForRejection": "अस्वीकार करे के कारण",
+        "voice": "आवाज",
+        "text": "टेक्स्ट",
+        "both": "दूंही",
+        "voiceNote": "वॉइस नोट",
+        "holdMicToRecord": "तूंरी आवाज रिकॉर्ड करे खातिर माइक दबा रखीं",
+        "recording": "रिकॉर्डिंग... रोकबे खातिर छोड़ीं",
+        "textReason": "टेक्स्ट कारण",
+        "textReasonPlaceholder": "अस्वीकार करे के कारण दर्ज करीं",
+        "cancel": "रद्द करीं",
+        "reject": "अस्वीकार करीं",
+        "rejecting": "अस्वीकार हो रहल बा...",
+        "errors": {
+            "voiceNoteRequired": "वॉइस नोट जरूरी बा",
+            "textReasonRequired": "टेक्स्ट कारण जरूरी बा"
+        }
+    },
     "errors": {
         "createFailed": "साइट इन्वेंटरी आइटम बनावे में विफल। कृपया पुनः प्रयास करीं।",
         "updateFailed": "साइट इन्वेंटरी आइटम अपडेट करे में विफल। कृपया पुनः प्रयास करीं।",
@@ -67,5 +102,142 @@
     },
     "purchased": "खरीदल गइल",
     "currentStock": "वर्तमान स्टॉक",
-    "purchasedPrice": "खरीद मूल्य"
+    "purchasedPrice": "खरीद मूल्य",
+    "logUsageModal": {
+        "title": "उपयोग लॉग करीं",
+        "subtitle": "तूंरी साइट पर उपयोग की गई मात्रा दर्ज करीं।",
+        "quantity": "मात्रा",
+        "description": "विवरण",
+        "descriptionPlaceholder": "यहां टेक्स्ट दर्ज करीं",
+        "cancel": "रद्द करीं",
+        "addLog": "लॉग जोड़ीं",
+        "adding": "जोड़ल जा रहल बा...",
+        "errors": {
+            "quantityRequired": "मात्रा जरूरी बा"
+        }
+    },
+    "addStock": {
+        "title": "सामग्री रीस्टॉक करीं",
+        "quantity": "मात्रा",
+        "costPerUnit": "प्रति यूनिट खर्च",
+        "vendor": "विक्रेता",
+        "vendorPlaceholder": "विक्रेता चुनीं",
+        "totalPrice": "कुल मूल्य",
+        "cancel": "रद्द करीं",
+        "restockMaterial": "सामग्री रीस्टॉक करीं",
+        "restocking": "रीस्टॉक हो रहल बा...",
+        "addNewVendor": "नवो विक्रेता जोड़ीं",
+        "vendorName": "विक्रेता के नाम",
+        "vendorNamePlaceholder": "विक्रेता के नाम दर्ज करीं",
+        "contactNumber": "संपर्क नंबर",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "विक्रेता जोड़ीं",
+        "adding": "जोड़ल जा रहल बा...",
+        "vendorAdded": "विक्रेता सफलतापूर्वक जोड़ी गई",
+        "vendorAddFailed": "विक्रेता जोड़ने में विफल",
+        "errors": {
+            "quantityRequired": "मात्रा जरूरी बा",
+            "vendorRequired": "विक्रेता जरूरी बा",
+            "totalPriceRequired": "कुल मूल्य जरूरी बा",
+            "vendorNameRequired": "विक्रेता के नाम जरूरी बा",
+            "contactNumberRequired": "संपर्क नंबर जरूरी बा",
+            "invalidContactNumber": "कृपया एक वैध 10-अंकीय संपर्क नंबर दर्ज करीं"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "नवो अनुरोध जोड़ीं",
+        "from": "सूं",
+        "status": {
+            "approved": "मंजूर",
+            "rejected": "अस्वीकार",
+            "pending": "लंबित"
+        },
+        "rejectionReason": "अस्वीकार करे के कारण",
+        "emptyState": {
+            "title": "कोई सामग्री अनुरोध ना मिलल",
+            "message": "कोई सामग्री अनुरोध ना मिलल"
+        }
+    },
+    "restockRequests": {
+        "quantity": "मात्रा",
+        "from": "सूं",
+        "approve": "मंजूर करीं",
+        "reject": "अस्वीकार करीं",
+        "approved": "मंजूर",
+        "addStock": "स्टॉक जोड़ीं",
+        "emptyState": {
+            "title": "कोई रीस्टॉक अनुरोध ना मिलल",
+            "message": "कोई रीस्टॉक अनुरोध ना मिलल"
+        }
+    },
+    "addNewAsk": {
+        "title": "नवो अनुरोध जोड़ीं",
+        "material": "सामग्री",
+        "materialPlaceholder": "सामग्री चुनीं",
+        "addNewMaterial": "नवो सामग्री जोड़ीं",
+        "addNewItem": "नवो आइटम जोड़ीं",
+        "itemName": "आइटम के नाम",
+        "itemNamePlaceholder": "आइटम के नाम दर्ज करीं",
+        "unit": "यूनिट",
+        "unitPlaceholder": "यूनिट चुनीं",
+        "addNewUnit": "नवो यूनिट जोड़ीं",
+        "unitAdded": "यूनिट सफलतापूर्वक जोड़ी गई",
+        "unitAddFailed": "यूनिट जोड़ने में विफल",
+        "adding": "जोड़ल जा रहल बा...",
+        "add": "जोड़ीं",
+        "materialAdded": "सामग्री सफलतापूर्वक जोड़ी गई",
+        "materialAddFailed": "सामग्री जोड़ने में विफल",
+        "quantity": "मात्रा",
+        "requestFrom": "सामग्री अनुरोध करीं",
+        "requestFromPlaceholder": "प्रोजेक्ट चुनीं",
+        "description": "विवरण",
+        "descriptionPlaceholder": "यहां टेक्स्ट दर्ज करीं",
+        "cancel": "रद्द करीं",
+        "sendRequest": "अनुरोध भेजीं",
+        "sending": "भेजल जा रहल बा...",
+        "errors": {
+            "materialRequired": "सामग्री जरूरी बा",
+            "quantityRequired": "मात्रा जरूरी बा",
+            "requestFromRequired": "कृपया कम से कम एक प्रोजेक्ट चुनीं",
+            "itemNameRequired": "आइटम के नाम जरूरी बा",
+            "unitRequired": "यूनिट जरूरी बा"
+        }
+    },
+    "addInventory": {
+        "title": "नवो इन्वेंटरी जोड़ीं",
+        "reusable": "पुन: उपयोग योग्य",
+        "consumable": "उपभोग्य",
+        "material": "सामग्री",
+        "materialPlaceholder": "सामग्री चुनीं",
+        "quantity": "मात्रा",
+        "costPerUnit": "प्रति यूनिट खर्च",
+        "totalPrice": "कुल मूल्य",
+        "checkInDate": "चेक इन दिनांक",
+        "vendor": "विक्रेता",
+        "vendorPlaceholder": "विक्रेता चुनीं",
+        "lowStockAlert": "कम स्टॉक अलर्ट",
+        "uploadPhotosVideos": "फोटो/वीडियो अपलोड करीं",
+        "upload": "अपलोड करीं",
+        "supportedFormat": "समर्थित प्रारूप:",
+        "conditionDescription": "स्थिति विवरण",
+        "conditionDescriptionPlaceholder": "यहां टेक्स्ट दर्ज करीं",
+        "assignToProject": "प्रोजेक्ट के असाइन करीं",
+        "selectProjects": "प्रोजेक्ट चुनीं",
+        "cancel": "रद्द करीं",
+        "addMaterial": "सामग्री जोड़ीं",
+        "adding": "जोड़ल जा रहल बा...",
+        "success": "इन्वेंटरी आइटम सफलतापूर्वक जोड़ी गई",
+        "errors": {
+            "materialRequired": "सामग्री जरूरी बा",
+            "quantityRequired": "मात्रा जरूरी बा",
+            "checkInDateRequired": "चेक इन दिनांक जरूरी बा",
+            "vendorRequired": "विक्रेता जरूरी बा",
+            "lowStockAlertRequired": "कम स्टॉक अलर्ट जरूरी बा",
+            "filesRequired": "कम से कम एक फोटो या वीडियो जरूरी बा",
+            "projectsRequired": "कम से कम एक प्रोजेक्ट चुना जाना चाहिए",
+            "invalidFileType": "केवल JPG, PNG, और MP4 फाइलें अनुमत हैं",
+            "fileTooLarge": "फाइल का आकार 10MB से कम होना चाहिए",
+            "createFailed": "इन्वेंटरी आइटम बनावे में विफल"
+        }
+    }
 }

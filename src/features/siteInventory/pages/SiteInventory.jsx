@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeftRight } from 'lucide-react';
+import { ArrowLeftRight, Plus } from 'lucide-react';
 import PageHeader from '../../../components/layout/PageHeader';
 import EmptyState from '../../../components/shared/EmptyState';
 import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
@@ -11,18 +11,20 @@ import Button from '../../../components/ui/Button';
 import Radio from '../../../components/ui/Radio';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 import ConfirmModal from '../../../components/ui/ConfirmModal';
-import { InventoryItemCard, Tabs, TransferRequestCard } from '../components';
+import { InventoryItemCard, Tabs, TransferRequestCard, ApproveTransferModal, RejectTransferModal, LogUsageModal, AskForMaterialCard, RestockRequestCard } from '../components';
 import { useSiteInventory } from '../hooks';
+import { getTransferRequests, approveTransferRequest, rejectTransferRequest, getAskMaterialRequests } from '../api/siteInventoryApi';
 import { useAuth } from '../../auth/store';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import { PROJECT_ROUTES } from '../../projects/constants';
 import { useDebounce } from '../../../hooks/useDebounce';
+import { showError, showSuccess } from '../../../utils/toast';
 
 export default function SiteInventory() {
   const { t } = useTranslation('siteInventory');
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, selectedWorkspace } = useAuth();
   const { getItems, deleteItem, isLoading } = useSiteInventory();
   const [inventoryItems, setInventoryItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -32,6 +34,13 @@ export default function SiteInventory() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [transferRequests, setTransferRequests] = useState([]);
+  const [askForMaterials, setAskForMaterials] = useState([]);
+  const [restockRequests, setRestockRequests] = useState([]);
+  const [approveModalOpen, setApproveModalOpen] = useState(false);
+  const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [logUsageModalOpen, setLogUsageModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   
   // Get project context from navigation state (if navigated from project details)
   const projectId = location.state?.projectId;
@@ -43,7 +52,7 @@ export default function SiteInventory() {
     if (user) {
       loadInventoryItems();
     }
-  }, [user]);
+  }, [user, materialType, projectId]);
 
   // Filter items based on search and material type
   useEffect(() => {
@@ -70,84 +79,25 @@ export default function SiteInventory() {
     setFilteredItems(filtered);
   }, [inventoryItems, materialType, debouncedSearch]);
 
-  // Mock data for demonstration
-  const getMockInventoryItems = () => {
-    const currentDate = new Date();
-    const mockItems = [
-      {
-        id: '1',
-        name: 'Plywood',
-        specification: '48"x96"',
-        quantity: 300,
-        quantityUnit: 'Sheets',
-        costPerUnit: 150,
-        totalPrice: 45000,
-        materialType: 'reusable',
-        date: new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
-        projectId: projectId || null,
-      },
-      {
-        id: '2',
-        name: 'Teka',
-        specification: '100 piece',
-        quantity: 300,
-        quantityUnit: 'Sheets',
-        costPerUnit: 150,
-        totalPrice: 45000,
-        materialType: 'reusable',
-        date: new Date(currentDate.getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
-        projectId: projectId || null,
-      },
-      {
-        id: '3',
-        name: 'Cement',
-        specification: '50kg bag',
-        quantity: 100,
-        quantityUnit: 'Bags',
-        costPerUnit: 400,
-        totalPrice: 40000,
-        materialType: 'consumable',
-        purchased: 150,
-        currentStock: 130,
-        purchasedPrice: 150,
-        date: new Date(currentDate.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
-        projectId: projectId || null,
-      },
-      {
-        id: '4',
-        name: 'Steel Rods',
-        specification: '12mm',
-        quantity: 500,
-        quantityUnit: 'Pieces',
-        costPerUnit: 80,
-        totalPrice: 40000,
-        materialType: 'reusable',
-        date: new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
-        projectId: projectId || null,
-      },
-      {
-        id: '5',
-        name: 'Sand',
-        specification: 'Fine',
-        quantity: 200,
-        quantityUnit: 'Cubic Feet',
-        costPerUnit: 50,
-        totalPrice: 10000,
-        materialType: 'consumable',
-        purchased: 250,
-        currentStock: 200,
-        purchasedPrice: 50,
-        date: new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
-        projectId: projectId || null,
-      },
-    ];
-    return mockItems;
-  };
 
   const loadInventoryItems = async () => {
     try {
+      // Build query parameters
+      const params = {};
+      
+      // Add projectID if available
+      if (projectId) {
+        params.projectID = projectId;
+      }
+      // Reusable = 1, Consumable = 2
+      if (materialType === 'reusable') {
+        params.inventoryTypeId = 1;
+      } else if (materialType === 'consumable') {
+        params.inventoryTypeId = 2;
+      }
+      
       // Try to get items from API first
-      const itemsArray = await getItems();
+      const itemsArray = await getItems(params);
       
       // Ensure we have an array
       let allItems = Array.isArray(itemsArray) ? itemsArray : [];
@@ -262,9 +212,18 @@ export default function SiteInventory() {
     console.log('Restock item:', item);
   };
 
-  const handleLogUsage = (item) => {
-    // TODO: Implement log usage functionality
-    console.log('Log usage for item:', item);
+  const handleLogUsage = (logData) => {
+    // logData contains the item with usedQuantity and description
+    const itemId = logData.id || logData._id;
+    // TODO: Implement log usage API call
+    console.log('Log usage for item:', logData);
+    setLogUsageModalOpen(false);
+    setSelectedItem(null);
+  };
+
+  const handleLogUsageClick = (item) => {
+    setSelectedItem(item);
+    setLogUsageModalOpen(true);
   };
 
   const handleDestroy = (item) => {
@@ -302,103 +261,226 @@ export default function SiteInventory() {
     });
   };
 
-  // Mock data for transfer requests
-  const getMockTransferRequests = () => {
-    const currentDate = new Date();
-    return [
-      {
-        id: '1',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'approved',
-        timestamp: new Date(currentDate.getTime() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
-      },
-      {
-        id: '2',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'rejected',
-        timestamp: new Date(currentDate.getTime() - 3 * 60 * 60 * 1000).toISOString(), // 3 hours ago
-        rejectionReason: 'Currently in use! we\'ll update you!',
-        rejectionAudio: true, // Has audio rejection reason
-      },
-      {
-        id: '3',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'pending',
-        timestamp: new Date(currentDate.getTime() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
-      },
-      {
-        id: '4',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'pending',
-        timestamp: new Date(currentDate.getTime() - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago
-      },
-      {
-        id: '5',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'pending',
-        timestamp: new Date(currentDate.getTime() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
-      },
-      {
-        id: '6',
-        quantity: 25,
-        materialName: 'Plywood Sheets',
-        specification: '48"x96"',
-        fromProject: 'Shiv Residency',
-        toProject: 'Shree Villa',
-        status: 'pending',
-        timestamp: new Date(currentDate.getTime() - 7 * 60 * 60 * 1000).toISOString(), // 7 hours ago
-      },
-    ];
-  };
+  const loadTransferRequests = useCallback(async () => {
+    try {
+      const params = {
+        scope: 'incoming', // or 'outgoing' based on requirement
+      };
+      
+      if (projectId) {
+        params.projectID = projectId;
+      }
+      
+      const response = await getTransferRequests(params);
+      
+      // Handle different response structures
+      let requestsArray = [];
+      
+      if (Array.isArray(response?.data)) {
+        requestsArray = response.data;
+      } else if (Array.isArray(response?.data?.data)) {
+        requestsArray = response.data.data;
+      } else if (Array.isArray(response)) {
+        requestsArray = response;
+      } else if (response?.data && typeof response.data === 'object') {
+        requestsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
+      }
+      
+      setTransferRequests(Array.isArray(requestsArray) ? requestsArray : []);
+    } catch (error) {
+      console.error('Error loading transfer requests:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || t('errors.fetchFailed', { defaultValue: 'Failed to load transfer requests' });
+      showError(errorMessage);
+      setTransferRequests([]);
+    }
+  }, [projectId, t]);
+
+  const loadAskMaterialRequests = useCallback(async () => {
+    try {
+      const params = {};
+      
+      if (projectId) {
+        params.projectID = projectId;
+      }
+      
+      const response = await getAskMaterialRequests(params);
+      
+      // Handle different response structures
+      let requestsArray = [];
+      
+      if (Array.isArray(response?.data)) {
+        requestsArray = response.data;
+      } else if (Array.isArray(response?.data?.data)) {
+        requestsArray = response.data.data;
+      } else if (Array.isArray(response)) {
+        requestsArray = response;
+      } else if (response?.data && typeof response.data === 'object') {
+        requestsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
+      }
+      
+      setAskForMaterials(Array.isArray(requestsArray) ? requestsArray : []);
+    } catch (error) {
+      console.error('Error loading ask material requests:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || t('errors.fetchFailed', { defaultValue: 'Failed to load ask material requests' });
+      showError(errorMessage);
+      setAskForMaterials([]);
+    }
+  }, [projectId, t]);
 
   useEffect(() => {
     if (activeTab === 'transfer') {
-      // Load transfer requests when transfer tab is active
-      const mockRequests = getMockTransferRequests();
-      setTransferRequests(mockRequests);
+      loadTransferRequests();
+    } else if (activeTab === 'ask') {
+      loadAskMaterialRequests();
+    } else if (activeTab === 'restock') {
+      setRestockRequests([]);
     }
-  }, [activeTab]);
+  }, [activeTab, loadTransferRequests, loadAskMaterialRequests]);
 
-  const handleApproveRequest = (requestId) => {
-    // TODO: Implement approve API call
-    setTransferRequests((prev) =>
-      prev.map((req) =>
-        req.id === requestId ? { ...req, status: 'approved' } : req
-      )
-    );
+  const handleApproveRequest = async (approvedData) => {
+    if (!selectedWorkspace) {
+      showError(t('errors.workspaceRequired', { defaultValue: 'Please select a workspace first' }));
+      return;
+    }
+
+    try {
+      const requestId = approvedData.id || approvedData._id;
+      
+      // Call approve API
+      // Note: API only requires costPerUnit, but we can send quantity and totalPrice if needed
+      await approveTransferRequest(selectedWorkspace, {
+        costPerUnit: approvedData.approvedCostPerUnit || approvedData.costPerUnit,
+        quantity: approvedData.approvedQuantity || approvedData.quantity,
+        totalPrice: approvedData.approvedTotalPrice || approvedData.totalPrice,
+      });
+      
+      // Update local state
+      setTransferRequests((prev) =>
+        prev.map((req) =>
+          req.id === requestId ? { ...req, status: 'approved' } : req
+        )
+      );
+      
+      showSuccess(t('transferRequest.approved', { defaultValue: 'Transfer request approved successfully' }));
+      setApproveModalOpen(false);
+      setSelectedRequest(null);
+      
+      // Reload transfer requests to get updated data
+      await loadTransferRequests();
+    } catch (error) {
+      console.error('Error approving transfer request:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || t('errors.approveFailed', { defaultValue: 'Failed to approve transfer request' });
+      showError(errorMessage);
+    }
   };
 
-  const handleRejectRequest = (requestId) => {
-    // TODO: Implement reject API call with rejection reason
-    setTransferRequests((prev) =>
-      prev.map((req) =>
-        req.id === requestId ? { ...req, status: 'rejected', rejectionReason: 'Currently in use! we\'ll update you!' } : req
-      )
-    );
+  const handleRejectRequest = async (rejectedData) => {
+    if (!selectedWorkspace) {
+      showError(t('errors.workspaceRequired', { defaultValue: 'Please select a workspace first' }));
+      return;
+    }
+
+    try {
+      const requestId = rejectedData.id || rejectedData._id;
+      
+      // Map rejection type from modal ('voice', 'text', 'both') to API format ('audio', 'text', 'both')
+      let rejectionType = rejectedData.rejectionType || 'text';
+      if (rejectionType === 'voice') {
+        rejectionType = 'audio';
+      }
+      
+      // Call reject API
+      await rejectTransferRequest(selectedWorkspace, {
+        reason: rejectedData.textReason || 'Rejected',
+        rejectionType: rejectionType,
+        audioFile: rejectedData.voiceNote, 
+      });
+      
+      // Update local state
+      setTransferRequests((prev) =>
+        prev.map((req) =>
+          req.id === requestId ? { 
+            ...req, 
+            status: 'rejected', 
+            rejectionReason: rejectedData.textReason || 'Rejected',
+            rejectionAudio: rejectedData.voiceNote ? true : false
+          } : req
+        )
+      );
+      
+      showSuccess(t('transferRequest.rejected', { defaultValue: 'Transfer request rejected successfully' }));
+      setRejectModalOpen(false);
+      setSelectedRequest(null);
+      
+      // Reload transfer requests to get updated data
+      await loadTransferRequests();
+    } catch (error) {
+      console.error('Error rejecting transfer request:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || t('errors.rejectFailed', { defaultValue: 'Failed to reject transfer request' });
+      showError(errorMessage);
+    }
+  };
+
+  const handleApproveClick = (request) => {
+    setSelectedRequest(request);
+    setApproveModalOpen(true);
+  };
+
+  const handleRejectClick = (request) => {
+    setSelectedRequest(request);
+    setRejectModalOpen(true);
   };
 
   // Calculate pending transfer requests count
   const pendingTransferCount = transferRequests.filter((r) => r.status === 'pending').length;
+
+  // Handle Add New Ask button
+  const handleAddNewAsk = () => {
+    navigate(ROUTES_FLAT.ADD_NEW_ASK, { state: { projectId, projectName } });
+  };
+
+  // Handle Restock Request Actions
+  const handleRestockApprove = (request) => {
+    // TODO: Implement approve restock request API call
+    setRestockRequests((prev) =>
+      prev.map((req) =>
+        req.id === request.id ? { ...req, status: 'approved' } : req
+      )
+    );
+  };
+
+  const handleRestockRejectClick = (request) => {
+    setSelectedRequest(request);
+    setRejectModalOpen(true);
+  };
+
+  const handleRestockReject = (rejectedData) => {
+    // rejectedData contains the request with rejectionType, voiceNote, textReason
+    const requestId = rejectedData.id || rejectedData._id;
+    // TODO: Implement reject restock request API call with rejection reason
+    setRestockRequests((prev) =>
+      prev.map((req) =>
+        req.id === requestId ? { 
+          ...req, 
+          status: 'rejected', 
+          rejectionReason: rejectedData.textReason || 'Rejected',
+          rejectionAudio: rejectedData.voiceNote ? true : false
+        } : req
+      )
+    );
+    setRejectModalOpen(false);
+    setSelectedRequest(null);
+  };
+
+  const handleAddStock = (request) => {
+    navigate(ROUTES_FLAT.ADD_STOCK, {
+      state: {
+        request,
+        projectId,
+        projectName,
+      },
+    });
+  };
 
   // Tabs configuration
   const tabs = [
@@ -432,26 +514,30 @@ export default function SiteInventory() {
         title={projectName || t('title', { defaultValue: 'Site Inventory' })}
         showBackButton={!!projectId}
         onBack={projectId ? handleBack : undefined}
+        className='capitalize'
       >
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center w-full lg:w-auto">
-          <div className="flex-1 w-full sm:w-auto sm:flex-none">
-            <SearchBar
-              placeholder={t('searchPlaceholder', { defaultValue: 'Search materials' })}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full sm:w-[260px]"
-            />
-          </div>
-          <Button
-            variant="primary"
-            onClick={handleCreateSiteInventory}
-            leftIconName="Plus"
-            iconSize="w-4 h-4 text-accent"
-            className="w-full sm:w-auto whitespace-nowrap"
-
-          >
-            {t('addButton', { defaultValue: 'Add New Inventory' })}
-          </Button>
+          {activeTab === 'inventory' && (
+            <>
+              <div className="flex-1 w-full sm:w-auto sm:flex-none">
+                <SearchBar
+                  placeholder={t('searchPlaceholder', { defaultValue: 'Search materials' })}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full sm:w-[260px]"
+                />
+              </div>
+              <Button
+                variant="primary"
+                onClick={handleCreateSiteInventory}
+                leftIconName="Plus"
+                iconSize="w-4 h-4"
+                className="w-full sm:w-auto whitespace-nowrap"
+              >
+                {t('addButton', { defaultValue: 'Add New Inventory' })}
+              </Button>
+            </>
+          )}
         </div>
       </PageHeader>
 
@@ -504,7 +590,7 @@ export default function SiteInventory() {
                   onDelete={handleDeleteClick}
                   onRestock={handleRestock}
                   onDestroy={handleDestroy}
-                  onLogUsage={handleLogUsage}
+                  onLogUsage={handleLogUsageClick}
                   onDownloadPDF={handleDownloadPDF}
                   t={t}
                   formatDate={formatDate}
@@ -550,8 +636,110 @@ export default function SiteInventory() {
                 <TransferRequestCard
                   key={request.id}
                   request={request}
-                  onApprove={handleApproveRequest}
-                  onReject={handleRejectRequest}
+                  onApprove={handleApproveClick}
+                  onReject={handleRejectClick}
+                  t={t}
+                  formatTime={formatTime}
+                  formatCurrency={formatCurrency}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Restock Requests Tab */}
+      {activeTab === 'restock' && (
+        <>
+          {/* Material Type Filter */}
+          <div className="mb-6 flex gap-6">
+            <Radio
+              name="restockMaterialType"
+              value="reusable"
+              checked={materialType === 'reusable'}
+              onChange={(e) => setMaterialType(e.target.value)}
+              label={t('materialType.reusable', { defaultValue: 'Reusable' })}
+            />
+            <Radio
+              name="restockMaterialType"
+              value="consumable"
+              checked={materialType === 'consumable'}
+              onChange={(e) => setMaterialType(e.target.value)}
+              label={t('materialType.consumable', { defaultValue: 'Consumable' })}
+            />
+          </div>
+
+          {/* Restock Requests List */}
+          {restockRequests.length === 0 ? (
+            <EmptyState
+              image={EmptyStateSvg}
+              title={t('restockRequests.emptyState.title', { defaultValue: 'No Restock Requests' })}
+              message={t('restockRequests.emptyState.message', { defaultValue: 'No restock requests found' })}
+            />
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {restockRequests.map((request) => (
+                <RestockRequestCard
+                  key={request.id}
+                  request={request}
+                  onApprove={handleRestockApprove}
+                  onReject={handleRestockRejectClick}
+                  onAddStock={handleAddStock}
+                  t={t}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Ask for Materials Tab */}
+      {activeTab === 'ask' && (
+        <>
+          {/* Material Type Filter with Add New Ask Link */}
+          <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex gap-6">
+              <Radio
+                name="askMaterialType"
+                value="reusable"
+                checked={materialType === 'reusable'}
+                onChange={(e) => setMaterialType(e.target.value)}
+                label={t('materialType.reusable', { defaultValue: 'Reusable' })}
+              />
+              <Radio
+                name="askMaterialType"
+                value="consumable"
+                checked={materialType === 'consumable'}
+                onChange={(e) => setMaterialType(e.target.value)}
+                label={t('materialType.consumable', { defaultValue: 'Consumable' })}
+              />
+            </div>
+            <button
+              onClick={handleAddNewAsk}
+              className="flex items-center gap-2 text-accent hover:text-[#9F290A] transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <div className="w-4.5 h-4.5 rounded-full bg-accent flex items-center justify-center">
+                <Plus className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-accent font-medium">
+                {t('askForMaterials.addNewAsk', { defaultValue: 'Add New Ask' })}
+              </span>
+            </button>
+          </div>
+
+          {/* Ask for Materials List */}
+          {askForMaterials.length === 0 ? (
+            <EmptyState
+              image={EmptyStateSvg}
+              title={t('askForMaterials.emptyState.title', { defaultValue: 'No Material Requests' })}
+              message={t('askForMaterials.emptyState.message', { defaultValue: 'No material requests found' })}
+            />
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {askForMaterials.map((request) => (
+                <AskForMaterialCard
+                  key={request.id}
+                  request={request}
                   t={t}
                   formatTime={formatTime}
                 />
@@ -561,14 +749,46 @@ export default function SiteInventory() {
         </>
       )}
 
-      {/* Other tabs - Placeholder */}
-      {activeTab !== 'inventory' && activeTab !== 'transfer' && (
-        <div className="bg-white rounded-2xl p-8 text-center">
-          <p className="text-gray-600">
-            {t('tabComingSoon', { defaultValue: 'This feature is coming soon...' })}
-          </p>
-        </div>
-      )}
+      {/* Approve Transfer Modal */}
+      <ApproveTransferModal
+        isOpen={approveModalOpen}
+        onClose={() => {
+          setApproveModalOpen(false);
+          setSelectedRequest(null);
+        }}
+        onApprove={handleApproveRequest}
+        request={selectedRequest}
+        formatCurrency={formatCurrency}
+      />
+
+      {/* Reject Transfer/Restock Modal */}
+      <RejectTransferModal
+        isOpen={rejectModalOpen}
+        onClose={() => {
+          setRejectModalOpen(false);
+          setSelectedRequest(null);
+        }}
+        onReject={(rejectedData) => {
+          // Check if it's a restock request or transfer request based on activeTab
+          if (activeTab === 'restock') {
+            handleRestockReject(rejectedData);
+          } else {
+            handleRejectRequest(rejectedData);
+          }
+        }}
+        request={selectedRequest}
+      />
+
+      {/* Log Usage Modal */}
+      <LogUsageModal
+        isOpen={logUsageModalOpen}
+        onClose={() => {
+          setLogUsageModalOpen(false);
+          setSelectedItem(null);
+        }}
+        onLogUsage={handleLogUsage}
+        item={selectedItem}
+      />
 
       {/* Delete Confirmation Modal */}
       <ConfirmModal

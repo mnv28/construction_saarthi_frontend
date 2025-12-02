@@ -60,6 +60,41 @@
             "message": "ವರ್ಗಾವಣೆ ವಿನಂತಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
         }
     },
+    "approveModal": {
+        "title": "ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ಅನುಮೋದಿಸಿ",
+        "confirmationMessage": "ನೀವು {{fromProject}} ನಿಂದ {{materialName}} ನ ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ಅನುಮೋದಿಸಲು ಬಯಸುತ್ತೀರಾ?",
+        "quantity": "ಪ್ರಮಾಣ",
+        "quantityPlaceholder": "ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ",
+        "costPerUnit": "ಯೂನಿಟ್‌ಗೆ ವೆಚ್ಚ",
+        "totalPrice": "ಒಟ್ಟು ಬೆಲೆ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "approve": "ಅನುಮೋದಿಸಿ",
+        "approving": "ಅನುಮೋದಿಸಲಾಗುತ್ತಿದೆ...",
+        "errors": {
+            "quantityRequired": "ಪ್ರಮಾಣ ಅಗತ್ಯವಿದೆ",
+            "totalPriceRequired": "ಒಟ್ಟು ಬೆಲೆ ಅಗತ್ಯವಿದೆ"
+        }
+    },
+    "rejectModal": {
+        "title": "ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಿ",
+        "confirmationMessage": "ನೀವು {{fromProject}} ನಿಂದ {{materialName}} ನ ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಲು ಬಯಸುತ್ತೀರಾ?",
+        "reasonForRejection": "ನಿರಾಕರಣೆಯ ಕಾರಣ",
+        "voice": "ಧ್ವನಿ",
+        "text": "ಪಠ್ಯ",
+        "both": "ಎರಡೂ",
+        "voiceNote": "ಧ್ವನಿ ಟಿಪ್ಪಣಿ",
+        "holdMicToRecord": "ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಲು ಮೈಕ್ ಅನ್ನು ಒತ್ತಿ ಹಿಡಿಯಿರಿ",
+        "recording": "ರೆಕಾರ್ಡಿಂಗ್... ನಿಲ್ಲಿಸಲು ಬಿಡಿ",
+        "textReason": "ಪಠ್ಯ ಕಾರಣ",
+        "textReasonPlaceholder": "ನಿರಾಕರಣೆಯ ಕಾರಣವನ್ನು ನಮೂದಿಸಿ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "reject": "ನಿರಾಕರಿಸಿ",
+        "rejecting": "ನಿರಾಕರಿಸಲಾಗುತ್ತಿದೆ...",
+        "errors": {
+            "voiceNoteRequired": "ಧ್ವನಿ ಟಿಪ್ಪಣಿ ಅಗತ್ಯವಿದೆ",
+            "textReasonRequired": "ಪಠ್ಯ ಕಾರಣ ಅಗತ್ಯವಿದೆ"
+        }
+    },
     "errors": {
         "createFailed": "ಸೈಟ್ ಇನ್ವೆಂಟರಿ ವಸ್ತುವನ್ನು ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
         "updateFailed": "ಸೈಟ್ ಇನ್ವೆಂಟರಿ ವಸ್ತುವನ್ನು ನವೀಕರಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
@@ -67,5 +102,142 @@
     },
     "purchased": "ಖರೀದಿಸಲಾಗಿದೆ",
     "currentStock": "ಪ್ರಸ್ತುತ ಸ್ಟಾಕ್",
-    "purchasedPrice": "ಖರೀದಿ ಬೆಲೆ"
+    "purchasedPrice": "ಖರೀದಿ ಬೆಲೆ",
+    "logUsageModal": {
+        "title": "ಬಳಕೆಯನ್ನು ಲಾಗ್ ಮಾಡಿ",
+        "subtitle": "ನಿಮ್ಮ ಸೈಟ್‌ನಲ್ಲಿ ಬಳಸಿದ ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ.",
+        "quantity": "ಪ್ರಮಾಣ",
+        "description": "ವಿವರಣೆ",
+        "descriptionPlaceholder": "ಇಲ್ಲಿ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "addLog": "ಲಾಗ್ ಸೇರಿಸಿ",
+        "adding": "ಸೇರಿಸಲಾಗುತ್ತಿದೆ...",
+        "errors": {
+            "quantityRequired": "ಪ್ರಮಾಣ ಅಗತ್ಯವಿದೆ"
+        }
+    },
+    "addStock": {
+        "title": "ವಸ್ತುಗಳನ್ನು ಮರುಸಂಗ್ರಹಿಸಿ",
+        "quantity": "ಪ್ರಮಾಣ",
+        "costPerUnit": "ಯೂನಿಟ್‌ಗೆ ವೆಚ್ಚ",
+        "vendor": "ವಿಕ್ರೇತ",
+        "vendorPlaceholder": "ವಿಕ್ರೇತವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "totalPrice": "ಒಟ್ಟು ಬೆಲೆ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "restockMaterial": "ವಸ್ತುಗಳನ್ನು ಮರುಸಂಗ್ರಹಿಸಿ",
+        "restocking": "ಮರುಸಂಗ್ರಹಿಸಲಾಗುತ್ತಿದೆ...",
+        "addNewVendor": "ಹೊಸ ವಿಕ್ರೇತವನ್ನು ಸೇರಿಸಿ",
+        "vendorName": "ವಿಕ್ರೇತ ಹೆಸರು",
+        "vendorNamePlaceholder": "ವಿಕ್ರೇತ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+        "contactNumber": "ಸಂಪರ್ಕ ಸಂಖ್ಯೆ",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "ವಿಕ್ರೇತವನ್ನು ಸೇರಿಸಿ",
+        "adding": "ಸೇರಿಸಲಾಗುತ್ತಿದೆ...",
+        "vendorAdded": "ವಿಕ್ರೇತ ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ",
+        "vendorAddFailed": "ವಿಕ್ರೇತವನ್ನು ಸೇರಿಸಲು ವಿಫಲವಾಗಿದೆ",
+        "errors": {
+            "quantityRequired": "ಪ್ರಮಾಣ ಅಗತ್ಯವಿದೆ",
+            "vendorRequired": "ವಿಕ್ರೇತ ಅಗತ್ಯವಿದೆ",
+            "totalPriceRequired": "ಒಟ್ಟು ಬೆಲೆ ಅಗತ್ಯವಿದೆ",
+            "vendorNameRequired": "ವಿಕ್ರೇತ ಹೆಸರು ಅಗತ್ಯವಿದೆ",
+            "contactNumberRequired": "ಸಂಪರ್ಕ ಸಂಖ್ಯೆ ಅಗತ್ಯವಿದೆ",
+            "invalidContactNumber": "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ 10-ಅಂಕಿಯ ಸಂಪರ್ಕ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "ಹೊಸ ವಿನಂತಿಯನ್ನು ಸೇರಿಸಿ",
+        "from": "ನಿಂದ",
+        "status": {
+            "approved": "ಅನುಮೋದಿಸಲಾಗಿದೆ",
+            "rejected": "ನಿರಾಕರಿಸಲಾಗಿದೆ",
+            "pending": "ಬಾಕಿ"
+        },
+        "rejectionReason": "ನಿರಾಕರಣೆಯ ಕಾರಣ",
+        "emptyState": {
+            "title": "ವಸ್ತು ವಿನಂತಿಗಳು ಇಲ್ಲ",
+            "message": "ವಸ್ತು ವಿನಂತಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
+        }
+    },
+    "restockRequests": {
+        "quantity": "ಪರಿಮಾಣ",
+        "from": "ನಿಂದ",
+        "approve": "ಅನುಮೋದಿಸಿ",
+        "reject": "ನಿರಾಕರಿಸಿ",
+        "approved": "ಅನುಮೋದಿಸಲಾಗಿದೆ",
+        "addStock": "ಸ್ಟಾಕ್ ಸೇರಿಸಿ",
+        "emptyState": {
+            "title": "ರೀಸ್ಟಾಕ್ ವಿನಂತಿಗಳು ಇಲ್ಲ",
+            "message": "ರೀಸ್ಟಾಕ್ ವಿನಂತಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
+        }
+    },
+    "addNewAsk": {
+        "title": "ಹೊಸ ವಿನಂತಿಯನ್ನು ಸೇರಿಸಿ",
+        "material": "ವಸ್ತು",
+        "materialPlaceholder": "ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "addNewMaterial": "ಹೊಸ ವಸ್ತುವನ್ನು ಸೇರಿಸಿ",
+        "addNewItem": "ಹೊಸ ಐಟಂ ಸೇರಿಸಿ",
+        "itemName": "ಐಟಂ ಹೆಸರು",
+        "itemNamePlaceholder": "ಐಟಂ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+        "unit": "ಯೂನಿಟ್",
+        "unitPlaceholder": "ಯೂನಿಟ್ ಆಯ್ಕೆಮಾಡಿ",
+        "addNewUnit": "ಹೊಸ ಯೂನಿಟ್ ಸೇರಿಸಿ",
+        "unitAdded": "ಯೂನಿಟ್ ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ",
+        "unitAddFailed": "ಯೂನಿಟ್ ಸೇರಿಸಲು ವಿಫಲವಾಗಿದೆ",
+        "adding": "ಸೇರಿಸಲಾಗುತ್ತಿದೆ...",
+        "add": "ಸೇರಿಸಿ",
+        "materialAdded": "ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ",
+        "materialAddFailed": "ವಸ್ತು ಸೇರಿಸಲು ವಿಫಲವಾಗಿದೆ",
+        "quantity": "ಪ್ರಮಾಣ",
+        "requestFrom": "ವಸ್ತುವನ್ನು ವಿನಂತಿಸಿ",
+        "requestFromPlaceholder": "ಪ್ರಾಜೆಕ್ಟ್ ಆಯ್ಕೆಮಾಡಿ",
+        "description": "ವಿವರಣೆ",
+        "descriptionPlaceholder": "ಇಲ್ಲಿ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "sendRequest": "ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಿ",
+        "sending": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+        "errors": {
+            "materialRequired": "ವಸ್ತು ಅಗತ್ಯವಿದೆ",
+            "quantityRequired": "ಪ್ರಮಾಣ ಅಗತ್ಯವಿದೆ",
+            "requestFromRequired": "ದಯವಿಟ್ಟು ಕನಿಷ್ಠ ಒಂದು ಪ್ರಾಜೆಕ್ಟ್ ಆಯ್ಕೆಮಾಡಿ",
+            "itemNameRequired": "ಐಟಂ ಹೆಸರು ಅಗತ್ಯವಿದೆ",
+            "unitRequired": "ಯೂನಿಟ್ ಅಗತ್ಯವಿದೆ"
+        }
+    },
+    "addInventory": {
+        "title": "ಹೊಸ ಇನ್ವೆಂಟರಿ ಸೇರಿಸಿ",
+        "reusable": "ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ",
+        "consumable": "ಬಳಕೆ ಮಾಡಬಹುದಾದ",
+        "material": "ವಸ್ತು",
+        "materialPlaceholder": "ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "quantity": "ಪ್ರಮಾಣ",
+        "costPerUnit": "ಯೂನಿಟ್‌ಗೆ ವೆಚ್ಚ",
+        "totalPrice": "ಒಟ್ಟು ಬೆಲೆ",
+        "checkInDate": "ಚೆಕ್ ಇನ್ ದಿನಾಂಕ",
+        "vendor": "ವಿಕ್ರೇತ",
+        "vendorPlaceholder": "ವಿಕ್ರೇತವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "lowStockAlert": "ಕಡಿಮೆ ಸ್ಟಾಕ್ ಎಚ್ಚರಿಕೆ",
+        "uploadPhotosVideos": "ಫೋಟೋಗಳು/ವೀಡಿಯೊಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+        "upload": "ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+        "supportedFormat": "ಬೆಂಬಲಿತ ಸ್ವರೂಪ:",
+        "conditionDescription": "ಸ್ಥಿತಿ ವಿವರಣೆ",
+        "conditionDescriptionPlaceholder": "ಇಲ್ಲಿ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ",
+        "assignToProject": "ಪ್ರಾಜೆಕ್ಟ್‌ಗೆ ನಿಯೋಜಿಸಿ",
+        "selectProjects": "ಪ್ರಾಜೆಕ್ಟ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "addMaterial": "ವಸ್ತುವನ್ನು ಸೇರಿಸಿ",
+        "adding": "ಸೇರಿಸಲಾಗುತ್ತಿದೆ...",
+        "success": "ಇನ್ವೆಂಟರಿ ಅಂಶವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ",
+        "errors": {
+            "materialRequired": "ವಸ್ತು ಅಗತ್ಯವಿದೆ",
+            "quantityRequired": "ಪ್ರಮಾಣ ಅಗತ್ಯವಿದೆ",
+            "checkInDateRequired": "ಚೆಕ್ ಇನ್ ದಿನಾಂಕ ಅಗತ್ಯವಿದೆ",
+            "vendorRequired": "ವಿಕ್ರೇತ ಅಗತ್ಯವಿದೆ",
+            "lowStockAlertRequired": "ಕಡಿಮೆ ಸ್ಟಾಕ್ ಎಚ್ಚರಿಕೆ ಅಗತ್ಯವಿದೆ",
+            "filesRequired": "ಕನಿಷ್ಠ ಒಂದು ಫೋಟೋ ಅಥವಾ ವೀಡಿಯೊ ಅಗತ್ಯವಿದೆ",
+            "projectsRequired": "ಕನಿಷ್ಠ ಒಂದು ಪ್ರಾಜೆಕ್ಟ್ ಆಯ್ಕೆಮಾಡಬೇಕು",
+            "invalidFileType": "JPG, PNG, ಮತ್ತು MP4 ಫೈಲ್‌ಗಳು ಮಾತ್ರ ಅನುಮತಿಸಲ್ಪಡುತ್ತವೆ",
+            "fileTooLarge": "ಫೈಲ್ ಗಾತ್ರ 10MB ಗಿಂತ ಕಡಿಮೆ ಇರಬೇಕು",
+            "createFailed": "ಇನ್ವೆಂಟರಿ ಅಂಶವನ್ನು ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ"
+        }
+    }
 }

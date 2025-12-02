@@ -89,7 +89,7 @@ export default function PhoneInput({
           </button>
 
           {isOpen && (
-            <div className="absolute z-50 mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-auto min-w-[200px]">
+            <div className="absolute z-50 mt-1 bg-white border border-black-soft rounded-lg shadow-lg max-h-60 overflow-auto min-w-[200px]">
               {COUNTRY_CODES.map((c) => (
                 <button
                   key={c.code}
@@ -98,7 +98,7 @@ export default function PhoneInput({
                     onCountryCodeChange?.(c.code);
                     setIsOpen(false);
                   }}
-                  className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100"
+                  className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 cursor-pointer"
                 >
                   <span>{c.flag}</span>
                   <span className="font-medium">{c.code}</span>

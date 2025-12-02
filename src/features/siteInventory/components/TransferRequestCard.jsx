@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { X, Check, Play, Pause } from 'lucide-react';
 import StatusBadge from '../../../components/ui/StatusBadge';
+import ApproveTransferModal from './ApproveTransferModal';
 
 export default function TransferRequestCard({
   request,
@@ -13,8 +14,10 @@ export default function TransferRequestCard({
   onReject,
   t,
   formatTime,
+  formatCurrency,
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
 
   const {
     id,
@@ -29,12 +32,17 @@ export default function TransferRequestCard({
     rejectionAudio,
   } = request;
 
-  const handleApprove = () => {
-    onApprove?.(id);
+  const handleApproveClick = () => {
+    setIsApproveModalOpen(true);
+  };
+
+  const handleApprove = (approvedData) => {
+    onApprove?.(approvedData);
+    setIsApproveModalOpen(false);
   };
 
   const handleReject = () => {
-    onReject?.(id);
+    onReject?.(request);
   };
 
   const toggleAudio = () => {
@@ -42,71 +50,60 @@ export default function TransferRequestCard({
     // TODO: Implement actual audio playback
   };
 
-  const getStatusBadge = () => {
-    switch (status?.toLowerCase()) {
-      case 'approved':
-        return <StatusBadge text={t('transferRequests.status.approved', { defaultValue: 'Approved' })} color="green" className="text-xs px-2 py-1" />;
-      case 'rejected':
-        return <StatusBadge text={t('transferRequests.status.rejected', { defaultValue: 'Rejected' })} color="red" className="text-xs px-2 py-1" />;
-      case 'pending':
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
       {/* Request Info */}
       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-        <div className="flex flex-col sm:flex-row gap-2 items-center justify-start sm:justify-between w-full">
-          <p className="text-sm sm:text-base text-primary flex items-center">
-            <span className="font-semibold">{quantity}</span> {' '} {materialName}
-            {t('transferRequests.beingSent', { defaultValue: 'are being sent from your project' })}{' '}
-            <span className="font-semibold">{fromProject}</span>{' '}
-            {t('transferRequests.to', { defaultValue: 'to' })}{' '}
-            <span className="font-semibold">{toProject}</span>
+        <div className="flex-1 w-full">
+          <p className="text-sm sm:text-base text-secondary flex flex-wrap items-center gap-1 mb-3 sm:mb-0">
+            <span className="font-medium text-primary">{quantity} </span> 
+            <span>{materialName}</span>
+            <span>{t('transferRequests.beingSent', { defaultValue: 'are being sent from your project' })}</span>
+            <span className="font-medium text-primary">{fromProject}</span>
+            <span>{t('transferRequests.to', { defaultValue: 'to' })}</span>
+            <span className="font-medium text-primary">{toProject}</span>
           </p>
           
-          <div className="flex items-center gap-2">
-            {/* Status Badge */}
-            {status?.toLowerCase() === 'approved' && (
-              <span className="inline-block px-3 py-1 text-xs font-semibold rounded-lg border border-[rgba(52,199,89,0.4)] bg-[rgba(52,199,89,0.08)] text-[#34C759]">
-                {t('transferRequests.status.approved', { defaultValue: 'Approved' })}
-              </span>
-            )}
-            {status?.toLowerCase() === 'rejected' && (
-              <span className="inline-block px-3 py-1 text-xs font-semibold rounded-lg border border-[rgba(255,59,48,0.4)] bg-[rgba(255,59,48,0.08)] text-[#FF3B30]">
-                {t('transferRequests.status.rejected', { defaultValue: 'Rejected' })}
-              </span>
-            )}
-            
-            {/* Timestamp - Show after status badge only for approved/rejected */}
-            {status?.toLowerCase() !== 'pending' && (
-              <p className="text-xs text-secondary">
+          {/* Status Badge and Timestamp for Approved/Rejected */}
+          {status?.toLowerCase() !== 'pending' && (
+            <div className="flex items-center gap-2 mt-2 sm:mt-0 sm:justify-end">
+              {status?.toLowerCase() === 'approved' && (
+                <span className="inline-block px-3 py-1 text-xs font-medium rounded-lg border border-[rgba(52,199,89,0.4)] bg-[rgba(52,199,89,0.08)] text-[#34C759]">
+                  {t('transferRequests.status.approved', { defaultValue: 'Approved' })}
+                </span>
+              )}
+              {status?.toLowerCase() === 'rejected' && (
+                <span className="inline-block px-3 py-1 text-xs font-medium rounded-lg border border-[rgba(255,59,48,0.4)] bg-[rgba(255,59,48,0.08)] text-[#FF3B30]">
+                  {t('transferRequests.status.rejected', { defaultValue: 'Rejected' })}
+                </span>
+              )}
+              <p className="text-xs text-secondary whitespace-nowrap">
                 {formatTime(timestamp)}
               </p>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Actions for Pending Requests */}
         {status?.toLowerCase() === 'pending' && (
-          <div className="flex items-center gap-3 flex-shrink-0 mt-4 sm:mt-0">
-            <button
-              onClick={handleReject}
-              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-[rgba(255,59,48,0.08)] text-[#FF3B30] border border-[rgba(255,59,48,0.4)] hover:bg-[rgba(255,59,48,0.12)] transition-colors cursor-pointer whitespace-nowrap"
-            >
-              <X className="w-4 h-4" />
-              {t('transferRequests.reject', { defaultValue: 'Reject' })}
-            </button>
-            <button
-              onClick={handleApprove}
-              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-[rgba(52,199,89,0.08)] text-[#34C759] border border-[rgba(52,199,89,0.4)] hover:bg-[rgba(52,199,89,0.12)] transition-colors cursor-pointer whitespace-nowrap"
-            >
-              <Check className="w-4 h-4" />
-              {t('transferRequests.approve', { defaultValue: 'Approve' })}
-            </button>
-            <p className="text-xs text-secondary">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0 w-full sm:w-auto">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleReject}
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-lg bg-[rgba(255,59,48,0.08)] text-[#FF3B30] border border-[rgba(255,59,48,0.4)] hover:bg-[rgba(255,59,48,0.12)] transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <X className="w-4 h-4" />
+                {t('transferRequests.reject', { defaultValue: 'Reject' })}
+              </button>
+              <button
+                onClick={handleApproveClick}
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-lg bg-[rgba(52,199,89,0.08)] text-[#34C759] border border-[rgba(52,199,89,0.4)] hover:bg-[rgba(52,199,89,0.12)] transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <Check className="w-4 h-4" />
+                {t('transferRequests.approve', { defaultValue: 'Approve' })}
+              </button>
+            </div>
+            <p className="text-xs text-secondary text-center sm:text-left sm:whitespace-nowrap">
               {formatTime(timestamp)}
             </p>
           </div>
@@ -123,10 +120,10 @@ export default function TransferRequestCard({
           <div className="space-y-3">
             {/* Audio Player */}
             {rejectionAudio && (
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg w-fit">
+              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg w-full sm:w-fit">
                 <button
                   onClick={toggleAudio}
-                  className="flex-shrink-0 w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-[#9F290A] transition-colors cursor-pointer  "
+                  className="flex-shrink-0 w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-[#9F290A] transition-colors cursor-pointer"
                 >
                   {isPlaying ? (
                     <Pause className="w-5 h-5 text-white" />
@@ -134,7 +131,7 @@ export default function TransferRequestCard({
                     <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
                   )}
                 </button>
-                <div className="flex-1 min-w-[200px]">
+                <div className="flex-1 min-w-0 sm:min-w-[200px]">
                   <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
                     <div className="h-full bg-accent" style={{ width: '30%' }}></div>
                   </div>
@@ -152,6 +149,15 @@ export default function TransferRequestCard({
           </div>
         </div>
       )}
+
+      {/* Approve Transfer Modal */}
+      <ApproveTransferModal
+        isOpen={isApproveModalOpen}
+        onClose={() => setIsApproveModalOpen(false)}
+        onApprove={handleApprove}
+        request={request}
+        formatCurrency={formatCurrency}
+      />
     </div>
   );
 }

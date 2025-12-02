@@ -60,6 +60,128 @@
             "message": "कोई स्थानांतरण अनुरोध नहीं मिला"
         }
     },
+    "approveModal": {
+        "title": "ट्रांसफर अनुरोध अनुमोदित करें",
+        "confirmationMessage": "क्या आप {{fromProject}} से {{materialName}} के ट्रांसफर अनुरोध को अनुमोदित करना चाहते हैं?",
+        "quantity": "मात्रा",
+        "quantityPlaceholder": "मात्रा दर्ज करें",
+        "costPerUnit": "प्रति इकाई लागत",
+        "totalPrice": "कुल मूल्य",
+        "cancel": "रद्द करें",
+        "approve": "अनुमोदित करें",
+        "approving": "अनुमोदित किया जा रहा है...",
+        "errors": {
+            "quantityRequired": "मात्रा आवश्यक है",
+            "totalPriceRequired": "कुल मूल्य आवश्यक है"
+        }
+    },
+    "rejectModal": {
+        "title": "ट्रांसफर अनुरोध अस्वीकार करें",
+        "confirmationMessage": "क्या आप {{fromProject}} से {{materialName}} के ट्रांसफर अनुरोध को अस्वीकार करना चाहते हैं?",
+        "reasonForRejection": "अस्वीकृति का कारण",
+        "voice": "आवाज",
+        "text": "टेक्स्ट",
+        "both": "दोनों",
+        "voiceNote": "वॉइस नोट",
+        "holdMicToRecord": "अपनी आवाज रिकॉर्ड करने के लिए माइक दबाएं",
+        "recording": "रिकॉर्डिंग... रोकने के लिए छोड़ें",
+        "textReason": "टेक्स्ट कारण",
+        "textReasonPlaceholder": "अस्वीकृति का कारण दर्ज करें",
+        "cancel": "रद्द करें",
+        "reject": "अस्वीकार करें",
+        "rejecting": "अस्वीकार किया जा रहा है...",
+        "errors": {
+            "voiceNoteRequired": "वॉइस नोट आवश्यक है",
+            "textReasonRequired": "टेक्स्ट कारण आवश्यक है"
+        }
+    },
+    "logUsageModal": {
+        "title": "उपयोग लॉग करें",
+        "subtitle": "अपनी साइट पर उपयोग की गई मात्रा दर्ज करें।",
+        "quantity": "मात्रा",
+        "description": "विवरण",
+        "descriptionPlaceholder": "यहां टेक्स्ट दर्ज करें",
+        "cancel": "रद्द करें",
+        "addLog": "लॉग जोड़ें",
+        "adding": "जोड़ा जा रहा है...",
+        "errors": {
+            "quantityRequired": "मात्रा आवश्यक है"
+        }
+    },
+    "addStock": {
+        "title": "सामग्री रीस्टॉक करें",
+        "quantity": "मात्रा",
+        "costPerUnit": "प्रति इकाई लागत",
+        "vendor": "विक्रेता",
+        "vendorPlaceholder": "विक्रेता चुनें",
+        "totalPrice": "कुल मूल्य",
+        "cancel": "रद्द करें",
+        "restockMaterial": "सामग्री रीस्टॉक करें",
+        "restocking": "रीस्टॉक किया जा रहा है...",
+        "addNewVendor": "नया विक्रेता जोड़ें",
+        "vendorName": "विक्रेता का नाम",
+        "vendorNamePlaceholder": "विक्रेता का नाम दर्ज करें",
+        "contactNumber": "संपर्क नंबर",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "विक्रेता जोड़ें",
+        "adding": "जोड़ा जा रहा है...",
+        "vendorAdded": "विक्रेता सफलतापूर्वक जोड़ा गया",
+        "vendorAddFailed": "विक्रेता जोड़ने में विफल",
+        "errors": {
+            "quantityRequired": "मात्रा आवश्यक है",
+            "vendorRequired": "विक्रेता आवश्यक है",
+            "totalPriceRequired": "कुल मूल्य आवश्यक है",
+            "vendorNameRequired": "विक्रेता का नाम आवश्यक है",
+            "contactNumberRequired": "संपर्क नंबर आवश्यक है",
+            "invalidContactNumber": "कृपया एक वैध 10-अंकीय संपर्क नंबर दर्ज करें"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "नया अनुरोध जोड़ें",
+        "from": "से",
+        "status": {
+            "approved": "अनुमोदित",
+            "rejected": "अस्वीकृत",
+            "pending": "लंबित"
+        },
+        "rejectionReason": "अस्वीकृति का कारण",
+        "emptyState": {
+            "title": "कोई सामग्री अनुरोध नहीं",
+            "message": "कोई सामग्री अनुरोध नहीं मिला"
+        }
+    },
+    "restockRequests": {
+        "quantity": "मात्रा",
+        "from": "से",
+        "approve": "अनुमोदित करें",
+        "reject": "अस्वीकार करें",
+        "approved": "अनुमोदित",
+        "addStock": "स्टॉक जोड़ें",
+        "emptyState": {
+            "title": "कोई रीस्टॉक अनुरोध नहीं",
+            "message": "कोई रीस्टॉक अनुरोध नहीं मिला"
+        }
+    },
+    "addNewAsk": {
+        "title": "नया अनुरोध जोड़ें",
+        "material": "सामग्री",
+        "materialPlaceholder": "सामग्री चुनें",
+        "quantity": "मात्रा",
+        "requestFrom": "सामग्री अनुरोध करें",
+        "requestFromPlaceholder": "प्रोजेक्ट चुनें",
+        "description": "विवरण",
+        "descriptionPlaceholder": "यहां टेक्स्ट दर्ज करें",
+        "cancel": "रद्द करें",
+        "sendRequest": "अनुरोध भेजें",
+        "sending": "भेजा जा रहा है...",
+        "errors": {
+            "materialRequired": "सामग्री आवश्यक है",
+            "quantityRequired": "मात्रा आवश्यक है",
+            "requestFromRequired": "कृपया कम से कम एक प्रोजेक्ट चुनें",
+            "itemNameRequired": "आइटम का नाम आवश्यक है",
+            "unitRequired": "इकाई आवश्यक है"
+        }
+    },
     "errors": {
         "createFailed": "साइट इन्वेंटरी आइटम बनाने में विफल। कृपया पुनः प्रयास करें।",
         "updateFailed": "साइट इन्वेंटरी आइटम अपडेट करने में विफल। कृपया पुनः प्रयास करें।",
@@ -67,5 +189,42 @@
     },
     "purchased": "खरीदा गया",
     "currentStock": "वर्तमान स्टॉक",
-    "purchasedPrice": "खरीद मूल्य"
+    "purchasedPrice": "खरीद मूल्य",
+    "addInventory": {
+    "title": "नया इन्वेंटरी जोड़ें",
+    "reusable": "पुन: उपयोग योग्य",
+    "consumable": "उपभोग्य",
+    "material": "सामग्री",
+    "materialPlaceholder": "सामग्री चुनें",
+    "quantity": "मात्रा",
+    "costPerUnit": "प्रति इकाई लागत",
+    "totalPrice": "कुल मूल्य",
+    "checkInDate": "चेक इन दिनांक",
+    "vendor": "विक्रेता",
+    "vendorPlaceholder": "विक्रेता चुनें",
+    "lowStockAlert": "कम स्टॉक अलर्ट",
+    "uploadPhotosVideos": "फोटो/वीडियो अपलोड करें",
+    "upload": "अपलोड करें",
+    "supportedFormat": "समर्थित प्रारूप:",
+    "conditionDescription": "स्थिति विवरण",
+    "conditionDescriptionPlaceholder": "यहां टेक्स्ट दर्ज करें",
+    "assignToProject": "प्रोजेक्ट को असाइन करें",
+    "selectProjects": "प्रोजेक्ट चुनें",
+    "cancel": "रद्द करें",
+    "addMaterial": "सामग्री जोड़ें",
+    "adding": "जोड़ा जा रहा है...",
+    "success": "इन्वेंटरी आइटम सफलतापूर्वक जोड़ा गया",
+    "errors": {
+        "materialRequired": "सामग्री आवश्यक है",
+        "quantityRequired": "मात्रा आवश्यक है",
+        "checkInDateRequired": "चेक इन दिनांक आवश्यक है",
+        "vendorRequired": "विक्रेता आवश्यक है",
+        "lowStockAlertRequired": "कम स्टॉक अलर्ट आवश्यक है",
+        "filesRequired": "कम से कम एक फोटो या वीडियो आवश्यक है",
+        "projectsRequired": "कम से कम एक प्रोजेक्ट चुना जाना चाहिए",
+        "invalidFileType": "केवल JPG, PNG, और MP4 फाइलें अनुमत हैं",
+        "fileTooLarge": "फाइल का आकार 10MB से कम होना चाहिए",
+        "createFailed": "इन्वेंटरी आइटम बनाने में विफल"
+    }
+    }
 }

@@ -60,6 +60,41 @@
             "message": "कोणतीही हस्तांतरण विनंती सापडली नाही"
         }
     },
+    "approveModal": {
+        "title": "हस्तांतरण विनंती मंजूर करा",
+        "confirmationMessage": "तुम्ही {{fromProject}} मधून {{materialName}} चे हस्तांतरण विनंती मंजूर करू इच्छिता?",
+        "quantity": "प्रमाण",
+        "quantityPlaceholder": "प्रमाण प्रविष्ट करा",
+        "costPerUnit": "प्रति युनिट खर्च",
+        "totalPrice": "एकूण किंमत",
+        "cancel": "रद्द करा",
+        "approve": "मंजूर करा",
+        "approving": "मंजूर करत आहे...",
+        "errors": {
+            "quantityRequired": "प्रमाण आवश्यक आहे",
+            "totalPriceRequired": "एकूण किंमत आवश्यक आहे"
+        }
+    },
+    "rejectModal": {
+        "title": "हस्तांतरण विनंती नाकारा",
+        "confirmationMessage": "तुम्ही {{fromProject}} मधून {{materialName}} चे हस्तांतरण विनंती नाकारू इच्छिता?",
+        "reasonForRejection": "नाकारण्याचे कारण",
+        "voice": "आवाज",
+        "text": "मजकूर",
+        "both": "दोन्ही",
+        "voiceNote": "व्हॉइस नोट",
+        "holdMicToRecord": "तुमचा आवाज रेकॉर्ड करण्यासाठी माइक दाबून ठेवा",
+        "recording": "रेकॉर्डिंग... थांबवण्यासाठी सोडा",
+        "textReason": "मजकूर कारण",
+        "textReasonPlaceholder": "नाकारण्याचे कारण प्रविष्ट करा",
+        "cancel": "रद्द करा",
+        "reject": "नाकारा",
+        "rejecting": "नाकारत आहे...",
+        "errors": {
+            "voiceNoteRequired": "व्हॉइस नोट आवश्यक आहे",
+            "textReasonRequired": "मजकूर कारण आवश्यक आहे"
+        }
+    },
     "errors": {
         "createFailed": "साइट इन्व्हेंटरी वस्तू तयार करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
         "updateFailed": "साइट इन्व्हेंटरी वस्तू अद्यतनित करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
@@ -67,5 +102,142 @@
     },
     "purchased": "खरेदी केले",
     "currentStock": "सध्याचा स्टॉक",
-    "purchasedPrice": "खरेदी किंमत"
+    "purchasedPrice": "खरेदी किंमत",
+    "logUsageModal": {
+        "title": "वापर लॉग करा",
+        "subtitle": "तुमच्या साइटवर वापरलेली मात्रा प्रविष्ट करा.",
+        "quantity": "प्रमाण",
+        "description": "वर्णन",
+        "descriptionPlaceholder": "येथे मजकूर प्रविष्ट करा",
+        "cancel": "रद्द करा",
+        "addLog": "लॉग जोडा",
+        "adding": "जोडत आहे...",
+        "errors": {
+            "quantityRequired": "प्रमाण आवश्यक आहे"
+        }
+    },
+    "addStock": {
+        "title": "सामग्री रीस्टॉक करा",
+        "quantity": "मात्रा",
+        "costPerUnit": "प्रति युनिट खर्च",
+        "vendor": "विक्रेता",
+        "vendorPlaceholder": "विक्रेता निवडा",
+        "totalPrice": "एकूण किंमत",
+        "cancel": "रद्द करा",
+        "restockMaterial": "सामग्री रीस्टॉक करा",
+        "restocking": "रीस्टॉक केले जात आहे...",
+        "addNewVendor": "नवीन विक्रेता जोडा",
+        "vendorName": "विक्रेत्याचे नाव",
+        "vendorNamePlaceholder": "विक्रेत्याचे नाव प्रविष्ट करा",
+        "contactNumber": "संपर्क क्रमांक",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "विक्रेता जोडा",
+        "adding": "जोडत आहे...",
+        "vendorAdded": "विक्रेता यशस्वीरित्या जोडला",
+        "vendorAddFailed": "विक्रेता जोडण्यात अयशस्वी",
+        "errors": {
+            "quantityRequired": "मात्रा आवश्यक आहे",
+            "vendorRequired": "विक्रेता आवश्यक आहे",
+            "totalPriceRequired": "एकूण किंमत आवश्यक आहे",
+            "vendorNameRequired": "विक्रेत्याचे नाव आवश्यक आहे",
+            "contactNumberRequired": "संपर्क क्रमांक आवश्यक आहे",
+            "invalidContactNumber": "कृपया वैध 10-अंकी संपर्क क्रमांक प्रविष्ट करा"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "नवीन विनंती जोडा",
+        "from": "पासून",
+        "status": {
+            "approved": "मंजूर",
+            "rejected": "नाकारले",
+            "pending": "प्रलंबित"
+        },
+        "rejectionReason": "नाकारण्याचे कारण",
+        "emptyState": {
+            "title": "कोणतीही सामग्री विनंती नाही",
+            "message": "कोणतीही सामग्री विनंती सापडली नाही"
+        }
+    },
+    "restockRequests": {
+        "quantity": "मात्रा",
+        "from": "पासून",
+        "approve": "मंजूर करा",
+        "reject": "नाकारा",
+        "approved": "मंजूर",
+        "addStock": "स्टॉक जोडा",
+        "emptyState": {
+            "title": "कोणतीही रीस्टॉक विनंती नाही",
+            "message": "कोणतीही रीस्टॉक विनंती सापडली नाही"
+        }
+    },
+    "addNewAsk": {
+        "title": "नवीन विनंती जोडा",
+        "material": "सामग्री",
+        "materialPlaceholder": "सामग्री निवडा",
+        "addNewMaterial": "नवीन सामग्री जोडा",
+        "addNewItem": "नवीन आयटम जोडा",
+        "itemName": "आयटमचे नाव",
+        "itemNamePlaceholder": "आयटमचे नाव प्रविष्ट करा",
+        "unit": "युनिट",
+        "unitPlaceholder": "युनिट निवडा",
+        "addNewUnit": "नवीन युनिट जोडा",
+        "unitAdded": "युनिट यशस्वीरित्या जोडले",
+        "unitAddFailed": "युनिट जोडण्यात अयशस्वी",
+        "adding": "जोडत आहे...",
+        "add": "जोडा",
+        "materialAdded": "सामग्री यशस्वीरित्या जोडली",
+        "materialAddFailed": "सामग्री जोडण्यात अयशस्वी",
+        "quantity": "प्रमाण",
+        "requestFrom": "सामग्री विनंती करा",
+        "requestFromPlaceholder": "प्रकल्प निवडा",
+        "description": "वर्णन",
+        "descriptionPlaceholder": "येथे मजकूर प्रविष्ट करा",
+        "cancel": "रद्द करा",
+        "sendRequest": "विनंती पाठवा",
+        "sending": "पाठवत आहे...",
+        "errors": {
+            "materialRequired": "सामग्री आवश्यक आहे",
+            "quantityRequired": "प्रमाण आवश्यक आहे",
+            "requestFromRequired": "कृपया किमान एक प्रकल्प निवडा",
+            "itemNameRequired": "आयटमचे नाव आवश्यक आहे",
+            "unitRequired": "युनिट आवश्यक आहे"
+        }
+    },
+    "addInventory": {
+        "title": "नवीन इन्व्हेंटरी जोडा",
+        "reusable": "पुन्हा वापरता येण्याजोगे",
+        "consumable": "वापरता येण्याजोगे",
+        "material": "सामग्री",
+        "materialPlaceholder": "सामग्री निवडा",
+        "quantity": "प्रमाण",
+        "costPerUnit": "प्रति युनिट खर्च",
+        "totalPrice": "एकूण किंमत",
+        "checkInDate": "चेक इन तारीख",
+        "vendor": "विक्रेता",
+        "vendorPlaceholder": "विक्रेता निवडा",
+        "lowStockAlert": "कमी स्टॉक सतर्कता",
+        "uploadPhotosVideos": "फोटो/व्हिडिओ अपलोड करा",
+        "upload": "अपलोड करा",
+        "supportedFormat": "समर्थित स्वरूप:",
+        "conditionDescription": "स्थिती वर्णन",
+        "conditionDescriptionPlaceholder": "येथे मजकूर प्रविष्ट करा",
+        "assignToProject": "प्रकल्पाला नियुक्त करा",
+        "selectProjects": "प्रकल्प निवडा",
+        "cancel": "रद्द करा",
+        "addMaterial": "सामग्री जोडा",
+        "adding": "जोडत आहे...",
+        "success": "इन्व्हेंटरी आयटम यशस्वीरित्या जोडले",
+        "errors": {
+            "materialRequired": "सामग्री आवश्यक आहे",
+            "quantityRequired": "प्रमाण आवश्यक आहे",
+            "checkInDateRequired": "चेक इन तारीख आवश्यक आहे",
+            "vendorRequired": "विक्रेता आवश्यक आहे",
+            "lowStockAlertRequired": "कमी स्टॉक सतर्कता आवश्यक आहे",
+            "filesRequired": "किमान एक फोटो किंवा व्हिडिओ आवश्यक आहे",
+            "projectsRequired": "किमान एक प्रकल्प निवडणे आवश्यक आहे",
+            "invalidFileType": "फक्त JPG, PNG, आणि MP4 फाइल्स परवानगी आहेत",
+            "fileTooLarge": "फाइल आकार 10MB पेक्षा कमी असावा",
+            "createFailed": "इन्व्हेंटरी आयटम तयार करण्यात अयशस्वी"
+        }
+    }
 }

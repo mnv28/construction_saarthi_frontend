@@ -4,6 +4,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, Plus } from 'lucide-react';
 import AddItemModal from './AddItemModal';
 import BuilderFormModal from './BuilderFormModal';
@@ -25,7 +26,9 @@ export default function Dropdown({
   useBuilderModal = false,
   workspaceId = null,
   customModal: CustomModal = null,
+  customModalProps = {},
 }) {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [internalOptions, setInternalOptions] = useState([]);
@@ -119,6 +122,7 @@ export default function Dropdown({
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsOpen(false);
+                    // Always open modal (either CustomModal or default AddItemModal)
                     setIsModalOpen(true);
                   }}
                   className="w-full px-4 py-1 flex items-center gap-2 text-sm text-accent font-medium hover:bg-gray-50 rounded-xl transition-colors cursor-pointer"
@@ -137,14 +141,16 @@ export default function Dropdown({
       {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
       {/* Custom Modal, Builder Form Modal, or Add Item Modal */}
-      {onAddNew && CustomModal ? (
+      {onAddNew && CustomModal && isModalOpen ? (
         <CustomModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSave={async (data) => {
             // Custom modal handles its own data structure
             await onAddNew(data);
+            setIsModalOpen(false);
           }}
+          {...customModalProps}
         />
       ) : onAddNew && useBuilderModal ? (
         <BuilderFormModal
@@ -174,8 +180,6 @@ export default function Dropdown({
               label,
             };
 
-            // Call onAddNew callback - parent handles adding to state
-            // If onAddNew is provided, parent manages the state, so don't add to internal
             if (onAddNew) {
               await onAddNew(newOption);
               // Parent is managing state, so don't add to internalOptions
@@ -188,13 +192,11 @@ export default function Dropdown({
                 setInternalOptions((prev) => [...prev, newOption]);
               }
             }
-
-            // Select the newly added option
             onChange?.(newOption.value);
           }}
-          title={`Add ${addButtonLabel.replace('Add ', '')}`}
-          placeholder={`Enter ${addButtonLabel.replace('Add ', '').toLowerCase()} name`}
-          label="Name"
+          title={addButtonLabel || t('add', { defaultValue: 'Add New' })}
+          placeholder={t('enterName', { defaultValue: 'Enter name' })}
+          label={t('name', { defaultValue: 'Name' })}
         />
       ) : null}
     </div>

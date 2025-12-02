@@ -16,6 +16,7 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   vendors: "sidebar.mainMenu.vendors",
   "past-work": "sidebar.mainMenu.pastWork",
   "business-card": "sidebar.mainMenu.businessCard",
+  "site-inventory": "sidebar.mainMenu.siteInventory",
   refer: "sidebar.mainMenu.referEarn",
   subscription: "sidebar.mainMenu.subscription",
   account: "sidebar.mainMenu.account",
@@ -80,6 +81,16 @@ const Navbar = () => {
       location.state.projectName.trim()
     ) {
       return [segments[0], location.state.projectName.trim()];
+    }
+
+    // If we're on site-inventory page and have projectName in route state,
+    // show breadcrumb as: Projects / ProjectName / Site Inventory
+    if (
+      segments[0] === "site-inventory" &&
+      typeof location.state?.projectName === "string" &&
+      location.state.projectName.trim()
+    ) {
+      return ["projects", location.state.projectName.trim(), segments[0]];
     }
 
     return segments;

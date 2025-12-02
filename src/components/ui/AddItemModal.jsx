@@ -60,7 +60,7 @@ export default function AddItemModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            className="transition-colors cursor-pointer"
           >
             <X className="w-4 h-4 text-secondary" />
           </button>

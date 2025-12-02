@@ -60,6 +60,41 @@
             "message": "કોઈ સ્થાનાંતરણ વિનંતી મળી નથી"
         }
     },
+    "approveModal": {
+        "title": "ટ્રાન્સફર વિનંતી મંજૂર કરો",
+        "confirmationMessage": "શું તમે {{fromProject}} થી {{materialName}} ના ટ્રાન્સફર વિનંતીને મંજૂર કરવા માંગો છો?",
+        "quantity": "માત્રા",
+        "quantityPlaceholder": "માત્રા દાખલ કરો",
+        "costPerUnit": "પ્રતિ એકમ ખર્ચ",
+        "totalPrice": "કુલ કિંમત",
+        "cancel": "રદ કરો",
+        "approve": "મંજૂર કરો",
+        "approving": "મંજૂર કરવામાં...",
+        "errors": {
+            "quantityRequired": "માત્રા આવશ્યક છે",
+            "totalPriceRequired": "કુલ કિંમત આવશ્યક છે"
+        }
+    },
+    "rejectModal": {
+        "title": "ટ્રાન્સફર વિનંતી નકારો",
+        "confirmationMessage": "શું તમે {{fromProject}} થી {{materialName}} ના ટ્રાન્સફર વિનંતીને નકારવા માંગો છો?",
+        "reasonForRejection": "નકારવાનું કારણ",
+        "voice": "અવાજ",
+        "text": "ટેક્સ્ટ",
+        "both": "બંને",
+        "voiceNote": "વૉઇસ નોંધ",
+        "holdMicToRecord": "તમારો અવાજ રેકોર્ડ કરવા માટે માઇક દબાવો",
+        "recording": "રેકોર્ડિંગ... બંધ કરવા માટે છોડો",
+        "textReason": "ટેક્સ્ટ કારણ",
+        "textReasonPlaceholder": "નકારવાનું કારણ દાખલ કરો",
+        "cancel": "રદ કરો",
+        "reject": "નકારો",
+        "rejecting": "નકારવામાં...",
+        "errors": {
+            "voiceNoteRequired": "વૉઇસ નોંધ આવશ્યક છે",
+            "textReasonRequired": "ટેક્સ્ટ કારણ આવશ્યક છે"
+        }
+    },
     "errors": {
         "createFailed": "સાઇટ ઇન્વેન્ટરી આઇટમ બનાવવામાં અસફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
         "updateFailed": "સાઇટ ઇન્વેન્ટરી આઇટમ અપડેટ કરવામાં અસફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
@@ -67,5 +102,129 @@
     },
     "purchased": "ખરીદ્યું",
     "currentStock": "વર્તમાન સ્ટોક",
-    "purchasedPrice": "ખરીદી કિંમત"
+    "purchasedPrice": "ખરીદી કિંમત",
+    "logUsageModal": {
+        "title": "ઉપયોગ લોગ કરો",
+        "subtitle": "તમારી સાઇટ પર ઉપયોગમાં લેવાયેલી માત્રા દાખલ કરો.",
+        "quantity": "માત્રા",
+        "description": "વર્ણન",
+        "descriptionPlaceholder": "અહીં ટેક્સ્ટ દાખલ કરો",
+        "cancel": "રદ કરો",
+        "addLog": "લોગ ઉમેરો",
+        "adding": "ઉમેરવામાં...",
+        "errors": {
+            "quantityRequired": "માત્રા આવશ્યક છે"
+        }
+    },
+    "addStock": {
+        "title": "સામગ્રી રીસ્ટોક કરો",
+        "quantity": "માત્રા",
+        "costPerUnit": "પ્રતિ એકમ ખર્ચ",
+        "vendor": "વિક્રેતા",
+        "vendorPlaceholder": "વિક્રેતા પસંદ કરો",
+        "totalPrice": "કુલ કિંમત",
+        "cancel": "રદ કરો",
+        "restockMaterial": "સામગ્રી રીસ્ટોક કરો",
+        "restocking": "રીસ્ટોક કરવામાં આવી રહ્યું છે...",
+        "addNewVendor": "નવો વિક્રેતા ઉમેરો",
+        "vendorName": "વિક્રેતાનું નામ",
+        "vendorNamePlaceholder": "વિક્રેતાનું નામ દાખલ કરો",
+        "contactNumber": "સંપર્ક નંબર",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "વિક્રેતા ઉમેરો",
+        "adding": "ઉમેરવામાં...",
+        "vendorAdded": "વિક્રેતા સફળતાપૂર્વક ઉમેર્યો",
+        "vendorAddFailed": "વિક્રેતા ઉમેરવામાં અસફળ",
+        "errors": {
+            "quantityRequired": "માત્રા આવશ્યક છે",
+            "vendorRequired": "વિક્રેતા આવશ્યક છે",
+            "totalPriceRequired": "કુલ કિંમત આવશ્યક છે",
+            "vendorNameRequired": "વિક્રેતાનું નામ આવશ્યક છે",
+            "contactNumberRequired": "સંપર્ક નંબર આવશ્યક છે",
+            "invalidContactNumber": "કૃપા કરીને માન્ય 10-અંકનો સંપર્ક નંબર દાખલ કરો"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "નવી વિનંતી ઉમેરો",
+        "from": "થી",
+        "status": {
+            "approved": "મંજૂર",
+            "rejected": "નકાર્યું",
+            "pending": "લંબિત"
+        },
+        "rejectionReason": "નકારવાનું કારણ",
+        "emptyState": {
+            "title": "કોઈ સામગ્રી વિનંતી નથી",
+            "message": "કોઈ સામગ્રી વિનંતી મળી નથી"
+        }
+    },
+    "restockRequests": {
+        "quantity": "માત્રા",
+        "from": "થી",
+        "approve": "મંજૂર કરો",
+        "reject": "નકારો",
+        "approved": "મંજૂર",
+        "addStock": "સ્ટોક ઉમેરો",
+        "emptyState": {
+            "title": "કોઈ રીસ્ટોક વિનંતી નથી",
+            "message": "કોઈ રીસ્ટોક વિનંતી મળી નથી"
+        }
+    },
+    "addNewAsk": {
+        "title": "નવી વિનંતી ઉમેરો",
+        "material": "સામગ્રી",
+        "materialPlaceholder": "સામગ્રી પસંદ કરો",
+        "quantity": "માત્રા",
+        "requestFrom": "સામગ્રી વિનંતી કરો",
+        "requestFromPlaceholder": "પ્રોજેક્ટ પસંદ કરો",
+        "description": "વર્ણન",
+        "descriptionPlaceholder": "અહીં ટેક્સ્ટ દાખલ કરો",
+        "cancel": "રદ કરો",
+        "sendRequest": "વિનંતી મોકલો",
+        "sending": "મોકલવામાં...",
+        "errors": {
+            "materialRequired": "સામગ્રી આવશ્યક છે",
+            "quantityRequired": "માત્રા આવશ્યક છે",
+            "requestFromRequired": "કૃપા કરીને ઓછામાં ઓછું એક પ્રોજેક્ટ પસંદ કરો",
+            "itemNameRequired": "આઇટમનું નામ આવશ્યક છે",
+            "unitRequired": "એકમ આવશ્યક છે"
+        }
+    },
+    "addInventory": {
+        "title": "નવી ઇન્વેન્ટરી ઉમેરો",
+        "reusable": "પુનઃઉપયોગી",
+        "consumable": "ઉપયોગી",
+        "material": "સામગ્રી",
+        "materialPlaceholder": "સામગ્રી પસંદ કરો",
+        "quantity": "માત્રા",
+        "costPerUnit": "પ્રતિ એકમ ખર્ચ",
+        "totalPrice": "કુલ કિંમત",
+        "checkInDate": "ચેક ઇન તારીખ",
+        "vendor": "વિક્રેતા",
+        "vendorPlaceholder": "વિક્રેતા પસંદ કરો",
+        "lowStockAlert": "નીચી સ્ટોક ચેતવણી",
+        "uploadPhotosVideos": "ફોટા/વિડિઓ અપલોડ કરો",
+        "upload": "અપલોડ કરો",
+        "supportedFormat": "સમર્થિત ફોર્મેટ:",
+        "conditionDescription": "સ્થિતિ વર્ણન",
+        "conditionDescriptionPlaceholder": "અહીં ટેક્સ્ટ દાખલ કરો",
+        "assignToProject": "પ્રોજેક્ટને સોંપો",
+        "selectProjects": "પ્રોજેક્ટ પસંદ કરો",
+        "cancel": "રદ કરો",
+        "addMaterial": "સામગ્રી ઉમેરો",
+        "adding": "ઉમેરવામાં આવી રહ્યું છે...",
+        "success": "ઇન્વેન્ટરી આઇટમ સફળતાપૂર્વક ઉમેરી",
+        "errors": {
+            "materialRequired": "સામગ્રી આવશ્યક છે",
+            "quantityRequired": "માત્રા આવશ્યક છે",
+            "checkInDateRequired": "ચેક ઇન તારીખ આવશ્યક છે",
+            "vendorRequired": "વિક્રેતા આવશ્યક છે",
+            "lowStockAlertRequired": "નીચી સ્ટોક ચેતવણી આવશ્યક છે",
+            "filesRequired": "ઓછામાં ઓછું એક ફોટો અથવા વિડિઓ આવશ્યક છે",
+            "projectsRequired": "ઓછામાં ઓછું એક પ્રોજેક્ટ પસંદ કરવું આવશ્યક છે",
+            "invalidFileType": "ફક્ત JPG, PNG, અને MP4 ફાઇલો માન્ય છે",
+            "fileTooLarge": "ફાઇલનું કદ 10MB કરતાં ઓછું હોવું જોઈએ",
+            "createFailed": "ઇન્વેન્ટરી આઇટમ બનાવવામાં અસફળ"
+        }
+    }
 }

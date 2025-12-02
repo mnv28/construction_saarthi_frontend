@@ -128,13 +128,16 @@ export const useSiteInventory = () => {
 
   /**
    * Get list of site inventory items
+   * @param {Object} [params] - Query parameters
+   * @param {string|number} [params.projectID] - Project ID filter
+   * @param {string|number} [params.inventoryTypeId] - Inventory type ID filter (1=Reusable, 2=Consumable)
    * @returns {Promise<Array>} List of site inventory items
    */
-  const getItems = useCallback(async () => {
+  const getItems = useCallback(async (params = {}) => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await getSiteInventoryList();
+      const response = await getSiteInventoryList(params);
       
       // Handle different response structures
       let itemsArray = [];

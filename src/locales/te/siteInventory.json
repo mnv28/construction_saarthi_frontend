@@ -60,6 +60,41 @@
             "message": "బదిలీ అభ్యర్థనలు కనుగొనబడలేదు"
         }
     },
+    "approveModal": {
+        "title": "బదిలీ అభ్యర్థనను అనుమోదించండి",
+        "confirmationMessage": "మీరు {{fromProject}} నుండి {{materialName}} యొక్క బదిలీ అభ్యర్థనను అనుమోదించాలనుకుంటున్నారా?",
+        "quantity": "పరిమాణం",
+        "quantityPlaceholder": "పరిమాణం నమోదు చేయండి",
+        "costPerUnit": "యూనిట్ కు ఖర్చు",
+        "totalPrice": "మొత్తం ధర",
+        "cancel": "రద్దు చేయండి",
+        "approve": "అనుమోదించండి",
+        "approving": "అనుమోదించబడుతోంది...",
+        "errors": {
+            "quantityRequired": "పరిమాణం అవసరం",
+            "totalPriceRequired": "మొత్తం ధర అవసరం"
+        }
+    },
+    "rejectModal": {
+        "title": "బదిలీ అభ్యర్థనను తిరస్కరించండి",
+        "confirmationMessage": "మీరు {{fromProject}} నుండి {{materialName}} యొక్క బదిలీ అభ్యర్థనను తిరస్కరించాలనుకుంటున్నారా?",
+        "reasonForRejection": "తిరస్కరణ కారణం",
+        "voice": "వాయిస్",
+        "text": "టెక్స్ట్",
+        "both": "రెండూ",
+        "voiceNote": "వాయిస్ నోట్",
+        "holdMicToRecord": "మీ వాయిస్ రికార్డ్ చేయడానికి మైక్‌ను నొక్కి పట్టుకోండి",
+        "recording": "రికార్డింగ్... ఆపడానికి వదిలివేయండి",
+        "textReason": "టెక్స్ట్ కారణం",
+        "textReasonPlaceholder": "తిరస్కరణ కారణాన్ని నమోదు చేయండి",
+        "cancel": "రద్దు చేయండి",
+        "reject": "తిరస్కరించండి",
+        "rejecting": "తిరస్కరించబడుతోంది...",
+        "errors": {
+            "voiceNoteRequired": "వాయిస్ నోట్ అవసరం",
+            "textReasonRequired": "టెక్స్ట్ కారణం అవసరం"
+        }
+    },
     "errors": {
         "createFailed": "సైట్ ఇన్వెంటరీ అంశాన్ని సృష్టించడంలో విఫలమైంది. దయచేసి మళ్లీ ప్రయత్నించండి.",
         "updateFailed": "సైట్ ఇన్వెంటరీ అంశాన్ని నవీకరించడంలో విఫలమైంది. దయచేసి మళ్లీ ప్రయత్నించండి.",
@@ -67,5 +102,142 @@
     },
     "purchased": "కొనుగోలు చేయబడింది",
     "currentStock": "ప్రస్తుత స్టాక్",
-    "purchasedPrice": "కొనుగోలు ధర"
+    "purchasedPrice": "కొనుగోలు ధర",
+    "logUsageModal": {
+        "title": "వినియోగాన్ని లాగ్ చేయండి",
+        "subtitle": "మీ సైట్‌లో ఉపయోగించిన పరిమాణాన్ని నమోదు చేయండి.",
+        "quantity": "పరిమాణం",
+        "description": "వివరణ",
+        "descriptionPlaceholder": "ఇక్కడ టెక్స్ట్‌ను నమోదు చేయండి",
+        "cancel": "రద్దు చేయండి",
+        "addLog": "లాగ్ జోడించండి",
+        "adding": "జోడించబడుతోంది...",
+        "errors": {
+            "quantityRequired": "పరిమాణం అవసరం"
+        }
+    },
+    "addStock": {
+        "title": "పదార్థాలను రీస్టాక్ చేయండి",
+        "quantity": "పరిమాణం",
+        "costPerUnit": "యూనిట్‌కు ఖర్చు",
+        "vendor": "విక్రేత",
+        "vendorPlaceholder": "విక్రేతను ఎంచుకోండి",
+        "totalPrice": "మొత్తం ధర",
+        "cancel": "రద్దు చేయండి",
+        "restockMaterial": "పదార్థాలను రీస్టాక్ చేయండి",
+        "restocking": "రీస్టాక్ చేయబడుతోంది...",
+        "addNewVendor": "కొత్త విక్రేతను జోడించండి",
+        "vendorName": "విక్రేత పేరు",
+        "vendorNamePlaceholder": "విక్రేత పేరును నమోదు చేయండి",
+        "contactNumber": "సంప్రదింపు సంఖ్య",
+        "contactNumberPlaceholder": "000 000 0000",
+        "addVendor": "విక్రేతను జోడించండి",
+        "adding": "జోడించబడుతోంది...",
+        "vendorAdded": "విక్రేత విజయవంతంగా జోడించబడింది",
+        "vendorAddFailed": "విక్రేతను జోడించడంలో విఫలమైంది",
+        "errors": {
+            "quantityRequired": "పరిమాణం అవసరం",
+            "vendorRequired": "విక్రేత అవసరం",
+            "totalPriceRequired": "మొత్తం ధర అవసరం",
+            "vendorNameRequired": "విక్రేత పేరు అవసరం",
+            "contactNumberRequired": "సంప్రదింపు సంఖ్య అవసరం",
+            "invalidContactNumber": "దయచేసి చెల్లుబాటు అయ్యే 10-అంకెల సంప్రదింపు సంఖ్యను నమోదు చేయండి"
+        }
+    },
+    "askForMaterials": {
+        "addNewAsk": "కొత్త అభ్యర్థనను జోడించండి",
+        "from": "నుండి",
+        "status": {
+            "approved": "అనుమోదించబడింది",
+            "rejected": "తిరస్కరించబడింది",
+            "pending": "పెండింగ్"
+        },
+        "rejectionReason": "తిరస్కరణ కారణం",
+        "emptyState": {
+            "title": "పదార్థ అభ్యర్థనలు లేవు",
+            "message": "పదార్థ అభ్యర్థనలు కనుగొనబడలేదు"
+        }
+    },
+    "restockRequests": {
+        "quantity": "పరిమాణం",
+        "from": "నుండి",
+        "approve": "అనుమోదించండి",
+        "reject": "తిరస్కరించండి",
+        "approved": "అనుమోదించబడింది",
+        "addStock": "స్టాక్ జోడించండి",
+        "emptyState": {
+            "title": "రీస్టాక్ అభ్యర్థనలు లేవు",
+            "message": "రీస్టాక్ అభ్యర్థనలు కనుగొనబడలేదు"
+        }
+    },
+    "addNewAsk": {
+        "title": "కొత్త అభ్యర్థనను జోడించండి",
+        "material": "పదార్థం",
+        "materialPlaceholder": "పదార్థాన్ని ఎంచుకోండి",
+        "addNewMaterial": "కొత్త పదార్థాన్ని జోడించండి",
+        "addNewItem": "కొత్త అంశాన్ని జోడించండి",
+        "itemName": "అంశం పేరు",
+        "itemNamePlaceholder": "అంశం పేరును నమోదు చేయండి",
+        "unit": "యూనిట్",
+        "unitPlaceholder": "యూనిట్ ఎంచుకోండి",
+        "addNewUnit": "కొత్త యూనిట్ జోడించండి",
+        "unitAdded": "యూనిట్ విజయవంతంగా జోడించబడింది",
+        "unitAddFailed": "యూనిట్ జోడించడంలో విఫలమైంది",
+        "adding": "జోడించబడుతోంది...",
+        "add": "జోడించండి",
+        "materialAdded": "పదార్థం విజయవంతంగా జోడించబడింది",
+        "materialAddFailed": "పదార్థం జోడించడంలో విఫలమైంది",
+        "quantity": "పరిమాణం",
+        "requestFrom": "పదార్థాన్ని అభ్యర్థించండి",
+        "requestFromPlaceholder": "ప్రాజెక్ట్‌ను ఎంచుకోండి",
+        "description": "వివరణ",
+        "descriptionPlaceholder": "ఇక్కడ టెక్స్ట్‌ను నమోదు చేయండి",
+        "cancel": "రద్దు చేయండి",
+        "sendRequest": "అభ్యర్థనను పంపండి",
+        "sending": "పంపబడుతోంది...",
+        "errors": {
+            "materialRequired": "పదార్థం అవసరం",
+            "quantityRequired": "పరిమాణం అవసరం",
+            "requestFromRequired": "దయచేసి కనీసం ఒక ప్రాజెక్ట్‌ను ఎంచుకోండి",
+            "itemNameRequired": "అంశం పేరు అవసరం",
+            "unitRequired": "యూనిట్ అవసరం"
+        }
+    },
+    "addInventory": {
+        "title": "కొత్త ఇన్వెంటరీ జోడించండి",
+        "reusable": "పునర్వినియోగపరచదగిన",
+        "consumable": "వినియోగించదగిన",
+        "material": "పదార్థం",
+        "materialPlaceholder": "పదార్థాన్ని ఎంచుకోండి",
+        "quantity": "పరిమాణం",
+        "costPerUnit": "యూనిట్‌కు ఖర్చు",
+        "totalPrice": "మొత్తం ధర",
+        "checkInDate": "చెక్ ఇన్ తేదీ",
+        "vendor": "విక్రేత",
+        "vendorPlaceholder": "విక్రేతను ఎంచుకోండి",
+        "lowStockAlert": "తక్కువ స్టాక్ హెచ్చరిక",
+        "uploadPhotosVideos": "ఫోటోలు/వీడియోలను అప్‌లోడ్ చేయండి",
+        "upload": "అప్‌లోడ్ చేయండి",
+        "supportedFormat": "సమర్థించిన ఫార్మాట్:",
+        "conditionDescription": "పరిస్థితి వివరణ",
+        "conditionDescriptionPlaceholder": "ఇక్కడ టెక్స్ట్‌ను నమోదు చేయండి",
+        "assignToProject": "ప్రాజెక్ట్‌కు కేటాయించండి",
+        "selectProjects": "ప్రాజెక్ట్‌లను ఎంచుకోండి",
+        "cancel": "రద్దు చేయండి",
+        "addMaterial": "పదార్థాన్ని జోడించండి",
+        "adding": "జోడించబడుతోంది...",
+        "success": "ఇన్వెంటరీ అంశం విజయవంతంగా జోడించబడింది",
+        "errors": {
+            "materialRequired": "పదార్థం అవసరం",
+            "quantityRequired": "పరిమాణం అవసరం",
+            "checkInDateRequired": "చెక్ ఇన్ తేదీ అవసరం",
+            "vendorRequired": "విక్రేత అవసరం",
+            "lowStockAlertRequired": "తక్కువ స్టాక్ హెచ్చరిక అవసరం",
+            "filesRequired": "కనీసం ఒక ఫోటో లేదా వీడియో అవసరం",
+            "projectsRequired": "కనీసం ఒక ప్రాజెక్ట్ ఎంచుకోవాలి",
+            "invalidFileType": "JPG, PNG, మరియు MP4 ఫైళ్ళు మాత్రమే అనుమతించబడతాయి",
+            "fileTooLarge": "ఫైల్ పరిమాణం 10MB కంటే తక్కువగా ఉండాలి",
+            "createFailed": "ఇన్వెంటరీ అంశాన్ని సృష్టించడంలో విఫలమైంది"
+        }
+    }
 }

@@ -58,6 +58,8 @@ export const ROUTES = {
     LIST: '/site-inventory',
     ADD: '/site-inventory/add',
     EDIT: '/site-inventory/:id/edit',
+    ADD_NEW_ASK: '/site-inventory/add-new-ask',
+    ADD_STOCK: '/site-inventory/restock/add-stock',
   },
 };
 
@@ -108,6 +110,8 @@ export const ROUTES_FLAT = {
   SITE_INVENTORY: ROUTES.SITE_INVENTORY.LIST,
   ADD_SITE_INVENTORY: ROUTES.SITE_INVENTORY.ADD,
   EDIT_SITE_INVENTORY: ROUTES.SITE_INVENTORY.EDIT,
+  ADD_NEW_ASK: ROUTES.SITE_INVENTORY.ADD_NEW_ASK,
+  ADD_STOCK: ROUTES.SITE_INVENTORY.ADD_STOCK,
 };
 
 /**

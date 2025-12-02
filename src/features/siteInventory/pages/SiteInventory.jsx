@@ -262,6 +262,11 @@ export default function SiteInventory() {
     console.log('Restock item:', item);
   };
 
+  const handleLogUsage = (item) => {
+    // TODO: Implement log usage functionality
+    console.log('Log usage for item:', item);
+  };
+
   const handleDestroy = (item) => {
     // TODO: Implement destroy functionality
     console.log('Destroy item:', item);
@@ -499,6 +504,7 @@ export default function SiteInventory() {
                   onDelete={handleDeleteClick}
                   onRestock={handleRestock}
                   onDestroy={handleDestroy}
+                  onLogUsage={handleLogUsage}
                   onDownloadPDF={handleDownloadPDF}
                   t={t}
                   formatDate={formatDate}

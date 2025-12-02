@@ -23,6 +23,7 @@
   "actions": {
     "restock": "Restock Material",
     "destroy": "Destroy Material",
+    "addLogUsage": "Add Log Usage",
     "downloadPDF": "Download as PDF",
     "edit": "Edit",
     "delete": "Delete",

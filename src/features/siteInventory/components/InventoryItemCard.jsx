@@ -3,7 +3,7 @@
  * Displays a single inventory item with details and actions
  */
 
-import { ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2 } from 'lucide-react';
+import { ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2, Plus } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 
@@ -14,6 +14,7 @@ export default function InventoryItemCard({
   onDelete,
   onRestock,
   onDestroy,
+  onLogUsage,
   onDownloadPDF,
   t,
   formatDate,
@@ -69,11 +70,21 @@ export default function InventoryItemCard({
                   onClick: () => onRestock?.(item),
                   icon: <RotateCw className="w-4 h-4" />,
                 },
-                {
-                  label: t('actions.destroy', { defaultValue: 'Destroy Material' }),
-                  onClick: () => onDestroy?.(item),
-                  icon: <AlertTriangle className="w-4 h-4" />,
-                },
+                ...(isConsumable
+                  ? [
+                      {
+                        label: t('actions.addLogUsage', { defaultValue: 'Add Log Usage' }),
+                        onClick: () => onLogUsage?.(item),
+                        icon: <Plus className="w-4 h-4" />,
+                      },
+                    ]
+                  : [
+                      {
+                        label: t('actions.destroy', { defaultValue: 'Destroy Material' }),
+                        onClick: () => onDestroy?.(item),
+                        icon: <AlertTriangle className="w-4 h-4" />,
+                      },
+                    ]),
                 {
                   label: t('actions.downloadPDF', { defaultValue: 'Download as PDF' }),
                   onClick: () => onDownloadPDF?.(item),

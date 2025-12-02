@@ -1,4 +1,4 @@
-{
+﻿{
     "title":  "سائٹ انوینٹری",
     "searchPlaceholder":  "مواد تلاش کریں",
     "addButton":  "نیا انوینٹری شامل کریں",
@@ -23,7 +23,8 @@
                     "downloadPDF":  "PDF کے طور پر ڈاؤن لوڈ کریں",
                     "edit":  "ترمیم کریں",
                     "delete":  "حذف کریں",
-                    "deleteItem":  "{{itemName}} حذف کریں"
+                    "deleteItem":  "{{itemName}} حذف کریں",
+                    "addLogUsage":  "لاگ استعمال شامل کریں"
                 },
     "emptyState":  {
                        "title":  "کوئی آئٹم شامل نہیں کیا گیا",
@@ -64,7 +65,7 @@
                    "updateFailed":  "سائٹ انوینٹری آئٹم اپ ڈیٹ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
                    "fetchFailed":  "سائٹ انوینٹری آئٹمز لوڈ کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔"
                },
-    "purchased":  "????? ???",
-    "currentStock":  "?????? ?????",
-    "purchasedPrice":  "??????? ?? ????"
+    "purchased": "خریدا گیا",
+    "currentStock": "موجودہ اسٹاک",
+    "purchasedPrice": "خریداری کی قیمت"
 }

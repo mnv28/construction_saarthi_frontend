@@ -37,6 +37,11 @@ import Settings from '../pages/Settings';
   const AddBusinessCard = lazy(() => import('../features/businessCard/pages/AddBusinessCard'));
   const EditBusinessCard = lazy(() => import('../features/businessCard/pages/EditBusinessCard'));
 
+  // Site Inventory
+  const SiteInventory = lazy(() => import('../features/siteInventory/pages/SiteInventory'));
+  const AddSiteInventory = lazy(() => import('../features/siteInventory/pages/AddSiteInventory'));
+  const EditSiteInventory = lazy(() => import('../features/siteInventory/pages/EditSiteInventory'));
+
   // Projects
   const Projects = lazy(() => import('../features/projects/pages/Projects'));
   const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
@@ -101,6 +106,9 @@ import Settings from '../pages/Settings';
             <Route path={ROUTES_FLAT.BUSINESS_CARD} element={<BusinessCard />} />
             <Route path={ROUTES_FLAT.ADD_BUSINESS_CARD} element={<AddBusinessCard />} />
             <Route path={ROUTES_FLAT.EDIT_BUSINESS_CARD} element={<EditBusinessCard />} />
+            <Route path={ROUTES_FLAT.SITE_INVENTORY} element={<SiteInventory />} />
+            <Route path={ROUTES_FLAT.ADD_SITE_INVENTORY} element={<AddSiteInventory />} />
+            <Route path={ROUTES_FLAT.EDIT_SITE_INVENTORY} element={<EditSiteInventory />} />
           </Route>
         </Route>
     

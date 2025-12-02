@@ -102,6 +102,22 @@ import bhoBusinessCard from '../locales/bho/businessCard.json';
 import asBusinessCard from '../locales/as/businessCard.json';
 import hryBusinessCard from '../locales/hry/businessCard.json';
 
+// Import siteInventory translations for all languages
+import enSiteInventory from '../locales/en/siteInventory.json';
+import hiSiteInventory from '../locales/hi/siteInventory.json';
+import guSiteInventory from '../locales/gu/siteInventory.json';
+import bnSiteInventory from '../locales/bn/siteInventory.json';
+import taSiteInventory from '../locales/ta/siteInventory.json';
+import mrSiteInventory from '../locales/mr/siteInventory.json';
+import teSiteInventory from '../locales/te/siteInventory.json';
+import knSiteInventory from '../locales/kn/siteInventory.json';
+import mlSiteInventory from '../locales/ml/siteInventory.json';
+import urSiteInventory from '../locales/ur/siteInventory.json';
+import rajSiteInventory from '../locales/raj/siteInventory.json';
+import bhoSiteInventory from '../locales/bho/siteInventory.json';
+import asSiteInventory from '../locales/as/siteInventory.json';
+import hrySiteInventory from '../locales/hry/siteInventory.json';
+
 // Get saved language from localStorage or default to 'en'
 const savedLang = localStorage.getItem('lang') || 'en';
 
@@ -113,6 +129,7 @@ const resources = {
     projects: enProjects,
     account: enAccount,
     businessCard: enBusinessCard,
+    siteInventory: enSiteInventory,
   },
   hi: {
     common: hiCommon,
@@ -121,6 +138,7 @@ const resources = {
     projects: hiProjects,
     account: hiAccount,
     businessCard: hiBusinessCard,
+    siteInventory: hiSiteInventory,
   },
   gu: {
     common: guCommon,
@@ -129,6 +147,7 @@ const resources = {
     projects: guProjects,
     account: guAccount,
     businessCard: guBusinessCard,
+    siteInventory: guSiteInventory,
   },
   bn: {
     common: bnCommon,
@@ -137,6 +156,7 @@ const resources = {
     projects: bnProjects,
     account: bnAccount,
     businessCard: bnBusinessCard,
+    siteInventory: bnSiteInventory,
   },
   ta: {
     common: taCommon,
@@ -145,6 +165,7 @@ const resources = {
     projects: taProjects,
     account: taAccount,
     businessCard: taBusinessCard,
+    siteInventory: taSiteInventory,
   },
   mr: {
     common: mrCommon,
@@ -153,6 +174,7 @@ const resources = {
     projects: mrProjects,
     account: mrAccount,
     businessCard: mrBusinessCard,
+    siteInventory: mrSiteInventory,
   },
   te: {
     common: teCommon,
@@ -161,6 +183,7 @@ const resources = {
     projects: teProjects,
     account: teAccount,
     businessCard: teBusinessCard,
+    siteInventory: teSiteInventory,
   },
   kn: {
     common: knCommon,
@@ -169,6 +192,7 @@ const resources = {
     projects: knProjects,
     account: knAccount,
     businessCard: knBusinessCard,
+    siteInventory: knSiteInventory,
   },
   ml: {
     common: mlCommon,
@@ -177,6 +201,7 @@ const resources = {
     projects: mlProjects,
     account: mlAccount,
     businessCard: mlBusinessCard,
+    siteInventory: mlSiteInventory,
   },
   ur: {
     common: urCommon,
@@ -185,6 +210,7 @@ const resources = {
     projects: urProjects,
     account: urAccount,
     businessCard: urBusinessCard,
+    siteInventory: urSiteInventory,
   },
   raj: {
     common: rajCommon,
@@ -193,6 +219,7 @@ const resources = {
     projects: rajProjects,
     account: rajAccount,
     businessCard: rajBusinessCard,
+    siteInventory: rajSiteInventory,
   },
   bho: {
     common: bhoCommon,
@@ -201,6 +228,7 @@ const resources = {
     projects: bhoProjects,
     account: bhoAccount,
     businessCard: bhoBusinessCard,
+    siteInventory: bhoSiteInventory,
   },
   as: {
     common: asCommon,
@@ -209,6 +237,7 @@ const resources = {
     projects: asProjects,
     account: asAccount,
     businessCard: asBusinessCard,
+    siteInventory: asSiteInventory,
   },
   hry: {
     common: hryCommon,
@@ -217,6 +246,7 @@ const resources = {
     projects: hryProjects,
     account: hryAccount,
     businessCard: hryBusinessCard,
+    siteInventory: hrySiteInventory,
   },
 };
 
@@ -231,7 +261,7 @@ i18n
       escapeValue: false, // React already escapes values
     },
     defaultNS: 'common',
-    ns: ['common', 'auth', 'dashboard', 'account', 'businessCard'],
+    ns: ['common', 'auth', 'dashboard', 'account', 'businessCard', 'siteInventory'],
   });
 
 export default i18n;

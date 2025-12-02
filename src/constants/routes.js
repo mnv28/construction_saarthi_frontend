@@ -42,6 +42,12 @@ export const ROUTES = {
     ADD: '/business-card/add',
     EDIT: '/business-card/:id/edit',
   },
+  // Site Inventory Routes
+  SITE_INVENTORY: {
+    LIST: '/site-inventory',
+    ADD: '/site-inventory/add',
+    EDIT: '/site-inventory/:id/edit',
+  },
 };
 
 // Flattened routes for easier access
@@ -77,6 +83,11 @@ export const ROUTES_FLAT = {
   BUSINESS_CARD: ROUTES.BUSINESS_CARD.LIST,
   ADD_BUSINESS_CARD: ROUTES.BUSINESS_CARD.ADD,
   EDIT_BUSINESS_CARD: ROUTES.BUSINESS_CARD.EDIT,
+  
+  // Site Inventory
+  SITE_INVENTORY: ROUTES.SITE_INVENTORY.LIST,
+  ADD_SITE_INVENTORY: ROUTES.SITE_INVENTORY.ADD,
+  EDIT_SITE_INVENTORY: ROUTES.SITE_INVENTORY.EDIT,
 };
 
 /**

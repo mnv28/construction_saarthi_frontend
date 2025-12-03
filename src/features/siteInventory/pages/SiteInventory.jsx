@@ -263,16 +263,26 @@ export default function SiteInventory() {
       // Handle different response structures
       let requestsArray = [];
       
-      if (Array.isArray(response?.data)) {
+      // Most common: axios response { data: { requests: [...] } }
+      if (Array.isArray(response?.data?.requests)) {
+        requestsArray = response.data.requests;
+      }
+      // http wrapper returning { requests: [...] } directly
+      else if (Array.isArray(response?.requests)) {
+        requestsArray = response.requests;
+      }
+      // Fallbacks
+      else if (Array.isArray(response?.data)) {
         requestsArray = response.data;
-      } else if (Array.isArray(response?.data?.data)) {
-        requestsArray = response.data.data;
       } else if (Array.isArray(response)) {
         requestsArray = response;
       } else if (response?.data && typeof response.data === 'object') {
-        requestsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
+        requestsArray =
+          response.data.requests ||
+          response.data.data ||
+          Object.values(response.data).find((v) => Array.isArray(v)) ||
+          [];
       }
-      
       setAskForMaterials(Array.isArray(requestsArray) ? requestsArray : []);
     } catch (error) {
       console.error('Error loading ask material requests:', error);

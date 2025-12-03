@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../../components/layout/PageHeader';
 import Radio from '../../../components/ui/Radio';
@@ -28,8 +28,10 @@ import { X } from 'lucide-react';
 export default function AddSiteInventory() {
   const { t } = useTranslation('siteInventory');
   const navigate = useNavigate();
+  const location = useLocation();
   const { selectedWorkspace } = useAuth();
   const workspaceId = selectedWorkspace;
+  const projectContextId = location.state?.projectId || '';
 
   const [inventoryType, setInventoryType] = useState('reusable');
   const [selectedMaterial, setSelectedMaterial] = useState('');
@@ -41,7 +43,6 @@ export default function AddSiteInventory() {
   const [lowStockAlert, setLowStockAlert] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [conditionDescription, setConditionDescription] = useState('');
-  const [selectedProjects, setSelectedProjects] = useState([]);
   
   const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials();
   const { unitOptions } = useUnits(selectedWorkspace);
@@ -250,16 +251,9 @@ export default function AddSiteInventory() {
     if (!lowStockAlert || parseFloat(lowStockAlert) <= 0) {
       newErrors.lowStockAlert = t('addInventory.errors.lowStockAlertRequired', { defaultValue: 'Low stock alert is required' });
     }
-    
+
     if (uploadedFiles.length === 0) {
       newErrors.files = t('addInventory.errors.filesRequired', { defaultValue: 'At least one photo or video is required' });
-    }
-    
-    if (selectedProjects.length === 0) {
-      newErrors.projects = t('addInventory.errors.projectsRequired', { defaultValue: 'At least one project must be selected' });
-    } else if (selectedProjects.length > 1) {
-      // API only accepts single projectID, so we'll use the first one
-      // Just show a warning or use first project
     }
     
     setErrors(newErrors);
@@ -278,9 +272,9 @@ export default function AddSiteInventory() {
     try {
       // Map inventoryType to inventoryTypeId: Reusable=1, Consumable=2
       const inventoryTypeId = inventoryType === 'reusable' ? 1 : 2;
-      
-      // Get first project ID (API expects single projectID, not array)
-      const projectID = selectedProjects.length > 0 ? selectedProjects[0] : '';
+
+      // Use project ID from navigation context (if available)
+      const projectID = projectContextId || '';
       
       const formData = {
         materialsId: selectedMaterial,
@@ -526,29 +520,6 @@ export default function AddSiteInventory() {
             value={conditionDescription}
             onChange={setConditionDescription}
             placeholder={t('addInventory.conditionDescriptionPlaceholder', { defaultValue: 'Enter text here' })}
-          />
-        </div>
-
-        {/* Assign to Project */}
-        <div className="mb-6">
-          <Dropdown
-            label={t('addInventory.assignToProject', { defaultValue: 'Assign to Project' })}
-            options={projectOptions}
-            value={selectedProjects.length > 0 ? selectedProjects[0] : ''}
-            onChange={(value) => {
-              if (value) {
-                setSelectedProjects([value]); // Single project selection (API expects single projectID)
-              } else {
-                setSelectedProjects([]);
-              }
-              if (errors.projects) {
-                setErrors((prev) => ({ ...prev, projects: '' }));
-              }
-            }}
-            placeholder={t('addInventory.selectProjects', { defaultValue: 'Select projects' })}
-            error={errors.projects}
-            required
-            disabled={isLoadingProjects}
           />
         </div>
 

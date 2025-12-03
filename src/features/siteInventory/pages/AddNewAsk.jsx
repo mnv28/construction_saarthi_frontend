@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, ChevronDown } from 'lucide-react';
+import { X } from 'lucide-react';
 import PageHeader from '../../../components/layout/PageHeader';
 import Radio from '../../../components/ui/Radio';
 import Dropdown from '../../../components/ui/Dropdown';
@@ -15,6 +15,8 @@ import RichTextEditor from '../../../components/ui/RichTextEditor';
 import Button from '../../../components/ui/Button';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import { showSuccess, showError } from '../../../utils/toast';
+import { useAuth } from '../../../hooks/useAuth';
+import { getAllProjects } from '../../projects/api/projectApi';
 import { useMaterials } from '../hooks';
 import { requestMaterial } from '../api/siteInventoryApi';
 import AddMaterialModal from '../components/AddMaterialModal';
@@ -23,6 +25,7 @@ export default function AddNewAsk() {
   const { t } = useTranslation('siteInventory');
   const navigate = useNavigate();
   const location = useLocation();
+  const { selectedWorkspace } = useAuth();
   
   // Get project context from navigation state (current project - where we're requesting TO)
   const currentProjectId = location.state?.projectId;
@@ -31,13 +34,19 @@ export default function AddNewAsk() {
   const [selectedMaterial, setSelectedMaterial] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedProjects, setSelectedProjects] = useState([]);
+  const [projectOptions, setProjectOptions] = useState([]);
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials();
+  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials();
 
-  // Get quantity unit based on material type
-  const quantityUnit = materialType === 'reusable' ? 'sq.ft' : 'pieces';
+  // Get quantity unit from selected material, fallback to type-based default
+  const selectedMaterialData = materials.find(
+    (m) => (m.id || m._id || m.materialId) === selectedMaterial
+  );
+  const quantityUnit =
+    selectedMaterialData?.unitName ||
+    (materialType === 'reusable' ? 'sq.ft' : 'pieces');
 
   // Fetch materials from API
   useEffect(() => {
@@ -63,12 +72,33 @@ export default function AddNewAsk() {
     }
   };
 
-  // Mock projects list - replace with actual API call
-  const projectOptions = [
-    { value: 'shree-villa', label: 'Shree Villa' },
-    { value: 'shiv-residency', label: 'Shiv Residency' },
-    { value: 'green-park', label: 'Green Park' },
-  ];
+  // Load real projects list for "Request Material From"
+  useEffect(() => {
+    const loadProjects = async () => {
+      if (!selectedWorkspace) {
+        setProjectOptions([]);
+        return;
+      }
+
+      try {
+        const projects = await getAllProjects(selectedWorkspace);
+        const options = projects.map((project) => ({
+          value: project.id || project.project_id || project._id,
+          label:
+            project.name ||
+            project.title ||
+            project.projectName ||
+            'Untitled Project',
+        }));
+        setProjectOptions(options);
+      } catch (error) {
+        console.error('Error loading projects for AddNewAsk:', error);
+        setProjectOptions([]);
+      }
+    };
+
+    loadProjects();
+  }, [selectedWorkspace]);
 
   const handleCancel = () => {
     navigate(-1);
@@ -90,8 +120,9 @@ export default function AddNewAsk() {
 
   const handleProjectSelect = (value) => {
     const project = projectOptions.find((p) => p.value === value);
-    if (project && !selectedProjects.find((p) => p.value === value)) {
-      setSelectedProjects([...selectedProjects, project]);
+    // Allow only a single project selection; replace any existing selection
+    if (project) {
+      setSelectedProjects([project]);
     }
     if (errors.requestFrom) {
       setErrors((prev) => ({ ...prev, requestFrom: '' }));
@@ -147,7 +178,6 @@ export default function AddNewAsk() {
         return;
       }
 
-      // API accepts single fromProjectId, so we'll use the first selected project
       // If multiple projects are selected, we could make multiple API calls
       const fromProjectId = selectedProjects[0].value;
       
@@ -158,7 +188,7 @@ export default function AddNewAsk() {
           quantity: parseFloat(quantity) || 0,
           description: description,
           fromProjectId: project.value,
-          toProjects: [currentProjectId], // Current project is where we're requesting TO
+          toProjects: [currentProjectId],
         })
       );
 
@@ -256,7 +286,7 @@ export default function AddNewAsk() {
                   <button
                     type="button"
                     onClick={() => handleRemoveProject(project.value)}
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
+                    className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -265,17 +295,17 @@ export default function AddNewAsk() {
             </div>
           )}
           
-          {/* Project Dropdown */}
-          <Dropdown
-            options={projectOptions.filter(
-              (p) => !selectedProjects.find((sp) => sp.value === p.value)
-            )}
-            value=""
-            onChange={handleProjectSelect}
-            placeholder={t('addNewAsk.requestFromPlaceholder', { defaultValue: 'Select project' })}
-            error={errors.requestFrom}
-            className="w-full"
-          />
+          {/* Project Dropdown - shown only when no project is selected */}
+          {selectedProjects.length === 0 && (
+            <Dropdown
+              options={projectOptions}
+              value=""
+              onChange={handleProjectSelect}
+              placeholder={t('addNewAsk.requestFromPlaceholder', { defaultValue: 'Select project' })}
+              error={errors.requestFrom}
+              className="w-full"
+            />
+          )}
         </div>
 
         {/* Description */}

@@ -14,17 +14,40 @@ export default function AskForMaterialCard({
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const {
-    id,
-    quantity,
-    materialName,
-    fromProject,
-    urgency,
-    status,
-    timestamp,
-    rejectionReason,
-    rejectionAudio,
-  } = request;
+  // Map backend response fields to UI-friendly variables
+  const status = request.status;
+
+  // Quantity / title content
+  const quantity = request.item_count ?? request.quantity ?? 0;
+  const materialName =
+    request.materialName ||
+    request.material?.name ||
+    ''; // backend currently doesn't send name, so this may be empty
+
+  // "From: <project>" text
+  const fromProjectId =
+    request.whichProject ||
+    request.fromProject ||
+    request.from_project ||
+    request.fromProjectId;
+  const fromProjectName =
+    request.fromProjectName ||
+    request.from_project_name ||
+    (fromProjectId ? `Project ${fromProjectId}` : '');
+  const hasFromProject = !!fromProjectName;
+
+  // Asking description line (grey text)
+  const askingDescription =
+    request.asking_description || request.description || '';
+
+  // Timestamps
+  const timestamp = request.createdAt || request.updatedAt || request.timestamp;
+
+  // Rejection info
+  const rejectionReason =
+    request.rejected_description || request.rejectionReason || '';
+  const rejectionAudio =
+    request.rejection_audio_url || request.rejectionAudio || null;
 
   const toggleAudio = () => {
     setIsPlaying(!isPlaying);
@@ -65,15 +88,20 @@ export default function AskForMaterialCard({
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <h3 className="text-base sm:text-lg text-primary">
-              {quantity} {materialName}
+              {quantity}{' '}
+              {materialName ||
+                t('askForMaterials.items', { defaultValue: 'items' })}
             </h3>
-            <span className="text-base sm:text-lg">
-              {t('askForMaterials.from', { defaultValue: 'from' })} {fromProject}
-            </span>
+            {hasFromProject && (
+              <span className="text-base sm:text-lg">
+                {t('askForMaterials.from', { defaultValue: 'From:' })}{' '}
+                {fromProjectName}
+              </span>
+            )}
           </div>
-          <p className="text-base text-secondary">
-            {urgency}
-          </p>
+          {askingDescription && (
+            <p className="text-base text-secondary">{askingDescription}</p>
+          )}
         </div>
         
         {/* Status Badge and Timestamp */}

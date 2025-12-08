@@ -32,6 +32,7 @@ export default function AddSiteInventory() {
   const { selectedWorkspace } = useAuth();
   const workspaceId = selectedWorkspace;
   const projectContextId = location.state?.projectId || '';
+  const projectContextName = location.state?.projectName || '';
 
   const [inventoryType, setInventoryType] = useState('reusable');
   const [selectedMaterial, setSelectedMaterial] = useState('');
@@ -44,7 +45,9 @@ export default function AddSiteInventory() {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [conditionDescription, setConditionDescription] = useState('');
   
-  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials();
+  // Convert inventoryType to inventoryTypeId (1=reusable, 2=consumable)
+  const inventoryTypeId = inventoryType === 'reusable' ? 1 : 2;
+  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
   const { unitOptions } = useUnits(selectedWorkspace);
   const { getVendors, createVendor, isLoading: isLoadingVendors } = useVendors();
   const [vendorOptions, setVendorOptions] = useState([]);
@@ -294,7 +297,9 @@ export default function AddSiteInventory() {
       await createSiteInventory(formData);
       
       showSuccess(t('addInventory.success', { defaultValue: 'Inventory item added successfully' }));
-      navigate(ROUTES_FLAT.SITE_INVENTORY);
+      navigate(ROUTES_FLAT.SITE_INVENTORY, {
+        state: projectContextId ? { projectId: projectContextId, projectName: projectContextName } : undefined,
+      });
     } catch (error) {
       console.error('Error creating inventory:', error);
       const errorMessage = error?.response?.data?.message || error?.message || t('addInventory.errors.createFailed', { defaultValue: 'Failed to create inventory item' });
@@ -305,7 +310,9 @@ export default function AddSiteInventory() {
   };
 
   const handleCancel = () => {
-    navigate(ROUTES_FLAT.SITE_INVENTORY);
+    navigate(ROUTES_FLAT.SITE_INVENTORY, {
+      state: projectContextId ? { projectId: projectContextId, projectName: projectContextName } : undefined,
+    });
   };
 
   return (

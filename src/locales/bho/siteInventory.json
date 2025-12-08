@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "ट्रांसफर अनुरोध मंजूर करीं",
-        "confirmationMessage": "का तूं {{fromProject}} सूं {{materialName}} के ट्रांसफर अनुरोध के मंजूर करे के चाहत बानी?",
+        "confirmationSimple": "का रउआँ ट्रांसफर मंजूर करे के चाहत बानी?",
+        "from": "से",
+        "to": "लेके",
         "quantity": "मात्रा",
         "quantityPlaceholder": "मात्रा दर्ज करीं",
         "costPerUnit": "प्रति इकाई लागत",
@@ -71,8 +73,8 @@
         "approve": "मंजूर करीं",
         "approving": "मंजूर हो रहल बा...",
         "errors": {
-            "quantityRequired": "मात्रा जरूरी बा",
-            "totalPriceRequired": "कुल मूल्य जरूरी बा"
+          "quantityRequired": "मात्रा जरूरी बा",
+          "totalPriceRequired": "कुल मूल्य जरूरी बा"
         }
     },
     "rejectModal": {

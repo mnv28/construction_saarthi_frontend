@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "ટ્રાન્સફર વિનંતી મંજૂર કરો",
-        "confirmationMessage": "શું તમે {{fromProject}} થી {{materialName}} ના ટ્રાન્સફર વિનંતીને મંજૂર કરવા માંગો છો?",
+        "confirmationSimple": "શું તમે આ ટ્રાન્સફર મંજૂર કરવા માંગો છો?",
+        "from": "થી",
+        "to": "સુધી",
         "quantity": "માત્રા",
         "quantityPlaceholder": "માત્રા દાખલ કરો",
         "costPerUnit": "પ્રતિ એકમ ખર્ચ",

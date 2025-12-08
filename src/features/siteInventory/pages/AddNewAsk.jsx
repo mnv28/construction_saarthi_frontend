@@ -38,7 +38,10 @@ export default function AddNewAsk() {
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials();
+  
+  // Convert materialType to inventoryTypeId (1=reusable, 2=consumable)
+  const inventoryTypeId = materialType === 'reusable' ? 1 : 2;
+  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
 
   // Get quantity unit from selected material, fallback to type-based default
   const selectedMaterialData = materials.find(

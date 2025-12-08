@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "স্থানান্তর অনুরোধ অনুমোদন করুন",
-        "confirmationMessage": "আপনি কি {{fromProject}} থেকে {{materialName}} এর স্থানান্তর অনুরোধ অনুমোদন করতে চান?",
+        "confirmationSimple": "আপনি কি এই স্থানান্তর অনুমোদন করতে চান?",
+        "from": "থেকে",
+        "to": "পর্যন্ত",
         "quantity": "পরিমাণ",
         "quantityPlaceholder": "পরিমাণ লিখুন",
         "costPerUnit": "প্রতি ইউনিট খরচ",

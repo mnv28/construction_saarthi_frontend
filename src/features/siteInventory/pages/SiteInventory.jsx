@@ -34,6 +34,7 @@ export default function SiteInventory() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [transferRequests, setTransferRequests] = useState([]);
+  const [isLoadingTransferRequests, setIsLoadingTransferRequests] = useState(false);
   const [askForMaterials, setAskForMaterials] = useState([]);
   const [restockRequests, setRestockRequests] = useState([]);
   const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -79,8 +80,8 @@ export default function SiteInventory() {
     if (debouncedSearch.trim()) {
       const search = debouncedSearch.toLowerCase();
       filtered = filtered.filter((item) => {
-        const itemName = (item?.name || item?.itemName || '').toLowerCase();
-        const specification = (item?.specification || item?.spec || '').toLowerCase();
+        const itemName = (item?.material?.name || item?.name || item?.itemName || '').toLowerCase();
+        const specification = (item?.Description || item?.specification || item?.spec || '').toLowerCase();
         return itemName.includes(search) || specification.includes(search);
       });
     }
@@ -217,6 +218,7 @@ export default function SiteInventory() {
   };
 
   const loadTransferRequests = useCallback(async () => {
+    setIsLoadingTransferRequests(true);
     try {
       const params = {
         scope: 'incoming', // or 'outgoing' based on requirement
@@ -231,14 +233,27 @@ export default function SiteInventory() {
       // Handle different response structures
       let requestsArray = [];
       
-      if (Array.isArray(response?.data)) {
+      // Most common: axios response { data: { requests: [...] } }
+      if (Array.isArray(response?.data?.requests)) {
+        requestsArray = response.data.requests;
+      }
+      // http wrapper returning { requests: [...] } directly
+      else if (Array.isArray(response?.requests)) {
+        requestsArray = response.requests;
+      }
+      // Fallbacks
+      else if (Array.isArray(response?.data)) {
         requestsArray = response.data;
       } else if (Array.isArray(response?.data?.data)) {
         requestsArray = response.data.data;
       } else if (Array.isArray(response)) {
         requestsArray = response;
       } else if (response?.data && typeof response.data === 'object') {
-        requestsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
+        requestsArray =
+          response.data.requests ||
+          response.data.data ||
+          Object.values(response.data).find((v) => Array.isArray(v)) ||
+          [];
       }
       
       setTransferRequests(Array.isArray(requestsArray) ? requestsArray : []);
@@ -247,6 +262,8 @@ export default function SiteInventory() {
       const errorMessage = error?.response?.data?.message || error?.message || t('errors.fetchFailed', { defaultValue: 'Failed to load transfer requests' });
       showError(errorMessage);
       setTransferRequests([]);
+    } finally {
+      setIsLoadingTransferRequests(false);
     }
   }, [projectId, t]);
 
@@ -292,7 +309,10 @@ export default function SiteInventory() {
     }
   }, [projectId, t]);
 
+  // Load data when tab changes or projectId changes
   useEffect(() => {
+    if (!user) return;
+    
     if (activeTab === 'transfer') {
       loadTransferRequests();
     } else if (activeTab === 'ask') {
@@ -300,23 +320,32 @@ export default function SiteInventory() {
     } else if (activeTab === 'restock') {
       setRestockRequests([]);
     }
-  }, [activeTab, loadTransferRequests, loadAskMaterialRequests]);
+  }, [activeTab, projectId, user, loadTransferRequests, loadAskMaterialRequests]);
 
   const handleApproveRequest = async (approvedData) => {
-    if (!selectedWorkspace) {
-      showError(t('errors.workspaceRequired', { defaultValue: 'Please select a workspace first' }));
-      return;
-    }
-
     try {
       const requestId = approvedData.id || approvedData._id;
       
-      // Call approve API
-      // Note: API only requires costPerUnit, but we can send quantity and totalPrice if needed
-      await approveTransferRequest(selectedWorkspace, {
+      if (!requestId) {
+        showError(t('errors.requestIdRequired', { defaultValue: 'Transfer request ID is required' }));
+        return;
+      }
+      
+      // Get source inventory ID from the request (required for backend)
+      const sourceInventoryId = approvedData.inventory_From_ID || approvedData.inventoryFromId || approvedData.inventoryFrom_ID;
+      
+      if (!sourceInventoryId) {
+        showError(t('errors.sourceInventoryRequired', { defaultValue: 'Source inventory ID is required' }));
+        return;
+      }
+      
+      // Call approve API with transfer request ID in URL path
+      await approveTransferRequest(requestId, {
         costPerUnit: approvedData.approvedCostPerUnit || approvedData.costPerUnit,
         quantity: approvedData.approvedQuantity || approvedData.quantity,
         totalPrice: approvedData.approvedTotalPrice || approvedData.totalPrice,
+        inventoryId: sourceInventoryId,
+        sourceInventoryId: sourceInventoryId,
       });
       
       // Update local state
@@ -589,7 +618,11 @@ export default function SiteInventory() {
           </div>
 
           {/* Transfer Requests List */}
-          {transferRequests.length === 0 ? (
+          {isLoadingTransferRequests ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <Loader size="lg" />
+            </div>
+          ) : transferRequests.length === 0 ? (
             <EmptyState
               image={EmptyStateSvg}
               title={t('transferRequests.emptyState.title', { defaultValue: 'No Transfer Requests' })}
@@ -601,7 +634,7 @@ export default function SiteInventory() {
                 <TransferRequestCard
                   key={request.id}
                   request={request}
-                  onApprove={handleApproveClick}
+                  onApprove={handleApproveRequest}
                   onReject={handleRejectClick}
                   t={t}
                   formatTime={formatTime}
@@ -764,7 +797,7 @@ export default function SiteInventory() {
           itemToDelete?.item
             ? t('deleteModal.title', {
                 defaultValue: 'Delete {{itemName}}',
-                itemName: itemToDelete.item.name || itemToDelete.item.itemName || 'Item',
+                itemName: itemToDelete.item?.material?.name || itemToDelete.item.name || itemToDelete.item.itemName || 'Item',
               })
             : t('deleteModal.title', { defaultValue: 'Delete Item', itemName: 'Item' })
         }
@@ -772,7 +805,7 @@ export default function SiteInventory() {
           itemToDelete?.item
             ? t('deleteModal.message', {
                 defaultValue: 'Are you sure you want to delete {{itemName}} from inventory? This action is irreversible, and your data cannot be recovered.',
-                itemName: (itemToDelete.item.name || itemToDelete.item.itemName || 'this item').toLowerCase(),
+                itemName: (itemToDelete.item?.material?.name || itemToDelete.item.name || itemToDelete.item.itemName || 'this item').toLowerCase(),
               })
             : t('deleteModal.message', {
                 defaultValue: 'Are you sure you want to delete this item? This action is irreversible.',

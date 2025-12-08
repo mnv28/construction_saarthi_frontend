@@ -126,7 +126,9 @@
   },
   "approveModal": {
     "title": "Approve Transfer Request",
-    "confirmationMessage": "Are you sure you want to approve transfer request of {{materialName}} from {{fromProject}}?",
+    "confirmationSimple": "Are you sure you want to approve transfer of",
+    "from": "from",
+    "to": "to",
     "quantity": "Quantity",
     "quantityPlaceholder": "Enter quantity",
     "costPerUnit": "Cost Per Unit",

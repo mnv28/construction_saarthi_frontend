@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "ट्रांसफर अनुरोध मंजूर करो",
-        "confirmationMessage": "का तूं {{fromProject}} सूं {{materialName}} रो ट्रांसफर अनुरोध मंजूर करण चाहतो है?",
+        "confirmationSimple": "का तूं ट्रांसफर मंजूर करण चाहतो है?",
+        "from": "सूं",
+        "to": "ताई",
         "quantity": "मात्रा",
         "quantityPlaceholder": "मात्रा दर्ज करो",
         "costPerUnit": "प्रति इकाई लागत",

@@ -21,17 +21,52 @@ export default function InventoryItemCard({
   formatCurrency,
 }) {
   const itemId = item.id || item._id;
-  const itemName = item.name || item.itemName || 'Unnamed Item';
-  const specification = item.specification || item.spec || '';
-  const quantity = item.quantity || 0;
-  const quantityUnit = item.quantityUnit || item.unit || 'piece';
-  const costPerUnit = item.costPerUnit || item.unitPrice || 0;
+  
+  // Handle new API response structure
+  // New structure: item.material.name, item.Description, item.quantityDetails[]
+  // Old structure: item.name, item.specification, item.quantity
+  const itemName = item?.material?.name || item.name || item.itemName || 'Unnamed Item';
+  const specification = item.Description || item.specification || item.spec || '';
+  
+  // Handle quantityDetails array (new structure)
+  const quantityDetails = item.quantityDetails || [];
+  let quantity = item.quantity || 0;
+  let costPerUnit = item.costPerUnit || item.unitPrice || 0;
+  
+  if (quantityDetails.length > 0) {
+    // Sum up all itemCount values for total quantity
+    quantity = quantityDetails.reduce((sum, detail) => {
+      return sum + (parseFloat(detail.itemCount) || 0);
+    }, 0);
+    
+    // Get average price or first price for costPerUnit
+    const prices = quantityDetails
+      .map(detail => parseFloat(detail.price) || 0)
+      .filter(price => price > 0);
+    if (prices.length > 0) {
+      costPerUnit = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+    } else if (quantityDetails[0]?.price) {
+      costPerUnit = parseFloat(quantityDetails[0].price) || 0;
+    }
+  }
+  
+  // Get unit - new structure has material.unitId
+  // TODO: Map unitId to unit name if units list is available
+  const quantityUnit = item.quantityUnit || item.unit || item?.material?.unitName || 
+    (item?.material?.unitId ? `Unit ${item.material.unitId}` : 'piece');
+  
   const totalPrice = item.totalPrice || (quantity * costPerUnit);
   const date = item.date || item.createdAt || item.updatedAt;
-  const materialType = item.materialType || item.type || item.category || 'reusable';
+  
+  // Determine material type from inventoryTypeId (1 = reusable, 2 = consumable)
+  const inventoryTypeId = item.inventoryTypeId;
+  const materialType = item.materialType || item.type || item.category || 
+    (inventoryTypeId === 1 || inventoryTypeId === '1' ? 'reusable' : 
+     inventoryTypeId === 2 || inventoryTypeId === '2' ? 'consumable' : 'reusable');
   const isConsumable = materialType?.toLowerCase() === 'consumable';
   
   // Consumable specific fields
+  // For consumable, quantityDetails might track purchased vs used
   const purchased = item.purchased || item.purchasedQuantity || quantity;
   const currentStock = item.currentStock || item.stock || quantity;
   const purchasedPrice = item.purchasedPrice || item.purchasePrice || costPerUnit;
@@ -42,11 +77,11 @@ export default function InventoryItemCard({
       <div className="flex-1">
         <div className="border-b border-black-soft pb-4 mb-4 flex justify-between items-center">
           <div>
-            <h3 className="text-base sm:text-lg font-semibold text-primary">
+            <h3 className="text-base sm:text-lg font-semibold text-primary capitalize">
               {itemName}
-              {specification && (
+              {/* {specification && (
                 <span className="text-secondary font-normal"> • {specification}</span>
-              )}
+              )} */}
             </h3>
             <p className="text-sm text-secondary">
               {formatDate(date)}

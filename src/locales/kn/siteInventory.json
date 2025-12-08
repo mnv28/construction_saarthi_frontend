@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ಅನುಮೋದಿಸಿ",
-        "confirmationMessage": "ನೀವು {{fromProject}} ನಿಂದ {{materialName}} ನ ವರ್ಗಾವಣೆ ವಿನಂತಿಯನ್ನು ಅನುಮೋದಿಸಲು ಬಯಸುತ್ತೀರಾ?",
+        "confirmationSimple": "ವರ್ಗಾವಣೆಯನ್ನು ಅನುಮೋದಿಸಲು ನೀವು ಖಚಿತವೇ?",
+        "from": "ಇಂದ",
+        "to": "ಗೆ",
         "quantity": "ಪ್ರಮಾಣ",
         "quantityPlaceholder": "ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ",
         "costPerUnit": "ಯೂನಿಟ್‌ಗೆ ವೆಚ್ಚ",

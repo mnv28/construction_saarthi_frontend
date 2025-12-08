@@ -6,9 +6,10 @@ import { useAuth } from '../../../hooks/useAuth';
 
 /**
  * Custom hook for fetching and managing materials
+ * @param {string|number} inventoryTypeId - Inventory type ID (required: 1=Reusable, 2=Consumable)
  * @returns {Object} { materials, materialOptions, isLoadingMaterials, isCreatingMaterial, error, refetch, createNewMaterial }
  */
-export const useMaterials = () => {
+export const useMaterials = (inventoryTypeId) => {
   const { t } = useTranslation('siteInventory');
   const { selectedWorkspace } = useAuth();
   const [materials, setMaterials] = useState([]);
@@ -21,7 +22,7 @@ export const useMaterials = () => {
    * Fetch materials list
    */
   const fetchMaterials = useCallback(async () => {
-    if (!selectedWorkspace) {
+    if (!selectedWorkspace || !inventoryTypeId) {
       setMaterials([]);
       setMaterialOptions([]);
       setIsLoadingMaterials(false);
@@ -31,7 +32,7 @@ export const useMaterials = () => {
     try {
       setIsLoadingMaterials(true);
       setError(null);
-      const response = await getMaterialsList(selectedWorkspace);
+      const response = await getMaterialsList(selectedWorkspace, inventoryTypeId);
       
       // API response structure: { materials: [...] } or direct array
       let materialsArray = [];
@@ -67,7 +68,7 @@ export const useMaterials = () => {
     } finally {
       setIsLoadingMaterials(false);
     }
-  }, [selectedWorkspace, t]);
+  }, [selectedWorkspace, inventoryTypeId, t]);
 
   /**
    * Create a new material

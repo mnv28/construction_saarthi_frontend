@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "ट्रांसफर अनुरोध अनुमोदित करें",
-        "confirmationMessage": "क्या आप {{fromProject}} से {{materialName}} के ट्रांसफर अनुरोध को अनुमोदित करना चाहते हैं?",
+        "confirmationSimple": "क्या आप ट्रांसफर को अनुमोदित करना चाहते हैं?",
+        "from": "से",
+        "to": "तक",
         "quantity": "मात्रा",
         "quantityPlaceholder": "मात्रा दर्ज करें",
         "costPerUnit": "प्रति इकाई लागत",

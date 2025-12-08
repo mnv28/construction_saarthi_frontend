@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "স্থানান্তৰ অনুৰোধ অনুমোদন কৰক",
-        "confirmationMessage": "আপুনি {{fromProject}} ৰ পৰা {{materialName}} ৰ স্থানান্তৰ অনুৰোধ অনুমোদন কৰিব বিচাৰে?",
+        "confirmationSimple": "আপুনি স্থানান্তৰ অনুমোদন কৰিব বিচাৰে নে?",
+        "from": "ৰ পৰা",
+        "to": "লৈ",
         "quantity": "পৰিমাণ",
         "quantityPlaceholder": "পৰিমাণ লিখক",
         "costPerUnit": "প্ৰতি একক খৰচ",

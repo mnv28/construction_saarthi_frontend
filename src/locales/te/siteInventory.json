@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "బదిలీ అభ్యర్థనను అనుమోదించండి",
-        "confirmationMessage": "మీరు {{fromProject}} నుండి {{materialName}} యొక్క బదిలీ అభ్యర్థనను అనుమోదించాలనుకుంటున్నారా?",
+        "confirmationSimple": "మీరు బదిలీని అనుమోదించాలనుకుంటున్నారా?",
+        "from": "నుండి",
+        "to": "వరకు",
         "quantity": "పరిమాణం",
         "quantityPlaceholder": "పరిమాణం నమోదు చేయండి",
         "costPerUnit": "యూనిట్ కు ఖర్చు",

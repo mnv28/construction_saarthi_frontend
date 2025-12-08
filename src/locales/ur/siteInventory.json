@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "منتقلی کی درخواست منظور کریں",
-        "confirmationMessage": "کیا آپ {{fromProject}} سے {{materialName}} کی منتقلی کی درخواست کو منظور کرنا چاہتے ہیں؟",
+        "confirmationSimple": "کیا آپ منتقلی کو منظور کرنا چاہتے ہیں؟",
+        "from": "سے",
+        "to": "تک",
         "quantity": "مقدار",
         "quantityPlaceholder": "مقدار درج کریں",
         "costPerUnit": "فی یونٹ لاگت",

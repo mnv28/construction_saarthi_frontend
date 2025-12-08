@@ -130,14 +130,28 @@ export const getSiteInventoryList = async (params = {}) => {
 
 /**
  * Get list of materials
- * @param {string|number} workspaceId - Workspace ID
+ * @param {string|number} workspaceId - Workspace ID (required)
+ * @param {string|number} inventoryTypeId - Inventory type ID (required: 1=Reusable, 2=Consumable)
  * @returns {Promise<Object>} List of materials
  */
-export const getMaterialsList = async (workspaceId) => {
+export const getMaterialsList = async (workspaceId, inventoryTypeId) => {
   if (!workspaceId) {
     throw new Error('Workspace ID is required');
   }
-  return http.get(`${SITE_INVENTORY_ENDPOINTS_FLAT.MATERIALS_LIST}/${workspaceId}`);
+  
+  if (inventoryTypeId === null || inventoryTypeId === undefined) {
+    throw new Error('inventoryTypeId is required');
+  }
+  
+  // Build query string
+  const queryParams = new URLSearchParams();
+  queryParams.append('WID', workspaceId);
+  queryParams.append('inventoryTypeId', inventoryTypeId);
+  
+  const queryString = queryParams.toString();
+  const url = `${SITE_INVENTORY_ENDPOINTS_FLAT.MATERIALS_LIST}?${queryString}`;
+  
+  return http.get(url);
 };
 
 /**
@@ -255,16 +269,16 @@ export const getTransferRequests = async (params = {}) => {
 
 /**
  * Approve transfer request
- * @param {string|number} workspaceID - Workspace ID
+ * @param {string|number} transferRequestId - Transfer Request ID (from the list)
  * @param {Object} data - Approval data
  * @param {string|number} data.costPerUnit - Cost per unit
  * @param {string|number} [data.quantity] - Approved quantity (optional)
  * @param {string|number} [data.totalPrice] - Total price (optional)
  * @returns {Promise<Object>} API response
  */
-export const approveTransferRequest = async (workspaceID, data) => {
-  if (!workspaceID) {
-    throw new Error('Workspace ID is required');
+export const approveTransferRequest = async (transferRequestId, data) => {
+  if (!transferRequestId) {
+    throw new Error('Transfer Request ID is required');
   }
   
   const payload = {
@@ -280,8 +294,17 @@ export const approveTransferRequest = async (workspaceID, data) => {
     payload.totalPrice = data.totalPrice;
   }
   
+  // Add source inventory ID if provided (required for backend to identify source inventory)
+  if (data.inventoryId !== undefined) {
+    payload.inventoryId = data.inventoryId;
+  }
+  
+  if (data.sourceInventoryId !== undefined) {
+    payload.sourceInventoryId = data.sourceInventoryId;
+  }
+  
   return http.post(
-    `${SITE_INVENTORY_ENDPOINTS_FLAT.SITE_INVENTORY_TRANSFER_APPROVE}/${workspaceID}`,
+    `${SITE_INVENTORY_ENDPOINTS_FLAT.SITE_INVENTORY_TRANSFER_APPROVE}/${transferRequestId}`,
     payload
   );
 };

@@ -12,7 +12,7 @@ export const SITE_INVENTORY_ENDPOINTS = {
     UPDATE: '/site-inventory/edit', // PUT /site-inventory/edit/{id}
     DELETE: '/site-inventory', // DELETE /site-inventory/{id}
     TRANSFER_REQUESTS: '/inventoryItem/transferRequests', // GET /inventoryItem/transferRequests?scope=incoming&projectID=23
-    TRANSFER_APPROVE: '/inventoryItem/transferRequest/approve', // POST /inventoryItem/transferRequest/approve/:workspaceID
+    TRANSFER_APPROVE: '/inventoryItem/transferRequest/approve', // POST /inventoryItem/transferRequest/approve/:transferRequestId
     TRANSFER_REJECT: '/inventoryItem/transferRequest/reject', // POST /inventoryItem/transferRequest/reject/:workspaceID
     ASK_MATERIAL_REQUESTS: '/inventoryItem/askMaterialRequests', // GET /inventoryItem/askMaterialRequests?projectID=23
     REQUEST_MATERIAL: '/inventoryItem/requestMaterial', // POST /inventoryItem/requestMaterial

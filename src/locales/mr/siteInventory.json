@@ -62,14 +62,16 @@
     },
     "approveModal": {
         "title": "हस्तांतरण विनंती मंजूर करा",
-        "confirmationMessage": "तुम्ही {{fromProject}} मधून {{materialName}} चे हस्तांतरण विनंती मंजूर करू इच्छिता?",
+        "confirmationSimple": "तुम्हाला हे हस्तांतरण मंजूर करायचे आहे का?",
+        "from": "कडून",
+        "to": "पर्यंत",
         "quantity": "प्रमाण",
         "quantityPlaceholder": "प्रमाण प्रविष्ट करा",
         "costPerUnit": "प्रति युनिट खर्च",
         "totalPrice": "एकूण किंमत",
         "cancel": "रद्द करा",
         "approve": "मंजूर करा",
-        "approving": "मंजूर करत आहे...",
+        "approving": "মंजूर करत आहे...",
         "errors": {
             "quantityRequired": "प्रमाण आवश्यक आहे",
             "totalPriceRequired": "एकूण किंमत आवश्यक आहे"

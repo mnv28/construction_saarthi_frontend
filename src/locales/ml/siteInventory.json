@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "കൈമാറ്റ അഭ്യർത്ഥന അനുവദിക്കുക",
-        "confirmationMessage": "{{fromProject}} ൽ നിന്ന് {{materialName}} ന്റെ കൈമാറ്റ അഭ്യർത്ഥന അനുവദിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവോ?",
+        "confirmationSimple": "കൈമാറ്റം അനുവദിക്കാൻ നിങ്ങൾ ഉറപ്പാണോ?",
+        "from": "ൽ നിന്ന്",
+        "to": "ലേക്ക്",
         "quantity": "അളവ്",
         "quantityPlaceholder": "അളവ് നൽകുക",
         "costPerUnit": "യൂണിറ്റിന് ചെലവ്",

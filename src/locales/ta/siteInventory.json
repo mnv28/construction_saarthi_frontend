@@ -62,7 +62,9 @@
     },
     "approveModal": {
         "title": "மாற்று கோரிக்கையை அனுமதிக்கவும்",
-        "confirmationMessage": "{{fromProject}} இலிருந்து {{materialName}} இன் மாற்று கோரிக்கையை அனுமதிக்க விரும்புகிறீர்களா?",
+        "confirmationSimple": "மாற்றை அனுமதிக்க விரும்புகிறீர்களா?",
+        "from": "இலிருந்து",
+        "to": "வரை",
         "quantity": "அளவு",
         "quantityPlaceholder": "அளவை உள்ளிடவும்",
         "costPerUnit": "ஒரு அலகுக்கான செலவு",

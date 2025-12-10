@@ -243,20 +243,20 @@ export const createVendor = async (data) => {
 /**
  * Get transfer requests
  * @param {Object} [params] - Query parameters
- * @param {string} [params.scope] - Request scope ('incoming' or 'outgoing')
  * @param {string|number} [params.projectID] - Project ID filter
+ * @param {string|number} [params.inventoryTypeId] - Inventory type ID filter (1=Reusable, 2=Consumable)
  * @returns {Promise<Object>} List of transfer requests
  */
 export const getTransferRequests = async (params = {}) => {
   // Build query string from params
   const queryParams = new URLSearchParams();
   
-  if (params.scope) {
-    queryParams.append('scope', params.scope);
-  }
-  
   if (params.projectID) {
     queryParams.append('projectID', params.projectID);
+  }
+  
+  if (params.inventoryTypeId) {
+    queryParams.append('inventoryTypeId', params.inventoryTypeId);
   }
   
   const queryString = queryParams.toString();
@@ -343,6 +343,7 @@ export const rejectTransferRequest = async (workspaceID, data) => {
  * Get ask material requests
  * @param {Object} [params] - Query parameters
  * @param {string|number} [params.projectID] - Project ID filter
+ * @param {string|number} [params.inventoryTypeId] - Inventory type ID filter (1=Reusable, 2=Consumable)
  * @returns {Promise<Object>} List of ask material requests
  */
 export const getAskMaterialRequests = async (params = {}) => {
@@ -351,6 +352,10 @@ export const getAskMaterialRequests = async (params = {}) => {
   
   if (params.projectID) {
     queryParams.append('projectID', params.projectID);
+  }
+  
+  if (params.inventoryTypeId) {
+    queryParams.append('inventoryTypeId', params.inventoryTypeId);
   }
   
   const queryString = queryParams.toString();
@@ -471,5 +476,38 @@ export const getDestroyedMaterials = async (params = {}) => {
     : SITE_INVENTORY_ENDPOINTS_FLAT.SITE_INVENTORY_DESTROYED_MATERIALS;
   
   return http.get(url);
+};
+
+/**
+ * Get all inventory types
+ * @returns {Promise<Array>} List of inventory types
+ */
+export const getInventoryTypes = async () => {
+  try {
+    const response = await http.get(SITE_INVENTORY_ENDPOINTS_FLAT.INVENTORY_TYPES_LIST);
+    
+    // Handle different response structures
+    // New structure: { inventoryTypes: [...], pagination: {...} }
+    if (Array.isArray(response?.data?.inventoryTypes)) {
+      return response.data.inventoryTypes;
+    } else if (Array.isArray(response?.inventoryTypes)) {
+      return response.inventoryTypes;
+    } else if (Array.isArray(response?.data)) {
+      return response.data;
+    } else if (Array.isArray(response)) {
+      return response;
+    } else if (Array.isArray(response?.data?.data)) {
+      return response.data.data;
+    } else if (response?.data && typeof response.data === 'object') {
+      // If response is an object, try to find array values
+      const arrayValue = Object.values(response.data).find((v) => Array.isArray(v));
+      return arrayValue || [];
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Error fetching inventory types:', error);
+    throw error;
+  }
 };
 

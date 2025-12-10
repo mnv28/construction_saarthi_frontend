@@ -75,6 +75,11 @@ export const ROUTES = {
     ADD: '/vendors/add',
     EDIT: '/vendors/:id/edit',
   },
+  // Project Gallery Routes
+  PROJECT_GALLERY: {
+    HOME: '/gallery',
+    PROJECT_GALLERY: '/gallery/:projectId',
+  },
 };
 
 // Flattened routes for easier access
@@ -138,6 +143,10 @@ export const ROUTES_FLAT = {
   VENDORS: ROUTES.VENDORS.LIST,
   ADD_VENDOR: ROUTES.VENDORS.ADD,
   EDIT_VENDOR: ROUTES.VENDORS.EDIT,
+  
+  // Project Gallery
+  PROJECT_GALLERY: ROUTES.PROJECT_GALLERY.HOME,
+  PROJECT_GALLERY_DETAILS: ROUTES.PROJECT_GALLERY.PROJECT_GALLERY,
 };
 
 /**

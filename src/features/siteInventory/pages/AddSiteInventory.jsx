@@ -14,12 +14,13 @@ import DatePicker from '../../../components/ui/DatePicker';
 import FileUpload from '../../../components/ui/FileUpload';
 import RichTextEditor from '../../../components/ui/RichTextEditor';
 import Button from '../../../components/ui/Button';
+import Loader from '../../../components/ui/Loader';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import { createSiteInventory } from '../api/siteInventoryApi';
 import { getAllProjects } from '../../projects/api/projectApi';
 import { showSuccess, showError } from '../../../utils/toast';
 import { useAuth } from '../../../hooks/useAuth';
-import { useMaterials, useUnits } from '../hooks';
+import { useMaterials, useUnits, useInventoryTypes } from '../hooks';
 import { useVendors } from '../../vendors/hooks';
 import AddMaterialModal from '../components/AddMaterialModal';
 import AddVendorModal from '../components/AddVendorModal';
@@ -34,7 +35,8 @@ export default function AddSiteInventory() {
   const projectContextId = location.state?.projectId || '';
   const projectContextName = location.state?.projectName || '';
 
-  const [inventoryType, setInventoryType] = useState('reusable');
+  const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
+  const [inventoryType, setInventoryType] = useState(null); // Dynamic inventory type ID
   const [selectedMaterial, setSelectedMaterial] = useState('');
   const [quantity, setQuantity] = useState('');
   const [costPerUnit, setCostPerUnit] = useState('');
@@ -45,8 +47,14 @@ export default function AddSiteInventory() {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [conditionDescription, setConditionDescription] = useState('');
   
-  // Convert inventoryType to inventoryTypeId (1=reusable, 2=consumable)
-  const inventoryTypeId = inventoryType === 'reusable' ? 1 : 2;
+  // Set default inventory type when options are loaded
+  useEffect(() => {
+    if (inventoryTypeOptions.length > 0 && !inventoryType) {
+      setInventoryType(inventoryTypeOptions[0].value);
+    }
+  }, [inventoryTypeOptions, inventoryType]);
+  
+  const inventoryTypeId = inventoryType;
   const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
   const { unitOptions } = useUnits(selectedWorkspace);
   const { getVendors, createVendor, isLoading: isLoadingVendors } = useVendors();
@@ -273,8 +281,8 @@ export default function AddSiteInventory() {
     setIsSubmitting(true);
     
     try {
-      // Map inventoryType to inventoryTypeId: Reusable=1, Consumable=2
-      const inventoryTypeId = inventoryType === 'reusable' ? 1 : 2;
+      // Use inventoryType directly as inventoryTypeId (it's already the ID)
+      const inventoryTypeId = inventoryType;
 
       // Use project ID from navigation context (if available)
       const projectID = projectContextId || '';
@@ -325,21 +333,21 @@ export default function AddSiteInventory() {
 
       <form onSubmit={handleSubmit} className="mt-6">
         {/* Inventory Type Selection */}
-        <div className="flex gap-6 mb-6">
-          <Radio
-            label={t('addInventory.reusable', { defaultValue: 'Reusable' })}
-            name="inventoryType"
-            value="reusable"
-            checked={inventoryType === 'reusable'}
-            onChange={(e) => setInventoryType(e.target.value)}
-          />
-          <Radio
-            label={t('addInventory.consumable', { defaultValue: 'Consumable' })}
-            name="inventoryType"
-            value="consumable"
-            checked={inventoryType === 'consumable'}
-            onChange={(e) => setInventoryType(e.target.value)}
-          />
+        <div className="flex gap-6 mb-6 flex-wrap">
+          {isLoadingInventoryTypes ? (
+            <Loader size="sm" />
+          ) : (
+            inventoryTypeOptions.map((type) => (
+              <Radio
+                key={type.value}
+                label={type.label}
+                name="inventoryType"
+                value={type.value}
+                checked={inventoryType === type.value}
+                onChange={(e) => setInventoryType(e.target.value)}
+              />
+            ))
+          )}
         </div>
 
         {/* Form Fields - Two Columns */}

@@ -1,0 +1,17 @@
+{
+  "title": "Projects Gallery",
+  "searchPlaceholder": "Search projects",
+  "filter": "Filter",
+  "filterOptions": {
+    "all": "All",
+    "inProcess": "In Process",
+    "completed": "Completed",
+    "upcoming": "Upcoming"
+  },
+  "emptyState": {
+    "noProjects": "No projects found",
+    "adjustSearch": "Try adjusting your search or filter",
+    "getStarted": "Get started by adding a project"
+  }
+}
+

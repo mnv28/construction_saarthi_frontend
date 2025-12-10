@@ -1,0 +1,17 @@
+{
+  "title": "प्रोजेक्ट गैलरी",
+  "searchPlaceholder": "प्रोजेक्ट खोजीं",
+  "filter": "फिल्टर",
+  "filterOptions": {
+    "all": "सभी",
+    "inProcess": "प्रगति में",
+    "completed": "पूर्ण",
+    "upcoming": "आगामी"
+  },
+  "emptyState": {
+    "noProjects": "कोई प्रोजेक्ट ना मिलल",
+    "adjustSearch": "अपना खोज या फिल्टर बदल के देखीं",
+    "getStarted": "एगो प्रोजेक्ट जोड़ के शुरू करीं"
+  }
+}
+

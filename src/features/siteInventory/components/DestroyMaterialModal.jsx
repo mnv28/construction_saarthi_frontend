@@ -9,7 +9,7 @@ import Button from '../../../components/ui/Button';
 import Dropdown from '../../../components/ui/Dropdown';
 import NumberInput from '../../../components/ui/NumberInput';
 import RichTextEditor from '../../../components/ui/RichTextEditor';
-import { useMaterials, useUnits } from '../hooks';
+import { useMaterials, useUnits, useInventoryTypes } from '../hooks';
 import { useAuth } from '../../../hooks/useAuth';
 import AddMaterialModal from './AddMaterialModal';
 
@@ -22,15 +22,23 @@ export default function DestroyMaterialModal({
   const { t } = useTranslation('siteInventory');
   const { selectedWorkspace } = useAuth();
   
-  const [materialType, setMaterialType] = useState('reusable');
+  const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
+  const [materialType, setMaterialType] = useState(null); // Dynamic inventory type ID
   const [selectedMaterial, setSelectedMaterial] = useState('');
   const [quantity, setQuantity] = useState('');
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // Convert materialType to inventoryTypeId (1=reusable, 2=consumable)
-  const inventoryTypeId = materialType === 'reusable' ? 1 : 2;
+  // Set default inventory type when options are loaded
+  useEffect(() => {
+    if (inventoryTypeOptions.length > 0 && !materialType) {
+      setMaterialType(inventoryTypeOptions[0].value);
+    }
+  }, [inventoryTypeOptions, materialType]);
+
+  // Use materialType directly as inventoryTypeId (it's already the ID)
+  const inventoryTypeId = materialType;
   const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
   const { unitOptions } = useUnits(selectedWorkspace);
 
@@ -38,10 +46,8 @@ export default function DestroyMaterialModal({
   const selectedMaterialData = materials.find((m) => (m.id || m._id || m.materialId) === selectedMaterial);
   const materialUnitId = selectedMaterialData?.unitId;
   const unitOption = unitOptions.find((u) => u.value === materialUnitId);
-  // Determine material type from selected material if available, otherwise default to reusable
-  const materialInventoryTypeId = selectedMaterialData?.inventoryTypeId;
-  const actualMaterialType = materialInventoryTypeId === 2 ? 'consumable' : 'reusable';
-  const unit = unitOption?.label || selectedMaterialData?.unitName || (actualMaterialType === 'reusable' ? 'sq.ft' : 'piece');
+  // Use unit from selected material or default
+  const unit = unitOption?.label || selectedMaterialData?.unitName || 'piece';
 
   // Initialize form when modal opens
   useEffect(() => {
@@ -165,7 +171,6 @@ export default function DestroyMaterialModal({
   };
 
   if (!isOpen) return null;
-
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"

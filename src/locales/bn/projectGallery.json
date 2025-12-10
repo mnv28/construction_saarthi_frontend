@@ -1,0 +1,17 @@
+{
+  "title": "প্রজেক্ট গ্যালারি",
+  "searchPlaceholder": "প্রজেক্ট খুঁজুন",
+  "filter": "ফিল্টার",
+  "filterOptions": {
+    "all": "সব",
+    "inProcess": "চলমান",
+    "completed": "সম্পন্ন",
+    "upcoming": "আসন্ন"
+  },
+  "emptyState": {
+    "noProjects": "কোনো প্রজেক্ট পাওয়া যায়নি",
+    "adjustSearch": "আপনার অনুসন্ধান বা ফিল্টার সামঞ্জস্য করার চেষ্টা করুন",
+    "getStarted": "একটি প্রজেক্ট যোগ করে শুরু করুন"
+  }
+}
+

@@ -1,0 +1,25 @@
+/**
+ * Project Gallery API Endpoints
+ * Centralized endpoint definitions for project gallery operations
+ */
+
+const PROJECT_GALLERY_ENDPOINTS = {
+  PROJECT_GALLERY: {
+    GET_GALLERY: '/project/gallery',
+    UPLOAD_IMAGE: '/project/gallery/upload',
+    DELETE_IMAGE: '/project/gallery/:id',
+    UPDATE_IMAGE: '/project/gallery/:id',
+  },
+};
+
+// Flattened endpoints for easy access
+const PROJECT_GALLERY_ENDPOINTS_FLAT = {
+  GET_GALLERY: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.GET_GALLERY,
+  UPLOAD_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.UPLOAD_IMAGE,
+  DELETE_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.DELETE_IMAGE,
+  UPDATE_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.UPDATE_IMAGE,
+};
+
+export { PROJECT_GALLERY_ENDPOINTS };
+export default PROJECT_GALLERY_ENDPOINTS_FLAT;
+

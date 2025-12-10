@@ -1,0 +1,17 @@
+{
+  "title": "প্ৰজেক্ট গেলেৰী",
+  "searchPlaceholder": "প্ৰজেক্ট বিচাৰক",
+  "filter": "ফিল্টাৰ",
+  "filterOptions": {
+    "all": "সকলো",
+    "inProcess": "অগ্ৰগতি হৈ আছে",
+    "completed": "সম্পূৰ্ণ",
+    "upcoming": "আগতীয়া"
+  },
+  "emptyState": {
+    "noProjects": "কোনো প্ৰজেক্ট পোৱা নগ'ল",
+    "adjustSearch": "আপোনাৰ সন্ধান বা ফিল্টাৰ সমন্বয় কৰাৰ চেষ্টা কৰক",
+    "getStarted": "এটা প্ৰজেক্ট যোগ কৰি আৰম্ভ কৰক"
+  }
+}
+

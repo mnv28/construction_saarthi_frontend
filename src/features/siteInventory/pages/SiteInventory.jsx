@@ -12,7 +12,7 @@ import Radio from '../../../components/ui/Radio';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 import ConfirmModal from '../../../components/ui/ConfirmModal';
 import { InventoryItemCard, Tabs, TransferRequestCard, ApproveTransferModal, RejectTransferModal, LogUsageModal, AskForMaterialCard, RestockRequestCard, DestroyMaterialCard, DestroyMaterialModal } from '../components';
-import { useSiteInventory } from '../hooks';
+import { useSiteInventory, useInventoryTypes } from '../hooks';
 import { getTransferRequests, approveTransferRequest, rejectTransferRequest, getAskMaterialRequests, getRestockRequests, getDestroyedMaterials } from '../api/siteInventoryApi';
 import { useAuth } from '../../auth/store';
 import { ROUTES_FLAT } from '../../../constants/routes';
@@ -26,11 +26,12 @@ export default function SiteInventory() {
   const location = useLocation();
   const { user, selectedWorkspace } = useAuth();
   const { getItems, deleteItem, isLoading } = useSiteInventory();
+  const { inventoryTypes, inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
   const [inventoryItems, setInventoryItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [materialType, setMaterialType] = useState('reusable'); // 'reusable' or 'consumable'
-  const [activeTab, setActiveTab] = useState('inventory'); // 'inventory', 'transfer', 'ask', 'restock', 'destroy'
+  const [materialType, setMaterialType] = useState(null); 
+  const [activeTab, setActiveTab] = useState('inventory');  
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [transferRequests, setTransferRequests] = useState([]);
@@ -54,8 +55,17 @@ export default function SiteInventory() {
   
   const debouncedSearch = useDebounce(searchQuery, 300);
 
+  // Update materialType when inventory types are loaded
   useEffect(() => {
-    if (user) {
+    if (inventoryTypeOptions.length > 0 && !materialType) {
+      const firstType = inventoryTypeOptions[0].value;
+      console.log('Setting default materialType to:', firstType, 'Label:', inventoryTypeOptions[0].label);
+      setMaterialType(firstType);
+    }
+  }, [inventoryTypeOptions, materialType]);
+
+  useEffect(() => {
+    if (user && materialType) {
       loadInventoryItems();
     }
   }, [user, materialType, projectId]);
@@ -64,20 +74,11 @@ export default function SiteInventory() {
   useEffect(() => {
     let filtered = [...inventoryItems];
     
-    // Filter by material type
+    // Filter by material type (inventoryTypeId)
     if (materialType) {
       filtered = filtered.filter((item) => {
-        const itemType =
-          item?.materialType ||
-          item?.type ||
-          item?.category ||
-          // Fallback from inventoryTypeId: 1 = reusable, 2 = consumable
-          (item?.inventoryTypeId === 1 || item?.inventoryTypeId === '1'
-            ? 'reusable'
-            : item?.inventoryTypeId === 2 || item?.inventoryTypeId === '2'
-            ? 'consumable'
-            : undefined);
-        return itemType?.toLowerCase() === materialType.toLowerCase();
+        const itemInventoryTypeId = item?.inventoryTypeId?.toString();
+        return itemInventoryTypeId === materialType.toString();
       });
     }
     
@@ -104,8 +105,7 @@ export default function SiteInventory() {
     try {
       const params = {};
       if (projectId) params.projectID = projectId;
-      if (materialType === "reusable") params.inventoryTypeId = 1;
-      if (materialType === "consumable") params.inventoryTypeId = 2;
+      if (materialType) params.inventoryTypeId = materialType;
   
       // Fetch items
       const itemsArray = await getItems(params);
@@ -177,12 +177,15 @@ export default function SiteInventory() {
   const handleViewDetails = (item) => {
     const itemId = item.id || item._id;
     
-    // Determine if item is consumable
-    const inventoryTypeId = item.inventoryTypeId;
-    const materialType = item.materialType || item.type || 
-      (inventoryTypeId === 1 || inventoryTypeId === '1' ? 'reusable' : 
-       inventoryTypeId === 2 || inventoryTypeId === '2' ? 'consumable' : 'reusable');
-    const isConsumable = materialType?.toLowerCase() === 'consumable';
+    // Determine if item is consumable based on inventoryTypeId
+    const inventoryTypeId = item.inventoryTypeId?.toString();
+    // Find inventory type from API to check if it's consumable
+    const itemInventoryType = inventoryTypes.find(
+      (type) => (type.id?.toString() || type.inventoryTypeId?.toString()) === inventoryTypeId
+    );
+    // Check if the inventory type name contains 'consumable' (case-insensitive)
+    const typeName = itemInventoryType?.name || itemInventoryType?.typeName || '';
+    const isConsumable = typeName.toLowerCase().includes('consumable');
     
     // Navigate to appropriate details page
     const route = isConsumable 
@@ -264,12 +267,15 @@ export default function SiteInventory() {
   const loadTransferRequests = useCallback(async () => {
     setIsLoadingTransferRequests(true);
     try {
-      const params = {
-        scope: 'incoming', // or 'outgoing' based on requirement
-      };
+      const params = {};
       
       if (projectId) {
         params.projectID = projectId;
+      }
+      
+      // Add inventoryTypeId if materialType is selected
+      if (materialType) {
+        params.inventoryTypeId = materialType;
       }
       
       const response = await getTransferRequests(params);
@@ -319,6 +325,11 @@ export default function SiteInventory() {
         params.projectID = projectId;
       }
       
+      // Add inventoryTypeId if materialType is selected
+      if (materialType) {
+        params.inventoryTypeId = materialType;
+      }
+      
       const response = await getAskMaterialRequests(params);
       
       // Handle different response structures
@@ -358,18 +369,16 @@ export default function SiteInventory() {
       const params = {
         requestStatus: 'active', // Default to active requests
       };
-      
+
       if (projectId) {
         params.projectID = projectId;
       }
-      
-      // Determine inventoryTypeId based on materialType filter
-      if (materialType === 'reusable') {
-        params.inventoryTypeId = 1;
-      } else if (materialType === 'consumable') {
-        params.inventoryTypeId = 2;
+
+      // Add inventoryTypeId if materialType (inventory type ID) is selected
+      if (materialType) {
+        params.inventoryTypeId = materialType;
       }
-      
+
       const response = await getRestockRequests(params);
       
       // Handle different response structures
@@ -687,21 +696,25 @@ export default function SiteInventory() {
 
       {/* Material Type Filter - Only show for inventory tab */}
       {activeTab === 'inventory' && (
-        <div className="mb-6 flex gap-6">
-          <Radio
-            name="materialType"
-            value="reusable"
-            checked={materialType === 'reusable'}
-            onChange={(e) => setMaterialType(e.target.value)}
-            label={t('materialType.reusable', { defaultValue: 'Reusable' })}
-          />
-          <Radio
-            name="materialType"
-            value="consumable"
-            checked={materialType === 'consumable'}
-            onChange={(e) => setMaterialType(e.target.value)}
-            label={t('materialType.consumable', { defaultValue: 'Consumable' })}
-          />
+        <div className="mb-6 flex gap-6 flex-wrap">
+          {isLoadingInventoryTypes ? (
+            <Loader size="sm" />
+          ) : (
+            inventoryTypeOptions.map((type) => (
+              <Radio
+                key={type.value}
+                name="materialType"
+                value={type.value}
+                checked={materialType?.toString() === type.value?.toString()}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  console.log('Selected inventory type:', selectedValue, 'Type:', type.label);
+                  setMaterialType(selectedValue);
+                }}
+                label={type.label}
+              />
+            ))
+          )}
         </div>
       )}
 
@@ -730,6 +743,7 @@ export default function SiteInventory() {
                   onLogUsage={handleLogUsageClick}
                   onDownloadPDF={handleDownloadPDF}
                   onViewDetails={handleViewDetails}
+                  inventoryTypes={inventoryTypes}
                   t={t}
                   formatDate={formatDate}
                   formatCurrency={formatCurrency}
@@ -744,21 +758,21 @@ export default function SiteInventory() {
       {activeTab === 'transfer' && (
         <>
           {/* Material Type Filter */}
-          <div className="mb-6 flex gap-6">
-            <Radio
-              name="materialType"
-              value="reusable"
-              checked={materialType === 'reusable'}
-              onChange={(e) => setMaterialType(e.target.value)}
-              label={t('materialType.reusable', { defaultValue: 'Reusable' })}
-            />
-            <Radio
-              name="materialType"
-              value="consumable"
-              checked={materialType === 'consumable'}
-              onChange={(e) => setMaterialType(e.target.value)}
-              label={t('materialType.consumable', { defaultValue: 'Consumable' })}
-            />
+          <div className="mb-6 flex gap-6 flex-wrap">
+            {isLoadingInventoryTypes ? (
+              <Loader size="sm" />
+            ) : (
+              inventoryTypeOptions.map((type) => (
+                <Radio
+                  key={type.value}
+                  name="materialType"
+                  value={type.value}
+                  checked={materialType === type.value}
+                  onChange={(e) => setMaterialType(e.target.value)}
+                  label={type.label}
+                />
+              ))
+            )}
           </div>
 
           {/* Transfer Requests List */}
@@ -794,21 +808,21 @@ export default function SiteInventory() {
       {activeTab === 'restock' && (
         <>
           {/* Material Type Filter */}
-          <div className="mb-6 flex gap-6">
-            <Radio
-              name="restockMaterialType"
-              value="reusable"
-              checked={materialType === 'reusable'}
-              onChange={(e) => setMaterialType(e.target.value)}
-              label={t('materialType.reusable', { defaultValue: 'Reusable' })}
-            />
-            <Radio
-              name="restockMaterialType"
-              value="consumable"
-              checked={materialType === 'consumable'}
-              onChange={(e) => setMaterialType(e.target.value)}
-              label={t('materialType.consumable', { defaultValue: 'Consumable' })}
-            />
+          <div className="mb-6 flex gap-6 flex-wrap">
+            {isLoadingInventoryTypes ? (
+              <Loader size="sm" />
+            ) : (
+              inventoryTypeOptions.map((type) => (
+                <Radio
+                  key={type.value}
+                  name="restockMaterialType"
+                  value={type.value}
+                  checked={materialType === type.value}
+                  onChange={(e) => setMaterialType(e.target.value)}
+                  label={type.label}
+                />
+              ))
+            )}
           </div>
 
           {/* Restock Requests List */}
@@ -840,21 +854,21 @@ export default function SiteInventory() {
         <>
           {/* Material Type Filter with Add New Ask Link */}
           <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex gap-6">
-              <Radio
-                name="askMaterialType"
-                value="reusable"
-                checked={materialType === 'reusable'}
-                onChange={(e) => setMaterialType(e.target.value)}
-                label={t('materialType.reusable', { defaultValue: 'Reusable' })}
-              />
-              <Radio
-                name="askMaterialType"
-                value="consumable"
-                checked={materialType === 'consumable'}
-                onChange={(e) => setMaterialType(e.target.value)}
-                label={t('materialType.consumable', { defaultValue: 'Consumable' })}
-              />
+            <div className="flex gap-6 flex-wrap">
+              {isLoadingInventoryTypes ? (
+                <Loader size="sm" />
+              ) : (
+                inventoryTypeOptions.map((type) => (
+                  <Radio
+                    key={type.value}
+                    name="askMaterialType"
+                    value={type.value}
+                    checked={materialType === type.value}
+                    onChange={(e) => setMaterialType(e.target.value)}
+                    label={type.label}
+                  />
+                ))
+              )}
             </div>
             <button
               onClick={handleAddNewAsk}

@@ -17,7 +17,7 @@ import { ROUTES_FLAT } from '../../../constants/routes';
 import { showSuccess, showError } from '../../../utils/toast';
 import { useAuth } from '../../../hooks/useAuth';
 import { getAllProjects } from '../../projects/api/projectApi';
-import { useMaterials } from '../hooks';
+import { useMaterials, useInventoryTypes } from '../hooks';
 import { requestMaterial } from '../api/siteInventoryApi';
 import AddMaterialModal from '../components/AddMaterialModal';
 
@@ -30,7 +30,8 @@ export default function AddNewAsk() {
   // Get project context from navigation state (current project - where we're requesting TO)
   const currentProjectId = location.state?.projectId;
   
-  const [materialType, setMaterialType] = useState('reusable');
+  const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
+  const [materialType, setMaterialType] = useState(null); // Dynamic inventory type ID
   const [selectedMaterial, setSelectedMaterial] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedProjects, setSelectedProjects] = useState([]);
@@ -39,17 +40,22 @@ export default function AddNewAsk() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Convert materialType to inventoryTypeId (1=reusable, 2=consumable)
-  const inventoryTypeId = materialType === 'reusable' ? 1 : 2;
+  // Set default inventory type when options are loaded
+  useEffect(() => {
+    if (inventoryTypeOptions.length > 0 && !materialType) {
+      setMaterialType(inventoryTypeOptions[0].value);
+    }
+  }, [inventoryTypeOptions, materialType]);
+  
+  // Use materialType directly as inventoryTypeId (it's already the ID)
+  const inventoryTypeId = materialType;
   const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
 
-  // Get quantity unit from selected material, fallback to type-based default
+  // Get quantity unit from selected material, fallback to default
   const selectedMaterialData = materials.find(
     (m) => (m.id || m._id || m.materialId) === selectedMaterial
   );
-  const quantityUnit =
-    selectedMaterialData?.unitName ||
-    (materialType === 'reusable' ? 'sq.ft' : 'pieces');
+  const quantityUnit = selectedMaterialData?.unitName || 'pieces';
 
   // Fetch materials from API
   useEffect(() => {

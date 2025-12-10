@@ -165,6 +165,22 @@ import bhoBuilderClient from '../locales/bho/builderClient.json';
 import asBuilderClient from '../locales/as/builderClient.json';
 import hryBuilderClient from '../locales/hry/builderClient.json';
 
+// Import projectGallery translations for all languages
+import enProjectGallery from '../locales/en/projectGallery.json';
+import hiProjectGallery from '../locales/hi/projectGallery.json';
+import guProjectGallery from '../locales/gu/projectGallery.json';
+import bnProjectGallery from '../locales/bn/projectGallery.json';
+import taProjectGallery from '../locales/ta/projectGallery.json';
+import mrProjectGallery from '../locales/mr/projectGallery.json';
+import teProjectGallery from '../locales/te/projectGallery.json';
+import knProjectGallery from '../locales/kn/projectGallery.json';
+import mlProjectGallery from '../locales/ml/projectGallery.json';
+import urProjectGallery from '../locales/ur/projectGallery.json';
+import rajProjectGallery from '../locales/raj/projectGallery.json';
+import bhoProjectGallery from '../locales/bho/projectGallery.json';
+import asProjectGallery from '../locales/as/projectGallery.json';
+import hryProjectGallery from '../locales/hry/projectGallery.json';
+
 // Get saved language from localStorage or default to 'en'
 const savedLang = localStorage.getItem('lang') || 'en';
 
@@ -180,6 +196,7 @@ const resources = {
     siteInventory: enSiteInventory,
     subscription: enSubscription,
     builderClient: enBuilderClient,
+    projectGallery: enProjectGallery,
   },
   hi: {
     common: hiCommon,
@@ -192,6 +209,7 @@ const resources = {
     siteInventory: hiSiteInventory,
     subscription: hiSubscription,
     builderClient: hiBuilderClient,
+    projectGallery: hiProjectGallery,
   },
   gu: {
     common: guCommon,
@@ -204,6 +222,7 @@ const resources = {
     siteInventory: guSiteInventory,
     subscription: guSubscription,
     builderClient: guBuilderClient,
+    projectGallery: guProjectGallery,
   },
   bn: {
     common: bnCommon,
@@ -216,6 +235,7 @@ const resources = {
     siteInventory: bnSiteInventory,
     subscription: bnSubscription,
     builderClient: bnBuilderClient,
+    projectGallery: bnProjectGallery,
   },
   ta: {
     common: taCommon,
@@ -228,6 +248,7 @@ const resources = {
     siteInventory: taSiteInventory,
     subscription: taSubscription,
     builderClient: taBuilderClient,
+    projectGallery: taProjectGallery,
   },
   mr: {
     common: mrCommon,
@@ -240,6 +261,7 @@ const resources = {
     siteInventory: mrSiteInventory,
     subscription: mrSubscription,
     builderClient: mrBuilderClient,
+    projectGallery: mrProjectGallery,
   },
   te: {
     common: teCommon,
@@ -252,6 +274,7 @@ const resources = {
     siteInventory: teSiteInventory,
     subscription: teSubscription,
     builderClient: teBuilderClient,
+    projectGallery: teProjectGallery,
   },
   kn: {
     common: knCommon,
@@ -264,6 +287,7 @@ const resources = {
     siteInventory: knSiteInventory,
     subscription: knSubscription,
     builderClient: knBuilderClient,
+    projectGallery: knProjectGallery,
   },
   ml: {
     common: mlCommon,
@@ -276,6 +300,7 @@ const resources = {
     siteInventory: mlSiteInventory,
     subscription: mlSubscription,
     builderClient: mlBuilderClient,
+    projectGallery: mlProjectGallery,
   },
   ur: {
     common: urCommon,
@@ -288,6 +313,7 @@ const resources = {
     siteInventory: urSiteInventory,
     subscription: urSubscription,
     builderClient: urBuilderClient,
+    projectGallery: urProjectGallery,
   },
   raj: {
     common: rajCommon,
@@ -300,6 +326,7 @@ const resources = {
     siteInventory: rajSiteInventory,
     subscription: rajSubscription,
     builderClient: rajBuilderClient,
+    projectGallery: rajProjectGallery,
   },
   bho: {
     common: bhoCommon,
@@ -312,6 +339,7 @@ const resources = {
     siteInventory: bhoSiteInventory,
     subscription: bhoSubscription,
     builderClient: bhoBuilderClient,
+    projectGallery: bhoProjectGallery,
   },
   as: {
     common: asCommon,
@@ -324,6 +352,7 @@ const resources = {
     siteInventory: asSiteInventory,
     subscription: asSubscription,
     builderClient: asBuilderClient,
+    projectGallery: asProjectGallery,
   },
   hry: {
     common: hryCommon,
@@ -336,6 +365,7 @@ const resources = {
     siteInventory: hrySiteInventory,
     subscription: hrySubscription,
     builderClient: hryBuilderClient,
+    projectGallery: hryProjectGallery,
   },
 };
 
@@ -350,7 +380,7 @@ i18n
       escapeValue: false, // React already escapes values
     },
     defaultNS: 'common',
-    ns: ['common', 'auth', 'dashboard', 'account', 'businessCard', 'siteInventory', 'referEarn', 'subscription', 'builderClient'],
+    ns: ['common', 'auth', 'dashboard', 'account', 'businessCard', 'siteInventory', 'referEarn', 'subscription', 'builderClient', 'projectGallery'],
   });
 
 export default i18n;

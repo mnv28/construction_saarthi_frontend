@@ -1,0 +1,17 @@
+{
+  "title": "پروجیکٹ گیلری",
+  "searchPlaceholder": "پروجیکٹس تلاش کریں",
+  "filter": "فلٹر",
+  "filterOptions": {
+    "all": "سب",
+    "inProcess": "جاری",
+    "completed": "مکمل",
+    "upcoming": "آنے والا"
+  },
+  "emptyState": {
+    "noProjects": "کوئی پروجیکٹ نہیں ملا",
+    "adjustSearch": "اپنی تلاش یا فلٹر کو ایڈجسٹ کرنے کی کوشش کریں",
+    "getStarted": "ایک پروجیکٹ شامل کرکے شروع کریں"
+  }
+}
+

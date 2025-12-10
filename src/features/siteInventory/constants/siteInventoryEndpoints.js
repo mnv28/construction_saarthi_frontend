@@ -35,6 +35,10 @@ export const SITE_INVENTORY_ENDPOINTS = {
     LIST: '/vendors', // GET /vendors - List all vendors
     CREATE: '/vendors/create', // POST /vendors/create - Create new vendor
   },
+  // Inventory Types Endpoints
+  INVENTORY_TYPES: {
+    LIST: '/inventory/all', // GET /inventory/all - List all inventory types
+  },
 };
 
 // Flattened endpoints for easier access
@@ -62,6 +66,8 @@ export const SITE_INVENTORY_ENDPOINTS_FLAT = {
   // Vendors
   VENDORS_LIST: SITE_INVENTORY_ENDPOINTS.VENDORS.LIST, // GET /vendors
   VENDORS_CREATE: SITE_INVENTORY_ENDPOINTS.VENDORS.CREATE, // POST /vendors/create
+  // Inventory Types
+  INVENTORY_TYPES_LIST: SITE_INVENTORY_ENDPOINTS.INVENTORY_TYPES.LIST, // GET /inventory/all
 };
 
 export default SITE_INVENTORY_ENDPOINTS_FLAT;

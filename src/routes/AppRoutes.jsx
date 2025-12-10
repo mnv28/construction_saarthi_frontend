@@ -65,6 +65,9 @@ const Vendors = lazy(() => import('../features/vendors/pages/Vendors'));
 const AddVendor = lazy(() => import('../features/vendors/pages/AddVendor'));
 const EditVendor = lazy(() => import('../features/vendors/pages/EditVendor'));
 
+// Project Gallery
+const ProjectGallery = lazy(() => import('../features/projectGallery/pages/ProjectGallery'));
+
 // Projects
 const Projects = lazy(() => import('../features/projects/pages/Projects'));
 const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
@@ -145,6 +148,8 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.VENDORS} element={<Vendors />} />
             <Route path={ROUTES_FLAT.ADD_VENDOR} element={<AddVendor />} />
             <Route path={ROUTES_FLAT.EDIT_VENDOR} element={<EditVendor />} />
+            <Route path={ROUTES_FLAT.PROJECT_GALLERY} element={<ProjectGallery />} />
+            <Route path={ROUTES_FLAT.PROJECT_GALLERY_DETAILS} element={<ProjectGallery />} />
           </Route>
         </Route>
 

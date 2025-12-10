@@ -17,6 +17,7 @@ export default function InventoryItemCard({
   onLogUsage,
   onDownloadPDF,
   onViewDetails,
+  inventoryTypes = [], // Array of inventory types from API
   t,
   formatDate,
   formatCurrency,
@@ -71,12 +72,15 @@ export default function InventoryItemCard({
   const totalPrice = item.totalPrice || (quantity * costPerUnit);
   const date = item.date || item.createdAt || item.updatedAt;
   
-  // Determine material type from inventoryTypeId (1 = reusable, 2 = consumable)
-  const inventoryTypeId = item.inventoryTypeId;
-  const materialType = item.materialType || item.type || item.category || 
-    (inventoryTypeId === 1 || inventoryTypeId === '1' ? 'reusable' : 
-     inventoryTypeId === 2 || inventoryTypeId === '2' ? 'consumable' : 'reusable');
-  const isConsumable = materialType?.toLowerCase() === 'consumable';
+  // Determine if item is consumable based on inventoryTypeId dynamically
+  const inventoryTypeId = item.inventoryTypeId?.toString();
+  // Find inventory type from API to check if it's consumable
+  const itemInventoryType = inventoryTypes.find(
+    (type) => (type.id?.toString() || type.inventoryTypeId?.toString()) === inventoryTypeId
+  );
+  // Check if the inventory type name contains 'consumable' (case-insensitive)
+  const typeName = itemInventoryType?.name || itemInventoryType?.typeName || '';
+  const isConsumable = typeName.toLowerCase().includes('consumable');
   
   // Consumable specific fields
   // For consumable, quantityDetails might track purchased vs used

@@ -1,14 +1,7 @@
-/**
- * Project Gallery Page
- * Displays all projects in a gallery view with search and filter
- */
-
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../../components/layout/PageHeader';
 import SearchBar from '../../../components/ui/SearchBar';
-import Button from '../../../components/ui/Button';
 import Dropdown from '../../../components/ui/Dropdown';
 import Loader from '../../../components/ui/Loader';
 import EmptyState from '../../../components/shared/EmptyState';
@@ -16,7 +9,6 @@ import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 import { GalleryProjectCard } from '../components';
 import { useProjects } from '../../projects/hooks';
 import { useAuth } from '../../../hooks/useAuth';
-import { ArrowUpDown } from 'lucide-react';
 
 export default function ProjectGallery() {
   const { t } = useTranslation('projectGallery');
@@ -50,13 +42,13 @@ export default function ProjectGallery() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <PageHeader
           title={t('title', { defaultValue: 'Projects Gallery' })}
           showBackButton
           onBack={handleBack}
+          className="capitalize!"
         >
           {/* Search and Filter */}
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
@@ -100,6 +92,5 @@ export default function ProjectGallery() {
           </div>
         )}
       </div>
-    </div>
   );
 }

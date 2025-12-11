@@ -79,6 +79,7 @@ export const ROUTES = {
   PROJECT_GALLERY: {
     HOME: '/gallery',
     PROJECT_GALLERY: '/gallery/:projectId',
+    UPLOAD: '/gallery/:projectId/upload',
   },
 };
 
@@ -147,6 +148,7 @@ export const ROUTES_FLAT = {
   // Project Gallery
   PROJECT_GALLERY: ROUTES.PROJECT_GALLERY.HOME,
   PROJECT_GALLERY_DETAILS: ROUTES.PROJECT_GALLERY.PROJECT_GALLERY,
+  PROJECT_GALLERY_UPLOAD: ROUTES.PROJECT_GALLERY.UPLOAD,
 };
 
 /**

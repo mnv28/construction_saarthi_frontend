@@ -9,88 +9,100 @@ import { PROJECT_GALLERY_ENDPOINTS_FLAT } from '../constants';
 /**
  * Get project gallery items
  * @param {Object} params - Query parameters
- * @param {string} params.projectId - Project ID
+ * @param {string|number} params.projectId - Project ID (required)
+ * @param {string} params.type - Media type: 'photo', 'video', or 'document' (optional)
+ * @param {string} params.dateFilter - Date filter: 'custom', 'recent', 'oldest', etc. (optional)
  * @returns {Promise} API response
  */
 export const getProjectGallery = async (params = {}) => {
   try {
-    const response = await http.get(PROJECT_GALLERY_ENDPOINTS_FLAT.GET_GALLERY, {
-      params,
+    const { projectId, type, dateFilter, ...otherParams } = params;
+    
+    if (!projectId) {
+      throw new Error('Project ID is required');
+    }
+
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    if (type) {
+      queryParams.append('type', type);
+    }
+    if (dateFilter) {
+      queryParams.append('dateFilter', dateFilter);
+    }
+    
+    // Add any other query parameters
+    Object.keys(otherParams).forEach(key => {
+      if (otherParams[key] !== undefined && otherParams[key] !== null) {
+        queryParams.append(key, otherParams[key]);
+      }
     });
-    return response.data;
+
+    const queryString = queryParams.toString();
+    const url = PROJECT_GALLERY_ENDPOINTS_FLAT.GET_GALLERY
+      .replace(':projectId', projectId) + (queryString ? `?${queryString}` : '');
+
+    const response = await http.get(url);
+    // http service already returns response.data, so response is the data object directly
+    return response;
   } catch (error) {
-    console.error('Error fetching project gallery:', error);
     throw error;
   }
 };
 
 /**
- * Upload image to project gallery
- * @param {Object} data - Upload data
- * @param {string} data.projectId - Project ID
- * @param {File} data.file - Image file
- * @param {string} data.title - Image title (optional)
- * @param {string} data.description - Image description (optional)
+ * Delete media (photo, video, or document)
+ * @param {string|number} mediaId - Media ID to delete
  * @returns {Promise} API response
  */
-export const uploadGalleryImage = async (data) => {
+export const deleteMedia = async (mediaId) => {
   try {
-    const formData = new FormData();
-    formData.append('projectId', data.projectId);
-    formData.append('file', data.file);
-    if (data.title) formData.append('title', data.title);
-    if (data.description) formData.append('description', data.description);
-
-    const response = await http.post(
-      PROJECT_GALLERY_ENDPOINTS_FLAT.UPLOAD_IMAGE,
-      formData,
+    const response = await http.delete(
+      PROJECT_GALLERY_ENDPOINTS_FLAT.DELETE_MEDIA,
       {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+        data: {
+          id: String(mediaId),
         },
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
-    console.error('Error uploading gallery image:', error);
     throw error;
   }
 };
 
 /**
- * Delete gallery image
- * @param {string} imageId - Image ID
+ * Upload media files to project
+ * @param {string|number} projectId - Project ID
+ * @param {File[]} files - Array of File objects to upload
  * @returns {Promise} API response
  */
-export const deleteGalleryImage = async (imageId) => {
+export const uploadProjectMedia = async (projectId, files) => {
   try {
-    const response = await http.delete(
-      PROJECT_GALLERY_ENDPOINTS_FLAT.DELETE_IMAGE.replace(':id', imageId)
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error deleting gallery image:', error);
-    throw error;
-  }
-};
+    if (!projectId) {
+      throw new Error('Project ID is required');
+    }
 
-/**
- * Update gallery image details
- * @param {string} imageId - Image ID
- * @param {Object} data - Update data
- * @param {string} data.title - Image title (optional)
- * @param {string} data.description - Image description (optional)
- * @returns {Promise} API response
- */
-export const updateGalleryImage = async (imageId, data) => {
-  try {
-    const response = await http.put(
-      PROJECT_GALLERY_ENDPOINTS_FLAT.UPDATE_IMAGE.replace(':id', imageId),
-      data
-    );
-    return response.data;
+    if (!files || !Array.isArray(files) || files.length === 0) {
+      throw new Error('At least one file is required');
+    }
+
+    const formData = new FormData();
+    
+    // Append each file with the same "media" key (as per API requirement)
+    files.forEach((file) => {
+      if (file instanceof File) {
+        formData.append('media', file);
+      }
+    });
+
+    const url = PROJECT_GALLERY_ENDPOINTS_FLAT.UPLOAD_MEDIA.replace(':projectId', String(projectId));
+    
+    // Don't set Content-Type header - let axios/http service handle it for FormData
+    const response = await http.put(url, formData);
+    
+    return response;
   } catch (error) {
-    console.error('Error updating gallery image:', error);
     throw error;
   }
 };

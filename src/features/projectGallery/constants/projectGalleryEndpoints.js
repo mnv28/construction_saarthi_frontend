@@ -5,19 +5,17 @@
 
 const PROJECT_GALLERY_ENDPOINTS = {
   PROJECT_GALLERY: {
-    GET_GALLERY: '/project/gallery',
-    UPLOAD_IMAGE: '/project/gallery/upload',
-    DELETE_IMAGE: '/project/gallery/:id',
-    UPDATE_IMAGE: '/project/gallery/:id',
+    GET_GALLERY: '/project/gallary/:projectId', // GET /project/gallary/:projectId?type=document&dateFilter=custom
+    DELETE_MEDIA: '/media', // DELETE /api/media with body { id: "31" }
+    UPLOAD_MEDIA: '/project/edit/:projectId', // PUT /api/project/edit/:projectId with FormData
   },
 };
 
 // Flattened endpoints for easy access
 const PROJECT_GALLERY_ENDPOINTS_FLAT = {
   GET_GALLERY: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.GET_GALLERY,
-  UPLOAD_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.UPLOAD_IMAGE,
-  DELETE_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.DELETE_IMAGE,
-  UPDATE_IMAGE: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.UPDATE_IMAGE,
+  DELETE_MEDIA: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.DELETE_MEDIA,
+  UPLOAD_MEDIA: PROJECT_GALLERY_ENDPOINTS.PROJECT_GALLERY.UPLOAD_MEDIA,
 };
 
 export { PROJECT_GALLERY_ENDPOINTS };

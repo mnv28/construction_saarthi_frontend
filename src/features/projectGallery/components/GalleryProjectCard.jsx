@@ -5,17 +5,15 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PROJECT_ROUTES } from '../../projects/constants';
+import { ROUTES_FLAT } from '../../../constants/routes';
 
 export default function GalleryProjectCard({ project }) {
   const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);
-
-  const defaultImage = 'https://via.placeholder.com/400x300?text=Project+Image';
   
   // Get image from various possible fields
   const getImageUrl = () => {
-    if (imageError) return defaultImage;
+    if (imageError) return null;
     
     // Check transformed project data (from useProjects hook)
     if (project.profile_photo) return project.profile_photo;
@@ -51,7 +49,7 @@ export default function GalleryProjectCard({ project }) {
       originalData.profile_photo ||
       originalData.image ||
       originalData.thumbnail ||
-      defaultImage
+      null
     );
   };
 
@@ -77,14 +75,7 @@ export default function GalleryProjectCard({ project }) {
   };
 
   const handleCardClick = () => {
-    const slug = projectName
-      .toString()
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)+/g, '');
-
-    navigate(PROJECT_ROUTES.PROJECT_DETAILS.replace(':slug', slug || project.id), {
+    navigate(ROUTES_FLAT.PROJECT_GALLERY_DETAILS.replace(':projectId', project.id), {
       state: {
         projectName,
         projectId: project.id,
@@ -99,14 +90,16 @@ export default function GalleryProjectCard({ project }) {
     >
       <div className="flex gap-4 items-center">
         {/* Thumbnail Image */}
-        <div className="flex-shrink-0">
-          <img
-            src={imageSrc}
-            alt={projectName}
-            onError={handleImageError}
-            className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover"
-          />
-        </div>
+        {imageSrc && (
+          <div className="flex-shrink-0">
+            <img
+              src={imageSrc}
+              alt={projectName}
+              onError={handleImageError}
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover "
+            />
+          </div>
+        )}
 
         {/* Project Info */}
         <div className="flex-1 min-w-0">

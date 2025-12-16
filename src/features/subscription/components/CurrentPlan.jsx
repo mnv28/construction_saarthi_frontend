@@ -18,7 +18,7 @@ export default function CurrentPlan({ currentPlan = null }) {
 
   return (
     <section className="mb-6">
-      <h2 className="text-base md:text-lg font-semibold text-primary mb-3">
+      <h2 className="text-base md:text-lg font-medium text-primary mb-3">
         {t('currentPlan.title', { defaultValue: 'Your Current Plan' })}
       </h2>
       <div className="bg-secondary-light rounded-2xl border border-lightGray px-4 py-4.5 flex items-center justify-between gap-4">

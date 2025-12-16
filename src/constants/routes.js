@@ -61,6 +61,13 @@ export const ROUTES = {
     ADD_NEW_ASK: '/site-inventory/add-new-ask',
     ADD_STOCK: '/site-inventory/restock/add-stock',
   },
+  // Past Work Routes
+  PAST_WORK: {
+    LIST: '/past-work',
+    DETAILS: '/past-work/:id',
+    ADD_NEW: '/past-work/add-new',
+    EDIT: '/past-work/:id/edit',
+  },
 };
 
 // Flattened routes for easier access
@@ -112,6 +119,12 @@ export const ROUTES_FLAT = {
   EDIT_SITE_INVENTORY: ROUTES.SITE_INVENTORY.EDIT,
   ADD_NEW_ASK: ROUTES.SITE_INVENTORY.ADD_NEW_ASK,
   ADD_STOCK: ROUTES.SITE_INVENTORY.ADD_STOCK,
+  
+  // Past Work
+  PAST_WORK: ROUTES.PAST_WORK.LIST,
+  PAST_WORK_DETAILS: ROUTES.PAST_WORK.DETAILS,
+  ADD_PAST_WORK: ROUTES.PAST_WORK.ADD_NEW,
+  EDIT_PAST_WORK: ROUTES.PAST_WORK.EDIT,
 };
 
 /**

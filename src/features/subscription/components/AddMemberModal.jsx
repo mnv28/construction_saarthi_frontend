@@ -151,7 +151,7 @@ export default function AddMemberModal({
             className="p-1 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Close"
           >
-            <X className="w-5 h-5 text-secondary" />
+            <X className="w-5 h-5 text-secondary cursor-pointer" />
           </button>
         </div>
 
@@ -221,7 +221,7 @@ export default function AddMemberModal({
           {/* Information Message */}
           <div className="">
             <div className="flex items-start gap-2">
-              <Info className="w-5 h-5 text-[#FF9500] flex-shrink-0 mt-0.5" />
+              <Info className="w-5 h-5 bg-[#FF9500] text-white rounded-[100px] flex-shrink-0 mt-0.5" />
               <div className="flex-1">
                 <p className="font-medium text-primary mb-1">
                   {t('addMemberModal.membersAdded', {

@@ -35,38 +35,43 @@ export default function SubscriptionBottomBar({
 
   return (
     <div className="mt-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        {/* Plan Summary */}
-        <div className="flex-1 min-w-0">
-          <p className="text-base md:text-[22px] font-medium text-primary">
-            ₹{plan.price.toLocaleString()}<span className='text-sm text-primary-light'> /{plan.period} </span>
-          </p>
-          <p className="text-xs md:text-sm text-primary-light">
-            {plan.description}
-          </p>
-        </div>
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={handleCancel}
-            className="min-w-[100px]"
-          >
-            {t('bottomBar.cancel', { defaultValue: 'Cancel' })}
-          </Button>
-          <Button
-            variant="primary"
-            size="md"
-            onClick={handleContinue}
-            className="min-w-[100px]"
-          >
-            {t('bottomBar.continue', { defaultValue: 'Continue' })}
-          </Button>
-        </div>
-      </div>
+    {/* Plan Summary */}
+    <div className="flex-1 min-w-0">
+      <p className="text-base md:text-[22px] font-medium text-primary">
+        ₹{plan.price.toLocaleString()}
+        <span className="text-sm text-primary-light"> /{plan.period} </span>
+      </p>
+      <p className="text-xs md:text-sm text-primary-light">
+        {plan.description}
+      </p>
     </div>
+
+    {/* Action Buttons */}
+    <div className="flex gap-3 md:flex-row flex-col w-full md:w-auto">
+      <Button
+        variant="secondary"
+        size="md"
+        onClick={handleCancel}
+        className="w-full md:w-[100px]"
+      >
+        {t("bottomBar.cancel", { defaultValue: "Cancel" })}
+      </Button>
+
+      <Button
+        variant="primary"
+        size="md"
+        onClick={handleContinue}
+        className="w-full md:w-[100px]"
+      >
+        {t("bottomBar.continue", { defaultValue: "Continue" })}
+      </Button>
+    </div>
+
+  </div>
+</div>
+
   );
 }
 

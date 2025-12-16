@@ -121,15 +121,11 @@ export default function ProjectDetails() {
           {/* Right: Actions */}
           <div className="flex items-center gap-2 justify-between flex-wrap sm:flex-nowrap sm:justify-end">
             <Button
-              variant=""
               size="xs"
               onClick={handleEdit}
-              leftIconWrapperClassName="!bg-transparent !p-0"
-              leftIcon={
-                <img src={pencilIcon} alt="Edit project" className="w-3 h-3 object-contain" />
-              }
-              className="!border-accent text-accent text-xs sm:!text-sm bg-[#B02E0C0F] !rounded-full px-3 py-1.5 sm:px-5 sm:py-2.5"
+              className="!border-accent font-medium !text-accent text-xs sm:!text-sm !bg-[#B02E0C0F] !rounded-full px-3 py-1.5 sm:px-5 sm:py-2.5"
             >
+              <img src={pencilIcon} alt="Edit project" className="w-4 h-4 object-contain" />
               {t('projectDetails.editProject')}
             </Button>
             <div onClick={(e) => e.stopPropagation()}>

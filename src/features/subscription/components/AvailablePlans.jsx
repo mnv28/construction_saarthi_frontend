@@ -103,7 +103,7 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
           >
             {/* Savings Badge */}
             {plan.savings && plan.savingsType === 'amount' && (
-              <div className="absolute -top-2 right-3 bg-[#FF9500] text-white text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm z-10">
+              <div className="absolute -top-2 right-3 bg-[#FF9500] text-white text-[10px] md:text-xs px-2.5 py-1 rounded-lg shadow-sm z-10">
                 {t('availablePlans.saveAmount', { 
                   defaultValue: 'Save ₹{{amount}}',
                   amount: plan.savings 
@@ -111,13 +111,13 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
               </div>
             )}
             {plan.savingsType === 'bestValue' && (
-              <div className="absolute -top-2 right-3 bg-[#34C759] text-white text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm z-10">
+              <div className="absolute -top-2 right-3 bg-[#34C759] text-white text-[10px] md:text-xs px-2.5 py-1 rounded-lg shadow-sm z-10">
                 {t('availablePlans.bestValue', { defaultValue: 'Best Value' })}
               </div>
             )}
 
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-start gap-3 flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="flex-shrink-0 mt-1">
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                     plan.isSelected

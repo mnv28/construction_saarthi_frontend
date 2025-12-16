@@ -59,6 +59,11 @@ const Projects = lazy(() => import('../features/projects/pages/Projects'));
 const ProjectDetails = lazy(() => import('../features/projects/pages/ProjectDetails'));
 const AddNewProject = lazy(() => import('../features/projects/pages/AddNewProject'));
 
+// Past Work
+const PastWork = lazy(() => import('../features/pastProject/pages/PastWork'));
+const PastProjectDetail = lazy(() => import('../features/pastProject/pages/PastProjectDetail'));
+const EditPastProject = lazy(() => import('../features/pastProject/pages/EditPastProject'));
+
 // Bookings (will be created later)
 // const Bookings = lazy(() => import('../features/bookings/pages/Bookings'));
 
@@ -128,6 +133,10 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.EDIT_SITE_INVENTORY} element={<EditSiteInventory />} />
             <Route path={ROUTES_FLAT.ADD_NEW_ASK} element={<AddNewAsk />} />
             <Route path={ROUTES_FLAT.ADD_STOCK} element={<AddStock />} />
+            <Route path={ROUTES_FLAT.PAST_WORK} element={<PastWork />} />
+            <Route path={ROUTES_FLAT.PAST_WORK_DETAILS} element={<PastProjectDetail />} />
+            <Route path={ROUTES.PAST_WORK.ADD_NEW} element={<EditPastProject />} />
+            <Route path={ROUTES_FLAT.EDIT_PAST_WORK} element={<EditPastProject />} />
           </Route>
         </Route>
 

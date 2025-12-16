@@ -132,6 +132,16 @@
     "goHome": "Go Home",
     "stackTrace": "Stack Trace",
     "developmentMode": "Error details are shown above (development mode)"
+  },
+  "pastWork": {
+    "searchProjects": "Search Projects",
+    "addProjectSite": "Add Project (Site)",
+    "noResults": "No past projects found",
+    "adjustSearch": "Try adjusting your search",
+    "emptyState": {
+      "title": "No Project Added",
+      "message": "Add your projects to show in your proposal"
+    }
   }
 }
 

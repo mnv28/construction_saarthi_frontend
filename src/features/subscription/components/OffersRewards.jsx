@@ -17,13 +17,13 @@ export default function OffersRewards({ appliedCoupon }) {
   };
 
   return (
-    <section className="mb-6">
+    <section className="mb-6  ">
       <h2 className="font-medium text-primary mb-2">
         {t('offersRewards.title', { defaultValue: 'Offers & Rewards' })}
       </h2>
 
       {appliedCoupon ? (
-        <div className="w-full bg-white rounded-2xl border border-[#E5E7EB] p-4 md:p-5 flex items-center justify-between gap-3">
+        <div className="w-full bg-white rounded-2xl border border-[#E5E7EB] p-4 md:p-5 flex items-center justify-between gap-3 ">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FEF2F2] flex items-center justify-center text-accent flex-shrink-0">
               <TicketPercent className="w-4 h-4" strokeWidth={2.2} />

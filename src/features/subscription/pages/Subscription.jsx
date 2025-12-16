@@ -70,7 +70,7 @@ export default function Subscription() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
+
       <div className="max-w-7xl mx-auto px-0 md:px-4">
         <PageHeader 
           title={t('header.title', { defaultValue: 'My Subscription' })}
@@ -111,6 +111,5 @@ export default function Subscription() {
           </div>
         )}
       </div>
-    </div>
   );
 }

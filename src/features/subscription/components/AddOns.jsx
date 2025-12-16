@@ -57,7 +57,7 @@ export default function AddOns() {
 
   return (
     <section className="mb-6">
-      <h2 className="text-base md:text-lg font-semibold text-primary mb-4">
+      <h2 className="font-medium text-primary mb-2">
         {t('addOns.title', { defaultValue: 'Add-ons' })}
       </h2>
 
@@ -95,7 +95,7 @@ export default function AddOns() {
               <button
                 type="button"
                 onClick={handleViewAddedMembers}
-                className="text-sm md:text-[13px] font-medium text-accent hover:underline whitespace-nowrap cursor-pointer"
+                className="text-sm md:text-[13px] font-medium text-accent whitespace-nowrap cursor-pointer"
               >
                 <span className="sm:hidden">
                   {t('addOns.viewMembersMobile', { defaultValue: 'View members' })}

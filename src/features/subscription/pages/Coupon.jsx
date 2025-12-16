@@ -89,7 +89,6 @@ export default function Coupon() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
       <div className="max-w-7xl mx-auto px-0 md:px-4">
         <PageHeader
           title={t('header.coupon', { defaultValue: 'Apply Coupon' })}
@@ -161,17 +160,19 @@ export default function Coupon() {
                   </div>
 
                   {/* Middle content */}
-                  <div className="flex-1 px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 flex flex-col gap-1 sm:gap-1.5">
-                    <p className="text-xs sm:text-sm font-medium text-primary-light">
-                      {coupon.title}
-                    </p>
-                    <p className="text-base sm:text-lg font-semibold text-primary">
-                      {coupon.code}
-                    </p>
-                    <p className="text-xs sm:text-sm text-[#2563EB] cursor-pointer">
-                      {coupon.description}
-                    </p>
-                    <p className="text-[11px] sm:text-xs text-primary-light">
+                  <div className="flex-1 px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 flex flex-col justify-between">
+                    <div className="flex flex-col gap-1 sm:gap-1.5">
+                      <p className="text-xs sm:text-sm font-medium text-primary-light">
+                        {coupon.title}
+                      </p>
+                      <p className="text-base sm:text-lg font-semibold text-primary">
+                        {coupon.code}
+                      </p>
+                      <p className="text-xs sm:text-sm text-[#2563EB] cursor-pointer">
+                        {coupon.description}
+                      </p>
+                    </div>
+                    <p className="text-[11px] sm:text-xs text-primary-light mt-1 sm:mt-1.5">
                       {t('coupon.validityLabel', { defaultValue: 'Validity:' })}{' '}
                       {coupon.validity}
                     </p>
@@ -200,6 +201,5 @@ export default function Coupon() {
           </>
         )}
       </div>
-    </div>
   );
 }

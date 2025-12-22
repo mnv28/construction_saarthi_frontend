@@ -229,6 +229,22 @@ import bhoNotes from '../locales/bho/notes.json';
 import asNotes from '../locales/as/notes.json';
 import hryNotes from '../locales/hry/notes.json';
 
+// Import documents translations for all languages
+import enDocuments from '../locales/en/documents.json';
+import hiDocuments from '../locales/hi/documents.json';
+import guDocuments from '../locales/gu/documents.json';
+import bnDocuments from '../locales/bn/documents.json';
+import taDocuments from '../locales/ta/documents.json';
+import mrDocuments from '../locales/mr/documents.json';
+import teDocuments from '../locales/te/documents.json';
+import knDocuments from '../locales/kn/documents.json';
+import mlDocuments from '../locales/ml/documents.json';
+import urDocuments from '../locales/ur/documents.json';
+import rajDocuments from '../locales/raj/documents.json';
+import bhoDocuments from '../locales/bho/documents.json';
+import asDocuments from '../locales/as/documents.json';
+import hryDocuments from '../locales/hry/documents.json';
+
 // Get saved language from localStorage or default to 'en'
 const savedLang = localStorage.getItem('lang') || 'en';
 
@@ -248,6 +264,7 @@ const resources = {
     pastProjects: enPastProjects,
     dpr: enDpr,
     notes: enNotes,
+    documents: enDocuments,
   },
   hi: {
     common: hiCommon,
@@ -264,6 +281,7 @@ const resources = {
     pastProjects: hiPastProjects,
     dpr: hiDpr,
     notes: hiNotes,
+    documents: hiDocuments,
   },
   gu: {
     common: guCommon,
@@ -280,6 +298,7 @@ const resources = {
     pastProjects: guPastProjects,
     dpr: guDpr,
     notes: guNotes,
+    documents: guDocuments,
   },
   bn: {
     common: bnCommon,
@@ -296,6 +315,7 @@ const resources = {
     pastProjects: bnPastProjects,
     dpr: bnDpr,
     notes: bnNotes,
+    documents: bnDocuments,
   },
   ta: {
     common: taCommon,
@@ -312,6 +332,7 @@ const resources = {
     pastProjects: taPastProjects,
     dpr: taDpr,
     notes: taNotes,
+    documents: taDocuments,
   },
   mr: {
     common: mrCommon,
@@ -328,6 +349,7 @@ const resources = {
     pastProjects: mrPastProjects,
     dpr: mrDpr,
     notes: mrNotes,
+    documents: mrDocuments,
   },
   te: {
     common: teCommon,
@@ -344,6 +366,7 @@ const resources = {
     pastProjects: tePastProjects,
     dpr: teDpr,
     notes: teNotes,
+    documents: teDocuments,
   },
   kn: {
     common: knCommon,
@@ -360,6 +383,7 @@ const resources = {
     pastProjects: knPastProjects,
     dpr: knDpr,
     notes: knNotes,
+    documents: knDocuments,
   },
   ml: {
     common: mlCommon,
@@ -376,6 +400,7 @@ const resources = {
     pastProjects: mlPastProjects,
     dpr: mlDpr,
     notes: mlNotes,
+    documents: mlDocuments,
   },
   ur: {
     common: urCommon,
@@ -392,6 +417,7 @@ const resources = {
     pastProjects: urPastProjects,
     dpr: urDpr,
     notes: urNotes,
+    documents: urDocuments,
   },
   raj: {
     common: rajCommon,
@@ -408,6 +434,7 @@ const resources = {
     pastProjects: rajPastProjects,
     dpr: rajDpr,
     notes: rajNotes,
+    documents: rajDocuments,
   },
   bho: {
     common: bhoCommon,
@@ -424,6 +451,7 @@ const resources = {
     pastProjects: bhoPastProjects,
     dpr: bhoDpr,
     notes: bhoNotes,
+    documents: bhoDocuments,
   },
   as: {
     common: asCommon,
@@ -440,6 +468,7 @@ const resources = {
     pastProjects: asPastProjects,
     dpr: asDpr,
     notes: asNotes,
+    documents: asDocuments,
   },
   hry: {
     common: hryCommon,
@@ -456,6 +485,7 @@ const resources = {
     pastProjects: hryPastProjects,
     dpr: hryDpr,
     notes: hryNotes,
+    documents: hryDocuments,
   },
 };
 

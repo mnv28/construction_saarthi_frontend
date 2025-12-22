@@ -24,6 +24,8 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   notes: "notes.title",
   addNewNote: "notes.addNewNote",
   editNote: "notes.editNote",
+  documents: "documents.title",
+  proposal: "documents.details.materialQuotation",
   refer: "sidebar.mainMenu.referEarn",
   subscription: "sidebar.mainMenu.subscription",
   account: "sidebar.mainMenu.account",
@@ -37,6 +39,7 @@ const Navbar = () => {
   const { t: tBuilderClient } = useTranslation("builderClient");
   const { t: tPastProjects } = useTranslation("pastProjects");
   const { t: tNotes } = useTranslation("notes");
+  const { t: tDocuments } = useTranslation("documents");
   const location = useLocation();
   const { user: authUser } = useAuth();
 
@@ -135,6 +138,25 @@ const Navbar = () => {
       return processedSegments;
     }
 
+    // Handle documents routes: /documents/projects/:projectId/documents/:documentId
+    if (segments[0] === "documents" && segments.length > 1) {
+      const processedSegments = ["documents"];
+      // If we have projects/:projectId, add project name or "projects" translation
+      if (segments[1] === "projects" && segments.length > 2) {
+        // For /documents/projects/:projectId, show: Documents / Projects / ProjectName
+        // For /documents/projects/:projectId/documents/:documentId, show: Documents / Projects / ProjectName / Documents / Proposal
+        if (segments.length === 3) {
+          // Just project documents page
+          processedSegments.push("projects", segments[2], "documents");
+        } else if (segments.length >= 5 && segments[3] === "documents") {
+          // Document details page
+          processedSegments.push("projects", segments[2], "documents", "proposal");
+        }
+        return processedSegments;
+      }
+      return processedSegments;
+    }
+
     return segments;
   }, [location.pathname, location.state]);
 
@@ -165,6 +187,13 @@ const Navbar = () => {
         defaultValue: last.replace(/-/g, " "),
       });
     }
+
+    // Use documents namespace for documents-related translations
+    if (translationKey && translationKey.startsWith("documents.")) {
+      return tDocuments(translationKey.replace("documents.", ""), {
+        defaultValue: last.replace(/-/g, " "),
+      });
+    }
     
     if (translationKey) {
       return t(translationKey, {
@@ -174,7 +203,7 @@ const Navbar = () => {
     
     // Fallback: return the original value if no translation key found
     return last.replace(/-/g, " ");
-  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes]);
+  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments]);
 
   return (
     <header className="fixed top-0 left-0 right-0 lg:left-[300px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
@@ -228,6 +257,12 @@ const Navbar = () => {
                   // Use notes namespace for notes-related translations
                   if (translationKey && translationKey.startsWith("notes.")) {
                     return tNotes(translationKey.replace("notes.", ""), {
+                      defaultValue: crumb.replace(/-/g, " "),
+                    });
+                  }
+                  // Use documents namespace for documents-related translations
+                  if (translationKey && translationKey.startsWith("documents.")) {
+                    return tDocuments(translationKey.replace("documents.", ""), {
                       defaultValue: crumb.replace(/-/g, " "),
                     });
                   }

@@ -1,0 +1,56 @@
+{
+  "title": "Documents",
+  "generateDocuments": "Generate Documents",
+  "searchProjects": "Search projects",
+  "status": "Status",
+  "all": "All",
+  "completed": "Completed",
+  "inProgress": "In Progress",
+  "noProjectsFound": "No projects found",
+  "budget": "Budget",
+  "balance": "Balance",
+  "noImage": "No image",
+  "project": "Project",
+  "categories": {
+    "preConstruction": "Pre-Construction & Approvals",
+    "procurement": "Procurement & Vendor Management",
+    "safety": "Safety & Compliance",
+    "financial": "Financial & Billing",
+    "handover": "Handover & Post-Construction"
+  },
+  "documents": {
+    "proposal": "Project Proposal / Estimate",
+    "proposalDescription": "Scope, material & labour estimate, timeline",
+    "approval": "Approval Drawings / Site Plan Submissions",
+    "approvalDescription": "For municipal or panchayat approvals",
+    "material": "Material Indent / Purchase Requisition",
+    "materialDescription": "Request for materials from stores/vendors",
+    "vendor": "Vendor / Sub-Contractor Agreements",
+    "vendorDescription": "For specialised trades",
+    "safety": "Safety Compliance Documents",
+    "safetyDescription": "Safety plan, PPE checklist, accident report template",
+    "raBill": "Running Account (RA) Bill",
+    "raBillDescription": "Progressive payment claim",
+    "finalBill": "Final Bill / Completion Invoice",
+    "finalBillDescription": "After project handover",
+    "completion": "Completion Certificate Request",
+    "completionDescription": "For local authority/client",
+    "maintenance": "Maintenance Manual",
+    "maintenanceDescription": "Basic upkeep guide for client"
+  },
+  "details": {
+    "materialQuotation": "Material Quotation",
+    "downloadProposal": "Download Proposal",
+    "clientName": "Client Name",
+    "contractorName": "Contractor Name",
+    "projectLocation": "Project Location",
+    "scopeOfWork": "Scope of Work",
+    "timeline": "Timeline",
+    "paymentTerms": "Payment Terms",
+    "termsAndConditions": "Terms and Conditions",
+    "materialEstimate": "Material Estimate",
+    "labourEstimate": "Labour Estimate",
+    "pastProjects": "Past Projects"
+  }
+}
+

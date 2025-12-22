@@ -109,7 +109,7 @@ const Dashboard = () => {
       icon: FileText,
       label: t("quickActions.documents"),
       badgeIcon: aiIcon,
-      onClick: () => {},
+      onClick: () => navigate(ROUTES_FLAT.DOCUMENTS),
     },
     {
       icon: Users,

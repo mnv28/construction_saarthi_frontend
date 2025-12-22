@@ -105,7 +105,7 @@ export default function DatePicker({
     <div className={`w-full ${className}`}>
       {/* Label above input */}
       {label && (
-        <label className="block text-sm font-medium text-primary mb-2">
+        <label className="block text-sm font-normal text-primary mb-2">
           {label}
           {required && <span className="text-accent ml-1">*</span>}
         </label>

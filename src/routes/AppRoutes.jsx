@@ -92,6 +92,11 @@ const AddNote = lazy(() => import('../features/notes/pages/AddNote'));
 const NoteDetails = lazy(() => import('../features/notes/pages/NoteDetails'));
 const EditNote = lazy(() => import('../features/notes/pages/EditNote'));
 
+// Documents
+const GenerateDocuments = lazy(() => import('../features/documents/pages/GenerateDocuments'));
+const ProjectDocuments = lazy(() => import('../features/documents/pages/ProjectDocuments'));
+const DocumentDetails = lazy(() => import('../features/documents/pages/DocumentDetails'));
+
 // Past Work
 const PastWork = lazy(() => import('../features/pastProject/pages/PastWork'));
 const PastProjectDetail = lazy(() => import('../features/pastProject/pages/PastProjectDetail'));
@@ -189,6 +194,9 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.NOTES_ADD} element={<AddNote />} />
             <Route path={ROUTES_FLAT.NOTES_DETAILS} element={<NoteDetails />} />
             <Route path={ROUTES_FLAT.NOTES_EDIT} element={<EditNote />} />
+            <Route path={ROUTES_FLAT.DOCUMENTS} element={<GenerateDocuments />} />
+            <Route path={ROUTES_FLAT.DOCUMENTS_PROJECT_DOCUMENTS} element={<ProjectDocuments />} />
+            <Route path={ROUTES_FLAT.DOCUMENTS_DOCUMENT_DETAILS} element={<DocumentDetails />} />
           </Route>
         </Route>
 

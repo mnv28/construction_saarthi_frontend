@@ -151,7 +151,7 @@ export default function RichTextEditor({
   return (
     <div className={`border border-black-soft rounded-lg overflow-hidden bg-white ${className}`}>
       {/* Toolbar */}
-      <div className="border-b border-black-soft p-1.5 sm:p-2 flex items-center justify-center gap-0.5 sm:gap-1 flex-wrap">
+      <div className="border-b border-gray-100 p-1.5 sm:p-2 flex items-center justify-center gap-0.5 sm:gap-1 flex-wrap">
         {/* Undo */}
         <ToolbarButton
           icon={Undo2}

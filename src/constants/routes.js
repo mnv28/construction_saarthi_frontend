@@ -109,6 +109,12 @@ export const ROUTES = {
     DETAILS: '/notes/:id',
     EDIT: '/notes/:id/edit',
   },
+  // Documents Routes
+  DOCUMENTS: {
+    GENERATE_DOCUMENTS: '/documents',
+    PROJECT_DOCUMENTS: '/documents/projects/:projectId',
+    DOCUMENT_DETAILS: '/documents/projects/:projectId/documents/:documentId',
+  },
 };
 
 // Flattened routes for easier access
@@ -199,6 +205,11 @@ export const ROUTES_FLAT = {
   NOTES_ADD: ROUTES.NOTES.ADD,
   NOTES_DETAILS: ROUTES.NOTES.DETAILS,
   NOTES_EDIT: ROUTES.NOTES.EDIT,
+  
+  // Documents
+  DOCUMENTS: ROUTES.DOCUMENTS.GENERATE_DOCUMENTS,
+  DOCUMENTS_PROJECT_DOCUMENTS: ROUTES.DOCUMENTS.PROJECT_DOCUMENTS,
+  DOCUMENTS_DOCUMENT_DETAILS: ROUTES.DOCUMENTS.DOCUMENT_DETAILS,
 };
 
 /**

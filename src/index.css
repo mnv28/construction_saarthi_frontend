@@ -6,3 +6,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Custom Scrollbar with Accent Color (Red) on Left Side */
+.scrollbar-accent {
+  direction: rtl;
+  scrollbar-width: thin;
+  scrollbar-color: #B02E0C #F3F4F6;
+}
+
+.scrollbar-accent > * {
+  direction: ltr;
+}
+
+.scrollbar-accent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-accent::-webkit-scrollbar-track {
+  background: #F3F4F6;
+  border-radius: 10px;
+}
+
+.scrollbar-accent::-webkit-scrollbar-thumb {
+  background: #B02E0C;
+  border-radius: 10px;
+}
+
+.scrollbar-accent::-webkit-scrollbar-thumb:hover {
+  background: #9F290A;
+}

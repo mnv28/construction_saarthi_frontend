@@ -27,6 +27,7 @@ export default function PageHeader({
 
   return (
     <div className={`mb-4 sm:mb-5 md:mb-6 ${className}`}>
+      {/* Title Row */}
       <div className="flex flex-col gap-3 sm:gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
         {/* Title Section */}
         <div className={`flex items-center gap-2 sm:gap-3 min-w-0 flex-1 ${titleActions ? 'justify-between md:justify-start' : ''}`}>
@@ -51,13 +52,19 @@ export default function PageHeader({
             </div>
           )}
         </div>
-        {/* Actions Section */}
+        {/* Actions Section - Hidden on tablet, shown on desktop */}
         {children && (
-          <div className="w-full sm:w-auto min-w-0 flex-shrink-0">
+          <div className="hidden lg:block w-full sm:w-auto min-w-0 flex-shrink-0">
             {children}
           </div>
         )}
       </div>
+      {/* Actions Section Below - Only shown on tablet */}
+      {children && (
+        <div className="mt-3 md:mt-4 lg:hidden">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

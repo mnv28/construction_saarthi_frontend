@@ -371,21 +371,24 @@ export default function PayableBills() {
           </div>
         }
       >
-        <div className="w-full flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-3 lg:w-auto">
-          {/* Search and Filter */}
-          <div className="flex flex-row gap-2 w-full items-center lg:w-auto">
+        <div className="w-full grid grid-cols-4 gap-2 md:gap-2.5 lg:flex lg:flex-row lg:items-center lg:gap-3 lg:w-auto">
+          {/* Search */}
+          <div className="col-span-2 md:col-span-1 lg:flex-none">
             <SearchBar
               placeholder={t("searchBills", { defaultValue: "Search Bills" })}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 lg:w-[240px] lg:flex-none [&_input]:py-1.5 [&_input]:text-sm"
+              className="w-full lg:w-[240px] [&_input]:py-1.5 [&_input]:text-sm"
             />
+          </div>
 
+          {/* Filter */}
+          <div className="col-span-2 md:col-span-1 lg:flex-none">
             <Button
               variant="secondary"
               size="sm"
               onClick={() => setIsFilterModalOpen(true)}
-              className="flex-shrink-0 flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
             >
               <img src={sortVerticalIcon} alt="Filter" className="w-4 h-4" />
               {t("filter", { defaultValue: "Filter" })}
@@ -394,14 +397,14 @@ export default function PayableBills() {
 
           {/* Download and Create */}
           {filteredBills.length > 0 && (
-            <div className="flex flex-col gap-2 w-full sm:flex-row sm:items-center sm:gap-2 lg:w-auto">
+            <>
               {/* Download */}
-              <div className="relative w-full sm:w-auto" ref={downloadMenuRef}>
+              <div className="col-span-2 md:col-span-1 lg:flex-none relative" ref={downloadMenuRef}>
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => setDownloadMenuOpen(!downloadMenuOpen)}
-                  className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
                 >
                   <img src={downloadIcon} alt="Download" className="w-4 h-4" />
                   {t("downloadBills", { defaultValue: "Download Bills" })}
@@ -423,25 +426,28 @@ export default function PayableBills() {
               </div>
 
               {/* Create */}
-              <Button
-                size="sm"
-                onClick={() => setIsCreateModalOpen(true)}
-                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
-              >
-                <Plus className="w-4 h-4 text-accent bg-white rounded-full p-0.5" />
-                {t("createPayableBill", { defaultValue: "Create Payable Bill" })}
-              </Button>
+              <div className="col-span-2 md:col-span-1 lg:flex-none">
+                <Button
+                  size="sm"
+                  onClick={() => setIsCreateModalOpen(true)}
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap"
+                >
+                  <Plus className="w-4 h-4 text-accent bg-white rounded-full p-0.5" />
+                  {t("createPayableBill", { defaultValue: "Create Payable Bill" })}
+                </Button>
+              </div>
 
-              {/* 3 Dots Menu */}
+              {/* 3 Dots Menu - Desktop only */}
               <div
-              className="hidden lg:block"
-              onClick={(e) => e.stopPropagation()}>
+                className="hidden lg:block lg:flex-none"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <DropdownMenu
                   items={getSectionMenuItems()}
                   position="right"
                 />
               </div>
-            </div>
+            </>
           )}
         </div>
       </PageHeader>

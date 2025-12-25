@@ -315,23 +315,26 @@ export default function ExpensesPaid() {
           navigate(getRoute(ROUTES_FLAT.FINANCE_PROJECT_DETAILS, { projectId }))
         }
       >
-        <div className="w-full flex flex-col gap-2 md:gap-2.5 lg:flex-row lg:items-center lg:w-auto">
-          {/* Search and Filter */}
-          <div className="flex flex-col gap-2 w-full md:flex-row md:items-center md:gap-2 lg:w-auto">
+        <div className="w-full grid grid-cols-2 gap-2 md:gap-2.5 lg:flex lg:flex-row lg:items-center lg:gap-3 lg:w-auto">
+          {/* Search */}
+          <div className="col-span-2 md:col-span-1 lg:flex-none">
             <SearchBar
               placeholder={t("searchPaymentEntries", {
                 defaultValue: "Search payment entries",
               })}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full md:flex-1 lg:w-[250px] [&_input]:py-1.5 [&_input]:text-sm"
+              className="w-full lg:w-[250px] [&_input]:py-1.5 [&_input]:text-sm"
             />
+          </div>
 
+          {/* Filter */}
+          <div className="col-span-2 md:col-span-1 lg:flex-none">
             <Button
               variant="secondary"
               size="sm"
               onClick={() => setIsFilterModalOpen(true)}
-              className="w-full md:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
             >
               <img src={sortVerticalIcon} alt="Filter" className="w-4 h-4" />
               {t("filter", { defaultValue: "Filter" })}
@@ -340,14 +343,14 @@ export default function ExpensesPaid() {
 
           {/* Download and Create (only show when data exists) */}
           {filteredEntries.length > 0 && (
-            <div className="flex flex-col gap-2 w-full md:flex-row md:items-center md:gap-2 lg:w-auto">
+            <>
               {/* Download */}
-              <div className="relative w-full md:w-auto" ref={downloadMenuRef}>
+              <div className="col-span-2 md:col-span-1 lg:flex-none relative" ref={downloadMenuRef}>
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => setDownloadMenuOpen(!downloadMenuOpen)}
-                  className="w-full md:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
                 >
                   <img src={downloadIcon} alt="Download" className="w-4 h-4" />
                   {t("downloadBills", { defaultValue: "Download Bills" })}
@@ -369,17 +372,19 @@ export default function ExpensesPaid() {
               </div>
 
               {/* Create */}
-              <Button
-                size="sm"
-                onClick={handleCreatePaymentEntry}
-                className="w-full md:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
-              >
-                <Plus className="w-4 h-4 text-accent bg-white rounded-full p-0.5" />
-                {t("createPaymentEntry", {
-                  defaultValue: "Create Payment Entry",
-                })}
-              </Button>
-            </div>
+              <div className="col-span-2 md:col-span-1 lg:flex-none">
+                <Button
+                  size="sm"
+                  onClick={handleCreatePaymentEntry}
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm"
+                >
+                  <Plus className="w-4 h-4 text-accent bg-white rounded-full p-0.5" />
+                  {t("createPaymentEntry", {
+                    defaultValue: "Create Payment Entry",
+                  })}
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </PageHeader>

@@ -34,7 +34,24 @@
   },
   "error": {
     "uploadFailed": "Failed to upload files. Please try again.",
-    "addFailed": "Failed to add project. Please try again."
+    "addFailed": "Failed to add project. Please try again.",
+    "projectNotFound": "Past project not found",
+    "failedToStart": "Failed to initialize project. Please try again."
+  },
+  "detail": {
+    "editProject": "Edit Project",
+    "backToPastWork": "Back to Past Work",
+    "noAddressProvided": "No address provided",
+    "relevantDocuments": "Relevant Documents",
+    "projectGallery": "Project Gallery",
+    "photos": "Photos",
+    "videos": "Videos",
+    "noPhotosUploaded": "No photos uploaded yet",
+    "noVideosUploaded": "No videos uploaded yet",
+    "viewDocument": "View Document",
+    "deleteDocument": "Delete Document",
+    "deleteConfirmMessage": "Are you sure you want to delete",
+    "deleteConfirmAction": "This action cannot be undone."
   }
 }
 

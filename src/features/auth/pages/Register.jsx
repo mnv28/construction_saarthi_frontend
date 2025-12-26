@@ -9,7 +9,7 @@ import Checkbox from '../../../components/ui/Checkbox';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import { sendOTP } from '../api';
 import { showError, showSuccess } from '../../../utils/toast';
-import registerImage from '../../../assets/images/register.png';
+import registerImage from '../../../assets/images/Register.png';
 
 export default function RegisterPage() {
   const { t } = useTranslation();

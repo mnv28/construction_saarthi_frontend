@@ -34,7 +34,24 @@
   },
   "error": {
     "uploadFailed": "फाइल अपलोड करे में असफल। कृपया फेर कोशिश करीं।",
-    "addFailed": "प्रोजेक्ट जोड़े में असफल। कृपया फेर कोशिश करीं।"
+    "addFailed": "प्रोजेक्ट जोड़े में असफल। कृपया फेर कोशिश करीं।",
+    "projectNotFound": "पिछला प्रोजेक्ट ना मिलल",
+    "failedToStart": "प्रोजेक्ट शुरू करे में असफल। कृपया फेर कोशिश करीं।"
+  },
+  "detail": {
+    "editProject": "प्रोजेक्ट संपादन करीं",
+    "backToPastWork": "पिछला काम पर वापस जाईं",
+    "noAddressProvided": "कोई पता ना दिहल गइल",
+    "relevantDocuments": "संबंधित दस्तावेज़",
+    "projectGallery": "प्रोजेक्ट गैलरी",
+    "photos": "फोटो",
+    "videos": "वीडियो",
+    "noPhotosUploaded": "अभी तक कोई फोटो अपलोड ना कइल गइल",
+    "noVideosUploaded": "अभी तक कोई वीडियो अपलोड ना कइल गइल",
+    "viewDocument": "दस्तावेज़ देखीं",
+    "deleteDocument": "दस्तावेज़ मेटाईं",
+    "deleteConfirmMessage": "का रउआ सच में मेटाईं चाहीं",
+    "deleteConfirmAction": "ई कार्य वापस ना कइल जा सकेला।"
   }
 }
 

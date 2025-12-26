@@ -14,7 +14,7 @@ import Button from '../../../components/ui/Button';
 import Loader from '../../../components/ui/Loader';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import { useAuth } from '../../../hooks/useAuth';
-import { createPastProject, uploadPastProjectMedia } from '../api/pastProjectApi';
+import { createPastProject, uploadPastProjectMedia, startPastProject } from '../api/pastProjectApi';
 import { showSuccess, showError } from '../../../utils/toast';
 
 export default function AddPastProject() {
@@ -35,6 +35,7 @@ export default function AddPastProject() {
   const [isUploading, setIsUploading] = useState(false);
   const [projectKey, setProjectKey] = useState(projectKeyFromState);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isInitializing, setIsInitializing] = useState(false);
 
   const handleBack = () => {
     navigate(ROUTES_FLAT.PAST_PROJECTS);
@@ -182,13 +183,62 @@ export default function AddPastProject() {
     });
   };
 
-  // Initialize projectKey from state if available
+  // Initialize projectKey - from state or by calling start API
   useEffect(() => {
-    if (projectKeyFromState && !projectKey) {
-      setProjectKey(projectKeyFromState);
-      console.log('ProjectKey initialized from state:', projectKeyFromState);
-    }
-  }, [projectKeyFromState, projectKey]);
+    let mounted = true;
+
+    const initializeProjectKey = async () => {
+      // If projectKey already exists, skip
+      if (projectKey) {
+        return;
+      }
+
+      // If projectKey from state, use it
+      if (projectKeyFromState) {
+        setProjectKey(projectKeyFromState);
+        console.log('ProjectKey initialized from state:', projectKeyFromState);
+        return;
+      }
+
+      // If no projectKey and no workspace, skip
+      if (!selectedWorkspace) {
+        return;
+      }
+
+      // Call start API to get projectKey
+      setIsInitializing(true);
+      try {
+        const startResponse = await startPastProject(selectedWorkspace);
+        const newProjectKey = startResponse?.projectKey || startResponse?.data?.projectKey;
+        
+        if (newProjectKey && mounted) {
+          setProjectKey(newProjectKey);
+          console.log('ProjectKey initialized from start API:', newProjectKey);
+        } else if (mounted) {
+          throw new Error('Failed to get project key from start API');
+        }
+      } catch (error) {
+        console.error('Error initializing project key:', error);
+        if (mounted) {
+          const errorMessage =
+            error?.response?.data?.message ||
+            error?.message ||
+            t('error.failedToStart', { defaultValue: 'Failed to initialize project. Please try again.' });
+          showError(errorMessage);
+        }
+      } finally {
+        if (mounted) {
+          setIsInitializing(false);
+        }
+      }
+    };
+
+    initializeProjectKey();
+
+    return () => {
+      mounted = false;
+    };
+  }, [projectKeyFromState, projectKey, selectedWorkspace, t]);
 
   // Cleanup object URLs on unmount
   useEffect(() => {
@@ -280,6 +330,27 @@ export default function AddPastProject() {
     ns: 'pastProjects',
     defaultValue: '10MB each',
   });
+
+  // Show loader while initializing projectKey
+  if (isInitializing) {
+    return (
+      <div className="max-w-7xl mx-auto">
+        <PageHeader
+          title={t('addTitle', { ns: 'pastProjects', defaultValue: 'Add Project (Site)' })}
+          showBackButton
+          onBack={handleBack}
+        />
+        <div className="mt-8 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <Loader size="lg" />
+            <p className="text-sm text-secondary">
+              {t('initializing', { defaultValue: 'Initializing project...' })}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
       <div className="max-w-7xl mx-auto">

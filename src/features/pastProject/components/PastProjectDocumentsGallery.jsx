@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Play, Eye, Trash2 } from 'lucide-react';
 import documentIcon from '../../../assets/icons/document.svg';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
@@ -127,6 +128,7 @@ export default function PastProjectDocumentsGallery({
   showDocuments = true,
   showGallery = true,
 }) {
+  const { t } = useTranslation(['pastProjects', 'common']);
   const [activeTab, setActiveTab] = useState('photos');
   const [documents, setDocuments] = useState([]);
   const [documentToDelete, setDocumentToDelete] = useState(null);
@@ -183,8 +185,8 @@ export default function PastProjectDocumentsGallery({
   };
 
   const tabs = [
-    { id: 'photos', label: 'Photos' },
-    { id: 'videos', label: 'Videos' },
+    { id: 'photos', label: t('detail.photos', { ns: 'pastProjects', defaultValue: 'Photos' }) },
+    { id: 'videos', label: t('detail.videos', { ns: 'pastProjects', defaultValue: 'Videos' }) },
   ];
 
   return (
@@ -193,7 +195,7 @@ export default function PastProjectDocumentsGallery({
       {showDocuments && documents.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-medium text-primary mb-2">
-            Relevant Documents
+            {t('detail.relevantDocuments', { ns: 'pastProjects', defaultValue: 'Relevant Documents' })}
           </h2>
           <div className="space-y-3">
             {documents.map((doc) => (
@@ -221,12 +223,12 @@ export default function PastProjectDocumentsGallery({
                   <DropdownMenu
                     items={[
                       {
-                        label: 'View Document',
+                        label: t('detail.viewDocument', { ns: 'pastProjects', defaultValue: 'View Document' }),
                         onClick: () => handleViewDocument(doc),
                         icon: <Eye className="w-4 h-4" />,
                       },
                       {
-                        label: 'Delete',
+                        label: t('delete', { ns: 'common', defaultValue: 'Delete' }),
                         onClick: () => handleDeleteClick(doc),
                         icon: <Trash2 className="w-4 h-4 text-accent" />,
                         textColor: 'text-accent',
@@ -245,7 +247,7 @@ export default function PastProjectDocumentsGallery({
       {showGallery && (
       <div className="">
         <h2 className="text-lg sm:text-xl font-medium text-primary mb-4">
-          Project Gallery
+          {t('detail.projectGallery', { ns: 'pastProjects', defaultValue: 'Project Gallery' })}
         </h2>
 
         {/* Tabs */}
@@ -302,7 +304,9 @@ export default function PastProjectDocumentsGallery({
               </div>
             ) : (
               <div className="text-center py-8 text-secondary">
-                <p className="text-sm">No photos uploaded yet</p>
+                <p className="text-sm">
+                  {t('detail.noPhotosUploaded', { ns: 'pastProjects', defaultValue: 'No photos uploaded yet' })}
+                </p>
               </div>
             )}
           </>
@@ -351,7 +355,9 @@ export default function PastProjectDocumentsGallery({
               </div>
             ) : (
               <div className="text-center py-8 text-secondary">
-                <p className="text-sm">No videos uploaded yet</p>
+                <p className="text-sm">
+                  {t('detail.noVideosUploaded', { ns: 'pastProjects', defaultValue: 'No videos uploaded yet' })}
+                </p>
               </div>
             )}
           </>
@@ -364,22 +370,22 @@ export default function PastProjectDocumentsGallery({
         isOpen={!!documentToDelete}
         onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
-        title="Delete Document"
+        title={t('detail.deleteDocument', { ns: 'pastProjects', defaultValue: 'Delete Document' })}
         message={
           documentToDelete ? (
             <p>
-              Are you sure you want to delete{' '}
+              {t('detail.deleteConfirmMessage', { ns: 'pastProjects', defaultValue: 'Are you sure you want to delete' })}{' '}
               <span className="font-medium text-primary">
                 {documentToDelete.name}
               </span>
-              ? This action cannot be undone.
+              ? {t('detail.deleteConfirmAction', { ns: 'pastProjects', defaultValue: 'This action cannot be undone.' })}
             </p>
           ) : (
             ''
           )
         }
-        confirmText="Delete"
-        cancelText="Cancel"
+        confirmText={t('delete', { ns: 'common', defaultValue: 'Delete' })}
+        cancelText={t('cancel', { ns: 'common', defaultValue: 'Cancel' })}
         confirmVariant="primary"
       />
     </>

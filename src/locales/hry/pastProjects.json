@@ -34,7 +34,24 @@
   },
   "error": {
     "uploadFailed": "फाइल अपलोड करण में असफल। कृपया फेर कोशिश करो।",
-    "addFailed": "प्रोजेक्ट जोड़ण में असफल। कृपया फेर कोशिश करो।"
+    "addFailed": "प्रोजेक्ट जोड़ण में असफल। कृपया फेर कोशिश करो।",
+    "projectNotFound": "पिछला प्रोजेक्ट नाह मिला",
+    "failedToStart": "प्रोजेक्ट शुरू करण में असफल। कृपया फेर कोशिश करो।"
+  },
+  "detail": {
+    "editProject": "प्रोजेक्ट संपादित करो",
+    "backToPastWork": "पिछले काम पर वापस जाओ",
+    "noAddressProvided": "कोई पता नाह दिया गया",
+    "relevantDocuments": "संबंधित दस्तावेज़",
+    "projectGallery": "प्रोजेक्ट गैलरी",
+    "photos": "फोटो",
+    "videos": "वीडियो",
+    "noPhotosUploaded": "अभी तक कोई फोटो अपलोड नाह किया गया",
+    "noVideosUploaded": "अभी तक कोई वीडियो अपलोड नाह किया गया",
+    "viewDocument": "दस्तावेज़ देखो",
+    "deleteDocument": "दस्तावेज़ हटाओ",
+    "deleteConfirmMessage": "क्या तू सच में हटाना चाहता है",
+    "deleteConfirmAction": "इस क्रिया को वापस नाह किया जा सकता।"
   }
 }
 

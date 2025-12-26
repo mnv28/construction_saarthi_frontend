@@ -68,7 +68,7 @@ const MOCK_PAST_PROJECT_DATA = {
 };
 
 export default function PastProjectDetail() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['pastProjects', 'common']);
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
@@ -124,9 +124,11 @@ export default function PastProjectDetail() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-secondary text-lg mb-2">Past project not found</p>
+          <p className="text-secondary text-lg mb-2">
+            {t('error.projectNotFound', { ns: 'pastProjects', defaultValue: 'Past project not found' })}
+          </p>
           <Button variant="primary" onClick={handleBack}>
-            Back to Past Work
+            {t('detail.backToPastWork', { ns: 'pastProjects', defaultValue: 'Back to Past Work' })}
           </Button>
         </div>
       </div>
@@ -147,8 +149,8 @@ export default function PastProjectDetail() {
                 onClick={handleEdit}
                 className="!border-accent font-medium !text-accent text-xs sm:!text-sm !bg-[#B02E0C0F] !rounded-full px-3 py-1.5 sm:px-5 sm:py-2.5"
               >
-                <img src={pencilIcon} alt="Edit project" className="w-4 h-4 object-contain" />
-                Edit Project
+                <img src={pencilIcon} alt={t('detail.editProject', { ns: 'pastProjects', defaultValue: 'Edit Project' })} className="w-4 h-4 object-contain" />
+                {t('detail.editProject', { ns: 'pastProjects', defaultValue: 'Edit Project' })}
               </Button>
             </PageHeader>
           </div>

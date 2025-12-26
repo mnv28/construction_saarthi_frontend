@@ -310,6 +310,70 @@ export default function AddLabourForm({
     });
   };
 
+  // Handler functions for form inputs
+  const handleLabourNameChange = (e) => {
+    setLabourName(e.target.value);
+    if (errors.labourName) {
+      setErrors((prev) => ({ ...prev, labourName: '' }));
+    }
+  };
+
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+    if (errors.category) {
+      setErrors((prev) => ({ ...prev, category: '' }));
+    }
+  };
+
+  const handleCategoryAddNew = async (label) => {
+    const safeLabel = String(label || '').trim();
+    if (!safeLabel) return;
+    const created = await addNewCategory?.(safeLabel);
+    const createdId = created?.id || created?.category_id || created?.data?.id;
+    if (createdId) {
+      setCategory(String(createdId));
+    }
+  };
+
+  const handleAssignProjectChange = (value) => {
+    setAssignProject(value);
+    if (errors.assignProject) {
+      setErrors((prev) => ({ ...prev, assignProject: '' }));
+    }
+  };
+
+  const handleShiftTypeChange = (id) => {
+    setShiftTypeId(String(id));
+    if (errors.shiftTypeId) {
+      setErrors((prev) => ({ ...prev, shiftTypeId: '' }));
+    }
+  };
+
+  const handleContactNumberChange = (e) => {
+    setContactNumber(e.target.value);
+    if (errors.contactNumber) {
+      setErrors((prev) => ({ ...prev, contactNumber: '' }));
+    }
+  };
+
+  const handleAadharNumberChange = (e) => {
+    setAadharNumber(e.target.value);
+  };
+
+  const handleDefaultDailyWageChange = (e) => {
+    setDefaultDailyWage(e.target.value);
+    if (errors.defaultDailyWage) {
+      setErrors((prev) => ({ ...prev, defaultDailyWage: '' }));
+    }
+  };
+
+  const handleJoinDateChange = (value) => {
+    setJoinDate(value);
+    if (errors.joinDate) {
+      setErrors((prev) => ({ ...prev, joinDate: '' }));
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -362,12 +426,7 @@ export default function AddLabourForm({
           required
           placeholder={t('addLabourForm.enterName')}
           value={labourName}
-          onChange={(e) => {
-            setLabourName(e.target.value);
-            if (errors.labourName) {
-              setErrors((prev) => ({ ...prev, labourName: '' }));
-            }
-          }}
+          onChange={handleLabourNameChange}
           error={errors.labourName}
         />
 
@@ -377,12 +436,7 @@ export default function AddLabourForm({
             required
             placeholder={t('addLabourForm.selectCategory')}
             value={category}
-            onChange={(value) => {
-              setCategory(value);
-              if (errors.category) {
-                setErrors((prev) => ({ ...prev, category: '' }));
-              }
-            }}
+            onChange={handleCategoryChange}
             options={categoryOptions}
             error={errors.category}
             showSeparator
@@ -393,27 +447,14 @@ export default function AddLabourForm({
               placeholder: t('addLabourForm.addCategoryPlaceholder'),
               label: t('addLabourForm.category'),
             }}
-            onAddNew={async (label) => {
-              const safeLabel = String(label || '').trim();
-              if (!safeLabel) return;
-              const created = await addNewCategory?.(safeLabel);
-              const createdId = created?.id || created?.category_id || created?.data?.id;
-              if (createdId) {
-                setCategory(String(createdId));
-              }
-            }}
+            onAddNew={handleCategoryAddNew}
           />
           <Dropdown
             label={t('addLabourForm.assignToProject')}
             required
             placeholder={t('addLabourForm.selectProject')}
             value={assignProject}
-            onChange={(value) => {
-              setAssignProject(value);
-              if (errors.assignProject) {
-                setErrors((prev) => ({ ...prev, assignProject: '' }));
-              }
-            }}
+            onChange={handleAssignProjectChange}
             options={projectOptions}
             error={errors.assignProject}
           />
@@ -432,12 +473,7 @@ export default function AddLabourForm({
                 label={s.name}
                 value={String(s.id)}
                 checked={String(shiftTypeId) === String(s.id)}
-                onChange={() => {
-                  setShiftTypeId(String(s.id));
-                  if (errors.shiftTypeId) {
-                    setErrors((prev) => ({ ...prev, shiftTypeId: '' }));
-                  }
-                }}
+                onChange={() => handleShiftTypeChange(s.id)}
               />
             ))}
           </div>
@@ -451,12 +487,7 @@ export default function AddLabourForm({
             label={t('addLabourForm.contactNumber')}
             required
             value={contactNumber}
-            onChange={(e) => {
-              setContactNumber(e.target.value);
-              if (errors.contactNumber) {
-                setErrors((prev) => ({ ...prev, contactNumber: '' }));
-              }
-            }}
+            onChange={handleContactNumberChange}
             countryCode={countryCode}
             onCountryCodeChange={setCountryCode}
             error={errors.contactNumber}
@@ -465,7 +496,7 @@ export default function AddLabourForm({
             label={t('addLabourForm.labourAadharNumber')}
             placeholder={t('addLabourForm.enterNumber')}
             value={aadharNumber}
-            onChange={(e) => setAadharNumber(e.target.value)}
+            onChange={handleAadharNumberChange}
           />
         </div>
 
@@ -476,12 +507,7 @@ export default function AddLabourForm({
             placeholder="₹ 00"
             type="number"
             value={defaultDailyWage}
-            onChange={(e) => {
-              setDefaultDailyWage(e.target.value);
-              if (errors.defaultDailyWage) {
-                setErrors((prev) => ({ ...prev, defaultDailyWage: '' }));
-              }
-            }}
+            onChange={handleDefaultDailyWageChange}
             error={errors.defaultDailyWage}
           />
           <div>
@@ -490,12 +516,7 @@ export default function AddLabourForm({
             </label>
             <DatePicker
               value={joinDate}
-              onChange={(value) => {
-                setJoinDate(value);
-                if (errors.joinDate) {
-                  setErrors((prev) => ({ ...prev, joinDate: '' }));
-                }
-              }}
+              onChange={handleJoinDateChange}
               placeholder={t('addLabourForm.selectDate')}
               className="w-full"
               error={errors.joinDate}

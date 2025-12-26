@@ -160,14 +160,18 @@ export const uploadPastProjectMedia = async (projectKey, files) => {
   const token = localStorage.getItem('token');
 
   try {
+    // Don't set Content-Type manually - axios will set it with the correct boundary for multipart/form-data
     const response = await axios.post(
       url,
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          // Let axios set Content-Type with boundary automatically
           ...(token && { Authorization: `Bearer ${token}` }),
         },
+        timeout: 300000, // 5 minutes timeout for file uploads
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
       }
     );
 

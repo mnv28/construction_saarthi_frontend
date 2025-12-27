@@ -13,19 +13,60 @@ export default function UpdateBudgetModal({
   onClose,
   onUpdate,
   currentBudget = '',
+  isLoading = false,
 }) {
   const { t } = useTranslation('finance');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
 
+  // Convert formatted budget string to number
+  const parseBudgetToNumber = (budgetStr) => {
+    if (!budgetStr || typeof budgetStr !== 'string') {
+      return '';
+    }
+
+    // Remove currency symbol and spaces
+    let cleanStr = budgetStr.replace(/[₹,\s]/g, '').trim();
+    
+    // Check for Cr (Crore)
+    if (cleanStr.toLowerCase().includes('cr')) {
+      const numStr = cleanStr.replace(/cr/gi, '').trim();
+      const num = parseFloat(numStr);
+      if (!isNaN(num)) {
+        return Math.round(num * 10000000).toString();
+      }
+    }
+    
+    // Check for Lakh
+    if (cleanStr.toLowerCase().includes('lakh')) {
+      const numStr = cleanStr.replace(/lakh/gi, '').trim();
+      const num = parseFloat(numStr);
+      if (!isNaN(num)) {
+        return Math.round(num * 100000).toString();
+      }
+    }
+    
+    // Try to parse as regular number
+    const num = parseFloat(cleanStr);
+    if (!isNaN(num)) {
+      return Math.round(num).toString();
+    }
+    
+    return '';
+  };
+
   useEffect(() => {
     if (isOpen) {
-      // Convert current budget format (like "1.2 Cr") to number string
-      setAmount(currentBudget || '');
+      // Convert current budget to number and set in input field
+      const numericValue = parseBudgetToNumber(currentBudget);
+      setAmount(numericValue);
       setError('');
       // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
     } else {
+      // Clear amount when modal closes
+      setAmount('');
+      setError('');
       // Restore body scroll when modal is closed
       document.body.style.overflow = 'unset';
     }
@@ -49,16 +90,21 @@ export default function UpdateBudgetModal({
     }
   }, [isOpen]);
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if (!amount.trim()) {
       setError('Amount is required');
       return;
     }
 
-    onUpdate(amount.trim());
-    setAmount('');
-    setError('');
-    onClose();
+    // Call onUpdate and wait for result
+    const result = await onUpdate(amount.trim());
+    
+    // Only close modal if onUpdate returns true
+    if (result === true) {
+      setAmount('');
+      setError('');
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
@@ -83,6 +129,7 @@ export default function UpdateBudgetModal({
         {/* Body */}
         <div className="px-6 pb-6">
           <NumberInput
+            key={isOpen ? 'budget-input-open' : 'budget-input-closed'}
             label={t('amount', { defaultValue: 'Amount' })}
             placeholder="00,00,000"
             value={amount}
@@ -102,16 +149,18 @@ export default function UpdateBudgetModal({
           <Button 
             variant="secondary" 
             onClick={onClose}
-             className="max-[324px]:w-full"
+            className="max-[324px]:w-full"
+            disabled={isLoading}
           >
             {t('cancel', { defaultValue: 'Cancel' })}
           </Button>
           <Button 
             variant="primary" 
             onClick={handleUpdate}
-             className="max-[324px]:w-full"
+            className="max-[324px]:w-full"
+            disabled={isLoading}
           >
-            {t('updateBudget', { defaultValue: 'Update Budget' })}
+            {isLoading ? t('updating', { defaultValue: 'Updating...' }) : t('updateBudget', { defaultValue: 'Update Budget' })}
           </Button>
         </div>
       </div>

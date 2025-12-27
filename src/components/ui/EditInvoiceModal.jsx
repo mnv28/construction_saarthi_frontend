@@ -19,6 +19,7 @@ export default function EditInvoiceModal({
   onClose,
   onUpdate,
   invoice,
+  isLoading = false,
 }) {
   const { t } = useTranslation("finance");
   const [milestoneTitle, setMilestoneTitle] = useState("");
@@ -67,15 +68,22 @@ export default function EditInvoiceModal({
   }, [isOpen]);
 
   const handleFileSelect = (files) => {
-    setUploadedFiles(Array.from(files));
-    setExistingDocument(null); // Clear existing document when new file is uploaded
+    // When new files are selected, replace existing files
+    const newFiles = Array.from(files);
+    setUploadedFiles(newFiles);
+    // Clear existing document when new file is uploaded (new file will replace it)
+    setExistingDocument(null);
   };
 
   const handleRemoveExistingDocument = () => {
     setExistingDocument(null);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
+    if (isLoading) {
+      return; // Prevent multiple calls
+    }
+
     const newErrors = {};
 
     if (!milestoneTitle.trim()) {
@@ -96,6 +104,10 @@ export default function EditInvoiceModal({
       return;
     }
 
+    // Debug: Log files before sending
+    console.log('Files from edit modal:', uploadedFiles);
+    console.log('Files are File instances:', uploadedFiles.every(f => f instanceof File));
+
     const updatedData = {
       id: invoice.id,
       milestoneTitle: milestoneTitle.trim(),
@@ -107,9 +119,13 @@ export default function EditInvoiceModal({
       document:
         uploadedFiles.length > 0 ? uploadedFiles[0].name : existingDocument,
     };
-    onUpdate(updatedData);
 
-    onClose();
+    const result = await onUpdate(updatedData);
+
+    // Only close if onUpdate returns true (indicating success)
+    if (result === true) {
+      onClose();
+    }
   };
 
   if (!isOpen || !invoice) return null;
@@ -283,30 +299,70 @@ export default function EditInvoiceModal({
               </div>
             )}
 
-            {/* File upload area */}
-            {(!existingDocument || uploadedFiles.length > 0) && (
-              <FileUpload
-                title={t("uploadDocument", { defaultValue: "Upload Document" })}
-                supportedFormats="PDF, JPG, PNG"
-                maxSize={10}
-                maxSizeUnit="MB"
-                onFileSelect={handleFileSelect}
-                uploadButtonText={t("upload", { defaultValue: "Upload" })}
-                supportedFormatLabel={t("supportedFormat", {
-                  defaultValue: "Supported Format:",
+            {/* File upload area - always show to allow adding/replacing files */}
+            <FileUpload
+              title={t("uploadDocument", { defaultValue: "Upload Document" })}
+              supportedFormats="PDF, JPG, PNG"
+              maxSize={10}
+              maxSizeUnit="MB"
+              onFileSelect={handleFileSelect}
+              uploadButtonText={t("upload", { defaultValue: "Upload" })}
+              supportedFormatLabel={t("supportedFormat", {
+                defaultValue: "Supported Format:",
+              })}
+            />
+            
+            {/* Show message if existing document will be replaced */}
+            {existingDocument && uploadedFiles.length > 0 && (
+              <p className="text-xs text-secondary mt-1">
+                {t("existingDocumentWillBeReplaced", { 
+                  defaultValue: "Existing document will be replaced with new file(s)" 
                 })}
-              />
+              </p>
+            )}
+
+            {/* Show selected files */}
+            {uploadedFiles.length > 0 && (
+              <div className="mt-2 space-y-2">
+                <p className="text-sm text-secondary">
+                  {t("selectedFiles", { defaultValue: "Selected files:" })}
+                </p>
+                {uploadedFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                  >
+                    <span className="text-sm text-primary truncate flex-1">
+                      {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
+                      }}
+                      className="ml-2 w-6 h-6 rounded bg-white hover:bg-gray-100 flex items-center justify-center border border-gray-200 transition-colors"
+                      title={t("remove", { defaultValue: "Remove" })}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-black flex items-center justify-center">
+                        <X className="w-2.5 h-2.5 text-black" strokeWidth={2.5} />
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 sticky bottom-0 bg-white ">
-          <Button variant="secondary" onClick={onClose}>
+        <div className="flex items-center justify-end gap-3 px-6 py-4 sticky bottom-0 bg-white border-t border-gray-100">
+          <Button variant="secondary" onClick={onClose} disabled={isLoading}>
             {t("cancel", { defaultValue: "Cancel" })}
           </Button>
-          <Button variant="primary" onClick={handleUpdate}>
-            {t("update", { defaultValue: "Update" })}
+          <Button variant="primary" onClick={handleUpdate} disabled={isLoading}>
+            {isLoading
+              ? t("updating", { defaultValue: "Updating..." })
+              : t("update", { defaultValue: "Update" })}
           </Button>
         </div>
       </div></div>

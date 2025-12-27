@@ -19,6 +19,11 @@ import CustomDateRangeModal from "../../../components/ui/CustomDateRangeModal";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
 import EditSectionModal from "../../../components/ui/EditSectionModal";
 import StatusBadge from "../../../components/ui/StatusBadge";
+import { useExpenseSections } from "../hooks/useExpenseSections";
+import { getPayableBills, createPayableBill, updatePayableBill } from "../api/financeApi";
+import { getVendorsList, createVendor } from "../../siteInventory/api/siteInventoryApi";
+import { useAuth } from "../../auth/store";
+import { showSuccess, showError } from "../../../utils/toast";
 import totalPayablesIcon from "../../../assets/icons/pendingg.svg";
 import paidAmountIcon from "../../../assets/icons/paidred.svg";
 import pendingAmountIcon from "../../../assets/icons/Pendingred.svg";
@@ -35,9 +40,13 @@ export default function PayableBills() {
   const navigate = useNavigate();
   const { projectId, sectionId } = useParams();
   const location = useLocation();
+  const { selectedWorkspace, user } = useAuth();
 
   // Get section name from navigation state or default
   const [sectionName, setSectionName] = useState(location.state?.sectionName || "Section");
+
+  // Use API hook for expense sections
+  const { isUpdating, isDeleting, updateSection, deleteSection } = useExpenseSections(projectId);
 
   // State management
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,110 +59,441 @@ export default function PayableBills() {
   const [isDeleteSectionModalOpen, setIsDeleteSectionModalOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [billToDelete, setBillToDelete] = useState(null);
-  const [vendors, setVendors] = useState([
-    "Ramesh Traders",
-    "Hari Electricals",
-    "Shree Cement Supplier",
-    "Arvind Sharma",
-    "Bipin Shah",
-  ]);
+  const [vendors, setVendors] = useState([]); // Will store {value: id, label: name} format
   const [filters, setFilters] = useState({});
   const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   const downloadMenuRef = useRef(null);
+  const [isLoadingBills, setIsLoadingBills] = useState(false);
+  const [isCreatingBill, setIsCreatingBill] = useState(false);
+  const [isUpdatingBill, setIsUpdatingBill] = useState(false);
+  const isFetchingBillsRef = useRef(false);
+  const isLoadingVendorsRef = useRef(false);
+  const isUpdatingBillRef = useRef(false);
 
-  // Static payable bills data
-  const [payableBills, setPayableBills] = useState([
-    {
-      id: "1",
-      billNo: "PYBL-101",
-      title: "Plumbing materials for Building 1",
-      vendorName: "Ramesh Traders",
-      amount: "₹3,00,000",
-      dueDate: "20 May 2025",
-      date: "12 May 2025",
-      status: "paid",
-      description: "Plumbing materials for Building 1",
-    },
-    {
-      id: "2",
-      billNo: "PYBL-101",
-      title: "Electrical wiring 1st & 2nd floor",
-      vendorName: "Hari Electricals",
-      amount: "₹2,00,000",
-      dueDate: "15 May 2025",
-      date: "12 May 2025",
-      status: "pending",
-      description: "Electrical wiring 1st & 2nd floor",
-    },
-    {
-      id: "3",
-      billNo: "PYBL-095",
-      title: "Cement supply for slab work (Bldg 2)",
-      vendorName: "Cement Supplier",
-      amount: "₹7,50,000",
-      dueDate: "10 May 2025",
-      date: "01 May 2025",
-      status: "pending",
-      description: "Cement supply for slab work (Bldg 2)",
-    },
-  ]);
+  // Payable bills data from API
+  const [payableBills, setPayableBills] = useState([]);
 
-  // Static summary data
+  // Calculate summary data from payable bills
+  const calculateSummary = () => {
+    let totalPayables = 0;
+    let paidAmount = 0;
+    let pendingAmount = 0;
+
+    payableBills.forEach((bill) => {
+      // Extract numeric value from amount string (e.g., "₹3,00,000" -> 300000)
+      const amountStr = bill.amount?.toString().replace(/[₹,]/g, "") || "0";
+      const amount = parseFloat(amountStr) || 0;
+      totalPayables += amount;
+
+      if (bill.status?.toLowerCase() === "paid") {
+        paidAmount += amount;
+      } else {
+        pendingAmount += amount;
+      }
+    });
+
+    return {
+      totalPayables: `₹${totalPayables.toLocaleString("en-IN")}`,
+      paidAmount: `₹${paidAmount.toLocaleString("en-IN")}`,
+      pendingAmount: `₹${pendingAmount.toLocaleString("en-IN")}`,
+    };
+  };
+
+  const summary = calculateSummary();
   const summaryData = [
     {
       icon: totalPayablesIcon,
       label: t("totalPayables", { defaultValue: "Total Payables" }),
-      amount: "₹12,50,000",
+      amount: summary.totalPayables,
     },
     {
       icon: paidAmountIcon,
       label: t("paidAmount", { defaultValue: "Paid Amount" }),
-      amount: "₹5,00,000",
+      amount: summary.paidAmount,
     },
     {
       icon: pendingAmountIcon,
       label: t("pendingAmount", { defaultValue: "Pending Amount" }),
-      amount: "₹7,50,000",
+      amount: summary.pendingAmount,
     },
   ];
 
+  // Transform API response to component format
+  const transformBillData = (apiBill) => {
+    // Format date
+    const formatDate = (dateString) => {
+      if (!dateString) {
+        console.log('formatDate: dateString is empty/null');
+        return "";
+      }
+      
+      try {
+        // Handle different date formats
+        let date;
+        if (typeof dateString === 'string') {
+          // Handle YYYY-MM-DD format (most common from API)
+          const yyyyMMddMatch = dateString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+          if (yyyyMMddMatch) {
+            const [, year, month, day] = yyyyMMddMatch;
+            date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+            console.log('formatDate: Parsed YYYY-MM-DD:', { dateString, year, month, day, date });
+          } else {
+            // Try parsing as-is
+            date = new Date(dateString);
+            // If invalid, try DD/MM/YYYY format
+            if (isNaN(date.getTime())) {
+              const parts2 = dateString.split('/');
+              if (parts2.length === 3) {
+                date = new Date(parseInt(parts2[2]), parseInt(parts2[1]) - 1, parseInt(parts2[0]));
+              }
+            }
+          }
+        } else {
+          date = new Date(dateString);
+        }
+        
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+          console.warn('formatDate: Invalid date:', dateString);
+          return "";
+        }
+        
+        const formatted = date.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        console.log('formatDate: Formatted result:', { dateString, formatted });
+        return formatted;
+      } catch (e) {
+        console.error('formatDate: Error formatting date:', dateString, e);
+        return "";
+      }
+    };
+
+    // Format amount
+    const formatAmount = (amount) => {
+      if (!amount) return "₹0";
+      const numAmount = typeof amount === "string" ? parseFloat(amount.replace(/[₹,]/g, "")) : amount;
+      return `₹${numAmount.toLocaleString("en-IN")}`;
+    };
+
+    // Get vendor name from vendors list using vendor ID
+    const getVendorName = (vendorId) => {
+      if (!vendorId) return "";
+      
+      // Try to find vendor in vendors list by ID
+      const vendor = vendors.find((v) => String(v.value) === String(vendorId));
+      if (vendor) {
+        return vendor.label;
+      }
+      
+      // Fallback to API response fields
+      return (
+        apiBill.vendor_name ||
+        apiBill.vendorName ||
+        apiBill.vendor ||
+        apiBill.paidTo_name ||
+        ""
+      );
+    };
+
+    // Get vendor ID from API response
+    const vendorId = apiBill.paidTo || apiBill.paid_to || apiBill.vendor_id || apiBill.vendorId;
+
+    // Get due date from API response - try multiple field names (API returns DueDate with capital D)
+    const dueDateValue = apiBill.DueDate ||      // PascalCase (from API response) - PRIMARY
+                        apiBill.due_date ||       // snake_case
+                        apiBill.dueDate ||        // camelCase
+                        apiBill.Due_Date ||       // PascalCase with underscore
+                        apiBill.due_Date ||       // mixed case
+                        null;
+
+    // Format the due date
+    const formattedDueDate = formatDate(dueDateValue);
+
+    // Debug: Log to see what's happening with due date
+    console.log('Bill transformation:', {
+      id: apiBill.id,
+      DueDate: apiBill.DueDate,
+      dueDateValue: dueDateValue,
+      formattedDueDate: formattedDueDate,
+      allKeys: Object.keys(apiBill)
+    });
+
+    return {
+      id: apiBill.id?.toString() || apiBill.bill_id?.toString() || Date.now().toString(),
+      billNo: apiBill.bill_no || apiBill.billNo || apiBill.bill_number || `PYBL-${apiBill.id || ""}`,
+      title: apiBill.title || apiBill.description || apiBill.name || "",
+      vendorName: getVendorName(vendorId),
+      vendorId: vendorId, // Store vendor ID for reference
+      amount: formatAmount(apiBill.amount),
+      dueDate: formattedDueDate,
+      date: formatDate(apiBill.date || apiBill.created_at || apiBill.created_date),
+      status: (apiBill.status || "pending").toLowerCase(),
+      description: apiBill.description || apiBill.defineScript || apiBill.title || "",
+    };
+  };
+
+  // Fetch payable bills from API
+  const fetchPayableBills = async (statusFilter = null) => {
+    if (!projectId || !selectedWorkspace || !sectionId) {
+      console.warn("Missing required parameters for fetching payable bills");
+      return;
+    }
+
+    // Prevent duplicate API calls
+    if (isFetchingBillsRef.current) {
+      console.log("Already fetching bills, skipping duplicate call");
+      return;
+    }
+
+    try {
+      isFetchingBillsRef.current = true;
+      setIsLoadingBills(true);
+      const response = await getPayableBills({
+        project_id: projectId,
+        workspace_id: selectedWorkspace,
+        expenseSection_id: sectionId,
+        ...(statusFilter && { status: statusFilter }),
+      });
+
+      // Handle different response structures
+      // API can return: { data: [...] } or { bills: [...] } or direct array
+      let billsData = response?.data || response?.bills || response || [];
+      
+      // If data is an object with nested array, extract it
+      if (billsData && typeof billsData === 'object' && !Array.isArray(billsData)) {
+        // Check if it's a single bill object (from create response)
+        if (billsData.id || billsData.bill_id) {
+          billsData = [billsData];
+        } else {
+          // Try to find array in nested structure
+          billsData = billsData.data || billsData.bills || [];
+        }
+      }
+      
+      const billsList = Array.isArray(billsData) ? billsData : [];
+
+      // Transform API response to component format
+      // Note: vendors must be loaded before transforming bills to map vendor IDs to names
+      const transformedBills = billsList.map(transformBillData);
+
+      setPayableBills(transformedBills);
+      showSuccess(
+        t("payableBillsLoaded", {
+          defaultValue: "Payable bills loaded successfully",
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching payable bills:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        t("failedToLoadPayableBills", {
+          defaultValue: "Failed to load payable bills",
+        });
+      showError(errorMessage);
+      setPayableBills([]);
+    } finally {
+      setIsLoadingBills(false);
+      isFetchingBillsRef.current = false;
+    }
+  };
+
+  // Fetch vendors from API
+  const loadVendors = async () => {
+    if (!selectedWorkspace) {
+      return;
+    }
+
+    // Prevent duplicate API calls
+    if (isLoadingVendorsRef.current) {
+      console.log("Already loading vendors, skipping duplicate call");
+      return;
+    }
+
+    try {
+      isLoadingVendorsRef.current = true;
+      const response = await getVendorsList(selectedWorkspace);
+
+      // Handle different response structures
+      let vendorsArray = [];
+
+      if (Array.isArray(response?.users)) {
+        vendorsArray = response.users;
+      } else if (Array.isArray(response?.data?.users)) {
+        vendorsArray = response.data.users;
+      } else if (Array.isArray(response?.data)) {
+        vendorsArray = response.data;
+      } else if (Array.isArray(response)) {
+        vendorsArray = response;
+      }
+
+      // Transform vendors to dropdown options format {value: id, label: name}
+      const vendorOptions = vendorsArray.map((vendor) => {
+        const vendorId = vendor.id || vendor._id || vendor.vendorId || vendor.userId;
+        const vendorName = vendor.full_name || vendor.name || vendor.vendorName || "Unknown Vendor";
+        return {
+          value: vendorId,
+          label: String(vendorName),
+        };
+      });
+
+      setVendors(vendorOptions);
+    } catch (error) {
+      console.error("Error loading vendors:", error);
+      setVendors([]);
+    } finally {
+      isLoadingVendorsRef.current = false;
+    }
+  };
+
+  // Fetch vendors on component mount (must load before bills to map vendor IDs)
+  useEffect(() => {
+    if (selectedWorkspace) {
+      loadVendors();
+    }
+  }, [selectedWorkspace]);
+
+  // Fetch bills on component mount and when dependencies change
+  // Note: Removed vendors from dependencies to prevent duplicate calls
+  // Vendor names are updated in transformBillData which uses the vendors state
+  useEffect(() => {
+    if (projectId && selectedWorkspace && sectionId) {
+      // Initial fetch without status filter
+      fetchPayableBills(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, selectedWorkspace, sectionId]);
+
   // Handle edit section
-  const handleEditSection = (newSectionName) => {
-    setSectionName(newSectionName);
-    setIsEditSectionModalOpen(false);
+  const handleEditSection = async (newSectionName) => {
+    if (!sectionId) {
+      showError(t('sectionIdRequired', { defaultValue: 'Section ID is required' }));
+      return false;
+    }
+
+    const updatedSection = await updateSection(sectionId, newSectionName);
+    if (updatedSection) {
+      setSectionName(newSectionName);
+      showSuccess(t('sectionUpdated', { defaultValue: 'Section updated successfully' }));
+      setIsEditSectionModalOpen(false);
+      return true;
+    } else {
+      showError(t('failedToUpdateSection', { defaultValue: 'Failed to update section' }));
+      return false;
+    }
   };
 
   // Handle delete section
-  const handleDeleteSection = () => {
-    // Navigate back to expenses to pay page
-    navigate(
-      getRoute(ROUTES_FLAT.FINANCE_EXPENSES_TO_PAY, { projectId })
-    );
-    setIsDeleteSectionModalOpen(false);
+  const handleDeleteSection = async () => {
+    if (!sectionId) {
+      showError(t('sectionIdRequired', { defaultValue: 'Section ID is required' }));
+      setIsDeleteSectionModalOpen(false);
+      return;
+    }
+
+    const success = await deleteSection(sectionId);
+    if (success) {
+      showSuccess(t('sectionDeleted', { defaultValue: 'Section deleted successfully' }));
+      setIsDeleteSectionModalOpen(false);
+      // Navigate back to expenses to pay page after successful delete
+      navigate(
+        getRoute(ROUTES_FLAT.FINANCE_EXPENSES_TO_PAY, { projectId })
+      );
+    } else {
+      showError(t('failedToDeleteSection', { defaultValue: 'Failed to delete section' }));
+      setIsDeleteSectionModalOpen(false);
+    }
   };
 
   // Handle create payable bill
-  const handleCreatePayableBill = (formData) => {
-    const newBill = {
-      id: Date.now().toString(),
-      billNo: `PYBL-${String(payableBills.length + 1).padStart(3, "0")}`,
-      title: formData.title,
-      vendorName: formData.vendorName,
-      amount: `₹${parseFloat(formData.amount).toLocaleString("en-IN")}`,
-      dueDate: new Date(formData.dueDate).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-      date: new Date(formData.date).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-      status: formData.status,
-      description: formData.description,
-    };
-    setPayableBills([newBill, ...payableBills]);
+  const handleCreatePayableBill = async (formData) => {
+    // Prevent duplicate API calls
+    if (isCreatingBill) {
+      return;
+    }
+
+    if (!projectId || !selectedWorkspace || !sectionId) {
+      showError(
+        t("missingRequiredFields", {
+          defaultValue: "Missing required fields. Please refresh the page.",
+        })
+      );
+      return;
+    }
+
+    try {
+      setIsCreatingBill(true);
+
+      // Format date to YYYY-MM-DD
+      const formatDate = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
+
+      // Get vendor ID from formData.vendorName (which is actually the vendor ID from dropdown)
+      // The dropdown stores the value (ID) when a vendor is selected
+      const vendorId = formData.vendorName || formData.vendorId || "";
+
+      // Prepare API data
+      const apiData = {
+        expenseSection_id: sectionId,
+        workspace_id: selectedWorkspace,
+        project_id: projectId,
+        title: formData.title.trim(),
+        amount: parseFloat(formData.amount) || 0,
+        status: formData.status === "paid" ? "Paid" : "Pending",
+        defineScript: formData.description || formData.title || "",
+        due_date: formatDate(formData.dueDate),
+        method: "Cash", // Default payment method
+        paidTo: vendorId, // Vendor ID (bigint)
+        paidBy: user?.id || user?.uid || "", // User ID from auth
+      };
+
+      // Add paidDate only if status is Paid
+      if (formData.status === "paid" || formData.status === "Paid") {
+        apiData.paidDate = formatDate(new Date()); // Use current date as paid date
+      }
+
+      // Add PaymentProof file if provided
+      if (formData.PaymentProof && formData.PaymentProof instanceof File) {
+        apiData.PaymentProof = formData.PaymentProof;
+      }
+
+      // Call API
+      const response = await createPayableBill(apiData);
+
+      // Show success toast
+      showSuccess(
+        t("payableBillCreated", {
+          defaultValue: "Payable bill created successfully",
+        })
+      );
+
+      // Close modal
+      setIsCreateModalOpen(false);
+
+      // Refetch bills from API to get the latest data
+      const statusFilter = filters.status || null;
+      await fetchPayableBills(statusFilter);
+    } catch (error) {
+      console.error("Error creating payable bill:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        t("failedToCreatePayableBill", {
+          defaultValue: "Failed to create payable bill",
+        });
+      showError(errorMessage);
+    } finally {
+      setIsCreatingBill(false);
+    }
   };
 
   // Handle edit payable bill
@@ -210,20 +550,76 @@ export default function PayableBills() {
   };
 
   // Handle add vendor
-  const handleAddVendor = (vendorName) => {
-    if (!vendors.includes(vendorName)) {
-      setVendors([...vendors, vendorName]);
+  const handleAddVendor = async (vendorData) => {
+    if (!selectedWorkspace) {
+      showError(
+        t("workspaceRequired", {
+          defaultValue: "Workspace is required to add vendor",
+        })
+      );
+      return;
+    }
+
+    try {
+      // Create vendor via API
+      const payload = {
+        name: vendorData.name || vendorData.full_name || "",
+        countryCode: vendorData.countryCode || "+91",
+        contactNumber: vendorData.contactNumber || vendorData.phone_number || "",
+        company_Name: vendorData.company_Name || vendorData.companyName || "",
+        address: vendorData.address || "",
+        workspace_id: selectedWorkspace,
+      };
+
+      const response = await createVendor(payload);
+
+      // Extract created vendor from response
+      const createdVendor =
+        response?.data?.user ||
+        response?.data?.vendor ||
+        response?.data?.data ||
+        response?.data ||
+        payload;
+
+      const newVendor = {
+        value: createdVendor.id || createdVendor._id || createdVendor.vendorId || Date.now().toString(),
+        label: createdVendor.full_name || vendorData.name || "",
+      };
+
+      // Add to vendors list
+      setVendors((prev) => [...prev, newVendor]);
+
+      return newVendor;
+    } catch (error) {
+      console.error("Error creating vendor:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        t("failedToCreateVendor", {
+          defaultValue: "Failed to create vendor",
+        });
+      showError(errorMessage);
+      throw error;
     }
   };
 
   // Handle filter apply
   const handleFilterApply = (filterData) => {
     setFilters(filterData);
+    // Refetch bills with new filters
+    if (projectId && selectedWorkspace && sectionId) {
+      const statusFilter = filterData.status || null;
+      fetchPayableBills(statusFilter);
+    }
   };
 
   // Handle filter reset
   const handleFilterReset = () => {
     setFilters({});
+    // Refetch bills without filters
+    if (projectId && selectedWorkspace && sectionId) {
+      fetchPayableBills(null);
+    }
   };
 
   // Handle download all bills
@@ -436,19 +832,19 @@ export default function PayableBills() {
                   {t("createPayableBill", { defaultValue: "Create Payable Bill" })}
                 </Button>
               </div>
-
-              {/* 3 Dots Menu - Desktop only */}
-              <div
-                className="hidden lg:block lg:flex-none"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <DropdownMenu
-                  items={getSectionMenuItems()}
-                  position="right"
-                />
-              </div>
             </>
           )}
+
+          {/* 3 Dots Menu - Always visible on Desktop */}
+          <div
+            className="hidden lg:block lg:flex-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DropdownMenu
+              items={getSectionMenuItems()}
+              position="right"
+            />
+          </div>
         </div>
       </PageHeader>
 
@@ -513,64 +909,74 @@ export default function PayableBills() {
 
                 {/* Bill Details */}
                 <div className="px-4 pb-4 space-y-3 text-sm">
-                  <div className="flex items-center gap-4 border-t border-gray-200 pt-2">
-                    <div>
-                      <div className="text-secondary mb-1 ">
-                        {t("to", { defaultValue: "To" })}:
+                  <div className="flex items-start gap-4 border-t border-gray-200 pt-2">
+                    {/* Left Column */}
+                    <div className="flex-1">
+                      <div className="mb-4">
+                        <div className="text-secondary mb-1 ">
+                          {t("to", { defaultValue: "To" })}:
+                        </div>
+                        <div className="text-primary font-semibold">
+                          {bill.vendorName}
+                        </div>
                       </div>
-                      <div className="text-primary font-semibold">
-                        {bill.vendorName}
-                      </div>
-                    </div>
-
-                    <div className="pl-20">
-                      <div className="text-secondary mb-1">
-                        {t("amount", { defaultValue: "Amount" })}:
-                      </div>
-                      <div className="text-primary font-semibold">
-                        {bill.amount}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <div className="text-secondary mb-1">
-                        {t("dueDate", { defaultValue: "Due Date" })}:
-                      </div>
-                      <div className="text-primary font-semibold">
-                        {bill.dueDate}
-                      </div>
-                    </div>
-                    <div className="flex-1 max-w-[200px] pl-25">
-                      <Dropdown
-                        options={statusOptions}
-                        value={bill.status}
-                        onChange={(value) => handleStatusChange(bill.id, value)}
-                        customButton={(isOpen, setIsOpen) => (
-                          <button
-                            type="button"
-                            onClick={() => setIsOpen(!isOpen)}
-                            className={`px-3 py-1 rounded-full flex items-center gap-2 text-sm font-normal border cursor-pointer ${
-                              bill.status === "paid"
-                                ? "border-green-300 bg-green-50 text-green-600"
-                                : "border-pink-300 bg-pink-50 text-pink-600"
-                            }`}
-                          >
-                            <span>
-                              {bill.status === "paid"
-                                ? t("paid", { defaultValue: "Paid" })
-                                : t("pending", { defaultValue: "Pending" })}
+                      <div>
+                        <div className="text-secondary mb-1">
+                          {t("dueDate", { defaultValue: "Due Date" })}:
+                        </div>
+                        <div className="text-primary font-semibold">
+                          {bill.dueDate || (
+                            <span className="text-secondary italic text-sm">
+                              {t("notSet", { defaultValue: "Not set" })}
                             </span>
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform ${
-                                isOpen ? "rotate-180" : ""
-                              }`}
-                            />
-                          </button>
-                        )}
-                        position="bottom"
-                      />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="flex-1">
+                      <div className="mb-4">
+                        <div className="text-secondary mb-1">
+                          {t("amount", { defaultValue: "Amount" })}:
+                        </div>
+                        <div className="text-primary font-semibold">
+                          {bill.amount}
+                        </div>
+                      </div>
+                      <div>
+                        
+                        <div>
+                          <Dropdown
+                            options={statusOptions}
+                            value={bill.status}
+                            onChange={(value) => handleStatusChange(bill.id, value)}
+                            customButton={(isOpen, setIsOpen) => (
+                              <button
+                                type="button"
+                                onClick={() => setIsOpen(!isOpen)}
+                                className={`px-3 py-1 rounded-full flex items-center gap-2 text-sm font-normal border cursor-pointer ${
+                                  bill.status === "paid"
+                                    ? "border-green-300 bg-green-50 text-green-600"
+                                    : "border-pink-300 bg-pink-50 text-pink-600"
+                                }`}
+                              >
+                                <span>
+                                  {bill.status === "paid"
+                                    ? t("paid", { defaultValue: "Paid" })
+                                    : t("pending", { defaultValue: "Pending" })}
+                                </span>
+                                <ChevronDown
+                                  className={`w-4 h-4 transition-transform ${
+                                    isOpen ? "rotate-180" : ""
+                                  }`}
+                                />
+                              </button>
+                            )}
+                            position="bottom"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -626,6 +1032,7 @@ export default function PayableBills() {
         onCreate={handleCreatePayableBill}
         vendors={vendors}
         onAddVendor={handleAddVendor}
+        isLoading={isCreatingBill}
       />
 
       <EditPayableBillModal
@@ -676,6 +1083,7 @@ export default function PayableBills() {
         onClose={() => setIsEditSectionModalOpen(false)}
         onSave={handleEditSection}
         currentSectionName={sectionName}
+        isLoading={isUpdating}
       />
 
       <ConfirmModal
@@ -690,6 +1098,7 @@ export default function PayableBills() {
         confirmText={t("delete", { defaultValue: "Delete" })}
         cancelText={t("cancel", { defaultValue: "Cancel" })}
         confirmVariant="danger"
+        isLoading={isDeleting}
       />
     </div>
   );

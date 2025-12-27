@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { X } from "lucide-react";
 import Button from "./Button";
 import Input from "./Input";
 import NumberInput from "./NumberInput";
@@ -12,7 +13,7 @@ import Radio from "./Radio";
 import Textarea from "./Textarea";
 import FileUpload from "./FileUpload";
 
-export default function CreateInvoiceModal({ isOpen, onClose, onCreate }) {
+export default function CreateInvoiceModal({ isOpen, onClose, onCreate, isLoading = false }) {
   const { t } = useTranslation("finance");
   const [milestoneTitle, setMilestoneTitle] = useState("");
   const [percentage, setPercentage] = useState("");
@@ -61,7 +62,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onCreate }) {
     setUploadedFiles(Array.from(files));
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
+    if (isLoading) {
+      return; // Prevent multiple calls
+    }
+
     const newErrors = {};
 
     if (!milestoneTitle.trim()) {
@@ -82,7 +87,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onCreate }) {
       return;
     }
 
-    onCreate({
+    // Debug: Log files before sending
+    console.log('Files from modal:', uploadedFiles);
+    console.log('Files are File instances:', uploadedFiles.every(f => f instanceof File));
+
+    const result = await onCreate({
       milestoneTitle: milestoneTitle.trim(),
       percentage: percentage.trim(),
       amount: amount.trim(),
@@ -91,15 +100,18 @@ export default function CreateInvoiceModal({ isOpen, onClose, onCreate }) {
       files: uploadedFiles,
     });
 
-    // Reset form
-    setMilestoneTitle("");
-    setPercentage("");
-    setAmount("");
-    setStatus("pending");
-    setDescription("");
-    setUploadedFiles([]);
-    setErrors({});
-    onClose();
+    // Only close if onCreate returns true (indicating success)
+    if (result === true) {
+      // Reset form
+      setMilestoneTitle("");
+      setPercentage("");
+      setAmount("");
+      setStatus("pending");
+      setDescription("");
+      setUploadedFiles([]);
+      setErrors({});
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
@@ -230,15 +242,48 @@ export default function CreateInvoiceModal({ isOpen, onClose, onCreate }) {
               defaultValue: "Supported Format:",
             })}
           />
+
+          {/* Show selected files */}
+          {uploadedFiles.length > 0 && (
+            <div className="mt-2 space-y-2">
+              <p className="text-sm text-secondary">
+                {t("selectedFiles", { defaultValue: "Selected files:" })}
+              </p>
+              {uploadedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                >
+                  <span className="text-sm text-primary truncate flex-1">
+                    {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
+                    }}
+                    className="ml-2 w-6 h-6 rounded bg-white hover:bg-gray-100 flex items-center justify-center border border-gray-200 transition-colors"
+                    title={t("remove", { defaultValue: "Remove" })}
+                  >
+                    <div className="w-4 h-4 rounded-full border border-black flex items-center justify-center">
+                      <X className="w-2.5 h-2.5 text-black" strokeWidth={2.5} />
+                    </div>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 px-6 py-4 sticky bottom-0 bg-white border-t border-gray-100">
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="secondary" onClick={onClose} disabled={isLoading}>
             {t("cancel", { defaultValue: "Cancel" })}
           </Button>
-          <Button variant="primary" onClick={handleCreate}>
-            {t("create", { defaultValue: "Create" })}
+          <Button variant="primary" onClick={handleCreate} disabled={isLoading}>
+            {isLoading
+              ? t("creating", { defaultValue: "Creating..." })
+              : t("create", { defaultValue: "Create" })}
           </Button>
         </div>
         </div>

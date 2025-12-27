@@ -287,7 +287,7 @@ export default function PastProjectDocumentsGallery({
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`pb-3 text-sm font-medium transition-colors md:px-6 ${
+              className={`pb-3 text-sm font-medium transition-colors md:px-6 cursor-pointer ${
                 activeTab === tab.id
                   ? 'text-accent border-b-2 border-accent'
                   : 'text-secondary hover:text-primary'

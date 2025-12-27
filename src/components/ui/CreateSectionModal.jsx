@@ -12,6 +12,7 @@ export default function CreateSectionModal({
   isOpen,
   onClose,
   onCreate,
+  isLoading = false,
 }) {
   const { t } = useTranslation('finance');
   const [sectionName, setSectionName] = useState('');
@@ -47,16 +48,23 @@ export default function CreateSectionModal({
     }
   }, [isOpen]);
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!sectionName.trim()) {
       setError('Section name is required');
       return;
     }
 
-    onCreate(sectionName.trim());
-    setSectionName('');
-    setError('');
-    onClose();
+    if (isLoading) {
+      return; // Prevent multiple calls
+    }
+
+    const result = await onCreate(sectionName.trim());
+    // Only close if onCreate doesn't return false/null (indicating failure)
+    if (result !== false && result !== null) {
+      setSectionName('');
+      setError('');
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
@@ -107,9 +115,12 @@ export default function CreateSectionModal({
   <Button
     variant="primary"
     onClick={handleCreate}
+    disabled={isLoading}
     className="max-[325px]:w-full"
   >
-    {t('createSection', { defaultValue: 'Create Section' })}
+    {isLoading
+      ? t('creating', { defaultValue: 'Creating...' })
+      : t('createSection', { defaultValue: 'Create Section' })}
   </Button>
 </div>
 

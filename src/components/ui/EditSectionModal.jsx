@@ -13,6 +13,7 @@ export default function EditSectionModal({
   onClose,
   onSave,
   currentSectionName = '',
+  isLoading = false,
 }) {
   const { t } = useTranslation('finance');
   const [sectionName, setSectionName] = useState('');
@@ -48,16 +49,26 @@ export default function EditSectionModal({
     }
   }, [isOpen]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log('EditSectionModal handleSave called:', { sectionName });
+    
     if (!sectionName.trim()) {
       setError('Section name is required');
       return;
     }
 
-    onSave(sectionName.trim());
-    setSectionName('');
-    setError('');
-    onClose();
+    console.log('Calling onSave with:', sectionName.trim());
+    const result = await onSave(sectionName.trim());
+    console.log('onSave result:', result);
+    
+    // Only close if onSave doesn't return false/null (indicating failure)
+    if (result !== false && result !== null) {
+      setSectionName('');
+      setError('');
+      onClose();
+    } else {
+      console.log('onSave returned false/null, not closing modal');
+    }
   };
 
   if (!isOpen) return null;
@@ -98,14 +109,16 @@ export default function EditSectionModal({
           <Button 
             variant="secondary" 
             onClick={onClose}
+            disabled={isLoading}
           >
             {t('cancel', { defaultValue: 'Cancel' })}
           </Button>
           <Button 
             variant="primary" 
             onClick={handleSave}
+            disabled={isLoading}
           >
-            {t('save', { defaultValue: 'Save' })}
+            {isLoading ? t('loading', { defaultValue: 'Loading...' }) : t('save', { defaultValue: 'Save' })}
           </Button>
         </div>
       </div>

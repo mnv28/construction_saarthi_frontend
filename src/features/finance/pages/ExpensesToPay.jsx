@@ -7,10 +7,12 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
+import { useAuth } from '../../../features/auth/store/authStore';
 import PageHeader from '../../../components/layout/PageHeader';
 import SearchBar from '../../../components/ui/SearchBar';
 import Button from '../../../components/ui/Button';
 import CreateSectionModal from '../../../components/ui/CreateSectionModal';
+import { useExpenseSections } from '../hooks/useExpenseSections';
 import emptyStateIcon from '../../../assets/icons/EmptyState.svg';
 import { Plus, ChevronRight } from 'lucide-react';
 
@@ -18,25 +20,23 @@ export default function ExpensesToPay() {
   const { t } = useTranslation('finance');
   const navigate = useNavigate();
   const { projectId } = useParams();
+  const { selectedWorkspace } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-  const [sections, setSections] = useState([
-    { id: '1', name: 'Basement' },
-    { id: '2', name: 'Ground Floor' },
-    { id: '3', name: 'Building A' },
-    { id: '4', name: 'Building B' },
-    { id: '5', name: 'Building C' },
-    { id: '6', name: 'Building D' },
-    { id: '7', name: 'Main Office' },
-  ]);
   const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] = useState(false);
 
+  // Use API hook for expense sections
+  const { sections, isLoading, isCreating, createSection } = useExpenseSections(projectId);
+
   // Handle create section
-  const handleCreateSection = (sectionName) => {
-    const newSection = {
-      id: Date.now().toString(),
-      name: sectionName,
-    };
-    setSections([...sections, newSection]);
+  const handleCreateSection = async (sectionName) => {
+    if (!selectedWorkspace) {
+      console.error('Workspace ID is required');
+      return;
+    }
+    const newSection = await createSection(sectionName, selectedWorkspace);
+    if (newSection) {
+      setIsCreateSectionModalOpen(false);
+    }
   };
 
   // Handle section click - navigate to payable bills page
@@ -50,7 +50,7 @@ export default function ExpensesToPay() {
   };
 
   // Filter sections based on search
-  const filteredSections = sections.filter((section) =>
+  const filteredSections = (sections || []).filter((section) =>
     section.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -60,7 +60,7 @@ export default function ExpensesToPay() {
         title={t('expensesToPay', { defaultValue: 'Expenses To Pay' })}
         onBack={() => navigate(getRoute(ROUTES_FLAT.FINANCE_PROJECT_DETAILS, { projectId }))}
       >
-        {sections.length > 0 ? (
+        {!isLoading && sections.length > 0 ? (
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             <SearchBar
               placeholder={t('searchSections', { defaultValue: 'Search sections' })}
@@ -70,6 +70,7 @@ export default function ExpensesToPay() {
             />
             <Button
               onClick={() => setIsCreateSectionModalOpen(true)}
+              disabled={isCreating}
               className="flex items-center gap-2 whitespace-nowrap w-full sm:w-auto"
             >
               <Plus className="w-5 h-5 text-accent bg-white rounded-full p-1 font-bold" />
@@ -79,8 +80,15 @@ export default function ExpensesToPay() {
         ) : null}
       </PageHeader>
 
-      {/* Sections List or Empty State */}
-      {filteredSections.length > 0 ? (
+      {/* Loading State */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-secondary">{t('loading', { defaultValue: 'Loading...' })}</p>
+        </div>
+      ) : (
+        <>
+          {/* Sections List or Empty State */}
+          {filteredSections.length > 0 ? (
         <div className="space-y-3">
           {filteredSections.map((section) => (
             <div
@@ -113,6 +121,7 @@ export default function ExpensesToPay() {
           </p>
           <Button
             onClick={() => setIsCreateSectionModalOpen(true)}
+            disabled={isCreating}
             className="flex items-center gap-2"
           >
             <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
@@ -121,6 +130,8 @@ export default function ExpensesToPay() {
             {t('createSection', { defaultValue: 'Create Section' })}
           </Button>
         </div>
+          )}
+        </>
       )}
 
       {/* Create Section Modal */}

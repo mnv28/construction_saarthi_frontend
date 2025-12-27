@@ -345,7 +345,10 @@ export default function ExpensesPaid() {
           {filteredEntries.length > 0 && (
             <>
               {/* Download */}
-              <div className="col-span-2 md:col-span-1 lg:flex-none relative" ref={downloadMenuRef}>
+              <div
+                className="col-span-2 md:col-span-1 lg:flex-none relative"
+                ref={downloadMenuRef}
+              >
                 <Button
                   variant="secondary"
                   size="sm"

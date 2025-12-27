@@ -18,6 +18,7 @@ export default function CreatePayableBillModal({
   onCreate,
   vendors = [],
   onAddVendor,
+  isLoading = false,
 }) {
   const { t } = useTranslation('finance');
 
@@ -63,6 +64,11 @@ export default function CreatePayableBillModal({
   };
 
   const handleCreate = () => {
+    // Prevent duplicate calls
+    if (isLoading) {
+      return;
+    }
+
     const newErrors = {};
 
     if (!formData.title.trim()) {
@@ -71,9 +77,9 @@ export default function CreatePayableBillModal({
       });
     }
 
-    if (!formData.vendorName.trim()) {
+    if (!formData.vendorName) {
       newErrors.vendorName = t('vendorNameRequired', {
-        defaultValue: 'Vendor name is required',
+        defaultValue: 'Vendor is required',
       });
     }
 
@@ -90,25 +96,28 @@ export default function CreatePayableBillModal({
     }
 
     onCreate(formData);
-    onClose();
+    // Don't close modal here - let the parent handle it after API success
   };
 
-  const handleVendorAdded = (vendorData) => {
-    const vendorName = vendorData.name;
-
-    if (onAddVendor && !vendors.includes(vendorName)) {
-      onAddVendor(vendorName);
+  const handleVendorAdded = async (vendorData) => {
+    try {
+      // Call parent's handleAddVendor which creates vendor via API and returns {value, label}
+      const newVendor = await onAddVendor(vendorData);
+      
+      if (newVendor && newVendor.value) {
+        // Set the vendor ID (value) as the selected vendor
+        handleChange('vendorName', newVendor.value);
+      }
+    } catch (error) {
+      // Error is already handled in parent component
+      console.error('Error adding vendor:', error);
     }
-
-    handleChange('vendorName', vendorName);
   };
 
   if (!isOpen) return null;
 
-  const vendorOptions = vendors.map((vendor) => ({
-    value: vendor,
-    label: vendor,
-  }));
+  // Vendors are already in {value: id, label: name} format from parent
+  const vendorOptions = vendors;
 
   return (
     <>
@@ -236,6 +245,7 @@ export default function CreatePayableBillModal({
               variant="secondary"
               onClick={onClose}
               className="w-full sm:w-auto"
+              disabled={isLoading}
             >
               {t('cancel', { defaultValue: 'Cancel' })}
             </Button>
@@ -243,8 +253,11 @@ export default function CreatePayableBillModal({
               variant="primary"
               onClick={handleCreate}
               className="w-full sm:w-auto"
+              disabled={isLoading}
             >
-              {t('create', { defaultValue: 'Create' })}
+              {isLoading
+                ? t('creating', { defaultValue: 'Creating...' })
+                : t('create', { defaultValue: 'Create' })}
             </Button>
           </div>
         </div>

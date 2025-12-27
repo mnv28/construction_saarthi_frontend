@@ -189,6 +189,7 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
         paidDate: '',
         method: 'Cash',
         status: 'Paid',
+        expenseSections: 'labour',
       });
       updateToast(toastId, { type: 'success', message: t('labourDetails.advanceAdded', { defaultValue: 'Advance added' }) });
       setActiveModal(null);
@@ -221,6 +222,7 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
         paidDate: '',
         method: 'Cash',
         status: 'Pending',
+        expenseSections: 'labour',
       });
       updateToast(toastId, { type: 'success', message: t('labourDetails.bonusAdded', { defaultValue: 'Bonus added' }) });
       setActiveModal(null);
@@ -253,6 +255,7 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
         paidDate: '',
         method: 'Cash',
         status: 'Pending',
+        expenseSections: 'labour',
       });
       updateToast(toastId, { type: 'success', message: t('labourDetails.deductionAdded', { defaultValue: 'Deduction added' }) });
       setActiveModal(null);

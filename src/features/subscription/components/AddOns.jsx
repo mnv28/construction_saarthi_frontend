@@ -15,12 +15,12 @@ import { useAuth } from '../../auth/store';
 import { showError } from '../../../utils/toast';
 import { ROUTES_FLAT } from '../../../constants/routes';
 
-export default function AddOns() {
+export default function AddOns({ onCalculationChange, onUsersChange }) {
   const { t } = useTranslation('subscription');
   const navigate = useNavigate();
   const { selectedWorkspace } = useAuth();
   const { subscriptions } = useSubscriptions();
-  const [calculationQuantity, setCalculationQuantity] = useState(1);
+  const [calculationQuantity, setCalculationQuantity] = useState(25); // Default 25
   const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const [isLoadingMembers, setIsLoadingMembers] = useState(true);
@@ -30,7 +30,11 @@ export default function AddOns() {
   const totalMembers = 3;
   const usedCalculations = 47;
   const totalCalculations = 50;
-  const calculationPrice = 99;
+  
+  // Calculate price: (quantity - 25) * 10, minimum 0
+  const calculationPrice = useMemo(() => {
+    return Math.max(0, (calculationQuantity - 25) * 10);
+  }, [calculationQuantity]);
 
   // Get first 2 members for display
   const displayedMembers = members.slice(0, 2);
@@ -122,12 +126,45 @@ export default function AddOns() {
   };
 
   const handleIncrement = () => {
-    setCalculationQuantity(prev => prev + 1);
+    setCalculationQuantity(prev => {
+      const newValue = prev + 1;
+      // Notify parent of calculation change
+      if (onCalculationChange) {
+        onCalculationChange(newValue);
+      }
+      return newValue;
+    });
   };
 
   const handleDecrement = () => {
-    setCalculationQuantity(prev => Math.max(1, prev - 1));
+    setCalculationQuantity(prev => {
+      // Cannot decrease below 25
+      const newValue = Math.max(25, prev - 1);
+      // Notify parent of calculation change
+      if (onCalculationChange) {
+        onCalculationChange(newValue);
+      }
+      return newValue;
+    });
   };
+
+  // Notify parent when calculation quantity changes
+  useEffect(() => {
+    if (onCalculationChange) {
+      onCalculationChange(calculationQuantity);
+    }
+  }, [calculationQuantity, onCalculationChange]);
+
+  // Notify parent when members change
+  useEffect(() => {
+    if (onUsersChange && members.length > 0) {
+      // Count main users and sub users from members list
+      // For now, using defaults - you may need to check member roles/types
+      const mainUsers = members.filter(m => m.role === 'main' || !m.role).length || 5;
+      const subUsers = members.filter(m => m.role === 'sub').length || 10;
+      onUsersChange(mainUsers, subUsers);
+    }
+  }, [members, onUsersChange]);
 
   return (
     <section className="mb-6">

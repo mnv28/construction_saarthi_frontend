@@ -8,6 +8,7 @@ import Button from '../../../components/ui/Button';
 
 export default function SubscriptionBottomBar({
   selectedPlan = null,
+  calculationPrice = 0,
   onCancel,
   onContinue,
 }) {
@@ -20,6 +21,9 @@ export default function SubscriptionBottomBar({
     period: 'Month',
     description: 'Contractor + 3 Free Users',
   };
+
+  // Calculate total amount: plan price + calculation price
+  const totalAmount = (plan.price || 0) + (calculationPrice || 0);
 
   const handleCancel = () => {
     if (onCancel) {
@@ -40,7 +44,7 @@ export default function SubscriptionBottomBar({
         {/* Plan Summary */}
         <div className="">
           <p className="text-base md:text-[22px] font-medium text-primary">
-            ₹{plan.price.toLocaleString()}
+            ₹{totalAmount.toLocaleString()}
             <span className="text-sm text-primary-light"> /{plan.period} </span>
           </p>
           <p className="text-xs md:text-sm text-primary-light">

@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Loader from '../../../components/ui/Loader';
 
 // Placeholder image (SVG data URI)
 const PLACEHOLDER_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5QYXN0IFByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
@@ -79,6 +80,7 @@ const getProjectImage = (project) => {
 export default function PastProjectBanner({ project }) {
   const { t } = useTranslation('pastProjects');
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   
   const imageSrc = getProjectImage(project);
   const displayImage = imageError ? PLACEHOLDER_IMAGE : imageSrc;
@@ -89,11 +91,20 @@ export default function PastProjectBanner({ project }) {
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
       {/* Project Image */}
       <div className="w-full h-[220px] relative bg-gray-100">
+        {imageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader size="lg" />
+          </div>
+        )}
         <img
           src={displayImage}
           alt={title}
-          onError={() => setImageError(true)}
-          className="w-full h-full object-cover"
+          onError={() => {
+            setImageError(true);
+            setImageLoading(false);
+          }}
+          onLoad={() => setImageLoading(false)}
+          className={`w-full h-full object-cover ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
         />
       </div>
 

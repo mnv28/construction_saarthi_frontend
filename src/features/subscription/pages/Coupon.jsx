@@ -4,61 +4,107 @@
  * Uses feature API + shared UI components
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import PageHeader from '../../../components/layout/PageHeader';
 import Loader from '../../../components/ui/Loader';
 import Button from '../../../components/ui/Button';
 import { ROUTES_FLAT } from '../../../constants/routes';
 import couponIcon from '../../../assets/icons/Coupon.svg';
+import { getEligibleCoupons } from '../api/subscriptionApi';
+import { showError } from '../../../utils/toast';
 
-const COUPONS = [
-  {
-    id: 1,
-    code: 'SAVE20',
-    title: '20% off*',
-    description: 'Save ₹200 on this subscription',
-    validity: '01–31 Oct 2025',
-  },
-  {
-    id: 2,
-    code: 'SAVE30',
-    title: '30% off*',
-    description: 'Save ₹300 on this subscription',
-    validity: '01–31 Oct 2025',
-  },
-  {
-    id: 3,
-    code: 'SAVE40',
-    title: '40% off*',
-    description: 'Save ₹400 on this subscription',
-    validity: '01–31 Oct 2025',
-  },
-  {
-    id: 4,
-    code: 'WELCOME10',
-    title: '10% off*',
-    description: 'Welcome offer for new users',
-    validity: '01–31 Oct 2025',
-  },
-];
+/**
+ * Format date range for validity display
+ * @param {string} startDate - Start date in YYYY-MM-DD format
+ * @param {string} endDate - End date in YYYY-MM-DD format
+ * @returns {string} Formatted validity string
+ */
+const formatValidity = (startDate, endDate) => {
+  if (!startDate || !endDate) return '';
+  
+  try {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    const startDay = start.getDate();
+    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+    const endDay = end.getDate();
+    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+    const endYear = end.getFullYear();
+    
+    // If same month and year
+    if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+      return `${startDay}–${endDay} ${startMonth} ${endYear}`;
+    }
+    
+    // If same year but different months
+    if (start.getFullYear() === end.getFullYear()) {
+      return `${startDay} ${startMonth} – ${endDay} ${endMonth} ${endYear}`;
+    }
+    
+    // Different years
+    return `${startDay} ${startMonth} ${start.getFullYear()} – ${endDay} ${endMonth} ${endYear}`;
+  } catch (error) {
+    return `${startDate} – ${endDate}`;
+  }
+};
 
 export default function Coupon() {
   const { t } = useTranslation('subscription');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [searchCode, setSearchCode] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Placeholder for API
+  const [isLoading, setIsLoading] = useState(true);
+  const [coupons, setCoupons] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Get subscription plan ID from location state or use default
+  const subscriptionPlanId = location.state?.subscriptionPlanId || location.state?.selectedPlan?.apiId || '2';
+
+  // Fetch eligible coupons on mount
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await getEligibleCoupons(subscriptionPlanId);
+        
+        // Map API response to component format
+        const mappedCoupons = Array.isArray(response) ? response.map((coupon) => ({
+          id: coupon.id,
+          code: coupon.code,
+          title: coupon.title,
+          description: coupon.description,
+          validity: formatValidity(coupon.start_date, coupon.end_date),
+          // Include original data for potential future use
+          originalData: coupon,
+        })) : [];
+        
+        setCoupons(mappedCoupons);
+      } catch (err) {
+        console.error('Error fetching coupons:', err);
+        setError(err);
+        showError(t('coupon.fetchError', { defaultValue: 'Failed to load coupons. Please try again.' }));
+        setCoupons([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCoupons();
+  }, [subscriptionPlanId, t]);
 
   const normalizedSearch = searchCode.trim().toLowerCase();
 
   const filteredCoupons = useMemo(() => {
-    if (!normalizedSearch) return COUPONS;
-    return COUPONS.filter((coupon) =>
+    if (!normalizedSearch) return coupons;
+    return coupons.filter((coupon) =>
       coupon.code.toLowerCase().includes(normalizedSearch)
     );
-  }, [normalizedSearch]);
+  }, [normalizedSearch, coupons]);
 
   const handleSearchChange = (e) => {
     setSearchCode(e.target.value);
@@ -76,7 +122,7 @@ export default function Coupon() {
   };
 
   const handleTopApply = () => {
-    const matching = COUPONS.find(
+    const matching = coupons.find(
       (c) => c.code.toLowerCase() === normalizedSearch
     );
     if (matching) {

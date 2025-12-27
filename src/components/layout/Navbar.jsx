@@ -38,6 +38,8 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   "expenses-paid": "finance.expensesPaid",
   "expenses-to-pay": "finance.expensesToPay",
   sections: "finance.sections",
+  "labour-attendance": "sidebar.mainMenu.labourAttendance",
+  "add-labour": "labourAttendance.common.addLabour",
 };
 
 const Navbar = () => {
@@ -47,6 +49,7 @@ const Navbar = () => {
   const { t: tNotes } = useTranslation("notes");
   const { t: tDocuments } = useTranslation("documents");
   const { t: tFinance } = useTranslation("finance");
+  const { t: tLabourAttendance } = useTranslation("labourAttendance");
   const location = useLocation();
   const { user: authUser } = useAuth();
 
@@ -113,6 +116,55 @@ const Navbar = () => {
       return ["projects", location.state.projectName.trim(), segments[0]];
     }
 
+    // Handle labour-attendance routes:
+    // - /labour-attendance/:projectId → Labour Attendance / ProjectName
+    // - /labour-attendance/:projectId/add-labour → Labour Attendance / ProjectName / Add Labour
+    // - /labour-attendance/:projectId/labour/:labourId → Labour Attendance / ProjectName / LabourName
+    if (segments[0] === "labour-attendance" && segments.length > 1) {
+      const processedSegments = [segments[0]];
+      
+      // Replace project ID with project name if available
+      if (typeof location.state?.projectName === "string" && location.state.projectName.trim()) {
+        processedSegments.push(location.state.projectName.trim());
+      } else {
+        processedSegments.push(segments[1]);
+      }
+      
+      // Handle add-labour route
+      if (segments.length > 2 && segments[2] === "add-labour") {
+        // Check if it's edit mode (has editLabour in state)
+        const editLabourName = location.state?.editLabour?.name || null;
+        
+        if (editLabourName && typeof editLabourName === "string" && editLabourName.trim()) {
+          // Edit mode: show labour name
+          processedSegments.push(editLabourName.trim());
+        } else {
+          // Add mode: show "Add Labour"
+          processedSegments.push("add-labour");
+        }
+        return processedSegments;
+      }
+      
+      // Handle labour details route - show labour name
+      if (segments.length > 3 && segments[2] === "labour") {
+        // Try to get labour name from state (for both view and edit modes)
+        const labourName = location.state?.labour?.name || 
+                          location.state?.editLabour?.name || 
+                          location.state?.labourName || 
+                          null;
+        
+        if (labourName && typeof labourName === "string" && labourName.trim()) {
+          processedSegments.push(labourName.trim());
+        } else {
+          // Fallback to labour ID if name not available
+          processedSegments.push(segments[3]);
+        }
+        return processedSegments;
+      }
+      
+      return processedSegments;
+    }
+
     // Handle vendors routes: replace "add" with "addVendor" and "edit" with "editVendor" for breadcrumb translation
     if (segments[0] === "vendors" && segments.length > 1) {
       const processedSegments = [...segments];
@@ -168,13 +220,22 @@ const Navbar = () => {
     if (segments[0] === "finance" && segments.length > 1) {
       const processedSegments = ["finance"];
       if (segments[1] === "projects" && segments.length > 2) {
-        // For /finance/projects/:projectId, show: Finance / Projects / ProjectName
+        // Replace project ID with project name if available (skip "projects" segment)
+        const projectName = location.state?.projectName || null;
+        const projectIdSegment = segments[2];
+        
+        if (projectName && typeof projectName === "string" && projectName.trim()) {
+          processedSegments.push(projectName.trim());
+        } else {
+          processedSegments.push(projectIdSegment);
+        }
+        
+        // For /finance/projects/:projectId, show: Finance / ProjectName
         if (segments.length === 3) {
-          processedSegments.push("projects", segments[2]);
+          return processedSegments;
         } else if (segments.length > 3) {
-          // For /finance/projects/:projectId/builder-invoices, show: Finance / Projects / ProjectName / Builder Invoices
-          // For /finance/projects/:projectId/builder-invoices/sections/:sectionId, show: Finance / Projects / ProjectName / Builder Invoices / Sections / SectionId
-          processedSegments.push("projects", segments[2]);
+          // For /finance/projects/:projectId/builder-invoices, show: Finance / ProjectName / Builder Invoices
+          // For /finance/projects/:projectId/builder-invoices/sections/:sectionId, show: Finance / ProjectName / Builder Invoices / Sections / SectionId
           if (segments[3] === "builder-invoices") {
             processedSegments.push("builder-invoices");
             if (segments[4] === "sections" && segments.length > 5) {
@@ -240,6 +301,13 @@ const Navbar = () => {
         defaultValue: last.replace(/-/g, " "),
       });
     }
+
+    // Use labourAttendance namespace for labour attendance-related translations
+    if (translationKey && translationKey.startsWith("labourAttendance.")) {
+      return tLabourAttendance(translationKey.replace("labourAttendance.", ""), {
+        defaultValue: last.replace(/-/g, " "),
+      });
+    }
     
     if (translationKey) {
       return t(translationKey, {
@@ -249,7 +317,7 @@ const Navbar = () => {
     
     // Fallback: return the original value if no translation key found
     return last.replace(/-/g, " ");
-  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance]);
+  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance]);
 
   return (
     <header className="fixed top-0 left-0 right-0 lg:left-[300px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
@@ -315,6 +383,12 @@ const Navbar = () => {
                   // Use finance namespace for finance-related translations
                   if (translationKey && translationKey.startsWith("finance.")) {
                     return tFinance(translationKey.replace("finance.", ""), {
+                      defaultValue: crumb.replace(/-/g, " "),
+                    });
+                  }
+                  // Use labourAttendance namespace for labour attendance-related translations
+                  if (translationKey && translationKey.startsWith("labourAttendance.")) {
+                    return tLabourAttendance(translationKey.replace("labourAttendance.", ""), {
                       defaultValue: crumb.replace(/-/g, " "),
                     });
                   }

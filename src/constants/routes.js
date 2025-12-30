@@ -63,6 +63,8 @@ export const ROUTES = {
     ADD_NEW_ASK: '/site-inventory/add-new-ask',
     ADD_STOCK: '/site-inventory/restock/add-stock',
     TRANSFER_MATERIAL: '/site-inventory/transfer-material/:inventoryId',
+
+    
   },
   // Builder Client Routes
   BUILDER_CLIENT: {

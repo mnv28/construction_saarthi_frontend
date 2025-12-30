@@ -10,6 +10,7 @@ import { X, Play, Eye, Trash2 } from 'lucide-react';
 import documentIcon from '../../../assets/icons/document.svg';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 import ConfirmModal from '../../../components/ui/ConfirmModal';
+import Loader from '../../../components/ui/Loader';
 
 // Format date for display
 const formatDate = (dateString) => {
@@ -92,11 +93,14 @@ export default function PastProjectDocumentsGallery({
   const [documentToDelete, setDocumentToDelete] = useState(null);
   const [photoItems, setPhotoItems] = useState([]);
   const [videoItems, setVideoItems] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(true);
+  const [loadingImages, setLoadingImages] = useState(new Set());
 
   // Process media from both API structures:
   // 1. Detail API: pastWorkMedia array with typeId
   // 2. List API: photo, document, myPastWorkdocument arrays
   useEffect(() => {
+    setIsProcessing(true);
     const categorized = {
       documents: [],
       photos: [],
@@ -182,6 +186,7 @@ export default function PastProjectDocumentsGallery({
     setDocuments(categorized.documents);
     setPhotoItems(categorized.photos);
     setVideoItems(categorized.videos);
+    setIsProcessing(false);
   }, [project]);
 
   const handleViewDocument = (doc) => {
@@ -216,6 +221,15 @@ export default function PastProjectDocumentsGallery({
     { id: 'photos', label: t('detail.photos', { ns: 'pastProjects', defaultValue: 'Photos' }) },
     { id: 'videos', label: t('detail.videos', { ns: 'pastProjects', defaultValue: 'Videos' }) },
   ];
+
+  // Show loader while processing project data
+  if (isProcessing) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader size="lg" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -303,22 +317,39 @@ export default function PastProjectDocumentsGallery({
           <>
             {photoItems.length > 0 ? (
               <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
-                {photoItems.map((file) => (
-                  <div
-                    key={file.id}
-                    className="relative group cursor-pointer w-[140px] sm:w-[160px]"
-                  >
-                    <div className="aspect-square rounded-xl overflow-hidden border border-gray-200">
-                      <img
-                        src={file.url}
-                        alt={file.name || 'Photo'}
-                        className="w-full h-full object-cover"
-                        onClick={() => {
-                          // Open image in new tab for viewing
-                          window.open(file.url, '_blank');
-                        }}
-                      />
-                    </div>
+                {photoItems.map((file) => {
+                  const isImageLoading = loadingImages.has(file.id);
+                  return (
+                    <div
+                      key={file.id}
+                      className="relative group cursor-pointer w-[140px] sm:w-[160px]"
+                    >
+                      <div className="aspect-square rounded-xl overflow-hidden border border-gray-200 relative bg-gray-100">
+                        {isImageLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Loader size="sm" />
+                          </div>
+                        )}
+                        <img
+                          src={file.url}
+                          alt={file.name || 'Photo'}
+                          className={`w-full h-full object-cover ${isImageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+                          onLoad={() => {
+                            setLoadingImages((prev) => {
+                              const newSet = new Set(prev);
+                              newSet.delete(file.id);
+                              return newSet;
+                            });
+                          }}
+                          onLoadStart={() => {
+                            setLoadingImages((prev) => new Set(prev).add(file.id));
+                          }}
+                          onClick={() => {
+                            // Open image in new tab for viewing
+                            window.open(file.url, '_blank');
+                          }}
+                        />
+                      </div>
                     <button
                       type="button"
                       onClick={(e) => {
@@ -347,28 +378,44 @@ export default function PastProjectDocumentsGallery({
           <>
             {videoItems.length > 0 ? (
               <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
-                {videoItems.map((file) => (
-                  <div
-                    key={file.id}
-                    className="relative group cursor-pointer w-[140px] sm:w-[160px]"
-                  >
-                    <div className="aspect-square">
-                      <div className="w-full h-full rounded-xl overflow-hidden border border-gray-200 relative">
-                      <img
-                        src={file.thumbnail || file.url}
-                        alt={file.name || 'Video'}
-                        className="w-full h-full object-cover"
-                        onClick={() => {
-                          // Open video in new tab for viewing
-                          window.open(file.url, '_blank');
-                        }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 shadow-md flex items-center justify-center">
-                          <Play className="w-7 h-7 sm:w-8 sm:h-8 text-primary ml-0.5" fill="currentColor" />
+                {videoItems.map((file) => {
+                  const isVideoLoading = loadingImages.has(file.id);
+                  return (
+                    <div
+                      key={file.id}
+                      className="relative group cursor-pointer w-[140px] sm:w-[160px]"
+                    >
+                      <div className="aspect-square">
+                        <div className="w-full h-full rounded-xl overflow-hidden border border-gray-200 relative bg-gray-100">
+                        {isVideoLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center z-10">
+                            <Loader size="sm" />
+                          </div>
+                        )}
+                        <img
+                          src={file.thumbnail || file.url}
+                          alt={file.name || 'Video'}
+                          className={`w-full h-full object-cover ${isVideoLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+                          onLoad={() => {
+                            setLoadingImages((prev) => {
+                              const newSet = new Set(prev);
+                              newSet.delete(file.id);
+                              return newSet;
+                            });
+                          }}
+                          onLoadStart={() => {
+                            setLoadingImages((prev) => new Set(prev).add(file.id));
+                          }}
+                          onClick={() => {
+                            // Open video in new tab for viewing
+                            window.open(file.url, '_blank');
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 shadow-md flex items-center justify-center">
+                            <Play className="w-7 h-7 sm:w-8 sm:h-8 text-primary ml-0.5" fill="currentColor" />
                         </div>
                       </div>
-                    </div>
                     </div>
                     <button
                       type="button"
@@ -381,7 +428,8 @@ export default function PastProjectDocumentsGallery({
                       <X className="w-3 h-3 text-primary" />
                     </button>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-8 text-secondary">

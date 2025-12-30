@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
@@ -88,6 +88,9 @@ export default function LabourAttendanceCards({
   const [attendanceData, setAttendanceData] = useState({}); // { labourId: { status, payable_amount } }
   const [isLoadingAttendance, setIsLoadingAttendance] = useState(false);
   const [showOvertimeInputs, setShowOvertimeInputs] = useState({}); // { labourId: true/false } - controls visibility of OT inputs
+  
+  // Use ref to track if we should notify parent (to avoid calling during render)
+  const shouldNotifyParentRef = useRef(false);
 
   // Fetch attendance data when date or project changes
   useEffect(() => {
@@ -165,14 +168,23 @@ export default function LabourAttendanceCards({
             
             // If status is OT, populate overtime inputs if available from API
             if (mappedStatus === 'OT' && attendance.ot_rate && attendance.ot_hours) {
+              // Store in overtimeData with all key formats for easy lookup
               newOvertimeData[labourIdNum] = {
                 ot_rate: attendance.ot_rate,
                 ot_hours: attendance.ot_hours,
               };
-              newOvertimeInputs[labourIdNum] = {
+              newOvertimeData[labourIdStr] = {
+                ot_rate: attendance.ot_rate,
+                ot_hours: attendance.ot_hours,
+              };
+              
+              // Store in overtimeInputs with all key formats for easy lookup
+              const otInputs = {
                 ot_rate: String(attendance.ot_rate || ''),
                 ot_hours: String(attendance.ot_hours || ''),
               };
+              newOvertimeInputs[labourIdNum] = otInputs;
+              newOvertimeInputs[labourIdStr] = otInputs;
             }
           }
         });
@@ -204,6 +216,17 @@ export default function LabourAttendanceCards({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWorkspace, projectId, dateRange]); // Removed onAttendanceDataChange and overtimeData to prevent infinite loop
+
+  // Notify parent component when attendanceData or overtimeData changes (but not during render)
+  useEffect(() => {
+    if (shouldNotifyParentRef.current && onAttendanceDataChange) {
+      shouldNotifyParentRef.current = false;
+      // Use setTimeout to defer the callback to avoid updating parent during render
+      setTimeout(() => {
+        onAttendanceDataChange(attendanceData, overtimeData);
+      }, 0);
+    }
+  }, [attendanceData, overtimeData, onAttendanceDataChange]);
 
   const { projects } = useProjectsAll(selectedWorkspace);
   const projectsOptions = useMemo(() => {
@@ -280,8 +303,9 @@ export default function LabourAttendanceCards({
       const existingAttendance = attendanceData[labourIdNum] || attendanceData[labourIdStr];
       const dailyWage = existingAttendance?.daily_wage || labour.pay || 0;
       
-      // Check if OT data already exists (for editing)
+      // Check if OT data already exists (for editing) - check both overtimeData and overtimeInputs
       const existingOTData = overtimeData[labourIdNum] || overtimeData[labourIdStr] || overtimeData[labourId];
+      const existingOTInputs = overtimeInputs[labourIdNum] || overtimeInputs[labourIdStr] || overtimeInputs[labourId];
       
       // Optimistically update attendanceData to show OT status immediately
       setAttendanceData((prev) => {
@@ -290,33 +314,57 @@ export default function LabourAttendanceCards({
           [labourIdNum]: {
             status: 'OT',
             daily_wage: dailyWage,
-            payable_amount: dailyWage, // Base pay, will be updated after saving
+            payable_amount: prev[labourIdNum]?.payable_amount || prev[labourIdStr]?.payable_amount || dailyWage, // Preserve existing payable_amount if available
           },
           [labourIdStr]: {
             status: 'OT',
             daily_wage: dailyWage,
-            payable_amount: dailyWage,
+            payable_amount: prev[labourIdNum]?.payable_amount || prev[labourIdStr]?.payable_amount || dailyWage,
           },
         };
-        // Notify parent component
-        if (onAttendanceDataChange) {
-          onAttendanceDataChange(updated, overtimeData);
-        }
+        // Mark that we should notify parent after state update
+        shouldNotifyParentRef.current = true;
         return updated;
       });
       
       // Populate overtime inputs from existing data if available, otherwise initialize empty
       setOvertimeInputs((prev) => {
-        if (existingOTData) {
-          // If existing OT data found, populate inputs with that data
+        // First check if inputs already exist (from previous fetch or save)
+        if (existingOTInputs) {
+          // If existing inputs found, use them
+          return {
+            ...prev,
+            [labourId]: {
+              ot_rate: String(existingOTInputs.ot_rate || ''),
+              ot_hours: String(existingOTInputs.ot_hours || ''),
+            },
+            [labourIdNum]: {
+              ot_rate: String(existingOTInputs.ot_rate || ''),
+              ot_hours: String(existingOTInputs.ot_hours || ''),
+            },
+            [labourIdStr]: {
+              ot_rate: String(existingOTInputs.ot_rate || ''),
+              ot_hours: String(existingOTInputs.ot_hours || ''),
+            },
+          };
+        } else if (existingOTData) {
+          // If existing OT data found (from overtimeData), populate inputs with that data
           return {
             ...prev,
             [labourId]: {
               ot_rate: String(existingOTData.ot_rate || ''),
               ot_hours: String(existingOTData.ot_hours || ''),
             },
+            [labourIdNum]: {
+              ot_rate: String(existingOTData.ot_rate || ''),
+              ot_hours: String(existingOTData.ot_hours || ''),
+            },
+            [labourIdStr]: {
+              ot_rate: String(existingOTData.ot_rate || ''),
+              ot_hours: String(existingOTData.ot_hours || ''),
+            },
           };
-        } else if (!prev[labourId]) {
+        } else if (!prev[labourId] && !prev[labourIdNum] && !prev[labourIdStr]) {
           // If no existing data and no inputs, initialize empty
           return {
             ...prev,
@@ -575,14 +623,23 @@ export default function LabourAttendanceCards({
               
               // If status is OT, populate overtime data if available from API
               if (mappedStatus === 'OT' && attendance.ot_rate && attendance.ot_hours) {
+                // Store in overtimeData with all key formats
                 updatedOvertimeData[lidNum] = {
                   ot_rate: attendance.ot_rate,
                   ot_hours: attendance.ot_hours,
                 };
-                updatedOvertimeInputs[lidNum] = {
+                updatedOvertimeData[lidStr] = {
+                  ot_rate: attendance.ot_rate,
+                  ot_hours: attendance.ot_hours,
+                };
+                
+                // Store in overtimeInputs with all key formats
+                const otInputs = {
                   ot_rate: String(attendance.ot_rate || ''),
                   ot_hours: String(attendance.ot_hours || ''),
                 };
+                updatedOvertimeInputs[lidNum] = otInputs;
+                updatedOvertimeInputs[lidStr] = otInputs;
               }
             }
           });
@@ -894,6 +951,7 @@ export default function LabourAttendanceCards({
               paidDate: '',
               method: 'Cash',
               status: 'Paid',
+              expenseSections: 'labour',
             });
             updateToast(toastId, { type: 'success', message: 'Advance added' });
             setActiveModal(null);
@@ -942,6 +1000,7 @@ export default function LabourAttendanceCards({
               paidDate: '',
               method: 'Cash',
               status: 'Pending',
+              expenseSections: 'labour',
             });
             updateToast(toastId, { type: 'success', message: 'Bonus added' });
             setActiveModal(null);
@@ -990,6 +1049,7 @@ export default function LabourAttendanceCards({
               paidDate: '',
               method: 'Cash',
               status: 'Pending',
+              expenseSections: 'labour',
             });
             updateToast(toastId, { type: 'success', message: 'Deduction added' });
             setActiveModal(null);

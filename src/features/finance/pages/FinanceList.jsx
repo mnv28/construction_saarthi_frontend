@@ -35,8 +35,12 @@ export default function FinanceList() {
     },
   ];
 
-  const handleProjectClick = (projectId) => {
-    navigate(getRoute(ROUTES_FLAT.FINANCE_PROJECT_DETAILS, { projectId }));
+  const handleProjectClick = (project) => {
+    navigate(getRoute(ROUTES_FLAT.FINANCE_PROJECT_DETAILS, { projectId: project.id }), {
+      state: {
+        projectName: project.name,
+      },
+    });
   };
 
   const handleImageError = (projectId) => {
@@ -110,7 +114,7 @@ export default function FinanceList() {
               return (
                 <div
                   key={project.id}
-                  onClick={() => handleProjectClick(project.id)}
+                  onClick={() => handleProjectClick(project)}
                   className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 cursor-pointer shadow-md transition-shadow"
                 >
                   {/* Project Image */}

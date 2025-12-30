@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Loader from '../../../components/ui/Loader';
 
 // Placeholder image (SVG data URI)
 const PLACEHOLDER_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzljYTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBhc3QgUHJvamVjdCBJbWFnZTwvdGV4dD48L3N2Zz4=';
@@ -76,6 +77,7 @@ const getProjectImage = (project) => {
  */
 export default function PastProjectCard({ project, onOpenDetails }) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   
   const imageSrc = getProjectImage(project);
   const displayImage = imageError ? PLACEHOLDER_IMAGE : imageSrc;
@@ -85,6 +87,11 @@ export default function PastProjectCard({ project, onOpenDetails }) {
 
   const handleImageError = () => {
     setImageError(true);
+    setImageLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
   };
 
   return (
@@ -94,12 +101,18 @@ export default function PastProjectCard({ project, onOpenDetails }) {
     >
       <div className="flex flex-col sm:flex-row gap-0">
         {/* Project Image - Left Side */}
-        <div className="w-full md:w-[180px] lg:w-[180px] flex-shrink-0">
+        <div className="w-full md:w-[180px] lg:w-[180px] flex-shrink-0 relative">
+          {imageLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+              <Loader size="md" />
+            </div>
+          )}
           <img
             src={displayImage}
             alt={title}
             onError={handleImageError}
-            className="w-full h-48 sm:h-full sm:min-h-[140px] object-cover rounded-lg bg-gray-100"
+            onLoad={handleImageLoad}
+            className={`w-full h-48 sm:h-full sm:min-h-[140px] object-cover rounded-lg bg-gray-100 ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
           />
         </div>
 

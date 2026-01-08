@@ -5,80 +5,68 @@ import { Share2, Download, ChevronDown, History as HistoryIcon } from 'lucide-re
 import PageHeader from '../../../../components/layout/PageHeader';
 import Button from '../../../../components/ui/Button';
 import Radio from '../../../../components/ui/Radio';
-import DropdownMenu from '../../../../components/ui/DropdownMenu';
-import footType1 from '../../../../assets/icons/footType1.svg';
 import { ROUTES_FLAT } from '../../../../constants/routes';
 
-import InputsTable from '../components/InputsTable';
-import OutputCard from '../components/OutputCard';
+// Import icons
+import colsType1 from '../../../../assets/icons/colsType1.svg';
 
-const FootingType1 = () => {
+const ColumnType1 = () => {
     const navigate = useNavigate();
     const { t } = useTranslation('calculation');
     const [unitType, setUnitType] = useState('metric'); // metric or imperial
 
-    // Footing Size
+    // Column Size
     const [sideX, setSideX] = useState('');
     const [sideY, setSideY] = useState('');
+    const [diameterD, setDiameterD] = useState('');
     const [height, setHeight] = useState('');
 
-    // Bar Details
-    const [d1, setD1] = useState('');
-    const [d2, setD2] = useState('');
-
-    // Spacing Details
-    const [s1, setS1] = useState('');
-    const [s2, setS2] = useState('');
+    // Stirrups Details
+    const [ringDiameter, setRingDiameter] = useState('');
+    const [spacingS, setSpacingS] = useState('');
 
     // Additional Details
-    const [devLength, setDevLength] = useState('');
-    const [noOfFooting, setNoOfFooting] = useState('');
+    const [noOfColumns, setNoOfColumns] = useState('');
+    const [noOfColumn, setNoOfColumn] = useState('');
     const [steelRate, setSteelRate] = useState('');
 
     const [showResult, setShowResult] = useState(false);
 
-    // Calculation Logic
+    // Calculation Logic (Simplified formulas)
     const X = parseFloat(sideX) || 0;
     const Y = parseFloat(sideY) || 0;
-    const H = parseFloat(height) || 0; // Usually H is in m or mm in diagram? Image shows 508.0 mm. Footing height.
-    const D1_val = parseFloat(d1) || 0;
-    const D2_val = parseFloat(d2) || 0;
-    const S1_val = parseFloat(s1) || 0;
-    const S2_val = parseFloat(s2) || 0;
-    const Ld = parseFloat(devLength) || 0;
-    const n = parseFloat(noOfFooting) || 0;
+    const D = parseFloat(diameterD) || 0;
+    const H = parseFloat(height) || 0;
+    const rd = parseFloat(ringDiameter) || 0;
+    const s = parseFloat(spacingS) || 0;
+    const nColumns = parseFloat(noOfColumns) || 0;
+    const nColumn = parseFloat(noOfColumn) || 0;
     const R = parseFloat(steelRate) || 0;
 
-    // Formulas
-    const volResult = (X * Y * H * n) / 1000000000;
+    // Vertical Steel Weight: n * (Height/1000) * (D^2/162.28) * nBars (assuming 4 for type 1 or similar)
+    const nBars = 4; // Assuming 4 bars for Column Type 1
+    const finalN = nColumn || 1;
+    const verticalWeight = (H / 1000) * ((D * D) / 162.28) * nBars * nColumns * finalN;
 
-    // Weight per meter = d²/162.28
-    const w1 = (D1_val * D1_val) / 162.28;
-    const w2 = (D2_val * D2_val) / 162.28;
+    // Stirrups: ((X-40)*2 + (Y-40)*2 + hooks) / 1000 * (rd^2/162.28) * (H/s + 1)
+    const stirrupLen = ((X - 40) * 2 + (Y - 40) * 2 + 100) / 1000;
+    const stirrupNos = s > 0 ? (H / s) + 1 : 0;
+    const stirrupWeight = stirrupLen * stirrupNos * ((rd * rd) / 162.28) * nColumns * finalN;
 
-    // Length of one bar = (Dimension - 100 (cover) + 2*Ld) / 1000 (to m)
-    const len1 = (X - 100 + 2 * Ld) / 1000;
-    const len2 = (Y - 100 + 2 * Ld) / 1000;
+    const colVolume = (X * Y * H * nColumns * finalN) / 1000000000;
 
-    // Number of bars = (Other dimension - 100) / Spacing + 1
-    const nos1 = S1_val > 0 ? ((Y - 100) / S1_val) + 1 : 0;
-    const nos2 = S2_val > 0 ? ((X - 100) / S2_val) + 1 : 0;
-
-    const d1Weight = len1 * nos1 * w1 * n;
-    const d2Weight = len2 * nos2 * w2 * n;
-    const totalSteel = d1Weight + d2Weight;
+    const totalSteel = verticalWeight + stirrupWeight;
     const totalPrice = totalSteel * R;
 
     const handleReset = () => {
         setSideX('');
         setSideY('');
+        setDiameterD('');
         setHeight('');
-        setD1('');
-        setD2('');
-        setS1('');
-        setS2('');
-        setDevLength('');
-        setNoOfFooting('');
+        setRingDiameter('');
+        setSpacingS('');
+        setNoOfColumns('');
+        setNoOfColumn('');
         setSteelRate('');
         setShowResult(false);
     };
@@ -87,32 +75,6 @@ const FootingType1 = () => {
         setShowResult(true);
     };
 
-    const calculationData = [
-        { labelKey: 'steel.footing.sideX', name: t('steel.footing.sideX'), symbol: 'X', value: `${sideX} mm` },
-        { labelKey: 'steel.footing.sideY', name: t('steel.footing.sideY'), symbol: 'Y', value: `${sideY} mm` },
-        { labelKey: 'steel.footing.height', name: t('steel.footing.height'), symbol: 'H', value: `${height} mm` },
-        { labelKey: 'steel.footing.d1', name: t('steel.footing.d1'), symbol: 'D1', value: `${d1} mm` },
-        { labelKey: 'steel.footing.d2', name: t('steel.footing.d2'), symbol: 'D2', value: `${d2} mm` },
-        { labelKey: 'steel.footing.s1', name: t('steel.footing.s1'), symbol: 'S1', value: `${s1} mm` },
-        { labelKey: 'steel.footing.s2', name: t('steel.footing.s2'), symbol: 'S2', value: `${s2} mm` },
-        { labelKey: 'steel.footing.devLength', name: t('steel.footing.devLength'), symbol: 'Ld', value: `${devLength} mm` },
-        { labelKey: 'steel.footing.noOfFooting', name: t('steel.footing.noOfFooting'), symbol: 'n', value: `${noOfFooting} ${t('history.units.nos')}` },
-        { labelKey: 'steel.footing.steelRate', name: t('steel.footing.steelRate'), symbol: 'R', value: `₹ ${steelRate} / ${t('history.units.kg')}` },
-    ];
-
-    const dropdownItems = [
-        {
-            label: t('projectDetails.history'),
-            icon: <HistoryIcon className="w-4 h-4" />,
-            onClick: () => console.log('History clicked'),
-        },
-        {
-            label: t('history.sharePdf'),
-            icon: <Share2 className="w-4 h-4" />,
-            onClick: () => console.log('Share clicked'),
-        }
-    ];
-
     const UnitSelector = ({ unit }) => (
         <div className="flex items-center px-2 sm:px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[55px] sm:min-w-[80px] justify-between group">
             <span className="text-secondary text-sm sm:text-base font-medium">{unit}</span>
@@ -120,11 +82,22 @@ const FootingType1 = () => {
         </div>
     );
 
+    const calculationData = [
+        { labelKey: 'steel.column.sideX', name: t('steel.column.sideX'), symbol: 'X', value: `${sideX} mm` },
+        { labelKey: 'steel.column.sideY', name: t('steel.column.sideY'), symbol: 'Y', value: `${sideY} mm` },
+        { labelKey: 'steel.column.diameter', name: t('steel.column.diameter'), symbol: 'D', value: `${diameterD} mm` },
+        { labelKey: 'steel.column.columnHeight', name: t('steel.column.columnHeight'), symbol: 'H', value: `${height} mm` },
+        { labelKey: 'steel.column.ringDiameter', name: t('steel.column.ringDiameter'), symbol: 'rd', value: `${ringDiameter} mm` },
+        { labelKey: 'steel.column.spacing', name: t('steel.column.spacing'), symbol: 'S', value: `${spacingS} mm` },
+        { labelKey: 'steel.column.noOfColumns', name: t('steel.column.noOfColumns'), symbol: 'N', value: `${noOfColumns} NOS` },
+        { labelKey: 'steel.column.steelRate', name: t('steel.column.steelRate'), symbol: 'r', value: `₹ ${steelRate} / kg` },
+    ];
+
     return (
         <div className="min-h-screen max-w-7xl mx-auto pb-20">
             <div className="mb-6">
                 <PageHeader
-                    title={t('steel.footing.type1')}
+                    title={t('steel.column.type1')}
                     showBackButton
                     onBack={() => navigate(-1)}
                 >
@@ -137,11 +110,6 @@ const FootingType1 = () => {
                         >
                             <span className="text-sm font-medium">{t('history.downloadReport')}</span>
                         </Button>
-                        {/* <DropdownMenu
-                            items={dropdownItems}
-                            position="right"
-                            className="flex items-center justify-center"
-                        /> */}
                     </div>
                 </PageHeader>
             </div>
@@ -149,9 +117,9 @@ const FootingType1 = () => {
             {/* Content Card */}
             <div className="bg-[#F9F4EE] rounded-3xl p-4 sm:p-6">
                 <div className="flex items-center gap-4 sm:gap-10 pb-6 border-b border-[#060C120A]">
-                    {/* Icon Box - Responsive size */}
-                    <div className="flex items-center justify-cente w-24 h-24 sm:w-35 sm:h-35">
-                        <img src={footType1} alt="Footing Type 1 Diagram" className="w-full h-full object-contain" />
+                    {/* Icon Box */}
+                    <div className="flex items-center justify-center w-24 h-24 sm:w-38 sm:h-38">
+                        <img src={colsType1} alt="Column Type 1 Diagram" className="w-full h-full object-contain" />
                     </div>
 
                     {/* Radio Group */}
@@ -177,10 +145,10 @@ const FootingType1 = () => {
 
                 {/* Form Sections */}
                 <div className="space-y-4 pt-4">
-                    {/* Footing Size Section */}
+                    {/* Column Size Section */}
                     <div className="space-y-2">
-                        <h3 className=" font-medium text-primary ml-1">{t('steel.footing.size')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
+                        <h3 className="font-medium text-primary ml-1">{t('steel.column.size')}</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                             {/* Side X */}
                             <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
                                 <UnitSelector unit="mm" />
@@ -188,8 +156,8 @@ const FootingType1 = () => {
                                     type="text"
                                     value={sideX}
                                     onChange={(e) => setSideX(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.sideX')}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none "
+                                    placeholder={t('steel.column.sideX')}
                                 />
                             </div>
 
@@ -200,80 +168,62 @@ const FootingType1 = () => {
                                     type="text"
                                     value={sideY}
                                     onChange={(e) => setSideY(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.sideY')}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none "
+                                    placeholder={t('steel.column.sideY')}
                                 />
                             </div>
 
-                            {/* Footing Height */}
-                            <div className="flex col-span-2 md:col-span-1 bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
+                            {/* Diameter D */}
+                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
+                                <UnitSelector unit="mm" />
+                                <input
+                                    type="text"
+                                    value={diameterD}
+                                    onChange={(e) => setDiameterD(e.target.value)}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                    placeholder={t('steel.column.diameter')}
+                                />
+                            </div>
+
+                            {/* Column Height */}
+                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
                                 <UnitSelector unit="mm" />
                                 <input
                                     type="text"
                                     value={height}
                                     onChange={(e) => setHeight(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.height')}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                    placeholder={t('steel.column.columnHeight')}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    {/* Bar Details Section */}
+                    {/* Stirrups Details Section */}
                     <div className="space-y-2">
-                        <h3 className="font-medium text-primary ml-1">{t('steel.footing.barDetails')}</h3>
+                        <h3 className="font-medium text-primary ml-1">{t('steel.column.stirrupsDetails')}</h3>
                         <div className="grid grid-cols-2 gap-3 sm:gap-6">
-                            {/* D1 */}
+                            {/* Ring Diameter */}
                             <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
                                 <UnitSelector unit="mm" />
                                 <input
                                     type="text"
-                                    value={d1}
-                                    onChange={(e) => setD1(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d1')}
+                                    value={ringDiameter}
+                                    onChange={(e) => setRingDiameter(e.target.value)}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                    placeholder={t('steel.column.ringDiameter')}
                                 />
                             </div>
 
-                            {/* D2 */}
+                            {/* Spacing S */}
                             <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
                                 <UnitSelector unit="mm" />
                                 <input
                                     type="text"
-                                    value={d2}
-                                    onChange={(e) => setD2(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d2')}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Spacing Details Section */}
-                    <div className="space-y-2">
-                        <h3 className="font-medium text-primary ml-1">{t('steel.footing.spacingDetails')}</h3>
-                        <div className="grid grid-cols-2 gap-3 sm:gap-6">
-                            {/* S1 */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s1}
-                                    onChange={(e) => setS1(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s1')}
-                                />
-                            </div>
-
-                            {/* S2 */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s2}
-                                    onChange={(e) => setS2(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s2')}
+                                    value={spacingS}
+                                    onChange={(e) => setSpacingS(e.target.value)}
+                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                    placeholder={t('steel.column.spacing')}
                                 />
                             </div>
                         </div>
@@ -281,34 +231,24 @@ const FootingType1 = () => {
 
                     {/* Additional Details Section */}
                     <div className="space-y-3 pt-2">
-                        {/* No of Footing */}
+                        {/* No of Columns */}
+                        <h3 className="font-medium text-primary ml-1">{t('steel.column.noOfColumns')}</h3>
                         <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
                             <div className="flex-1 px-4 sm:px-6 flex items-center">
-                                <span className="text-secondary text-sm sm:text-base font-medium mr-4">{t('steel.footing.noOfFooting')}</span>
+                                <span className="text-secondary text-sm sm:text-base font-medium mr-4">{t('steel.column.noOfColumns')}</span>
                                 <input
                                     type="text"
-                                    value={noOfFooting}
-                                    onChange={(e) => setNoOfFooting(e.target.value)}
-                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none font-medium h-full"
-                                    placeholder="e.g 10"
+                                    value={noOfColumns}
+                                    onChange={(e) => setNoOfColumns(e.target.value)}
+                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none h-full"
+                                    placeholder={t('steel.weight.wastagePlaceholder')}
                                 />
                             </div>
-                            <div className="flex items-center px-4 bg-gray-50/50 border-l border-[#060C121A]">
-                                <span className="text-secondary text-sm sm:text-base font-medium uppercase">NOS</span>
+                            <div className="flex items-center px-4">
+                                <span className="text-accent text-sm sm:text-base uppercase">NOS</span>
                             </div>
                         </div>
 
-                        {/* Development Length */}
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
-                                value={devLength}
-                                onChange={(e) => setDevLength(e.target.value)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                placeholder={t('steel.footing.devLength')}
-                            />
-                        </div>
                     </div>
 
                     {/* Price Section */}
@@ -319,8 +259,8 @@ const FootingType1 = () => {
                                 type="text"
                                 value={steelRate}
                                 onChange={(e) => setSteelRate(e.target.value)}
-                                className="w-full h-[50px] sm:h-[58px] bg-white rounded-2xl px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all font-medium"
-                                placeholder={t('steel.footing.steelRate')}
+                                className="w-full h-[50px] sm:h-[58px] bg-white rounded-2xl px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
+                                placeholder={t('steel.column.steelRate')}
                             />
                             <span className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-accent text-sm sm:text-base font-medium">₹/Kg</span>
                         </div>
@@ -351,12 +291,6 @@ const FootingType1 = () => {
                 <div className="mt-10 animate-fade-in pb-10">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-semibold text-primary">{t('steel.weight.result')}</h2>
-                        {/* <button
-                            onClick={() => navigate(ROUTES_FLAT.CALCULATION_HISTORY)}
-                            className="text-accent font-medium cursor-pointer"
-                        >
-                            {t('projectDetails.history')}
-                        </button> */}
                     </div>
 
                     {/* Tabs */}
@@ -392,10 +326,10 @@ const FootingType1 = () => {
                             </thead>
                             <tbody className="divide-y divide-[#060C120A]">
                                 {[
-                                    { material: t('steel.footing.volume'), quantity: volResult.toFixed(3), unit: 'm³' },
-                                    { material: t('steel.footing.d1'), quantity: d1Weight.toFixed(3), unit: 'Kg' },
-                                    { material: t('steel.footing.d2'), quantity: d2Weight.toFixed(3), unit: 'Kg' },
-                                    { material: t('steel.weight.totalWeight'), quantity: totalSteel.toFixed(3), unit: 'Kg' },
+                                    { material: t('steel.column.volume'), quantity: colVolume.toFixed(3), unit: 'm³' },
+                                    { material: t('steel.column.vertical'), quantity: verticalWeight.toFixed(3), unit: t('history.units.kg') },
+                                    { material: t('steel.column.stirrups'), quantity: stirrupWeight.toFixed(3), unit: t('history.units.kg') },
+                                    { material: t('steel.weight.totalSteel'), quantity: totalSteel.toFixed(3), unit: t('history.units.kg') },
                                     { material: t('steel.weight.totalPrice'), quantity: totalPrice.toFixed(3), unit: '₹' },
                                 ].map((row, rowIndex) => (
                                     <tr key={rowIndex} className="hover:bg-[#F9F9F9] transition-colors">
@@ -416,15 +350,43 @@ const FootingType1 = () => {
                         </div>
                         <Button
                             variant="primary"
-                            onClick={() => navigate(ROUTES_FLAT.CALCULATION_FOOTING_TYPE1_DETAILED, {
+                            onClick={() => navigate(ROUTES_FLAT.CALCULATION_COLUMN_TYPE1_DETAILED, {
                                 state: {
                                     calculationData,
                                     outputs: [
-                                        { titleKey: 'steel.footing.volume', title: 'Volume', formula: 'XxYxHn/1000000000', value: `${volResult.toFixed(3)} m³` },
-                                        { titleKey: 'steel.footing.d1', title: 'D1', formula: '((X-100+2xLd)/1000)x(((Y-100)/S1)+1)x((D1xD1)/162.28)xn', value: `${d1Weight.toFixed(3)} ${t('history.units.kg')}` },
-                                        { titleKey: 'steel.footing.d2', title: 'D2', formula: '((Y-100+2xLd)/1000)x(((X-100)/S1)+1)x((D2xD2)/162.28)xn', value: `${d2Weight.toFixed(3)} ${t('history.units.kg')}` },
-                                        { titleKey: 'steel.weight.totalWeight', title: 'Total Steel', formula: 'D1 + D2', value: `${totalSteel.toFixed(3)} ${t('history.units.kg')}` },
-                                        { titleKey: 'steel.weight.totalPrice', title: 'Total Price', formula: 'Total Steel x R', value: `₹ ${totalPrice.toFixed(2)}` },
+                                        {
+                                            titleKey: 'steel.column.volume',
+                                            labelKey: 'steel.column.volume',
+                                            labelSuffix: ':',
+                                            formula: 'X * Y * H * N / 1,000,000,000',
+                                            value: `${colVolume.toFixed(3)} m³`
+                                        },
+                                        {
+                                            titleKey: 'steel.column.vertical',
+                                            label: 'D1 =',
+                                            formula: '4 * D * D * H * N / 162.28',
+                                            value: `${verticalWeight.toFixed(3)} ${t('history.units.kg')}`
+                                        },
+                                        {
+                                            titleKey: 'steel.column.stirrups',
+                                            label: 'D2 =',
+                                            formula: '(((2*(X-80)+2*(Y-80)+20*rd)/1000)*(((1000*H/S)+1)*(rd*rd)/162.28)*N)',
+                                            value: `${stirrupWeight.toFixed(3)} ${t('history.units.kg')}`
+                                        },
+                                        {
+                                            titleKey: 'steel.weight.totalSteel',
+                                            labelKey: 'steel.weight.totalSteel',
+                                            labelSuffix: ' =',
+                                            formula: '(4*D*D*H*N/162.28) + ((((2*(X-80)+2*(Y-80)+20*rd)/1000)*(((1000*H/S)+1)*(rd*rd)/162.28)*N))',
+                                            value: `${totalSteel.toFixed(3)} ${t('history.units.kg')}`
+                                        },
+                                        {
+                                            titleKey: 'steel.weight.totalPrice',
+                                            labelKey: 'steel.weight.totalPrice',
+                                            labelSuffix: ' =',
+                                            formula: 'Total Steel * r',
+                                            value: `₹ ${totalPrice.toFixed(3)}`
+                                        },
                                     ]
                                 }
                             })}
@@ -439,4 +401,4 @@ const FootingType1 = () => {
     );
 };
 
-export default FootingType1;
+export default ColumnType1;

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Download, Share2 } from 'lucide-react';
+import PageHeader from '../../../../components/layout/PageHeader';
+import Button from '../../../../components/ui/Button';
 import InputsTable from '../components/InputsTable';
-import OutputCard from '../components/OutputCard';
+import OutputsTable from '../components/OutputsTable';
 
-const FootingType1Detailed = () => {
+const ColumnType5Detailed = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { t } = useTranslation('calculation');
@@ -23,7 +25,7 @@ const FootingType1Detailed = () => {
     return (
         <div className="min-h-screen max-w-7xl mx-auto pb-20">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8 group pt-6">
+            <div className="flex items-center justify-between mb-8 group pt-6 px-4 sm:px-0">
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => navigate(-1)}
@@ -32,7 +34,7 @@ const FootingType1Detailed = () => {
                         <ArrowLeft className="w-6 h-6 text-primary" />
                     </button>
                     <h1 className="text-xl font-bold text-primary">
-                        {history ? t('steel.footing.type1') : t('steel.footing.type1Detailed')}
+                        {history ? t('steel.column.type5') : t('steel.column.type5Detailed')}
                     </h1>
                 </div>
                 {date && time && (
@@ -43,7 +45,7 @@ const FootingType1Detailed = () => {
             </div>
 
             {/* Inputs Section */}
-            <div className="mt-8">
+            <div className="mt-8 px-4 sm:px-0">
                 <InputsTable
                     title={t('steel.weight.inputs')}
                     data={calculationData}
@@ -51,20 +53,12 @@ const FootingType1Detailed = () => {
             </div>
 
             {/* Outputs Section */}
-            <div className="mt-10 space-y-6">
-                <h2 className="text-lg font-medium text-primary ml-1 mb-4">{t('steel.weight.outputs')}</h2>
-                {outputs.map((output, index) => (
-                    <OutputCard
-                        key={index}
-                        title={output.title}
-                        formula={output.formula}
-                        value={output.value}
-                        titleKey={output.titleKey}
-                    />
-                ))}
-            </div>
+            <OutputsTable
+                title={t('steel.weight.outputs')}
+                outputs={outputs}
+            />
         </div>
     );
 };
 
-export default FootingType1Detailed;
+export default ColumnType5Detailed;

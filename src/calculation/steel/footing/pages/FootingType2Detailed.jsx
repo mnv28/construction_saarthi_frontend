@@ -55,6 +55,7 @@ const FootingType2Detailed = () => {
                         title={output.title}
                         formula={output.formula}
                         value={output.value}
+                        titleKey={output.titleKey}
                     />
                 ))}
             </div>

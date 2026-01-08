@@ -21,7 +21,7 @@ const SteelAccordion = ({ title, children, defaultOpen = false }) => {
             </button>
 
             <div className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-                <div className="px-6 py-4 border-t border-[#ECECEF]/50">
+                <div className="md:px-6 md:py-4 py-2 px-1 border-t border-[#ECECEF]/50">
                     {children}
                 </div>
             </div>

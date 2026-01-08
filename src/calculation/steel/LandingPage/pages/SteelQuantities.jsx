@@ -23,6 +23,26 @@ const SteelQuantities = () => {
             navigate('/calculation/steel/footing/type1');
         } else if (itemTitle === t('steel.footing.type2')) {
             navigate('/calculation/steel/footing/type2');
+        } else if (itemTitle === t('steel.column.type1')) {
+            navigate('/calculation/steel/column/type1');
+        } else if (itemTitle === t('steel.column.type2')) {
+            navigate('/calculation/steel/column/type2');
+        } else if (itemTitle === t('steel.column.type3')) {
+            navigate('/calculation/steel/column/type3');
+        } else if (itemTitle === t('steel.column.type4')) {
+            navigate('/calculation/steel/column/type4');
+        } else if (itemTitle === t('steel.column.type5')) {
+            navigate('/calculation/steel/column/type5');
+        } else if (itemTitle === t('steel.column.type6')) {
+            navigate('/calculation/steel/column/type6');
+        } else if (itemTitle === t('steel.column.type7')) {
+            navigate('/calculation/steel/column/type7');
+        } else if (itemTitle === t('steel.column.type8')) {
+            navigate('/calculation/steel/column/type8');
+        } else if (itemTitle === t('steel.column.type9')) {
+            navigate('/calculation/steel/column/type9');
+        } else if (itemTitle === t('steel.column.type10')) {
+            navigate('/calculation/steel/column/type10');
         } else if (itemTitle === t('steel.footing.type3')) {
             navigate('/calculation/coming-soon');
         }

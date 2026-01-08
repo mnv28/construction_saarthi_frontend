@@ -27,13 +27,13 @@ const InputsTable = ({ data, title }) => {
                     <tbody className="divide-y divide-[#060C120F]">
                         {data.map((item, index) => (
                             <tr key={index} className="hover:bg-gray-50/50 transition-colors">
-                                <td className="md:px-6 py-3 px-2 text-sm text-primary">
+                                <td className="md:px-6 py-3 px-2 text-sm text-primary font-normal">
                                     {item.labelKey ? t(item.labelKey) : item.name}
                                 </td>
-                                <td className="md:px-6 py-3 px-2 text-sm text-primary border-l border-[#060C120F]">
+                                <td className="md:px-6 py-3 px-2 text-sm text-primary border-l border-[#060C120F] font-normal">
                                     {item.symbol}
                                 </td>
-                                <td className="md:px-6 py-3 px-2 text-sm text-primary border-l border-[#060C120F]">
+                                <td className="md:px-6 py-3 px-2 text-sm text-primary border-l border-[#060C120F] font-normal">
                                     {item.value}
                                 </td>
                             </tr>

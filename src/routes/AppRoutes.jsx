@@ -128,6 +128,26 @@ const FootingType1 = lazy(() => import('../calculation/steel/footing/pages/Footi
 const FootingType1Detailed = lazy(() => import('../calculation/steel/footing/pages/FootingType1Detailed'));
 const FootingType2 = lazy(() => import('../calculation/steel/footing/pages/FootingType2'));
 const FootingType2Detailed = lazy(() => import('../calculation/steel/footing/pages/FootingType2Detailed'));
+const ColumnType1 = lazy(() => import('../calculation/steel/column/pages/ColumnType1'));
+const ColumnType1Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType1Detailed'));
+const ColumnType2 = lazy(() => import('../calculation/steel/column/pages/ColumnType2'));
+const ColumnType2Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType2Detailed'));
+const ColumnType3 = lazy(() => import('../calculation/steel/column/pages/ColumnType3'));
+const ColumnType3Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType3Detailed'));
+const ColumnType4 = lazy(() => import('../calculation/steel/column/pages/ColumnType4'));
+const ColumnType4Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType4Detailed'));
+const ColumnType5 = lazy(() => import('../calculation/steel/column/pages/ColumnType5'));
+const ColumnType5Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType5Detailed'));
+const ColumnType6 = lazy(() => import('../calculation/steel/column/pages/ColumnType6'));
+const ColumnType6Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType6Detailed'));
+const ColumnType7 = lazy(() => import('../calculation/steel/column/pages/ColumnType7'));
+const ColumnType7Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType7Detailed'));
+const ColumnType8 = lazy(() => import('../calculation/steel/column/pages/ColumnType8'));
+const ColumnType8Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType8Detailed'));
+const ColumnType9 = lazy(() => import('../calculation/steel/column/pages/ColumnType9'));
+const ColumnType9Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType9Detailed'));
+const ColumnType10 = lazy(() => import('../calculation/steel/column/pages/ColumnType10'));
+const ColumnType10Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType10Detailed'));
 const ComingSoon = lazy(() => import('../calculation/common/ComingSoon'));
 
 // Loading Component for Suspense fallback
@@ -230,6 +250,26 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE1_DETAILED} element={<FootingType1Detailed />} />
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE2} element={<FootingType2 />} />
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE2_DETAILED} element={<FootingType2Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE1} element={<ColumnType1 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE1_DETAILED} element={<ColumnType1Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE2} element={<ColumnType2 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE2_DETAILED} element={<ColumnType2Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE3} element={<ColumnType3 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE3_DETAILED} element={<ColumnType3Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE4} element={<ColumnType4 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE4_DETAILED} element={<ColumnType4Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE5} element={<ColumnType5 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE5_DETAILED} element={<ColumnType5Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE6} element={<ColumnType6 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE6_DETAILED} element={<ColumnType6Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE7} element={<ColumnType7 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE7_DETAILED} element={<ColumnType7Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE8} element={<ColumnType8 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE8_DETAILED} element={<ColumnType8Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE9} element={<ColumnType9 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE9_DETAILED} element={<ColumnType9Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE10} element={<ColumnType10 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE10_DETAILED} element={<ColumnType10Detailed />} />
             <Route path="/calculation/coming-soon" element={<ComingSoon />} />
           </Route>
         </Route>

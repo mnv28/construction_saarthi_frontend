@@ -241,7 +241,7 @@ const ReinforcementWeight = () => {
                                     {[t('history.headers.material'), t('history.headers.quantity'), t('history.headers.unit')].map((header, index) => (
                                         <th
                                             key={index}
-                                            className="px-6 py-4 text-sm font-semibold text-primary border-r border-[#060C120A] last:border-r-0"
+                                            className="px-6 py-4 text-sm font-medium text-primary border-r border-[#060C120A] last:border-r-0"
                                         >
                                             {header}
                                         </th>
@@ -251,9 +251,9 @@ const ReinforcementWeight = () => {
                             <tbody className="divide-y divide-[#060C120A]">
                                 {resultData.map((row, rowIndex) => (
                                     <tr key={rowIndex} className="hover:bg-[#F9F9F9] transition-colors">
-                                        <td className="px-6 py-4 text-sm text-secondary font-medium border-r border-[#060C120A]">{row.material}</td>
-                                        <td className="px-6 py-4 text-sm text-primary font-medium border-r border-[#060C120A]">{row.quantity}</td>
-                                        <td className="px-6 py-4 text-sm text-secondary font-medium border-r border-[#060C120A] last:border-r-0">{row.unit}</td>
+                                        <td className="px-6 py-4 text-sm text-primary border-r border-[#060C120A]">{row.material}</td>
+                                        <td className="px-6 py-4 text-sm text-primary border-r border-[#060C120A]">{row.quantity}</td>
+                                        <td className="px-6 py-4 text-sm text-primary border-r border-[#060C120A] last:border-r-0">{row.unit}</td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -6,8 +6,8 @@ const ReportCard = ({ title, items }) => {
             <h3 className=" text-lg font-medium text-primary pb-3 border-b border-lightGray">{title}</h3>
             <div className="pt-4">
                 {items.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center space-y-1">
-                        <span className="text-primary">{item.label}:</span>
+                    <div key={index} className="flex items-center space-y-1">
+                        <span className="text-primary md:min-w-[200px]">{item.label}:</span>
                         <span className={`font-medium ${item.isHighlight ? 'text-primary' : 'text-secondary font-medium'}`}>
                             {item.value}
                         </span>

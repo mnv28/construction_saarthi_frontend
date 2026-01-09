@@ -40,6 +40,15 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   sections: "finance.sections",
   "labour-attendance": "sidebar.mainMenu.labourAttendance",
   "add-labour": "labourAttendance.common.addLabour",
+  calculation: "calculation.breadcrumbs.calculation",
+  concrete: "calculation.quickActions.items.concrete",
+  "by-volume": "calculation.concrete.sections.byVolume",
+  "curbed-stone-1": "calculation.concrete.curbedStone.curbStone1",
+  "curbed-stone-2": "calculation.concrete.curbedStone.curbStone2",
+  "simple-tube": "calculation.concrete.tube.simpleTube",
+  "square-tube": "calculation.concrete.tube.squareTube",
+  "gutter-shape-1": "calculation.concrete.gutter.gutterShape1",
+  "gutter-shape-2": "calculation.concrete.gutter.gutterShape2",
 };
 
 const Navbar = () => {
@@ -50,6 +59,7 @@ const Navbar = () => {
   const { t: tDocuments } = useTranslation("documents");
   const { t: tFinance } = useTranslation("finance");
   const { t: tLabourAttendance } = useTranslation("labourAttendance");
+  const { t: tCalculation } = useTranslation("calculation");
   const location = useLocation();
   const { user: authUser } = useAuth();
 
@@ -308,6 +318,13 @@ const Navbar = () => {
         defaultValue: last.replace(/-/g, " "),
       });
     }
+
+    // Use calculation namespace for calculation-related translations
+    if (translationKey && translationKey.startsWith("calculation.")) {
+      return tCalculation(translationKey.replace("calculation.", ""), {
+        defaultValue: last.replace(/-/g, " "),
+      });
+    }
     
     if (translationKey) {
       return t(translationKey, {
@@ -317,7 +334,7 @@ const Navbar = () => {
     
     // Fallback: return the original value if no translation key found
     return last.replace(/-/g, " ");
-  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance]);
+  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance, tCalculation]);
 
   return (
     <header className="fixed top-0 left-0 right-0 lg:left-[300px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
@@ -392,6 +409,14 @@ const Navbar = () => {
                       defaultValue: crumb.replace(/-/g, " "),
                     });
                   }
+
+                  // Use calculation namespace for calculation-related translations
+                  if (translationKey && translationKey.startsWith("calculation.")) {
+                    return tCalculation(translationKey.replace("calculation.", ""), {
+                      defaultValue: crumb.replace(/-/g, " "),
+                    });
+                  }
+
                   if (translationKey) {
                     return t(translationKey, {
                       defaultValue: crumb.replace(/-/g, " "),

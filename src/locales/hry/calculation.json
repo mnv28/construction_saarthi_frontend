@@ -166,83 +166,108 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "आयतन से",
+            "column": "कॉलम",
+            "footing": "फूटिंग",
+            "staircase": "सिँड़ी",
+            "wall": "दीवार",
+            "curbedStone": "कर्ब स्टोन",
+            "tube": "ट्यूब",
+            "gutter": "नाली"
         },
 
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "स्क्वायर कॉलम का कंक्रीट",
+            "rectangularColumn": "रेक्टेंगुलर कॉलम का कंक्रीट",
+            "roundColumn": "राउंड कॉलम का कंक्रीट"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "बॉक्स फुटिंग का कंक्रीट",
+            "trapezoidalFooting": "ट्रेपिजॉइडल फुटिंग का कंक्रीट"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "सिधी सिँड़ी का कंक्रीट",
+            "dogLeggedStaircase": "डॉग लेग्ड सिँड़ी का कंक्रीट"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "दीवार आकार 1 का कंक्रीट",
+            "wallShape2": "दीवार आकार 2 का कंक्रीट"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "कर्ब स्टोन 1 का कंक्रीट",
+            "curbStone2": "कर्ब स्टोन 2 का कंक्रीट"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "सादा ट्यूब का कंक्रीट",
+            "squareTube": "वर्गाकार ट्यूब का कंक्रीट"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "नाली आकार 1 का कंक्रीट",
+            "gutterShape2": "नाली आकार 2 का कंक्रीट"
+        },
+        "byVolume": {
+            "concreteByVolume": "आयतन तै कंक्रीट",
+            "unit": "यूनिट",
+            "height": "ऊंचाई",
+            "width": "चौड़ाई",
+            "length": "लंबाई",
+            "length_L": "लंबाई - L",
+            "width_W": "चौड़ाई - W",
+            "depth_D": "गहराई - D",
+            "thickness_T": "मोटाई - T",
+            "height_H": "ऊंचाई - H",
+            "rise_R": "उठान - R",
+            "tread_T": "कदम - T",
+            "height_H1": "ऊँचाई - H1",
+            "height_H2": "ऊँचाई - H2",
+            "width_W1": "चौड़ाई - W1",
+            "width_W2": "चौड़ाई - W2",
+            "outerDiameter_D1": "बाहरी व्यास - D1",
+            "outerDiameter_D2": "बाहरी व्यास - D2",
+            "tubeThickness_T": "ट्यूब की मोटाई - T",
+            "thickness_T1": "मोटाई - T1",
+            "thickness_T2": "मोटाई - T2",
+            "baseDepth_D1": "आधार गहराई - D1",
+            "midDepth_D2": "मध्य गहराई - D2",
+            "topDepth_D3": "ऊपरी गहराई - D3",
+            "length_L1": "लंबाई - L1",
+            "length_L2": "लंबाई - L2",
+            "length_L3": "लंबाई - L3",
+            "totalSteps_N": "कुल कदम - N",
+            "depth_D3": "गहराई - D3",
+            "metric": "मीट्रिक",
+            "imperial": "इंपीरियल",
+            "volume": "आयतन",
+            "concreteGrade": "कंक्रीट ग्रेड",
+            "cement": "सीमेंट",
+            "sand": "रेत",
+            "aggregate": "रोड़ी",
+            "waterCementRatio": "पाणी - सीमेंट अनुपात",
+            "admixture": "मिश्रण",
+            "noOfUnits": "यूनिटां की संख्या",
+            "dryVolume": "सूखा आयतन",
+            "rateOfConcrete": "कंक्रीट का रेट",
+            "result": "नतीजा",
+            "concreteVolume": "कंक्रीट आयतन",
+            "cementBags": "सीमेंट (50 किलो)",
+            "coarseAggregate": "मोटी रोड़ी",
+            "water": "पाणी",
+            "totalCost": "कुल लागत",
+            "reset": "रीसेट",
+            "calculate": "गणना करो",
+            "quantity": "मात्रा",
+            "viewDetailedResult": "विस्तृत नतीजा देखो",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "ब्रास",
+            "material": "सामान"
         }
-    },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    },"downloadPDF": {
+        "title": "PDF डाउनलोड करो",
+        "titleLabel": "शीर्षक",
+        "titlePlaceholder": "शीर्षक दर्ज करो",
+        "cancel": "रद्द करो",
+        "download": "डाउनलोड",
+        "downloading": "डाउनलोड हो रहा है..."
     }
 }

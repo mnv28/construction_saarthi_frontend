@@ -166,83 +166,109 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "کنکریٹ بلحاظ حجم",
+            "column": "کالم",
+            "footing": "فٹنگ",
+            "staircase": "سٹیرسکیس",
+            "wall": "وال",
+            "curbedStone": "کربڈ سٹون",
+            "tube": "ٹیوب",
+            "gutter": "نالی"
         },
 
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "کنکریٹ کا مربع کالم",
+            "rectangularColumn": "کنکریٹ کا مستطیل کالم",
+            "roundColumn": "کنکریٹ کا گول کالم"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "کنکریٹ کا باکس فٹنگ",
+            "trapezoidalFooting": "کنکریٹ کا ٹریپیزوئیڈل فٹنگ"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "کنکریٹ کا سیدھا سٹیرسکیس",
+            "dogLeggedStaircase": "کنکریٹ کا ڈاگ لیگڈ سٹیرسکیس"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "کنکریٹ کا وال شیپ 1",
+            "wallShape2": "کنکریٹ کا وال شیپ 2"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "کنکریٹ کا کربڈ سٹون 1",
+            "curbStone2": "کنکریٹ کا کربڈ سٹون 2"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "کنکریٹ کا سادہ ٹیوب",
+            "squareTube": "کنکریٹ کا مربع ٹیوب"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "کنکریٹ کا نالی شیپ 1",
+            "gutterShape2": "کنکریٹ کا نالی شیپ 2"
+        },
+        "byVolume": {
+            "concreteByVolume": "کنکریٹ بلحاظ حجم",
+            "unit": "یونٹ",
+            "height": "اونچائی",
+            "width": "چوڑائی",
+            "length": "لمبائی",
+            "length_L": "لمبائی - L",
+            "width_W": "چوڑائی - W",
+            "depth_D": "گہرائی - D",
+            "thickness_T": "موٹائی - T",
+            "height_H": "اونچائی - H",
+            "rise_R": "اونچائی (Rise) - R",
+            "tread_T": "پايدان (Tread) - T",
+            "height_H1": "اونچائی - H1",
+            "height_H2": "اونچائی - H2",
+            "width_W1": "چوڑائی - W1",
+            "width_W2": "چوڑائی - W2",
+            "outerDiameter_D1": "بیرونی قطر - D1",
+            "outerDiameter_D2": "بیرونی قطر - D2",
+            "tubeThickness_T": "ٹیوب کی موٹائی - T",
+            "thickness_T1": "موٹائی - T1",
+            "thickness_T2": "موٹائی - T2",
+            "baseDepth_D1": "بنیادی گہرائی - D1",
+            "midDepth_D2": "درمیانی گہرائی - D2",
+            "topDepth_D3": "اوپری گہرائی - D3",
+            "length_L1": "لمبائی - L1",
+            "length_L2": "لمبائی - L2",
+            "length_L3": "لمبائی - L3",
+            "totalSteps_N": "کل قدم - N",
+            "depth_D3": "گہرائی - D3",
+            "metric": "میٹرک",
+            "imperial": "ایمپیریل",
+            "volume": "حجم",
+            "concreteGrade": "کنکریٹ گریڈ",
+            "cement": "سیمنٹ",
+            "sand": "ریت",
+            "aggregate": "بجری",
+            "waterCementRatio": "پانی - سیمنٹ کا تناسب",
+            "admixture": "مرکب (Admixture)",
+            "noOfUnits": "یونٹس کی تعداد",
+            "dryVolume": "خشک حجم",
+            "rateOfConcrete": "کنکریٹ کا ریٹ",
+            "result": "نتیجہ",
+            "concreteVolume": "کنکریٹ کا حجم",
+            "cementBags": "سیمنٹ (50 کلوگرام)",
+            "coarseAggregate": "موٹی بجری",
+            "water": "پانی",
+            "totalCost": "کل لاگت",
+            "reset": "ری سیٹ",
+            "calculate": "حساب لگائیں",
+            "quantity": "مقدار",
+            "viewDetailedResult": "تفصیلی نتیجہ دیکھیں",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "براس",
+            "material": "مواد"
         }
     },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    "downloadPDF": {
+        "title": "PDF کے طور پر ڈاؤن لوڈ کریں",
+        "titleLabel": "عنوان",
+        "titlePlaceholder": "عنوان درج کریں",
+        "cancel": "منسوخ کریں",
+        "download": "ڈاؤن لوڈ کریں",
+        "downloading": "ڈاؤن لوڈ ہو رہا ہے..."
     }
 }

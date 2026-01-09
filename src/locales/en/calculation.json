@@ -269,6 +269,15 @@
             "height_H": "Height - H",
             "rise_R": "Rise - R",
             "tread_T": "Tread - T",
+            "height_H1": "Height - H1",
+            "height_H2": "Height - H2",
+            "width_W1": "Width - W1",
+            "width_W2": "Width - W2",
+            "outerDiameter_D1": "Outer Diameter - D1",
+            "outerDiameter_D2": "Outer Diameter - D2",
+            "tubeThickness_T": "Tube Thickness - T",
+            "thickness_T1": "Thickness - T1",
+            "thickness_T2": "Thickness - T2",
             "baseDepth_D1": "Base Depth - D1",
             "midDepth_D2": "Mid Depth - D2",
             "topDepth_D3": "Top Depth - D3",
@@ -281,7 +290,10 @@
             "height": "Height",
             "length": "Length",
             "diameter": "Diameter",
-            "depth": "Depth"
+            "depth": "Depth",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "Brass"
         }
     },
     "downloadPDF": {

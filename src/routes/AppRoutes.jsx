@@ -135,6 +135,12 @@ const StraightStaircase = lazy(() => import('../calculation/concrete/staircase/p
 const DogLeggedStaircase = lazy(() => import('../calculation/concrete/staircase/pages/DogLeggedStaircase'));
 const WallShape1 = lazy(() => import('../calculation/concrete/wall/pages/WallShape1'));
 const WallShape2 = lazy(() => import('../calculation/concrete/wall/pages/WallShape2'));
+const ConcreteCurbStone1 = lazy(() => import('../calculation/concrete/curbedStone/pages/ConcreteCurbStone1'));
+const ConcreteCurbStone2 = lazy(() => import('../calculation/concrete/curbedStone/pages/ConcreteCurbStone2'));
+const ConcreteSimpleTube = lazy(() => import('../calculation/concrete/tube/pages/ConcreteSimpleTube'));
+const ConcreteSquareTube = lazy(() => import('../calculation/concrete/tube/pages/ConcreteSquareTube'));
+const ConcreteGutterShape1 = lazy(() => import('../calculation/concrete/gutter/pages/ConcreteGutterShape1'));
+const ConcreteGutterShape2 = lazy(() => import('../calculation/concrete/gutter/pages/ConcreteGutterShape2'));
 const ComingSoon = lazy(() => import('../calculation/common/ComingSoon'));
 
 // Loading Component for Suspense fallback
@@ -244,6 +250,12 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.DOG_LEGGED_STAIRCASE} element={<DogLeggedStaircase />} />
             <Route path="/calculation/concrete/wall/shape1" element={<WallShape1 />} />
             <Route path="/calculation/concrete/wall/shape2" element={<WallShape2 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_CURB_STONE_1} element={<ConcreteCurbStone1 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_CURB_STONE_2} element={<ConcreteCurbStone2 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_SIMPLE_TUBE} element={<ConcreteSimpleTube />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_SQUARE_TUBE} element={<ConcreteSquareTube />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_GUTTER_SHAPE_1} element={<ConcreteGutterShape1 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CONCRETE_GUTTER_SHAPE_2} element={<ConcreteGutterShape2 />} />
             <Route path="/calculation/coming-soon" element={<ComingSoon />} />
           </Route>
         </Route>

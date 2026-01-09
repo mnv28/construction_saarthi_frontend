@@ -41,6 +41,7 @@ const DogLeggedStaircase = () => {
 
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [results, setResults] = useState(null);
+  const [resultUnit, setResultUnit] = useState("m3");
 
   const concreteGrades = [
     { value: "M10", label: "M10" },
@@ -112,7 +113,8 @@ const DogLeggedStaircase = () => {
 
       {/* Main Content */}
       <div className="space-y-4">
-        <div className="bg-[#F9F4EE] rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-[#F9F4EE] rounded-xl p-4 space-y-4">
+        <div className="border-b border-gray-200 pb-4 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <img
               src={Staircase2Icon}
@@ -213,7 +215,6 @@ const DogLeggedStaircase = () => {
             <NumberInput
               placeholder={t("concrete.byVolume.totalSteps_N", { defaultValue: "Total Steps - N" })}
               value={totalStepsVolume}
-              value={totalStepsVolume}
               onChange={(e) => setTotalStepsVolume(e.target.value)}
               unit={t("concrete.byVolume.nos", { defaultValue: "NOs" })}
             />
@@ -287,6 +288,21 @@ const DogLeggedStaircase = () => {
             onChange={(e) => setRateOfConcrete(e.target.value)}
             unit="₹/m³"
           />
+        </div>{/* Footer Buttons */}
+        <div className="flex justify-end gap-4">
+          <Button
+            variant="secondary"
+            onClick={handleReset}
+          >
+            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleCalculate}
+          >
+            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
+          </Button>
+        </div>
         </div>
 
         {/* Results Section */}
@@ -298,16 +314,26 @@ const DogLeggedStaircase = () => {
 
             {/* Unit Tabs */}
             <div className="flex gap-10 mb-4 border-b border-gray-200">
-              <button className="relative px-8 pb-3 text-sm font-medium text-accent">
-                m³
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
-              </button>
-              <button className="pb-3 px-8 text-sm font-medium text-secondary hover:text-primary">
-                ft³
-              </button>
-              <button className="pb-3 text-sm font-medium text-secondary hover:text-primary">
-                brass
-              </button>
+              {["m3", "ft3", "brass"].map((unit) => (
+                <button
+                  key={unit}
+                  onClick={() => setResultUnit(unit)}
+                  className={`relative px-8 pb-3 text-sm font-medium ${
+                    resultUnit === unit
+                      ? "text-accent"
+                      : "text-secondary hover:text-primary"
+                  }`}
+                >
+                  {unit === "m3"
+                    ? t("concrete.byVolume.m3Unit", { defaultValue: "m³" })
+                    : unit === "ft3"
+                    ? t("concrete.byVolume.ft3Unit", { defaultValue: "ft³" })
+                    : t("concrete.byVolume.brassUnit", { defaultValue: "Brass" })}
+                  {resultUnit === unit && (
+                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
+                  )}
+                </button>
+              ))}
             </div>
 
             {/* Results Table */}
@@ -333,13 +359,13 @@ const DogLeggedStaircase = () => {
                   </thead>
                   <tbody>
                     {[
-                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, "m³"],
-                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, "Kg"],
-                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, "bags"],
-                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, "m³"],
-                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, "m³"],
-                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, "Kg"],
-                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, "Litre"],
+                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, t("history.units.bags", { defaultValue: "bags" })],
+                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, t("history.units.liters", { defaultValue: "Litre" })],
                     ].map(([label, value, unit], index) => (
                       <tr
                         key={index}
@@ -376,27 +402,13 @@ const DogLeggedStaircase = () => {
                 variant="primary"
                 className="w-full rounded-xl bg-[#B02E0C]  text-white py-3"
               >
-                View Detailed Result
+                {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}
               </Button>
             </div>
           </div>
         )}
 
-        {/* Footer Buttons */}
-        <div className="flex justify-end gap-4">
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-          >
-            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleCalculate}
-          >
-            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
-          </Button>
-        </div>
+        
       </div>
 
       <DownloadPDFModal

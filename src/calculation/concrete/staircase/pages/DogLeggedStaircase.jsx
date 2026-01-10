@@ -11,6 +11,7 @@ import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
 import shareIcon from "../../../../assets/icons/Forward.svg";
 import Staircase2Icon from "../../../../assets/icons/S2.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const DogLeggedStaircase = () => {
   const { t } = useTranslation("calculation");
@@ -400,6 +401,24 @@ const DogLeggedStaircase = () => {
 
               <Button
                 variant="primary"
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.staircase.dogLeggedStaircase", {
+                        defaultValue: "Concrete of Dog Legged Staircase",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="w-full rounded-xl bg-[#B02E0C]  text-white py-3"
               >
                 {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}

@@ -11,6 +11,7 @@ import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
 import shareIcon from "../../../../assets/icons/Forward.svg";
 import FootingtrapezoidaIcon from "../../../../assets/icons/S2.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const StraightStaircase = () => {
   const { t } = useTranslation("calculation");
@@ -388,6 +389,24 @@ const StraightStaircase = () => {
 
               <Button
                 variant="primary"
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.staircase.straightStaircase", {
+                        defaultValue: "Concrete of Straight Staircase",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="w-full rounded-xl bg-[#B02E0C] hover:bg-[#8B2409] text-white py-3"
               >
                 {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}

@@ -8,7 +8,8 @@ import Button from "../../../../components/ui/Button";
 import Radio from "../../../../components/ui/Radio";
 import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
-import TsquareIcon from "../../../../assets/icons/St2.svg";
+import SquareTubeIcon from "../../../../assets/icons/St2.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const ConcreteSquareTube = () => {
   const { t } = useTranslation("calculation");
@@ -91,7 +92,7 @@ const ConcreteSquareTube = () => {
         <div className="bg-[#F9F4EE] rounded-xl p-4">
           <div className="border-b border-gray-200 flex flex-col md:flex-row gap-6 pb-4 mb-4">
              <div>
-                <img src={TsquareIcon} alt="Square Tube" className="w-32 object-contain" />
+                <img src={SquareTubeIcon} alt="Square Tube" className="w-32 object-contain" />
              </div>
              <div className="flex-1 flex flex-col justify-center">
                 <div className="flex items-center gap-6">
@@ -257,7 +258,24 @@ const ConcreteSquareTube = () => {
               </div>
               <Button
                 variant="primary"
-                onClick={() => {}}
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.tube.squareTube", {
+                        defaultValue: "Concrete of Square Tube",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="rounded-2xl text-lg font-medium hover:bg-[#B02E0C] w-full"
               >
                 {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}

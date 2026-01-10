@@ -9,6 +9,7 @@ import Radio from "../../../../components/ui/Radio";
 import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
 import Cstone2Icon from "../../../../assets/icons/Cs2.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const ConcreteCurbStone2 = () => {
   const { t } = useTranslation("calculation");
@@ -269,7 +270,24 @@ const ConcreteCurbStone2 = () => {
               </div>
               <Button
                 variant="primary"
-                onClick={() => {}}
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.curbedStone.curbStone2", {
+                        defaultValue: "Concrete of Curb Stone 2",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="rounded-2xl text-lg font-medium hover:bg-[#B02E0C] w-full"
               >
                 {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}

@@ -9,6 +9,7 @@ import Radio from "../../../../components/ui/Radio";
 import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
 import Gshape1Icon from "../../../../assets/icons/G1.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const ConcreteGutterShape1 = () => {
   const { t } = useTranslation("calculation");
@@ -295,7 +296,24 @@ const ConcreteGutterShape1 = () => {
               </div>
               <Button
                 variant="primary"
-                onClick={() => {}}
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.gutter.gutterShape1", {
+                        defaultValue: "Concrete of Gutter Shape 1",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="rounded-2xl text-lg font-medium hover:bg-[#B02E0C] w-full"
               >
                 {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}

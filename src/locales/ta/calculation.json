@@ -291,82 +291,108 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "கன அளவின் அடிப்படையில்",
+            "column": "தூண்",
+            "footing": "பூட்டிங்",
+            "staircase": "ஸ்டேயர்கேஸ்",
+            "wall": "சுவர்",
+            "curbedStone": "கர்ப்ட் சுவர்",
+            "tube": "டியூப்",
+            "gutter": "கட்டாரம்"
         },
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "கன அளவின் அடிப்படையில் கான்கிரீட்",
+            "rectangularColumn": "கன அளவின் அடிப்படையில் கான்கிரீட்",
+            "roundColumn": "கன அளவின் அடிப்படையில் கான்கிரீட்"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "கான்கிரீட் ஆப் போக்ஸ் பூட்டிங்",
+            "trapezoidalFooting": "கான்கிரீட் ஆப் டிரேபெசாய்டல் பூட்டிங்"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "கான்கிரீட் ஆப் ஸ்ட்ரெய்ட் ஸ்டேயர்கேஸ்",
+            "dogLeggedStaircase": "கான்கிரீட் ஆப் டாக் லெக்ட் ஸ்டேயர்கேஸ்"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "கான்கிரீட் ஆப் வால் ஷேப் 1",
+            "wallShape2": "கான்கிரீட் ஆப் வால் ஷேப் 2"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "கான்கிரீட் ஆப் கர்ப்ட் சுவர் 1",
+            "curbStone2": "கான்கிரீட் ஆப் கர்ப்ட் சுவர் 2"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "கான்கிரீட் ஆப் ஸிம்பிள் டியூப்",
+            "squareTube": "கான்கிரீட் ஆப் சுயர் டியூப்"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "கான்கிரீட் ஆப் கட்டாரம் ஷேப் 1",
+            "gutterShape2": "கான்கிரீட் ஆப் கட்டாரம் ஷேப் 2"
+        },
+        "byVolume": {
+            "concreteByVolume": "கன அளவு அடிப்படையில் கான்கிரீட்",
+            "unit": "அலகு",
+            "height": "உயரம்",
+            "width": "அகலம்",
+            "length": "நீளம்",
+            "length_L": "நீளம் - L",
+            "width_W": "அகலம் - W",
+            "depth_D": "ஆழம் - D",
+            "thickness_T": "தடிமன் - T",
+            "height_H": "உயரம் - H",
+            "rise_R": "எழுச்சி - R",
+            "tread_T": "மிதி - T",
+            "height_H1": "உயரம் - H1",
+            "height_H2": "உயரம் - H2",
+            "width_W1": "அகலம் - W1",
+            "width_W2": "அகலம் - W2",
+            "outerDiameter_D1": "வெளி விட்டம் - D1",
+            "outerDiameter_D2": "வெளி விட்டம் - D2",
+            "tubeThickness_T": "குழாய் தடிமன் - T",
+            "thickness_T1": "தடிமன் - T1",
+            "thickness_T2": "தடிமன் - T2",
+            "baseDepth_D1": "அடிப்படை ஆழம் - D1",
+            "midDepth_D2": "நடு ஆழம் - D2",
+            "topDepth_D3": "மேல் ஆழம் - D3",
+            "length_L1": "நீளம் - L1",
+            "length_L2": "நீளம் - L2",
+            "length_L3": "நீளம் - L3",
+            "totalSteps_N": "மொத்த படிகள் - N",
+            "depth_D3": "ஆழம் - D3",
+            "metric": "மெட்ரிக்",
+            "imperial": "இம்பீரியல்",
+            "volume": "கன அளவு",
+            "concreteGrade": "கான்கிரீட் தரம்",
+            "cement": "சிமெண்ட்",
+            "sand": "மணல்",
+            "aggregate": "ஜல்லி",
+            "waterCementRatio": "நீர் - சிமெண்ட் விகிதம்",
+            "admixture": "கலவை",
+            "noOfUnits": "அலகுகளின் எண்ணிக்கை",
+            "dryVolume": "உலர் கன அளவு",
+            "rateOfConcrete": "கான்கிரீட் விலை",
+            "result": "முடிவு",
+            "concreteVolume": "கான்கிரீட் கன அளவு",
+            "cementBags": "சிமெண்ட் (50 கிலோ)",
+            "coarseAggregate": "கரடுமுரடான ஜல்லி",
+            "water": "தண்ணீர்",
+            "totalCost": "மொத்த செலவு",
+            "reset": "மீட்டமை",
+            "calculate": "கணக்கிடு",
+            "quantity": "அளவு",
+            "viewDetailedResult": "விவரமான முடிவைக் காண்க",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "பிராஸ்",
+            "material": "பொருள்"
         }
     },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    "downloadPDF": {
+        "title": "PDF ஆக பதிவிறக்கவும்",
+        "titleLabel": "தலைப்பு",
+        "titlePlaceholder": "தலைப்பை உள்ளிடவும்",
+        "cancel": "ரத்து செய்",
+        "download": "பதிவிறக்கு",
+        "downloading": "பதிவிறக்கப்படுகிறது..."
     }
 }

@@ -5,7 +5,7 @@ const ConcreteAccordion = ({ title, children, defaultOpen = false }) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
     return (
-        <div className={`mb-4 border border-[#ECECEF] rounded-2xl overflow-hidden bg-white transition-all ${isOpen ? 'shadow-sm' : ''}`}>
+        <div className={`mb-4 border border-[#ECECEF] rounded-2xl overflow-hidden bg-white transition-all ${isOpen ? '' : ''}`}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer hover:bg-gray-50/50 transition-colors"

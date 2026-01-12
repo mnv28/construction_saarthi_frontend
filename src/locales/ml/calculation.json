@@ -291,82 +291,107 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "വ്യാപ്തത്തിനനുസരിച്ച്",
+            "column": "കോളം",
+            "footing": "ഫുട്ടിംഗ്",
+            "staircase": "സ്റ്റയർക്കേസ്",
+            "wall": "വല്ലി",
+            "curbedStone": "കർബ് സ്റ്റോൺ",
+            "tube": "ട്യൂബ്",
+            "gutter": "നാലി"
         },
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "കോളം കാംക്രീറ്റ്",
+            "rectangularColumn": "ചതുരശ്ര കോളം കാംക്രീറ്റ്",
+            "roundColumn": "വലയനിലുള്ള കോളം കാംക്രീറ്റ്"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "ബോക്സ് ഫുട്ടിംഗ് കാംക്രീറ്റ്",
+            "trapezoidalFooting": "ട്രാപെസോയിഡൽ ഫുട്ടിംഗ് കാംക്രീറ്റ്"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "സെയർട്ട് സ്റ്റയർക്കേസ് കാംക്രീറ്റ്",
+            "dogLeggedStaircase": "ഡോഗ് ലെഗ്ഗഡ് സ്റ്റയർക്കേസ് കാംക്രീറ്റ്"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "വല്ലി ആകൃതി 1 കാംക്രീറ്റ്",
+            "wallShape2": "വല്ലി ആകൃതി 2 കാംക്രീറ്റ്"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "കർബ് സ്റ്റോൺ 1 കാംക്രീറ്റ്",
+            "curbStone2": "കർബ് സ്റ്റോൺ 2 കാംക്രീറ്റ്"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "കാംക്രീറ്റ് സിമ്പൾ ട്യൂബ്",
+            "squareTube": "കാംക്രീറ്റ് ചതുരശ്ര ട്യൂബ്"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "കാംക്രീറ്റ് ഗട്ടർ ഷേപ്പ് 1",
+            "gutterShape2": "കാംക്രീറ്റ് ഗട്ടർ සേപ്പ് 2"
+        },
+        "byVolume": {
+            "concreteByVolume": "വ്യാപ്തത്തിനനുസരിച്ച് കോൺക്രീറ്റ്",
+            "unit": "യൂണിറ്റ്",
+            "height": "ഉയരം",
+            "width": "വീതി",
+            "length": "നീളം",
+            "length_L": "നീളം - L",
+            "width_W": "വീതി - W",
+            "depth_D": "ആഴം - D",
+            "thickness_T": "കനം - T",
+            "height_H": "ഉയരം - H",
+            "rise_R": "ഉയരം (Rise) - R",
+            "tread_T": "ത്രെഡ് (Tread) - T",
+            "height_H1": "ഉയരം - H1",
+            "height_H2": "ഉയരം - H2",
+            "width_W1": "വീതി - W1",
+            "width_W2": "വീതി - W2",
+            "outerDiameter_D1": "പുറം വ്യാസം - D1",
+            "outerDiameter_D2": "പുറം വ്യാസം - D2",
+            "tubeThickness_T": "ട്യൂബ് കനം - T",
+            "thickness_T1": "കനം - T1",
+            "thickness_T2": "കനം - T2",
+            "baseDepth_D1": "അടിസ്ഥാന ആഴം - D1",
+            "midDepth_D2": "മധ്യ ആഴം - D2",
+            "topDepth_D3": "മുകളിൽ ആഴം - D3",
+            "length_L1": "നീളം - L1",
+            "length_L2": "നീളം - L2",
+            "length_L3": "നീളം - L3",
+            "totalSteps_N": "ആകെ പടികൾ - N",
+            "depth_D3": "ആഴം - D3",
+            "metric": "മെട്രിക്",
+            "imperial": "ഇംപീരിയൽ",
+            "volume": "വ്യാപ്തം",
+            "concreteGrade": "കോൺക്രീറ്റ് ഗ്രേഡ്",
+            "cement": "സിമന്റ്",
+            "sand": "മണൽ",
+            "aggregate": "മെറ്റൽ (കല്ല്)",
+            "waterCementRatio": "വെള്ളം - സിമന്റ് അനുപാതം",
+            "admixture": "അഡ്മിക്സ്ചർ",
+            "noOfUnits": "യൂണിറ്റുകളുടെ എണ്ണം",
+            "dryVolume": "ഉണങ്ങിയ വ്യാപ്തം",
+            "rateOfConcrete": "കോൺക്രീറ്റ് നിരക്ക്",
+            "result": "ഫലം",
+            "concreteVolume": "കോൺക്രീറ്റ് വ്യാപ്തം",
+            "cementBags": "സിമന്റ് (50kg)",
+            "coarseAggregate": "കോഴ്സ് അഗ്രഗേറ്റ്",
+            "water": "വെള്ളം",
+            "totalCost": "ആകെ ചെലവ്",
+            "reset": "റീസെറ്റ്",
+            "calculate": "കണക്കുകൂട്ടുക",
+            "quantity": "അളവ്",
+            "viewDetailedResult": "വിശദമായ ഫലം കാണുക",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "ബ്രാസ്",
+            "material": "സാമഗ്രി"
         }
-    },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    },"downloadPDF": {
+        "title": "PDF തരം ഡൌൺലോഡ് ചെയ്യുക",
+        "titleLabel": "ശീർഷകം",
+        "titlePlaceholder": "ശീർഷകം നൽകുക",
+        "cancel": "റദ്ദാക്കുക",
+        "download": "ഡൌൺലോഡ്",
+        "downloading": "ഡൌൺലോഡ് ചെയ്യുന്നത്..."
     }
 }

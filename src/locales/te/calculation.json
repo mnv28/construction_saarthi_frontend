@@ -290,82 +290,108 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "ఘనపరిమాణం ద్వారా",
+            "column": "కాలమ్",
+            "footing": "ఫుటింగ్",
+            "staircase": "స్టేయర్కేస్",
+            "wall": "వాల్",
+            "curbedStone": "కర్బెడ్ స్టోన్",
+            "tube": "ట్యూబ్",
+            "gutter": "గట్టర్"
         },
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "కాలమ్ యొక్క కాంక్రీటు",
+            "rectangularColumn": "కాలమ్ యొక్క కాంక్రీటు",
+            "roundColumn": "కాలమ్ యొక్క కాంక్రీటు"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "కాలమ్ యొక్క కాంక్రీటు",
+            "trapezoidalFooting": "కాలమ్ యొక్క కాంక్రీటు"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "కాంక్రీటు యొక్క స్టేయర్కేస్",
+            "dogLeggedStaircase": "కాంక్రీటు యొక్క డాగ్ లెగ్డ్ స్టేయర్కేస్"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "కాంక్రీటు యొక్క వాల్ షేప్ 1",
+            "wallShape2": "కాంక్రీటు యొక్క వాల్ షేప్ 2"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "కాంక్రీటు యొక్క కర్బెడ్ స్టోన్ 1",
+            "curbStone2": "కాంక్రీటు యొక్క కర్బెడ్ స్టోన్ 2"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "కాంక్రీటు యొక్క సిమ్పల్ ట్యూబ్",
+            "squareTube": "కాంక్రీటు యొక్క స్క్వర్ ట్యూబ్"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "కాంక్రీటు యొక్క గట్టర్ షేప్ 1",
+            "gutterShape2": "కాంక్రీటు యొక్క గట్టర్ షేప్ 2"
+        },
+        "byVolume": {
+            "concreteByVolume": "ఘనపరిమాణం ద్వారా కాంక్రీటు",
+            "unit": "యూనిట్",
+            "height": "ఎత్తు",
+            "width": "వెడల్పు",
+            "length": "పొడవు",
+            "length_L": "పొడవు - L",
+            "width_W": "వెడల్పు - W",
+            "depth_D": "లోతు - D",
+            "thickness_T": "మందం - T",
+            "height_H": "ఎత్తు - H",
+            "rise_R": "ఎత్తు (Rise) - R",
+            "tread_T": "మెట్టు (Tread) - T",
+            "height_H1": "ఎత్తు - H1",
+            "height_H2": "ఎత్తు - H2",
+            "width_W1": "వెడల్పు - W1",
+            "width_W2": "వెడల్పు - W2",
+            "outerDiameter_D1": "బయటి వ్యాసం - D1",
+            "outerDiameter_D2": "బయటి వ్యాసం - D2",
+            "tubeThickness_T": "ట్యూబ్ మందం - T",
+            "thickness_T1": "మందం - T1",
+            "thickness_T2": "మందం - T2",
+            "baseDepth_D1": "బేస్ లోతు - D1",
+            "midDepth_D2": "మధ్య లోతు - D2",
+            "topDepth_D3": "పై లోతు - D3",
+            "length_L1": "పొడవు - L1",
+            "length_L2": "పొడవు - L2",
+            "length_L3": "పొడవు - L3",
+            "totalSteps_N": "మొత్తం మెట్లు - N",
+            "depth_D3": "లోతు - D3",
+            "metric": "మెట్రిక్",
+            "imperial": "ఇంపీరియల్",
+            "volume": "ఘనపరిమాణం",
+            "concreteGrade": "కాంక్రీట్ గ్రేడ్",
+            "cement": "సిమెంట్",
+            "sand": "ఇసుక",
+            "aggregate": "మెటల్ (కంకర)",
+            "waterCementRatio": "నీరు - సిమెంట్ నిష్పత్తి",
+            "admixture": "మిత్రమ",
+            "noOfUnits": "యూనిట్ల సంఖ్య",
+            "dryVolume": "పొడి ఘనపరిమాణం",
+            "rateOfConcrete": "కాంక్రీట్ ధర",
+            "result": "ఫలితం",
+            "concreteVolume": "కాంక్రీట్ ఘనపరిమాణం",
+            "cementBags": "సిమెంట్ (50 కిలోలు)",
+            "coarseAggregate": "ముతక కంకర",
+            "water": "నీరు",
+            "totalCost": "మొత్తం ఖర్చు",
+            "reset": "రీసెట్",
+            "calculate": "గణన చేయండి",
+            "quantity": "పరిమాణం",
+            "viewDetailedResult": "వివరణాత్మక ఫలితాన్ని వీక్షించండి",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "బ్రాస్",
+            "material": "పదార్థం"
         }
     },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    "downloadPDF": {
+        "title": "PDFగా డౌన్లోడ్ చేయండి",
+        "titleLabel": "శీర్షిక",
+        "titlePlaceholder": "శీర్షికను నమోదు చేయండి",
+        "cancel": "రద్దు చేయండి",
+        "download": "డౌన్లోడ్",
+        "downloading": "డౌన్లోడ్ అవుతోంది..."
     }
 }

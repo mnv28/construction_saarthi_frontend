@@ -11,6 +11,7 @@ import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
 import shareIcon from "../../../../assets/icons/Forward.svg";
 import Wallshape2Icon from "../../../../assets/icons/W2.svg";
+import { ROUTES_FLAT } from "../../../../constants/routes";
 
 const WallShape2 = () => {
   const { t } = useTranslation("calculation");
@@ -34,6 +35,7 @@ const WallShape2 = () => {
 
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [results, setResults] = useState(null);
+  const [resultUnit, setResultUnit] = useState("m3");
 
   const concreteGrades = [
     { value: "M10", label: "M10" },
@@ -95,8 +97,9 @@ const WallShape2 = () => {
         </PageHeader>
       </div>
 
-      <div className="space-y-4">
-        <div className="bg-[#F9F4EE] rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+      <div className="bg-[#F9F4EE] rounded-xl p-4 space-y-4">
+        <div className="border-b border-gray-200 pb-4 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <img
               src={Wallshape2Icon}
@@ -230,26 +233,50 @@ const WallShape2 = () => {
             onChange={(e) => setRateOfConcrete(e.target.value)}
             unit="₹/m³"
           />
+        </div><div className="flex justify-end gap-4 ">
+          <Button
+            variant="secondary"
+            onClick={handleReset}
+          >
+            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleCalculate}
+          >
+            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
+          </Button>
+        </div>
         </div>
 
         {results && (
           <div>
-            <h3 className="text-lg font-bold text-black mb-4">
+            <h3 className="text-lg font-bold text-black pt-3 mb-4">
               {t("concrete.byVolume.result", { defaultValue: "Result" })}
             </h3>
 
             {/* Unit Tabs */}
             <div className="flex gap-10 mb-4 border-b border-gray-200">
-              <button className="relative px-8 pb-3 text-sm font-medium text-accent">
-                m³
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
-              </button>
-              <button className="pb-3 px-8 text-sm font-medium text-secondary hover:text-primary">
-                ft³
-              </button>
-              <button className="pb-3 text-sm font-medium text-secondary hover:text-primary">
-                brass
-              </button>
+              {["m3", "ft3", "brass"].map((unit) => (
+                <button
+                  key={unit}
+                  onClick={() => setResultUnit(unit)}
+                  className={`relative px-8 pb-3 text-sm font-medium ${
+                    resultUnit === unit
+                      ? "text-accent"
+                      : "text-secondary hover:text-primary"
+                  }`}
+                >
+                  {unit === "m3"
+                    ? t("concrete.byVolume.m3Unit", { defaultValue: "m³" })
+                    : unit === "ft3"
+                    ? t("concrete.byVolume.ft3Unit", { defaultValue: "ft³" })
+                    : t("concrete.byVolume.brassUnit", { defaultValue: "Brass" })}
+                  {resultUnit === unit && (
+                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
+                  )}
+                </button>
+              ))}
             </div>
 
             <div className="overflow-x-auto mb-4">
@@ -274,13 +301,13 @@ const WallShape2 = () => {
                   </thead>
                   <tbody>
                     {[
-                      ["Concrete Volume", results.concreteVolume, "m³"],
-                      ["Cement", results.cement, "Kg"],
-                      ["Cement (50kg)", results.cementBags, "bags"],
-                      ["Sand", results.sand, "m³"],
-                      ["Coarse Aggregate", results.aggregate, "m³"],
-                      ["Admixture", results.admixture, "Kg"],
-                      ["Water", results.water, "Litre"],
+                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, t("history.units.bags", { defaultValue: "bags" })],
+                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, t("history.units.liters", { defaultValue: "Litre" })],
                     ].map(([label, value, unit], index) => (
                       <tr
                         key={index}
@@ -313,28 +340,33 @@ const WallShape2 = () => {
               </div>
               <Button
                 variant="primary"
+                onClick={() =>
+                  navigate(ROUTES_FLAT.CALCULATION_CONCRETE_BY_VOLUME_DETAILED, {
+                    state: {
+                      volume: results.concreteVolume,
+                      concreteGrade,
+                      waterCementRatio,
+                      admixture,
+                      noOfUnits,
+                      dryVolume,
+                      rateOfConcrete,
+                      unit,
+                      pageTitle: t("concrete.wall.wallShape2", {
+                        defaultValue: "Concrete of Wall Shape 2",
+                      }),
+                      ...results,
+                    },
+                  })
+                }
                 className="w-full rounded-xl bg-[#B02E0C] text-white "
               >
-                View Detailed Result
+                {t("concrete.byVolume.viewDetailedResult", { defaultValue: "View Detailed Result" })}
               </Button>
             </div>
           </div>
         )}
 
-        <div className="flex justify-end gap-4 ">
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-          >
-            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleCalculate}
-          >
-            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
-          </Button>
-        </div>
+        
       </div>
 
       <DownloadPDFModal

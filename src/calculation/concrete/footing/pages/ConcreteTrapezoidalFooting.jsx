@@ -29,6 +29,7 @@ const ConcreteTrapezoidalFooting = () => {
   const [rateOfConcrete, setRateOfConcrete] = useState("");
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [results, setResults] = useState(null);
+  const [resultUnit, setResultUnit] = useState("m3");
 
   const concreteGrades = [
     { value: "M10", label: "M10" },
@@ -111,8 +112,9 @@ const ConcreteTrapezoidalFooting = () => {
       </div>
 
       <div>
-        {/* Shape Illustration & Unit Selection */}
         <div className="bg-[#F9F4EE] rounded-2xl p-4 mb-4">
+        {/* Shape Illustration & Unit Selection */}
+        <div className="border-b border-gray-200 pb-4 mb-4">
           <div className="flex flex-col md:flex-row items-center gap-6">
             {/* Trapezoidal Footing Image */}
             <div className="flex-shrink-0">
@@ -188,17 +190,15 @@ const ConcreteTrapezoidalFooting = () => {
           {/* Material Display Fields (Read-only) */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Input placeholder={t("concrete.byVolume.cement", { defaultValue: "Cement" })} value="" readOnly className="bg-gray-50" />
+              <Input placeholder={t("concrete.byVolume.cement", { defaultValue: "Cement" })} value="" />
             </div>
             <div>
-              <Input placeholder={t("concrete.byVolume.sand", { defaultValue: "Sand" })} value="" readOnly className="bg-gray-50" />
+              <Input placeholder={t("concrete.byVolume.sand", { defaultValue: "Sand" })} value="" />
             </div>
             <div>
               <Input
                 placeholder={t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" })}
                 value=""
-                readOnly
-                className="bg-gray-50"
               />
             </div>
           </div>
@@ -235,27 +235,50 @@ const ConcreteTrapezoidalFooting = () => {
             onChange={(e) => setRateOfConcrete(e.target.value)}
             unit="₹/m³"
           />
+        </div>{/* Action Buttons */}
+        <div className="flex justify-end mt-4 gap-4">
+          <Button
+            variant="secondary"
+            onClick={handleReset}
+            className="bg-[#F2F2F2]"
+          >
+            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
+          </Button>
+          <Button variant="primary" onClick={handleCalculate}>
+            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
+          </Button>
+        </div>
         </div>
 
         {/* Results Section */}
         {results && (
-          <div className="pt-6 mt-6">
+          <div className="pt-3">
             <h3 className="text-lg font-semibold text-primary mb-4">
               {t("concrete.byVolume.result", { defaultValue: "Result" })}
             </h3>
 
             {/* Unit Tabs */}
             <div className="flex gap-10 mb-4 border-b border-gray-200">
-              <button className="relative px-8 pb-3 text-sm font-medium text-accent">
-                m³
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
-              </button>
-              <button className="pb-3 px-8 text-sm font-medium text-secondary hover:text-primary">
-                ft³
-              </button>
-              <button className="pb-3 text-sm font-medium text-secondary hover:text-primary">
-                brass
-              </button>
+              {["m3", "ft3", "brass"].map((unit) => (
+                <button
+                  key={unit}
+                  onClick={() => setResultUnit(unit)}
+                  className={`relative px-8 pb-3 text-sm font-medium ${
+                    resultUnit === unit
+                      ? "text-accent"
+                      : "text-secondary hover:text-primary"
+                  }`}
+                >
+                  {unit === "m3"
+                    ? t("concrete.byVolume.m3Unit", { defaultValue: "m³" })
+                    : unit === "ft3"
+                    ? t("concrete.byVolume.ft3Unit", { defaultValue: "ft³" })
+                    : t("concrete.byVolume.brassUnit", { defaultValue: "Brass" })}
+                  {resultUnit === unit && (
+                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
+                  )}
+                </button>
+              ))}
             </div>
 
             {/* Results Table */}
@@ -282,13 +305,13 @@ const ConcreteTrapezoidalFooting = () => {
 
                   <tbody>
                     {[
-                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, "m³"],
-                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, "Kg"],
-                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, "bags"],
-                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, "m³"],
-                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, "m³"],
-                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, "Kg"],
-                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, "Litre"],
+                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, t("history.units.bags", { defaultValue: "bags" })],
+                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, t("history.units.liters", { defaultValue: "Litre" })],
                     ].map(([label, value, unit], index) => (
                       <tr
                         key={index}
@@ -321,7 +344,7 @@ const ConcreteTrapezoidalFooting = () => {
                 </span>
               </div>
 
-              {/* View Detailed Result Button */}
+              {/* View Detailed Result */}
               <Button
                 variant="primary"
                 onClick={() =>
@@ -353,19 +376,7 @@ const ConcreteTrapezoidalFooting = () => {
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="flex justify-end mt-4 gap-4">
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            className="bg-[#F2F2F2]"
-          >
-            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
-          </Button>
-          <Button variant="primary" onClick={handleCalculate}>
-            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
-          </Button>
-        </div>
+        
       </div>
 
       {/* Download PDF Modal */}

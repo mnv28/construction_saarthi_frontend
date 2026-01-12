@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../components/layout/PageHeader";
-import Input from "../../../../components/ui/Input";
 import NumberInput from "../../../../components/ui/NumberInput";
 import Select from "../../../../components/ui/Select";
 import Button from "../../../../components/ui/Button";
 import Radio from "../../../../components/ui/Radio";
 import DownloadPDFModal from "../../../common/DownloadPDFModal";
 import downloadIcon from "../../../../assets/icons/Download Minimalistic.svg";
-import shareIcon from "../../../../assets/icons/Forward.svg";
 
 const ConcreteByVolume = () => {
   const { t } = useTranslation("calculation");
@@ -25,6 +23,7 @@ const ConcreteByVolume = () => {
   const [rateOfConcrete, setRateOfConcrete] = useState("");
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [results, setResults] = useState(null);
+  const [resultUnit, setResultUnit] = useState("m3");
 
   const concreteGrades = [
     { value: "M10", label: "M10" },
@@ -65,22 +64,11 @@ const ConcreteByVolume = () => {
     console.log("Download PDF with title:", title);
   };
 
-  const handleShare = () => {
-    // TODO: Implement share logic
-    if (navigator.share) {
-      navigator.share({
-        title: t("concrete.byVolume.concreteByVolume"),
-        text: "Concrete by Volume Calculation",
-        url: window.location.href,
-      });
-    }
-  };
-
   return (
     <div className="max-w-7xl mx-auto">
       <div className="mb-6">
         <PageHeader
-          title={t("concrete.byVolume.concreteByVolume", { defaultValue: "Concrete by Volume" })}
+          title={t("concrete.byVolume.concreteByVolume", { defaultValue: "concrete by Volume" })}
           showBackButton
           onBack={() => navigate(-1)}
         >
@@ -92,20 +80,14 @@ const ConcreteByVolume = () => {
             >
               <img src={downloadIcon} alt="Download" className="w-5 h-5" />
             </button>
-            <button
-              onClick={handleShare}
-              className="p-2 cursor-pointer"
-              aria-label="Share"
-            >
-              <img src={shareIcon} alt="Share" className="w-5 h-5" />
-            </button>
           </div>
         </PageHeader>
       </div>
 
       <div>
+        <div className="bg-[#F9F4EE] rounded-xl p-4">
         {/* Unit Selection */}
-        <div className="mb-4">
+        <div className="mb-4 border-b border-lightGray">
           <div className="flex items-center gap-6 bg-[#F9F4EE] rounded-xl p-4">
             <Radio
               label={t("concrete.byVolume.metric", { defaultValue: "Metric" })}
@@ -145,17 +127,15 @@ const ConcreteByVolume = () => {
           {/* Material Display Fields (Read-only) */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Input placeholder={t("concrete.byVolume.cement", { defaultValue: "Cement" })} value="" readOnly className="bg-gray-50" />
+              <NumberInput placeholder={t("concrete.byVolume.cement", { defaultValue: "Cement" })} value="" />
             </div>
             <div>
-              <Input placeholder={t("concrete.byVolume.sand", { defaultValue: "Sand" })} value="" readOnly className="bg-gray-50" />
+              <NumberInput placeholder={t("concrete.byVolume.sand", { defaultValue: "Sand" })} value="" />
             </div>
             <div>
-              <Input
+              <NumberInput
                 placeholder={t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" })}
                 value=""
-                readOnly
-                className="bg-gray-50"
               />
             </div>
           </div>
@@ -193,6 +173,20 @@ const ConcreteByVolume = () => {
             unit="₹/m³"
           />
         </div>
+        {/* Action Buttons */}
+        <div className="flex justify-end mt-4 gap-4">
+          <Button
+            variant="secondary"
+            onClick={handleReset}
+            className=" bg-[#F2F2F2]"
+          >
+            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
+          </Button>
+          <Button variant="primary" onClick={handleCalculate} className="">
+            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
+          </Button>
+        </div>
+        </div>
 
         {/* Results Section */}
         {results && (
@@ -203,20 +197,26 @@ const ConcreteByVolume = () => {
 
             {/* Unit Tabs */}
             <div className="flex gap-10 mb-4 border-b border-gray-200">
-              {/* Active tab */}
-              <button className="relative px-8 pb-3 text-sm font-medium text-accent">
-                m³
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
-              </button>
-
-              {/* Inactive tabs */}
-              <button className="pb-3 px-8 text-sm font-medium text-secondary hover:text-primary">
-                ft³
-              </button>
-
-              <button className="pb-3 text-sm font-medium text-secondary hover:text-primary">
-                brass
-              </button>
+              {["m3", "ft3", "brass"].map((unit) => (
+                <button
+                  key={unit}
+                  onClick={() => setResultUnit(unit)}
+                  className={`relative px-8 pb-3 text-sm font-medium ${
+                    resultUnit === unit
+                      ? "text-accent"
+                      : "text-secondary hover:text-primary"
+                  }`}
+                >
+                  {unit === "m3"
+                    ? t("concrete.byVolume.m3Unit", { defaultValue: "m³" })
+                    : unit === "ft3"
+                    ? t("concrete.byVolume.ft3Unit", { defaultValue: "ft³" })
+                    : t("concrete.byVolume.brassUnit", { defaultValue: "Brass" })}
+                  {resultUnit === unit && (
+                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent"></span>
+                  )}
+                </button>
+              ))}
             </div>
 
             {/* Results Table */}
@@ -243,13 +243,13 @@ const ConcreteByVolume = () => {
 
                   <tbody>
                     {[
-                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, "m³"],
-                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, "Kg"],
-                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, "bags"],
-                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, "m³"],
-                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, "m³"],
-                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, "Kg"],
-                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, "Litre"],
+                      [t("concrete.byVolume.concreteVolume", { defaultValue: "Concrete Volume" }), results.concreteVolume, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.cement", { defaultValue: "Cement" }), results.cement, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.cementBags", { defaultValue: "Cement (50kg)" }), results.cementBags, t("history.units.bags", { defaultValue: "bags" })],
+                      [t("concrete.byVolume.sand", { defaultValue: "Sand" }), results.sand, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.coarseAggregate", { defaultValue: "Coarse Aggregate" }), results.aggregate, t("concrete.byVolume.m3Unit", { defaultValue: "m³" })],
+                      [t("concrete.byVolume.admixture", { defaultValue: "Admixture" }), results.admixture, t("history.units.kg", { defaultValue: "Kg" })],
+                      [t("concrete.byVolume.water", { defaultValue: "Water" }), results.water, t("history.units.liters", { defaultValue: "Litre" })],
                     ].map(([label, value, unit], index) => (
                       <tr
                         key={index}
@@ -311,19 +311,6 @@ const ConcreteByVolume = () => {
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="flex justify-end mt-4 gap-4">
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            className=" bg-[#F2F2F2]"
-          >
-            {t("concrete.byVolume.reset", { defaultValue: "Reset" })}
-          </Button>
-          <Button variant="primary" onClick={handleCalculate} className="">
-            {t("concrete.byVolume.calculate", { defaultValue: "Calculate" })}
-          </Button>
-        </div>
       </div>
 
       {/* Download PDF Modal */}

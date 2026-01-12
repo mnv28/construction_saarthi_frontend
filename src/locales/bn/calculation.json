@@ -292,82 +292,107 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "আয়তন অনুসারে",
+            "column": "কলাম",
+            "footing": "ফুটিং",
+            "staircase": "সিঁড়ি",
+            "wall": "দেয়াল",
+            "curbedStone": "কার্ব স্টোন",
+            "tube": "টিউব",
+            "gutter": "নালি"
         },
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "বর্গাকার কলামের কংক্রিট",
+            "rectangularColumn": "আয়তাকার কলামের কংক্রিট",
+            "roundColumn": "গোলাকার কলামের কংক্রিট"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "বক্স ফুটিংয়ের কংক্রিট",
+            "trapezoidalFooting": "ট্রেপিজয়েডাল ফুটিংয়ের কংক্রিট"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "সোজা সিঁড়ির কংক্রিট",
+            "dogLeggedStaircase": "ডগ লেগড সিঁড়ির কংক্রিট"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "দেয়াল আকার ১ এর কংক্রিট",
+            "wallShape2": "দেয়াল আকার ২ এর কংক্রিট"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "কার্ব স্টোন ১ এর কংক্রিট",
+            "curbStone2": "কার্ব স্টোন ২ এর কংক্রিট"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "সাদা টিউবের কংক্রিট",
+            "squareTube": "বর্গাকার টিউবের কংক্রিট"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "নালি আকার ১ এর কংক্রিট",
+            "gutterShape2": "নালি আকার ২ এর কংক্রিট"
+        },
+        "byVolume": {
+            "concreteByVolume": "আয়তন অনুযায়ী কংক্রিট",
+            "unit": "একক",
+            "height": "উচ্চতা",
+            "width": "প্রস্থ",
+            "length": "দৈর্ঘ্য",
+            "length_L": "দৈর্ঘ্য - L",
+            "width_W": "প্রস্থ - W",
+            "depth_D": "গভীরতা - D",
+            "thickness_T": "বেধ - T",
+            "height_H": "উচ্চতা - H",
+            "rise_R": "রাইজ - R",
+            "tread_T": "ট্রেড - T",
+            "height_H1": "উচ্চতা - H1",
+            "height_H2": "উচ্চতা - H2",
+            "width_W1": "প্রস্থ - W1",
+            "width_W2": "প্রস্থ - W2",
+            "outerDiameter_D1": "বাইরের ব্যাস - D1",
+            "outerDiameter_D2": "বাইরের ব্যাস - D2",
+            "tubeThickness_T": "টিউবের বেধ - T",
+            "thickness_T1": "বেধ - T1",
+            "thickness_T2": "বেধ - T2",
+            "baseDepth_D1": "ভিত্তি গভীরতা - D1",
+            "midDepth_D2": "মাঝারি গভীরতা - D2",
+            "topDepth_D3": "শীর্ষ গভীরতা - D3",
+            "length_L1": "দৈর্ঘ্য - L1",
+            "length_L2": "দৈর্ঘ্য - L2",
+            "length_L3": "দৈর্ঘ্য - L3",
+            "totalSteps_N": "মোট ধাপ - N",
+            "depth_D3": "গভীরতা - D3",
+            "metric": "মেট্রিক",
+            "imperial": "ইম্পেরিয়াল",
+            "volume": "আয়তন",
+            "concreteGrade": "কংক্রিট গ্রেড",
+            "cement": "সিমেন্ট",
+            "sand": "বালি",
+            "aggregate": "পাথর",
+            "waterCementRatio": "জল-সিমেন্ট অনুপাত",
+            "admixture": "অ্যাডমিক্সচার",
+            "noOfUnits": "ইউনিটের সংখ্যা",
+            "dryVolume": "শুকনো আয়তন",
+            "rateOfConcrete": "কংক্রিটের হার",
+            "result": "ফলাফল",
+            "concreteVolume": "কংক্রিট আয়তন",
+            "cementBags": "সিমেন্ট (৫০ কেজি)",
+            "coarseAggregate": "মোটা পাথর",
+            "water": "জল",
+            "totalCost": "মোট খরচ",
+            "reset": "রিসেট",
+            "calculate": "গণনা করুন",
+            "quantity": "পরিমাণ",
+            "viewDetailedResult": "বিস্তারিত ফলাফল দেখুন",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "ব্রাস",
+            "material": "উপাদান"
         }
-    },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    },"downloadPDF": {
+        "title": "PDF হিসাবে ডাউনলোড করুন",
+        "titleLabel": "শীর্ষক",
+        "titlePlaceholder": "শীর্ষক দাখিল করুন",
+        "cancel": "রদ্দ করুন",
+        "download": "ডাউনলোড",
+        "downloading": "ডাউনলোড হচ্ছে..."
     }
 }

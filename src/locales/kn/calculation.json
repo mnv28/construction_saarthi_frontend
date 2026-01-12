@@ -291,82 +291,108 @@
     },
     "concrete": {
         "sections": {
-            "byVolume": "By Volume",
-            "column": "Column",
-            "footing": "Footing",
-            "staircase": "Staircase",
-            "wall": "Wall",
-            "curbedStone": "Curbed Stone",
-            "tube": "Tube",
-            "gutter": "Gutter"
+            "byVolume": "ಗಾತ್ರದ ಆಧಾರದ ಮೇಲೆ",
+            "column": "ಕಾಲಮ್",
+            "footing": "ಫುಟಿಂಗ್",
+            "staircase": "ಸ್ಟಿರ್ಕೇಸ್",
+            "wall": "ದೀವಾರು",
+            "curbedStone": "ಕರ್ಬ್ ಸ್ಟೋನ್",
+            "tube": "ಟಯೂಬ್",
+            "gutter": "ನಾಲಿ"
         },
         "column": {
-            "squareColumn": "Concrete of Square Column",
-            "rectangularColumn": "Concrete of Rectangular Column",
-            "roundColumn": "Concrete of Round Column"
+            "squareColumn": "ಬರ್ಚ್ ಕಾಲಮ್ ಕಾಂಕ್ರೀಟ್",
+            "rectangularColumn": "ಚತುರಸ್ರಂಶ ಕಾಲಮ್ ಕಾಂಕ್ರೀಟ್",
+            "roundColumn": "ವಲಯದ ಕಾಲಮ್ ಕಾಂಕ್ರೀಟ್"
         },
         "footing": {
-            "boxFooting": "Concrete of Box Footing",
-            "trapezoidalFooting": "Concrete of Trapezoidal Footing"
+            "boxFooting": "ಬಾಕ್ಸ್ ಫುಟಿಂಗ್ ಕಾಂಕ್ರೀಟ್",
+            "trapezoidalFooting": "ಟ್ರಪಿಜಾಯಡಲ್ ಫುಟಿಂಗ್ ಕಾಂಕ್ರೀಟ್"
         },
         "staircase": {
-            "straightStaircase": "Concrete of Straight Staircase",
-            "dogLeggedStaircase": "Concrete of Dog Legged Staircase"
+            "straightStaircase": "ಸ್ಟೈರ್ಕೇಸ್ ಕಾಂಕ್ರೀಟ್",
+            "dogLeggedStaircase": "ಡಾಗ್ ಲೆಗ್ಡ್ ಸ್ಟಿರ್ಕೇಸ್ ಕಾಂಕ್ರೀಟ್"
         },
         "wall": {
-            "wallShape1": "Concrete of Wall Shape 1",
-            "wallShape2": "Concrete of Wall Shape 2"
+            "wallShape1": "ದೀವಾರು ಆಕಾರ 1 ಕಾಂಕ್ರೀಟ್",
+            "wallShape2": "ದೀವಾರು ಆಕಾರ 2 ಕಾಂಕ್ರೀಟ್"
         },
         "curbedStone": {
-            "curbStone1": "Concrete of Curb Stone 1",
-            "curbStone2": "Concrete of Curb Stone 2"
+            "curbStone1": "ಕರ್ಬ್ ಸ್ಟೋನ್ 1 ಕಾಂಕ್ರೀಟ್",
+            "curbStone2": "ಕರ್ಬ್ ಸ್ಟೋನ್ 2 ಕಾಂಕ್ರೀಟ್"
         },
         "tube": {
-            "simpleTube": "Concrete of Simple Tube",
-            "squareTube": "Concrete of Square Tube"
+            "simpleTube": "ಸಾದಾ ಟಯೂಬ್ ಕಾಂಕ್ರೀಟ್",
+            "squareTube": "ಚತುರಸ್ರಂಶ ಟಯೂಬ್ ಕಾಂಕ್ರೀಟ್"
         },
         "gutter": {
-            "gutterShape1": "Concrete of Gutter Shape 1",
-            "gutterShape2": "Concrete of Gutter Shape 2"
+            "gutterShape1": "ನಾಲಿ ಆಕಾರ 1 ಕಾಂಕ್ರೀಟ್",
+            "gutterShape2": "ನಾಲಿ ಆಕಾರ 2 ಕಾಂಕ್ರೀಟ್"
+        },
+        "byVolume": {
+            "concreteByVolume": "ಗಾತ್ರದ ಆಧಾರದ ಮೇಲೆ ಕಾಂಕ್ರೀಟ್",
+            "unit": "ಘಟಕ",
+            "height": "ಎತ್ತರ",
+            "width": "ಅಗಲ",
+            "length": "ಉದ್ದ",
+            "length_L": "ಉದ್ದ - L",
+            "width_W": "ಅಗಲ - W",
+            "depth_D": "ಆಳ - D",
+            "thickness_T": "ದಪ್ಪ - T",
+            "height_H": "ಎತ್ತರ - H",
+            "rise_R": "ಎತ್ತರ (Rise) - R",
+            "tread_T": "ಮೆಟ್ಟಿಲು (Tread) - T",
+            "height_H1": "ಎತ್ತರ - H1",
+            "height_H2": "ಎತ್ತರ - H2",
+            "width_W1": "ಅಗಲ - W1",
+            "width_W2": "ಅಗಲ - W2",
+            "outerDiameter_D1": "ಹೊರ ವ್ಯಾಸ - D1",
+            "outerDiameter_D2": "ಹೊರ ವ್ಯಾಸ - D2",
+            "tubeThickness_T": "ಟ್ಯೂಬ್ ದಪ್ಪ - T",
+            "thickness_T1": "ದಪ್ಪ - T1",
+            "thickness_T2": "ದಪ್ಪ - T2",
+            "baseDepth_D1": "ಬೇಸ್ ಆಳ - D1",
+            "midDepth_D2": "ಮಧ್ಯ ಆಳ - D2",
+            "topDepth_D3": "ಮೇಲಿನ ಆಳ - D3",
+            "length_L1": "ಉದ್ದ - L1",
+            "length_L2": "ಉದ್ದ - L2",
+            "length_L3": "ಉದ್ದ - L3",
+            "totalSteps_N": "ಒಟ್ಟು ಹಂತಗಳು - N",
+            "depth_D3": "ಆಳ - D3",
+            "metric": "ಮೆಟ್ರಿಕ್",
+            "imperial": "ಇಂಪೀರಿಯಲ್",
+            "volume": "ಘನಫಲ",
+            "concreteGrade": "ಕಾಂಕ್ರೀಟ್ ಗ್ರೇಡ್",
+            "cement": "ಸಿಮೆಂಟ್",
+            "sand": "ಮರಳು",
+            "aggregate": "ಕಲ್ಲು",
+            "waterCementRatio": "ನೀರು - ಸಿಮೆಂಟ್ ಅನುಪಾತ",
+            "admixture": "ಮಿಶ್ರಣ",
+            "noOfUnits": "ಘಟಕಗಳ ಸಂಖ್ಯೆ",
+            "dryVolume": "ಒಣ ಘನಫಲ",
+            "rateOfConcrete": "ಕಾಂಕ್ರೀಟ್ ದರ",
+            "result": "ಫಲಿತಾಂಶ",
+            "concreteVolume": "ಕಾಂಕ್ರೀಟ್ ಘನಫಲ",
+            "cementBags": "ಸಿಮೆಂಟ್ (50 ಕೆಜಿ)",
+            "coarseAggregate": "ದೊಡ್ಡ ಕಲ್ಲು",
+            "water": "ನೀರು",
+            "totalCost": "ಒಟ್ಟು ವೆಚ್ಚ",
+            "reset": "ರಿಸೆಟ್",
+            "calculate": "ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ",
+            "quantity": "ಪ್ರಮಾಣ",
+            "viewDetailedResult": "ವಿವರವಾದ ಫಲಿತಾಂಶವನ್ನು ವೀಕ್ಷಿಸಿ",
+            "m3Unit": "m³",
+            "ft3Unit": "ft³",
+            "brassUnit": "ಬ್ರಾಸ್",
+            "material": "ಸಾಮಗ್ರಿ"
         }
     },
-    "byVolume": {
-        "concreteByVolume": "Concrete by Volume",
-        "unit": "Unit",
-        "length_L": "Length - L",
-        "width_W": "Width - W",
-        "depth_D": "Depth - D",
-        "thickness_T": "Thickness - T",
-        "height_H": "Height - H",
-        "rise_R": "Rise - R",
-        "tread_T": "Tread - T",
-        "baseDepth_D1": "Base Depth - D1",
-        "midDepth_D2": "Mid Depth - D2",
-        "topDepth_D3": "Top Depth - D3",
-        "length_L1": "Length - L1",
-        "length_L2": "Length - L2",
-        "length_L3": "Length - L3",
-        "totalSteps_N": "Total Steps - N",
-        "depth_D3": "Depth - D3",
-        "metric": "Metric",
-        "imperial": "Imperial",
-        "volume": "Volume",
-        "concreteGrade": "Concrete Grade",
-        "cement": "Cement",
-        "sand": "Sand",
-        "aggregate": "Aggregate",
-        "waterCementRatio": "Water - cement Ratio",
-        "admixture": "Admixture",
-        "noOfUnits": "No of Units",
-        "dryVolume": "Dry Volume",
-        "rateOfConcrete": "Rate of Concrete",
-        "result": "Result",
-        "concreteVolume": "Concrete Volume",
-        "cementBags": "Cement (50kg)",
-        "coarseAggregate": "Coarse Aggregate",
-        "water": "Water",
-        "totalCost": "Total Cost",
-        "reset": "Reset",
-        "calculate": "Calculate"
+    "downloadPDF": {
+        "title": "PDF ಆಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+        "titleLabel": "ಶೀರ್ಷಿಕೆ",
+        "titlePlaceholder": "ಶೀರ್ಷಿಕೆಯನ್ನು ನಮೂದಿಸಿ",
+        "cancel": "ರದ್ದುಮಾಡಿ",
+        "download": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+        "downloading": "ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ..."
     }
 }

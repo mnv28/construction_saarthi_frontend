@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ROUTES_FLAT from '../../../../constants/routes';
-import { Share2, Download, ChevronDown, History as HistoryIcon } from 'lucide-react';
+import { Share2, Download, History as HistoryIcon } from 'lucide-react';
 import PageHeader from '../../../../components/layout/PageHeader';
 import Button from '../../../../components/ui/Button';
 import Radio from '../../../../components/ui/Radio';
 import DropdownMenu from '../../../../components/ui/DropdownMenu';
 import rainForcementWeight from '../../../../assets/icons/rainForcementWeight.svg';
+import InputField from '../../../common/InputField';
 
 const ReinforcementWeight = () => {
     const navigate = useNavigate();
@@ -90,7 +91,7 @@ const ReinforcementWeight = () => {
                     </div>
 
                     {/* Radio Group */}
-                    <div className="flex items-center gap-8">
+                    <div className="flex flex-col gap-3">
                         <Radio
                             label={t('steel.weight.metric')}
                             name="unitType"
@@ -115,75 +116,49 @@ const ReinforcementWeight = () => {
                         <label className="text-sm sm:text-base font-medium text-primary ml-1">
                             {t('steel.weight.wastage')}
                         </label>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={wastage}
-                                onChange={(e) => setWastage(e.target.value)}
-                                className="w-full h-[58px] bg-white rounded-2xl px-6 py-4 text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
-                                placeholder={t('steel.weight.wastagePlaceholder')}
-                            />
-                            <span className="absolute right-6 top-1/2 -translate-y-1/2 text-secondary font-medium">%</span>
-                        </div>
+                        <InputField
+                            value={wastage}
+                            onChange={(e) => setWastage(e.target.value)}
+                            placeholder={t('steel.weight.wastagePlaceholder')}
+                            suffix="%"
+                        />
                     </div>
 
                     {/* Grid Inputs row 1 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Diameter */}
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[58px]">
-                            <div className="flex items-center px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[80px] justify-between group">
-                                <span className="text-secondary font-medium">{diameterUnit}</span>
-                                <ChevronDown className="w-4 h-4 text-secondary group-hover:text-accent" />
-                            </div>
-                            <input
-                                type="text"
-                                value={diameter}
-                                onChange={(e) => setDiameter(e.target.value)}
-                                className="flex-1 px-6 text-base text-primary focus:outline-none"
-                                placeholder={t('steel.weight.diameter')}
-                            />
-                        </div>
+                        <InputField
+                            unit={diameterUnit}
+                            value={diameter}
+                            onChange={(e) => setDiameter(e.target.value)}
+                            placeholder={t('steel.weight.diameter')}
+                        />
 
                         {/* Length */}
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[58px]">
-                            <div className="flex items-center px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[80px] justify-between group">
-                                <span className="text-secondary font-medium">{lengthUnit}</span>
-                                <ChevronDown className="w-4 h-4 text-secondary group-hover:text-accent" />
-                            </div>
-                            <input
-                                type="text"
-                                value={length}
-                                onChange={(e) => setLength(e.target.value)}
-                                className="flex-1 px-6 text-base sm:text-lg text-primary focus:outline-none font-medium"
-                                placeholder={t('steel.weight.length')}
-                            />
-                        </div>
+                        <InputField
+                            unit={lengthUnit}
+                            value={length}
+                            onChange={(e) => setLength(e.target.value)}
+                            placeholder={t('steel.weight.length')}
+                        />
                     </div>
 
                     {/* Grid Inputs row 2 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* No of Bars */}
-                        <div className="flex flex-col gap-2">
-                            <input
-                                type="text"
-                                value={noOfBars}
-                                onChange={(e) => setNoOfBars(e.target.value)}
-                                className="w-full h-[58px] bg-white rounded-2xl px-6 py-4 text-base sm:text-lg text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
-                                placeholder={t('steel.weight.noOfBars')}
-                            />
-                        </div>
+                        <InputField
+                            value={noOfBars}
+                            onChange={(e) => setNoOfBars(e.target.value)}
+                            placeholder={t('steel.weight.noOfBars')}
+                        />
 
                         {/* Price */}
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
-                                className="w-full h-[58px] bg-white rounded-2xl px-6 py-4 text-base sm:text-lg text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
-                                placeholder={t('steel.weight.price')}
-                            />
-                            <span className="absolute right-6 top-1/2 -translate-y-1/2 text-secondary font-medium">{t('history.units.kg')}/{t('history.units.ton')}</span>
-                        </div>
+                        <InputField
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            placeholder={t('steel.weight.price')}
+                            suffix={`${t('history.units.kg')}/${t('history.units.ton')}`}
+                        />
                     </div>
                 </div>
 

@@ -7,7 +7,7 @@ const Layout = () => {
     <div className="flex min-h-screen">
       <Sidebar />
 
-      <div className="flex-1 w-full lg:ml-[300px]">
+      <div className="flex-1 w-full xl:ml-[300px] lg:ml-[260px]">
         <Navbar />
 
         <div className="pt-16">

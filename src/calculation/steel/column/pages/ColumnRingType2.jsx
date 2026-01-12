@@ -9,6 +9,7 @@ import { ROUTES_FLAT } from '../../../../constants/routes';
 
 // Import icons
 import colsRingType2 from '../../../../assets/icons/colsRingType2.svg';
+import InputField from '../../../common/InputField';
 
 const ColumnRingType2 = () => {
     const navigate = useNavigate();
@@ -26,13 +27,7 @@ const ColumnRingType2 = () => {
 
     const [showResult, setShowResult] = useState(false);
 
-    // Reusable positive number input handler
-    const handlePositiveNumberInput = (setter) => (e) => {
-        const value = e.target.value;
-        if (value === '' || /^\d*\.?\d*$/.test(value)) {
-            setter(value);
-        }
-    };
+
 
     // Calculation Logic
     const X = parseFloat(columnSizeX) || 0;
@@ -75,12 +70,7 @@ const ColumnRingType2 = () => {
         setShowResult(true);
     };
 
-    const UnitSelector = ({ unit }) => (
-        <div className="flex items-center px-2 sm:px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[55px] sm:min-w-[80px] justify-between group">
-            <span className="text-secondary text-sm sm:text-base font-medium">{unit}</span>
-            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary group-hover:text-accent" />
-        </div>
-    );
+
 
     const calculationData = [
         { labelKey: 'steel.column.ringDiameterR', labelSuffix: '', name: t('steel.column.ringDiameterR'), symbol: 'R', value: `${ringDiameterR} mm` },
@@ -152,36 +142,26 @@ const ColumnRingType2 = () => {
                     {/* Column Size Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.size')}</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={columnSizeX}
-                                    onChange={handlePositiveNumberInput(setColumnSizeX)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.columnSizeX')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={columnSizeY}
-                                    onChange={handlePositiveNumberInput(setColumnSizeY)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.columnSizeY')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="m" />
-                                <input
-                                    type="text"
-                                    value={heightH}
-                                    onChange={handlePositiveNumberInput(setHeightH)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.columnHeightH')}
-                                />
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={columnSizeX}
+                                onChange={(e) => setColumnSizeX(e.target.value)}
+                                placeholder={t('steel.column.columnSizeX')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={columnSizeY}
+                                onChange={(e) => setColumnSizeY(e.target.value)}
+                                placeholder={t('steel.column.columnSizeY')}
+                            />
+                            <div className="col-span-2 md:col-span-1">
+                            <InputField
+                                unit="m"
+                                value={heightH}
+                                onChange={(e) => setHeightH(e.target.value)}
+                                placeholder={t('steel.column.columnHeightH')}
+                            />
                             </div>
                         </div>
                     </div>
@@ -189,13 +169,11 @@ const ColumnRingType2 = () => {
                     {/* Ring Details */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.ringDetails')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={ringDiameterR}
-                                onChange={handlePositiveNumberInput(setRingDiameterR)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                onChange={(e) => setRingDiameterR(e.target.value)}
                                 placeholder={t('steel.column.ringDiameterR')}
                             />
                         </div>
@@ -204,13 +182,11 @@ const ColumnRingType2 = () => {
                     {/* Stirrups Details */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.stirrupsDetails')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={stirrupsSpacingS}
-                                onChange={handlePositiveNumberInput(setStirrupsSpacingS)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
+                                onChange={(e) => setStirrupsSpacingS(e.target.value)}
                                 placeholder={t('steel.column.stirrupsSpacingS')}
                             />
                         </div>
@@ -219,20 +195,23 @@ const ColumnRingType2 = () => {
                     {/* Number of Columns */}
                     <div className="space-y-3 pt-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.noOfColumns')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <div className="flex-1 px-4 sm:px-6 flex items-center">
-                                <input
-                                    type="text"
-                                    value={noOfColumnsN}
-                                    onChange={handlePositiveNumberInput(setNoOfColumnsN)}
-                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none h-full"
-                                    placeholder={t('steel.column.noOfColumn')}
-                                />
-                            </div>
-                            <div className="flex items-center px-4">
-                                <span className="text-accent text-sm sm:text-base uppercase">NOS</span>
-                            </div>
-                        </div>
+                        <InputField
+                            value={noOfColumnsN}
+                            onChange={(e) => setNoOfColumnsN(e.target.value)}
+                            placeholder={t('steel.column.noOfColumn')}
+                            suffix="NOS"
+                        />
+                    </div>
+
+                    {/* Price Section */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('steel.weight.price')}</h3>
+                        <InputField
+                            value={steelRate}
+                            onChange={(e) => setSteelRate(e.target.value)}
+                            placeholder={t('steel.column.steelRate')}
+                            suffix="₹/Kg"
+                        />
                     </div>
 
                 </div>

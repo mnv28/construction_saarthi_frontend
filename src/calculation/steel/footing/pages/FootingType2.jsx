@@ -7,6 +7,7 @@ import Button from '../../../../components/ui/Button';
 import Radio from '../../../../components/ui/Radio';
 import footType1 from '../../../../assets/icons/footType1.svg'; // Using type1 icon as placeholder if type2 not available
 import { ROUTES_FLAT } from '../../../../constants/routes';
+import InputField from '../../../common/InputField';
 
 import InputsTable from '../components/InputsTable';
 import OutputCard from '../components/OutputCard';
@@ -115,12 +116,7 @@ const FootingType2 = () => {
         { labelKey: 'steel.footing.steelRate', name: t('steel.footing.steelRate'), symbol: 'R', value: `₹ ${steelRate} / ${t('history.units.kg')}` },
     ];
 
-    const UnitSelector = ({ unit }) => (
-        <div className="flex items-center px-2 sm:px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[55px] sm:min-w-[80px] justify-between group">
-            <span className="text-secondary text-sm sm:text-base font-medium">{unit}</span>
-            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary group-hover:text-accent" />
-        </div>
-    );
+
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto pb-20">
@@ -174,167 +170,107 @@ const FootingType2 = () => {
                     {/* Footing Size Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.footing.size')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={sideX}
-                                    onChange={(e) => setSideX(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.sideX')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={sideY}
-                                    onChange={(e) => setSideY(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.sideY')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="m" />
-                                <input
-                                    type="text"
-                                    value={height}
-                                    onChange={(e) => setHeight(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.height')}
-                                />
-                            </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={sideX}
+                                onChange={(e) => setSideX(e.target.value)}
+                                placeholder={t('steel.footing.sideX')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={sideY}
+                                onChange={(e) => setSideY(e.target.value)}
+                                placeholder={t('steel.footing.sideY')}
+                            />
+                            <InputField
+                                unit="m"
+                                value={height}
+                                onChange={(e) => setHeight(e.target.value)}
+                                placeholder={t('steel.footing.height')}
+                            />
                         </div>
                     </div>
 
                     {/* Bar Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.footing.barDetails')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={d1}
-                                    onChange={(e) => setD1(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d1')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={d2}
-                                    onChange={(e) => setD2(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d2')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={d3}
-                                    onChange={(e) => setD3(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d3')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={d4}
-                                    onChange={(e) => setD4(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.d4')}
-                                />
-                            </div>
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={d1}
+                                onChange={(e) => setD1(e.target.value)}
+                                placeholder={t('steel.footing.d1')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={d2}
+                                onChange={(e) => setD2(e.target.value)}
+                                placeholder={t('steel.footing.d2')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={d3}
+                                onChange={(e) => setD3(e.target.value)}
+                                placeholder={t('steel.footing.d3')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={d4}
+                                onChange={(e) => setD4(e.target.value)}
+                                placeholder={t('steel.footing.d4')}
+                            />
                         </div>
                     </div>
 
                     {/* Spacing Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.footing.spacingDetails')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s1}
-                                    onChange={(e) => setS1(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s1')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s2}
-                                    onChange={(e) => setS2(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s2')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s3}
-                                    onChange={(e) => setS3(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s3')}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={s4}
-                                    onChange={(e) => setS4(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
-                                    placeholder={t('steel.footing.s4')}
-                                />
-                            </div>
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={s1}
+                                onChange={(e) => setS1(e.target.value)}
+                                placeholder={t('steel.footing.s1')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={s2}
+                                onChange={(e) => setS2(e.target.value)}
+                                placeholder={t('steel.footing.s2')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={s3}
+                                onChange={(e) => setS3(e.target.value)}
+                                placeholder={t('steel.footing.s3')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={s4}
+                                onChange={(e) => setS4(e.target.value)}
+                                placeholder={t('steel.footing.s4')}
+                            />
                         </div>
                     </div>
 
                     {/* Additional Details Section */}
                     <div className="space-y-3 pt-2">
                         {/* No of Footing */}
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <div className="flex-1 px-4 sm:px-6 flex items-center">
-                                <span className="text-secondary text-sm sm:text-base font-medium mr-4">{t('steel.footing.noOfFooting')}</span>
-                                <input
-                                    type="text"
-                                    value={noOfFooting}
-                                    onChange={(e) => setNoOfFooting(e.target.value)}
-                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none font-medium h-full"
-                                    placeholder={t('steel.weight.wastagePlaceholder')}
-                                />
-                            </div>
-                            <div className="flex items-center px-4 bg-gray-50/50 border-l border-[#060C121A]">
-                                <span className="text-secondary text-sm sm:text-base font-medium uppercase">NOS</span>
-                            </div>
-                        </div>
+                        {/* No of Footing */}
+                        <InputField
+                            value={noOfFooting}
+                            onChange={(e) => setNoOfFooting(e.target.value)}
+                            placeholder={t('steel.weight.wastagePlaceholder')}
+                            suffix="NOS"
+                        />
 
                         {/* Development Length */}
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={devLength}
                                 onChange={(e) => setDevLength(e.target.value)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none font-medium"
                                 placeholder={t('steel.footing.devLength')}
                             />
                         </div>
@@ -343,16 +279,12 @@ const FootingType2 = () => {
                     {/* Price Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.weight.price')}</h3>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={steelRate}
-                                onChange={(e) => setSteelRate(e.target.value)}
-                                className="w-full h-[50px] sm:h-[58px] bg-white rounded-2xl px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all font-medium"
-                                placeholder={t('steel.footing.steelRate')}
-                            />
-                            <span className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-accent text-sm sm:text-base font-medium">₹/Kg</span>
-                        </div>
+                        <InputField
+                            value={steelRate}
+                            onChange={(e) => setSteelRate(e.target.value)}
+                            placeholder={t('steel.footing.steelRate')}
+                            suffix="₹/Kg"
+                        />
                     </div>
                 </div>
 

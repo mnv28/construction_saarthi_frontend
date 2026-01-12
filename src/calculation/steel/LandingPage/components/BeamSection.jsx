@@ -18,6 +18,7 @@ import bmRing1 from '../../../../assets/icons/bmRing1.svg';
 import bmRing2 from '../../../../assets/icons/bmRing2.svg';
 
 import { useNavigate } from 'react-router-dom';
+import { ROUTES_FLAT } from '../../../../constants/routes';
 
 const BeamSection = () => {
     const { t } = useTranslation('calculation');
@@ -25,19 +26,19 @@ const BeamSection = () => {
     const comingSoonPath = '/calculation/coming-soon';
 
     const beamItems = [
-        { id: 'beam1', title: t('steel.beam.type1'), icon: bmType1, path: comingSoonPath },
-        { id: 'beam2', title: t('steel.beam.type2'), icon: bmType2, path: comingSoonPath },
-        { id: 'beam3', title: t('steel.beam.type3'), icon: bmType3, path: comingSoonPath },
-        { id: 'beam4', title: t('steel.beam.type4'), icon: bmType4, path: comingSoonPath },
-        { id: 'beam5', title: t('steel.beam.type5'), icon: bmType5, path: comingSoonPath },
-        { id: 'beam6', title: t('steel.beam.type6'), icon: bmType6, path: comingSoonPath },
-        { id: 'beam7', title: t('steel.beam.type7'), icon: bmType7, path: comingSoonPath },
-        { id: 'beam8', title: t('steel.beam.type8'), icon: bmType8, path: comingSoonPath },
-        { id: 'beam9', title: t('steel.beam.type9'), icon: bmType9, path: comingSoonPath },
-        { id: 'beam10', title: t('steel.beam.type10'), icon: bmType10, path: comingSoonPath },
-        { id: 'beamHorizontal', title: t('steel.beam.horizontal'), icon: bmHorizontalBar, path: comingSoonPath },
-        { id: 'beamRing1', title: t('steel.beam.ring1'), icon: bmRing1, path: comingSoonPath },
-        { id: 'beamRing2', title: t('steel.beam.ring2'), icon: bmRing2, path: comingSoonPath },
+        { id: 'beam1', title: t('steel.beam.type1'), icon: bmType1, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE1 },
+        { id: 'beam2', title: t('steel.beam.type2'), icon: bmType2, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE2 },
+        { id: 'beam3', title: t('steel.beam.type3'), icon: bmType3, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE3 },
+        { id: 'beam4', title: t('steel.beam.type4'), icon: bmType4, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE4 },
+        { id: 'beam5', title: t('steel.beam.type5'), icon: bmType5, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE5 },
+        { id: 'beam6', title: t('steel.beam.type6'), icon: bmType6, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE6 },
+        { id: 'beam7', title: t('steel.beam.type7'), icon: bmType7, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE7 },
+        { id: 'beam8', title: t('steel.beam.type8'), icon: bmType8, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE8 },
+        { id: 'beam9', title: t('steel.beam.type9'), icon: bmType9, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE9 },
+        { id: 'beam10', title: t('steel.beam.type10'), icon: bmType10, path: ROUTES_FLAT.CALCULATION_BEAM_TYPE10 },
+        { id: 'beamHorizontal', title: t('steel.beam.horizontal'), icon: bmHorizontalBar, path: ROUTES_FLAT.CALCULATION_BEAM_HORIZONTAL },
+        { id: 'beamRing1', title: t('steel.beam.ring1'), icon: bmRing1, path: ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE1 },
+        { id: 'beamRing2', title: t('steel.beam.ring2'), icon: bmRing2, path: ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE2 },
     ];
 
     return (

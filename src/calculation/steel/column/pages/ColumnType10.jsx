@@ -9,6 +9,7 @@ import { ROUTES_FLAT } from '../../../../constants/routes';
 
 // Import icons
 import colsType10 from '../../../../assets/icons/colsType10.svg';
+import InputField from '../../../common/InputField';
 
 const ColumnType10 = () => {
     const navigate = useNavigate();
@@ -89,12 +90,7 @@ const ColumnType10 = () => {
         setShowResult(true);
     };
 
-    const UnitSelector = ({ unit }) => (
-        <div className="flex items-center px-2 sm:px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[55px] sm:min-w-[80px] justify-between group">
-            <span className="text-secondary text-sm sm:text-base font-medium">{unit}</span>
-            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary group-hover:text-accent" />
-        </div>
-    );
+
 
     const calculationData = [
         // Column Diameter D
@@ -207,40 +203,30 @@ const ColumnType10 = () => {
                     {/* Column Size Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.size')}</h3>
-                        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-6">
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={diameterD}
-                                    onChange={(e) => setDiameterD(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none "
-                                    placeholder={t('steel.column.columnDiameter') + " - D"}
-                                />
-                            </div>
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="m" />
-                                <input
-                                    type="text"
-                                    value={height}
-                                    onChange={(e) => setHeight(e.target.value)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.columnHeight') + " - H"}
-                                />
-                            </div>
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={diameterD}
+                                onChange={(e) => setDiameterD(e.target.value)}
+                                placeholder={t('steel.column.columnDiameter') + " - D"}
+                            />
+                            <InputField
+                                unit="m"
+                                value={height}
+                                onChange={(e) => setHeight(e.target.value)}
+                                placeholder={t('steel.column.columnHeight') + " - H"}
+                            />
                         </div>
                     </div>
 
                     {/* Bar Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.footing.barDetails')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={diameterD1}
                                 onChange={(e) => setDiameterD1(e.target.value)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
                                 placeholder={t('steel.column.diameter') + " D1"}
                             />
                         </div>
@@ -249,13 +235,11 @@ const ColumnType10 = () => {
                     {/* Ring Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.ringDetails') || 'Ring Details'}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={ringDiameterR}
                                 onChange={(e) => setRingDiameterR(e.target.value)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
                                 placeholder={t('steel.column.ringDiameterR1')}
                             />
                         </div>
@@ -264,13 +248,11 @@ const ColumnType10 = () => {
                     {/* Stirrups Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.stirrupsDetails')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <UnitSelector unit="mm" />
-                            <input
-                                type="text"
+                        <div className="grid gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
                                 value={spacingS}
                                 onChange={(e) => setSpacingS(e.target.value)}
-                                className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
                                 placeholder={t('steel.column.spacing') + " - s"}
                             />
                         </div>
@@ -279,35 +261,23 @@ const ColumnType10 = () => {
                     {/* Number of Columns Section */}
                     <div className="space-y-3 pt-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.noOfColumns') + " - N"}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <div className="flex-1 px-4 sm:px-6 flex items-center">
-                                <input
-                                    type="text"
-                                    value={noOfColumns}
-                                    onChange={(e) => setNoOfColumns(e.target.value)}
-                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none h-full"
-                                    placeholder={t('steel.column.noOfColumn')}
-                                />
-                            </div>
-                            <div className="flex items-center px-4">
-                                <span className="text-accent text-sm sm:text-base uppercase">NOS</span>
-                            </div>
-                        </div>
+                        <InputField
+                            value={noOfColumns}
+                            onChange={(e) => setNoOfColumns(e.target.value)}
+                            placeholder={t('steel.column.noOfColumn')}
+                            suffix="NOS"
+                        />
                     </div>
 
                     {/* Price Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.weight.price')}</h3>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={steelRate}
-                                onChange={(e) => setSteelRate(e.target.value)}
-                                className="w-full h-[50px] sm:h-[58px] bg-white rounded-2xl px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
-                                placeholder={t('steel.column.steelRate')}
-                            />
-                            <span className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-accent text-sm sm:text-base font-medium">₹/Kg</span>
-                        </div>
+                        <InputField
+                            value={steelRate}
+                            onChange={(e) => setSteelRate(e.target.value)}
+                            placeholder={t('steel.column.steelRate')}
+                            suffix="₹/Kg"
+                        />
                     </div>
                 </div>
 

@@ -320,7 +320,7 @@ const Navbar = () => {
   }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 lg:left-[300px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
+    <header className="fixed top-0 left-0 right-0 xl:left-[300px] lg:left-[260px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
       {/* LEFT – BREADCRUMBS */}
       <div className="flex items-center gap-2 min-w-0 flex-1 ml-10 md:ml-7 lg:ml-0 ">
         {/* Icon only on tablet & desktop (>= 768px) */}

@@ -9,6 +9,7 @@ import { ROUTES_FLAT } from '../../../../constants/routes';
 
 // Import icons
 import colsType1 from '../../../../assets/icons/colsType1.svg';
+import InputField from '../../../common/InputField';
 
 const ColumnType1 = () => {
     const navigate = useNavigate();
@@ -32,13 +33,7 @@ const ColumnType1 = () => {
 
     const [showResult, setShowResult] = useState(false);
 
-    // Helper function to handle positive number input
-    const handlePositiveNumberInput = (setter) => (e) => {
-        const value = e.target.value;
-        if (value === '' || /^\d*\.?\d*$/.test(value)) {
-            setter(value);
-        }
-    };
+
 
     // Calculation Logic (Simplified formulas)
     const X = parseFloat(sideX) || 0;
@@ -83,12 +78,7 @@ const ColumnType1 = () => {
         setShowResult(true);
     };
 
-    const UnitSelector = ({ unit }) => (
-        <div className="flex items-center px-2 sm:px-4 border-r border-[#060C121A] bg-gray-50/50 cursor-pointer min-w-[55px] sm:min-w-[80px] justify-between group">
-            <span className="text-secondary text-sm sm:text-base font-medium">{unit}</span>
-            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary group-hover:text-accent" />
-        </div>
-    );
+
 
     const calculationData = [
         { labelKey: 'steel.column.sideX', name: t('steel.column.sideX'), symbol: 'X', value: `${sideX} mm` },
@@ -156,84 +146,66 @@ const ColumnType1 = () => {
                     {/* Column Size Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.size')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
                             {/* Side X */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={sideX}
-                                    onChange={handlePositiveNumberInput(setSideX)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none "
-                                    placeholder={t('steel.column.sideX')}
-                                />
-                            </div>
+                            {/* Side X */}
+                            <InputField
+                                unit="mm"
+                                value={sideX}
+                                onChange={(e) => setSideX(e.target.value)}
+                                placeholder={t('steel.column.sideX')}
+                                onUnitClick={() => {
+                                    // open unit dropdown/modal
+                                }}
+                            />
+
 
                             {/* Side Y */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={sideY}
-                                    onChange={handlePositiveNumberInput(setSideY)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none "
-                                    placeholder={t('steel.column.sideY')}
-                                />
-                            </div>
+                            <InputField
+                                unit="mm"
+                                value={sideY}
+                                onChange={(e) => setSideY(e.target.value)}
+                                placeholder={t('steel.column.sideY')}
+                            />
 
                             {/* Diameter D */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={diameterD}
-                                    onChange={handlePositiveNumberInput(setDiameterD)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.diameter')}
-                                />
-                            </div>
+                            <InputField
+                                unit="mm"
+                                value={diameterD}
+                                onChange={(e) => setDiameterD(e.target.value)}
+                                placeholder={t('steel.column.diameter')}
+                            />
+
 
                             {/* Column Height */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={height}
-                                    onChange={handlePositiveNumberInput(setHeight)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.columnHeight')}
-                                />
-                            </div>
+                            <InputField
+                                unit="mm"
+                                value={height}
+                                onChange={(e) => setHeight(e.target.value)}
+                                placeholder={t('steel.column.columnHeight')}
+                            />
                         </div>
                     </div>
 
                     {/* Stirrups Details Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.stirrupsDetails')}</h3>
-                        <div className="grid grid-cols-2 gap-3 sm:gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
                             {/* Ring Diameter */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={ringDiameter}
-                                    onChange={handlePositiveNumberInput(setRingDiameter)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.ringDiameter')}
-                                />
-                            </div>
+                            <InputField
+                                unit="mm"
+                                value={ringDiameter}
+                                onChange={(e) => setRingDiameter(e.target.value)}
+                                placeholder={t('steel.column.ringDiameter')}
+                            />
 
                             {/* Spacing S */}
-                            <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                                <UnitSelector unit="mm" />
-                                <input
-                                    type="text"
-                                    value={spacingS}
-                                    onChange={handlePositiveNumberInput(setSpacingS)}
-                                    className="flex-1 px-3 sm:px-6 text-sm sm:text-base text-primary focus:outline-none"
-                                    placeholder={t('steel.column.spacing')}
-                                />
-                            </div>
+                            <InputField
+                                unit="mm"
+                                value={spacingS}
+                                onChange={(e) => setSpacingS(e.target.value)}
+                                placeholder={t('steel.column.spacing')}
+                            />
                         </div>
                     </div>
 
@@ -241,37 +213,24 @@ const ColumnType1 = () => {
                     <div className="space-y-3 pt-2">
                         {/* No of Columns */}
                         <h3 className="font-medium text-primary ml-1">{t('steel.column.noOfColumns')}</h3>
-                        <div className="flex bg-white rounded-2xl border border-[#060C121A] focus-within:border-accent/40 transition-all overflow-hidden h-[50px] sm:h-[58px]">
-                            <div className="flex-1 px-4 sm:px-6 flex items-center">
-                                <span className="text-secondary text-sm sm:text-base font-medium mr-4">{t('steel.column.noOfColumns')}</span>
-                                <input
-                                    type="text"
-                                    value={noOfColumns}
-                                    onChange={handlePositiveNumberInput(setNoOfColumns)}
-                                    className="flex-1 text-sm sm:text-base text-primary focus:outline-none h-full"
-                                    placeholder={t('steel.weight.wastagePlaceholder')}
-                                />
-                            </div>
-                            <div className="flex items-center px-4">
-                                <span className="text-accent text-sm sm:text-base uppercase">NOS</span>
-                            </div>
-                        </div>
+                        <InputField
+                            value={noOfColumns}
+                            onChange={(e) => setNoOfColumns(e.target.value)}
+                            placeholder={t('steel.column.noOfColumns')}
+                            suffix="NOS"
+                        />
 
                     </div>
 
                     {/* Price Section */}
                     <div className="space-y-2">
                         <h3 className="font-medium text-primary ml-1">{t('steel.weight.price')}</h3>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={steelRate}
-                                onChange={handlePositiveNumberInput(setSteelRate)}
-                                className="w-full h-[50px] sm:h-[58px] bg-white rounded-2xl px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base text-primary border border-[#060C121A] focus:outline-none focus:border-accent/40 transition-all"
-                                placeholder={t('steel.column.steelRate')}
-                            />
-                            <span className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-accent text-sm sm:text-base font-medium">₹/Kg</span>
-                        </div>
+                        <InputField
+                            value={steelRate}
+                            onChange={(e) => setSteelRate(e.target.value)}
+                            placeholder={t('steel.column.steelRate')}
+                            suffix="₹/Kg"
+                        />
                     </div>
                 </div>
 

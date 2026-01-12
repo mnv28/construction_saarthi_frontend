@@ -3,19 +3,19 @@ import { useTranslation } from 'react-i18next';
 import ReinforcementItem from './ReinforcementItem';
 
 // Import icons
-import colType1 from '../../../../assets/icons/colsType1.svg';
-import colType2 from '../../../../assets/icons/colsType2.svg';
-import colType3 from '../../../../assets/icons/colsType3.svg';
-import colType4 from '../../../../assets/icons/colsType4.svg';
-import colType5 from '../../../../assets/icons/colsType5.svg';
-import colType6 from '../../../../assets/icons/colsType6.svg';
-import colType7 from '../../../../assets/icons/colsType7.svg';
-import colType8 from '../../../../assets/icons/colsType8.svg';
-import colType9 from '../../../../assets/icons/colsType9.svg';
-import colType10 from '../../../../assets/icons/colsType10.svg';
-import colType11 from '../../../../assets/icons/colsType11.svg';
-import colType12 from '../../../../assets/icons/colsType12.svg';
-import colVerticalSteel from '../../../../assets/icons/colsVerticalSteel.svg';
+import colType1 from '../../../../assets/icons/colType1.svg';
+import colType2 from '../../../../assets/icons/colType2.svg';
+import colType3 from '../../../../assets/icons/colType3.svg';
+import colType4 from '../../../../assets/icons/colType4.svg';
+import colType5 from '../../../../assets/icons/colType5.svg';
+import colType6 from '../../../../assets/icons/colType6.svg';
+import colType7 from '../../../../assets/icons/colType7.svg';
+import colType8 from '../../../../assets/icons/colType8.svg';
+import colType9 from '../../../../assets/icons/colType9.svg';
+import colType10 from '../../../../assets/icons/colType10.svg';
+import colType11 from '../../../../assets/icons/colType11.svg';
+import colType12 from '../../../../assets/icons/colType12.svg';
+import colVerticalSteel from '../../../../assets/icons/colVerticalSteel.svg';
 import colRing1 from '../../../../assets/icons/colRing1.svg';
 import colRing2 from '../../../../assets/icons/colRing2.svg';
 

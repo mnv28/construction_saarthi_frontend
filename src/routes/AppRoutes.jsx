@@ -138,6 +138,34 @@ const FootingType1Detailed = lazy(() => import('../calculation/steel/footing/pag
 const FootingType2 = lazy(() => import('../calculation/steel/footing/pages/FootingType2'));
 const FootingType2Detailed = lazy(() => import('../calculation/steel/footing/pages/FootingType2Detailed'));
 
+// Steel - Beam
+const BeamType1 = lazy(() => import('../calculation/steel/beam/pages/BeamType1'));
+const BeamType1Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType1Detailed'));
+const BeamType2 = lazy(() => import('../calculation/steel/beam/pages/BeamType2'));
+const BeamType2Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType2Detailed'));
+const BeamType3 = lazy(() => import('../calculation/steel/beam/pages/BeamType3'));
+const BeamType3Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType3Detailed'));
+const BeamType4 = lazy(() => import('../calculation/steel/beam/pages/BeamType4'));
+const BeamType4Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType4Detailed'));
+const BeamType5 = lazy(() => import('../calculation/steel/beam/pages/BeamType5'));
+const BeamType5Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType5Detailed'));
+const BeamType6 = lazy(() => import('../calculation/steel/beam/pages/BeamType6'));
+const BeamType6Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType6Detailed'));
+const BeamType7 = lazy(() => import('../calculation/steel/beam/pages/BeamType7'));
+const BeamType7Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType7Detailed'));
+const BeamType8 = lazy(() => import('../calculation/steel/beam/pages/BeamType8'));
+const BeamType8Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType8Detailed'));
+const BeamType9 = lazy(() => import('../calculation/steel/beam/pages/BeamType9'));
+const BeamType9Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType9Detailed'));
+const BeamType10 = lazy(() => import('../calculation/steel/beam/pages/BeamType10'));
+const BeamType10Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamType10Detailed'));
+const BeamHorizontalBar = lazy(() => import('../calculation/steel/beam/pages/BeamHorizontalBar'));
+const BeamHorizontalBarDetailed = lazy(() => import('../calculation/steel/beam/pages/BeamHorizontalBarDetailed'));
+const BeamRingType1 = lazy(() => import('../calculation/steel/beam/pages/BeamRingType1'));
+const BeamRingType1Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamRingType1Detailed'));
+const BeamRingType2 = lazy(() => import('../calculation/steel/beam/pages/BeamRingType2'));
+const BeamRingType2Detailed = lazy(() => import('../calculation/steel/beam/pages/BeamRingType2Detailed'));
+
 // Steel - Column
 const ColumnType1 = lazy(() => import('../calculation/steel/column/pages/ColumnType1'));
 const ColumnType1Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnType1Detailed'));
@@ -304,6 +332,34 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE1_DETAILED} element={<FootingType1Detailed />} />
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE2} element={<FootingType2 />} />
             <Route path={ROUTES_FLAT.CALCULATION_FOOTING_TYPE2_DETAILED} element={<FootingType2Detailed />} />
+
+            {/* Steel - Beam */}
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE1} element={<BeamType1 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE1_DETAILED} element={<BeamType1Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE2} element={<BeamType2 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE2_DETAILED} element={<BeamType2Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE3} element={<BeamType3 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE3_DETAILED} element={<BeamType3Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE4} element={<BeamType4 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE4_DETAILED} element={<BeamType4Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE5} element={<BeamType5 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE5_DETAILED} element={<BeamType5Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE6} element={<BeamType6 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE6_DETAILED} element={<BeamType6Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE7} element={<BeamType7 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE7_DETAILED} element={<BeamType7Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE8} element={<BeamType8 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE8_DETAILED} element={<BeamType8Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE9} element={<BeamType9 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE9_DETAILED} element={<BeamType9Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE10} element={<BeamType10 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_TYPE10_DETAILED} element={<BeamType10Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_HORIZONTAL} element={<BeamHorizontalBar />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_HORIZONTAL_DETAILED} element={<BeamHorizontalBarDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE1} element={<BeamRingType1 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE1_DETAILED} element={<BeamRingType1Detailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE2} element={<BeamRingType2 />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BEAM_RING_TYPE2_DETAILED} element={<BeamRingType2Detailed />} />
 
             {/* Steel - Column */}
             <Route path={ROUTES_FLAT.CALCULATION_COLUMN_TYPE1} element={<ColumnType1 />} />

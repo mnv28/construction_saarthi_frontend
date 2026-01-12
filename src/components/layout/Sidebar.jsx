@@ -219,7 +219,7 @@ const Sidebar = () => {
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-[260px] lg:w-[300px] bg-white border-r border-black-soft px-4 py-6.5 z-50 flex flex-col overflow-y-auto transition-transform duration-300
+        className={`fixed top-0 left-0 h-screen lg:w-[260px] xl:w-[300px] bg-white border-r border-black-soft px-4 py-6.5 z-50 flex flex-col overflow-y-auto transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
         {/* MOBILE CLOSE BUTTON (inside sidebar, top-right) */}

@@ -333,6 +333,162 @@
             "cutting": "ಕಟಿಂಗ್ ಉದ್ದದ ಲೆಕ್ಕಾಚಾರದ ಯುಐ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "ಪರಿಮಾಣ",
+            "bonds": "ಬಾಂಡ್‌ಗಳು",
+            "closerQuantity": "ಕ್ಲೋಸರ್ ಪ್ರಮಾಣ",
+            "shapes": "ಆಕಾರಗಳು"
+        },
+        "quantity": {
+            "clayBrick": "ಮಣ್ಣಿನ ಇಟ್ಟಿಗೆ / ಫ್ಲೈ ಆಶ್ ಇಟ್ಟಿಗೆ",
+            "aacBlock": "AAC/CLC ಬ್ಲಾಕ್",
+            "sandPlaster": "ಮರಳು ಪ್ಲ್ಯಾಸ್ಟರ್",
+            "gypsumPlaster": "ಜಿಪ್ಸಮ್ / POP ಪ್ಲ್ಯಾಸ್ಟರ್"
+        },
+        "bonds": {
+            "stretcher": "ಸ್ಟ್ರೆಚರ್ ಬಾಂಡ್",
+            "stretcherTitle": "ಸ್ಟ್ರೆಚರ್ ಬಾಂಡ್",
+            "stretcherDetailedTitle": "ಸ್ಟ್ರೆಚರ್ ಬಾಂಡ್ ವಿವರವಾದ ವರದಿ",
+            "header": "ಹೆಡರ್ ಬಾಂಡ್",
+            "headerTitle": "ಹೆಡರ್ ಬಾಂಡ್",
+            "headerDetailedTitle": "ಹೆಡರ್ ಬಾಂಡ್ ವಿವರವಾದ ವರದಿ",
+            "english": "ಇಂಗ್ಲಿಷ್ ಬಾಂಡ್",
+            "englishTitle": "ಇಂಗ್ಲಿಷ್ ಬಾಂಡ್",
+            "englishDetailedTitle": "ಇಂಗ್ಲಿಷ್ ಬಾಂಡ್ ವಿವರವಾದ ವರದಿ",
+            "flemish": "ಫ್ಲೆಮಿಶ್ ಬಾಂಡ್",
+            "flemishTitle": "ಫ್ಲೆಮಿಶ್ ಬಾಂಡ್",
+            "flemishDetailedTitle": "ಫ್ಲೆಮಿಶ್ ಬಾಂಡ್ ವಿವರವಾದ ವರದಿ",
+            "stack": "ಸ್ಟ್ಯಾಕ್ ಬಾಂಡ್",
+            "dutch": "ಇಂಗ್ಲಿಷ್ ಕ್ರಾಸ್ ಅಥವಾ ಡಚ್ ಬಾಂಡ್",
+            "gardenWall": "ಗಾರ್ಡನ್ ವಾಲ್ ಬಾಂಡ್",
+            "brickToBrickJoint": "ಇಟ್ಟಿಗೆಯಿಂದ ಇಟ್ಟಿಗೆಯ ಜಂಟಿ"
+        },
+        "closer": {
+            "king": "ಕಿಂಗ್ ಕ್ಲೋಸರ್",
+            "queen": "ಕ್ವೀನ್ ಕ್ಲೋಸರ್",
+            "halfBat": "ಹಾಫ್ ಬ್ಯಾಟ್ ಕ್ಲೋಸರ್",
+            "quarterBat": "ಕ್ವಾರ್ಟರ್ ಬ್ಯಾಟ್ ಕ್ಲೋಸರ್"
+        },
+        "shapes": {
+            "byVolume": "ಗಾತ್ರದ ಆಧಾರದ ಮೇಲೆ",
+            "byCube": "ಘನದ ಆಧಾರದ ಮೇಲೆ",
+            "byWall": "ಗೋಡೆಯ ಆಧಾರದ ಮೇಲೆ",
+            "lWall": "L ಗೋಡೆ",
+            "cWall": "C ಗೋಡೆ",
+            "rectangularChamber": "ಆಯತಾಕಾರದ ಚೇಂಬರ್",
+            "wallWithDoor": "ಬಾಕಲು ಇರುವ ಗೋಡೆ",
+            "wallWithArcDoor": "ಆರ್ಕ್ ಬಾಕಲು ಇರುವ ಗೋಡೆ",
+            "cavityWall": "ಕ್ಯಾವಿಟಿ ವಾಲ್",
+            "buttressWall": "ಬಟ್ರೆಸ್ ವಾಲ್"
+        },
+        "clayBrick": {
+            "title": "ಮಣ್ಣಿನ ಇಟ್ಟಿಗೆ / ಫ್ಲೈ ಆಶ್ ಇಟ್ಟಿಗೆ",
+            "detailedTitle": "ಮಣ್ಣಿನ ಇಟ್ಟಿಗೆ / ಫ್ಲೈ ಆಶ್ ಇಟ್ಟಿಗೆ ವಿವರವಾದ ವರದಿ",
+            "brickSize": "ಇಟ್ಟಿಗೆಯ ಗಾತ್ರ",
+            "wallSize": "ಗೋಡೆಯ ಗಾತ್ರ",
+            "mortarRatio": "ಗಾರೆ ಅನುಪಾತ",
+            "deductions": "ಕಡಿತಗಳು",
+            "price": "ಬೆಲೆ",
+            "brickLength": "ಉದ್ದ",
+            "brickWidth": "ಅಗಲ",
+            "brickThickness": "ದಪ್ಪ",
+            "wallLength": "ಉದ್ದ",
+            "wallHeight": "ಎತ್ತರ",
+            "wallThickness": "ದಪ್ಪ",
+            "cement": "ಸಿಮೆಂಟ್",
+            "sand": "ಮರಳು",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ಇಟ್ಟಿಗೆ",
+            "cementPrice": "ಸಿಮೆಂಟ್",
+            "sandPrice": "ಮರಳು",
+            "results": {
+                "volumeOfWall": "ಗೋಡೆಯ ಗಾತ್ರ",
+                "noOfBricks": "ಇಟ್ಟಿಗೆಗಳ ಸಂಖ್ಯೆ",
+                "mortarDryVolume": "ಗಾರೆ ಒಣ ಘನಫಲ",
+                "cementBags": "ಸಿಮೆಂಟ್ ಬಾಕ್ಸ್ (50kg)",
+                "sandVolume": "ಮರಳಿನ ಗಾತ್ರ",
+                "brickCost": "ಇಟ್ಟಿಗೆಯ ವೆಚ್ಚ",
+                "cementCost": "ಸಿಮೆಂಟ್ ವೆಚ್ಚ",
+                "sandCost": "ಮರಳಿನ ವೆಚ್ಚ",
+                "totalCost": "ಒಟ್ಟು ವೆಚ್ಚ"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC ಬ್ಲಾಕ್",
+            "detailedTitle": "AAC/CLC ಬ್ಲಾಕ್ ವಿವರವಾದ ವರದಿ",
+            "brickSize": "ಬ್ಲಾಕ್ ಗಾತ್ರ",
+            "wallSize": "ಗೋಡೆಯ ಗಾತ್ರ",
+            "deductions": "ಕಡಿತಗಳು",
+            "price": "ಬೆಲೆ",
+            "brickLength": "ಉದ್ದ",
+            "brickWidth": "ಅಗಲ",
+            "brickThickness": "ದಪ್ಪ",
+            "wallLength": "ಉದ್ದ",
+            "wallHeight": "ಎತ್ತರ",
+            "wallThickness": "ದಪ್ಪ",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ಬ್ಲಾಕ್",
+            "results": {
+                "volumeOfWall": "ಗೋಡೆಯ ಗಾತ್ರ",
+                "noOfBricks": "ಬ್ಲಾಕ್‌ಗಳ ಸಂಖ್ಯೆ",
+                "brickCost": "ಬ್ಲಾಕ್ ವೆಚ್ಚ",
+                "totalCost": "ಒಟ್ಟು ವೆಚ್ಚ"
+            }
+        },
+        "sandPlaster": {
+            "title": "ಮರಳು ಪ್ಲ್ಯಾಸ್ಟರ್",
+            "detailedTitle": "ಮರಳು ಪ್ಲ್ಯಾಸ್ಟರ್ ವಿವರವಾದ ವರದಿ",
+            "wallSize": "ಗೋಡೆಯ ಗಾತ್ರ",
+            "mortarRatio": "ಗಾರೆ ಅನುಪಾತ",
+            "price": "ಬೆಲೆ",
+            "length": "ಉದ್ದ",
+            "width": "ಅಗಲ",
+            "thickness": "ಪ್ಲ್ಯಾಸ್ಟರ್ ದಪ್ಪ",
+            "cement": "ಸಿಮೆಂಟ್",
+            "sand": "ಮರಳು",
+            "cementPrice": "ಸಿಮೆಂಟ್",
+            "sandPrice": "ಮರಳು",
+            "results": {
+                "plasterArea": "ಪ್ಲ್ಯಾಸ್ಟರ್ ಪ್ರದೇಶ",
+                "mortarDryVolume": "ಗಾರೆ ಒಣ ಘನಫಲ",
+                "cementBags": "ಸಿಮೆಂಟ್ ಬಾಕ್ಸ್ (50kg)",
+                "sand": "ಮರಳು",
+                "cementCost": "ಸಿಮೆಂಟ್ ವೆಚ್ಚ",
+                "sandCost": "ಮರಳಿನ ವೆಚ್ಚ",
+                "totalCost": "ಒಟ್ಟು ವೆಚ್ಚ"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "ಜಿಪ್ಸಮ್ / POP ಪ್ಲ್ಯಾಸ್ಟರ್",
+            "detailedTitle": "ಜಿಪ್ಸಮ್ / POP ಪ್ಲ್ಯಾಸ್ಟರ್ ವಿವರವಾದ ವರದಿ",
+            "wallSize": "ಗೋಡೆಯ ಗಾತ್ರ",
+            "price": "ಬೆಲೆ",
+            "length": "ಉದ್ದ",
+            "width": "ಅಗಲ",
+            "thickness": "ಪ್ಲ್ಯಾಸ್ಟರ್ ದಪ್ಪ",
+            "cement": "ಸಿಮೆಂಟ್",
+            "sand": "ಮರಳು",
+            "results": {
+                "plasterArea": "ಪ್ಲ್ಯಾಸ್ಟರ್ ಪ್ರದೇಶ",
+                "plasterVolume": "ಪ್ಲ್ಯಾಸ್ಟರ್ ಗಾತ್ರ",
+                "weightOfMaterial": "ಸಾಮಗ್ರಿಯ ತೂಕ",
+                "noOfBags": "ಬ್ಯಾಗ್‌ಗಳ ಸಂಖ್ಯೆ (25 Kg)",
+                "materialCost": "ಸಾಮಗ್ರಿಯ ವೆಚ್ಚ",
+                "totalCost": "ಒಟ್ಟು ವೆಚ್ಚ"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "ಗಾತ್ರದ ಆಧಾರದ ಮೇಲೆ",

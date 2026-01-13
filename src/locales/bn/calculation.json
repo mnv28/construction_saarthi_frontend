@@ -340,6 +340,162 @@
             "cutting": "কাটিং লেন্থ গণনার UI শীঘ্রই আসছে..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "পরিমাণ",
+            "bonds": "বন্ড",
+            "closerQuantity": "ক্লোজার পরিমাণ",
+            "shapes": "আকৃতি"
+        },
+        "quantity": {
+            "clayBrick": "মাটির ইট / ফ্লাই অ্যাশ ইট",
+            "aacBlock": "AAC/CLC ব্লক",
+            "sandPlaster": "বালি প্লাস্টার",
+            "gypsumPlaster": "জিপসাম / POP প্লাস্টার"
+        },
+        "bonds": {
+            "stretcher": "স্ট্রেচার বন্ড",
+            "stretcherTitle": "স্ট্রেচার বন্ড",
+            "stretcherDetailedTitle": "স্ট্রেচার বন্ড বিস্তারিত রিপোর্ট",
+            "header": "হেডার বন্ড",
+            "headerTitle": "হেডার বন্ড",
+            "headerDetailedTitle": "হেডার বন্ড বিস্তারিত রিপোর্ট",
+            "english": "ইংলিশ বন্ড",
+            "englishTitle": "ইংলিশ বন্ড",
+            "englishDetailedTitle": "ইংলিশ বন্ড বিস্তারিত রিপোর্ট",
+            "flemish": "ফ্লেমিশ বন্ড",
+            "flemishTitle": "ফ্লেমিশ বন্ড",
+            "flemishDetailedTitle": "ফ্লেমিশ বন্ড বিস্তারিত রিপোর্ট",
+            "stack": "স্ট্যাক বন্ড",
+            "dutch": "ইংলিশ ক্রস বা ডাচ বন্ড",
+            "gardenWall": "গার্ডেন ওয়াল বন্ড",
+            "brickToBrickJoint": "ইট থেকে ইটের জয়েন্ট"
+        },
+        "closer": {
+            "king": "কিং ক্লোজার",
+            "queen": "কুইন ক্লোজার",
+            "halfBat": "হাফ ব্যাট ক্লোজার",
+            "quarterBat": "কোয়ার্টার ব্যাট ক্লোজার"
+        },
+        "shapes": {
+            "byVolume": "আয়তন অনুযায়ী",
+            "byCube": "ঘন অনুযায়ী",
+            "byWall": "দেয়াল অনুযায়ী",
+            "lWall": "L দেয়াল",
+            "cWall": "C দেয়াল",
+            "rectangularChamber": "আয়তাকার চেম্বার",
+            "wallWithDoor": "দরজা সহ দেয়াল",
+            "wallWithArcDoor": "আর্ক দরজা সহ দেয়াল",
+            "cavityWall": "ক্যাভিটি ওয়াল",
+            "buttressWall": "বাট্রেস ওয়াল"
+        },
+        "clayBrick": {
+            "title": "মাটির ইট / ফ্লাই অ্যাশ ইট",
+            "detailedTitle": "মাটির ইট / ফ্লাই অ্যাশ ইট বিস্তারিত রিপোর্ট",
+            "brickSize": "ইটের মাপ",
+            "wallSize": "দেয়ালের মাপ",
+            "mortarRatio": "মশলার অনুপাত",
+            "deductions": "বাদ দেওয়া অংশ (Deductions)",
+            "price": "দাম",
+            "brickLength": "দৈর্ঘ্য",
+            "brickWidth": "প্রস্থ",
+            "brickThickness": "বেধ",
+            "wallLength": "দৈর্ঘ্য",
+            "wallHeight": "উচ্চতা",
+            "wallThickness": "বেধ",
+            "cement": "সিমেন্ট",
+            "sand": "বালি",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ইট",
+            "cementPrice": "সিমেন্ট",
+            "sandPrice": "বালি",
+            "results": {
+                "volumeOfWall": "দেয়ালের আয়তন",
+                "noOfBricks": "ইটের সংখ্যা",
+                "mortarDryVolume": "মশলার শুকনো আয়তন",
+                "cementBags": "সিমেন্ট ব্যাগ (৫০ কেজি)",
+                "sandVolume": "বালির আয়তন",
+                "brickCost": "ইটের খরচ",
+                "cementCost": "সিমেন্টের খরচ",
+                "sandCost": "বালির খরচ",
+                "totalCost": "মোট খরচ"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC ব্লক",
+            "detailedTitle": "AAC/CLC ব্লক বিস্তারিত রিপোর্ট",
+            "brickSize": "ব্লকের মাপ",
+            "wallSize": "দেয়ালের মাপ",
+            "deductions": "বাদ দেওয়া অংশ (Deductions)",
+            "price": "দাম",
+            "brickLength": "দৈর্ঘ্য",
+            "brickWidth": "প্রস্থ",
+            "brickThickness": "বেধ",
+            "wallLength": "দৈর্ঘ্য",
+            "wallHeight": "উচ্চতা",
+            "wallThickness": "বেধ",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ব্লক",
+            "results": {
+                "volumeOfWall": "দেয়ালের আয়তন",
+                "noOfBricks": "ব্লকের সংখ্যা",
+                "brickCost": "ব্লকের খরচ",
+                "totalCost": "মোট খরচ"
+            }
+        },
+        "sandPlaster": {
+            "title": "বালি প্লাস্টার",
+            "detailedTitle": "বালি প্লাস্টার বিস্তারিত রিপোর্ট",
+            "wallSize": "দেয়ালের মাপ",
+            "mortarRatio": "মশলার অনুপাত",
+            "price": "দাম",
+            "length": "দৈর্ঘ্য",
+            "width": "প্রস্থ",
+            "thickness": "প্লাস্টারের বেধ",
+            "cement": "সিমেন্ট",
+            "sand": "বালি",
+            "cementPrice": "সিমেন্ট",
+            "sandPrice": "বালি",
+            "results": {
+                "plasterArea": "প্লাস্টার এলাকা",
+                "mortarDryVolume": "মশলার শুকনো আয়তন",
+                "cementBags": "সিমেন্ট ব্যাগ (৫০ কেজি)",
+                "sand": "বালি",
+                "cementCost": "সিমেন্টের খরচ",
+                "sandCost": "বালির খরচ",
+                "totalCost": "মোট খরচ"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "জিপসাম / POP প্লাস্টার",
+            "detailedTitle": "জিপসাম / POP প্লাস্টার বিস্তারিত রিপোর্ট",
+            "wallSize": "দেয়ালের মাপ",
+            "price": "দাম",
+            "length": "দৈর্ঘ্য",
+            "width": "প্রস্থ",
+            "thickness": "প্লাস্টারের বেধ",
+            "cement": "সিমেন্ট",
+            "sand": "বালি",
+            "results": {
+                "plasterArea": "প্লাস্টার এলাকা",
+                "plasterVolume": "প্লাস্টার আয়তন",
+                "weightOfMaterial": "সামগ্রীর ওজন",
+                "noOfBags": "ব্যাগের সংখ্যা (২৫ কেজি)",
+                "materialCost": "সামগ্রীর খরচ",
+                "totalCost": "মোট খরচ"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "আয়তন অনুসারে",

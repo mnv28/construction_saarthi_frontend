@@ -69,7 +69,7 @@ export default function DownloadPDFModal({
           <h3 className="text-xl font-medium text-primary">
             {t('downloadPDF.title', { defaultValue: 'Download as PDF' })}
           </h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 cursor-pointer">
             <X className="w-6 h-6" />
           </button>
         </div>

@@ -339,6 +339,162 @@
             "cutting": "കട്ടിംഗ് ലെങ്ത് കണക്കുകൂട്ടൽ UI ഉടൻ വരുന്നു..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "അളവ്",
+            "bonds": "ബോണ്ടുകൾ",
+            "closerQuantity": "ക്ലോസർ അളവ്",
+            "shapes": "രൂപങ്ങൾ"
+        },
+        "quantity": {
+            "clayBrick": "ക്ലേ ബ്രിക്ക് / ഫ്ലൈ ആഷ് ബ്രിക്ക്",
+            "aacBlock": "AAC/CLC ബ്ലോക്ക്",
+            "sandPlaster": "സാൻഡ് പ്ലാസ്റ്റർ",
+            "gypsumPlaster": "ജിപ്സം / POP പ്ലാസ്റ്റർ"
+        },
+        "bonds": {
+            "stretcher": "സ്ട്രെച്ചർ ബോണ്ട്",
+            "stretcherTitle": "സ്ട്രെച്ചർ ബോണ്ട്",
+            "stretcherDetailedTitle": "സ്ട്രെച്ചർ ബോണ്ട് വിശദമായ റിപ്പോർട്ട്",
+            "header": "ഹെഡർ ബോണ്ട്",
+            "headerTitle": "ഹെഡർ ബോണ്ട്",
+            "headerDetailedTitle": "ഹെഡർ ബോണ്ട് വിശദമായ റിപ്പോർട്ട്",
+            "english": "ഇംഗ്ലീഷ് ബോണ്ട്",
+            "englishTitle": "ഇംഗ്ലീഷ് ബോണ്ട്",
+            "englishDetailedTitle": "ഇംഗ്ലീഷ് ബോണ്ട് വിശദമായ റിപ്പോർട്ട്",
+            "flemish": "ഫ്ലെമിഷ് ബോണ്ട്",
+            "flemishTitle": "ഫ്ലെമിഷ് ബോണ്ട്",
+            "flemishDetailedTitle": "ഫ്ലെമിഷ് ബോണ്ട് വിശദമായ റിപ്പോർട്ട്",
+            "stack": "സ്റ്റാക്ക് ബോണ്ട്",
+            "dutch": "ഇംഗ്ലീഷ് ക്രോസ് അല്ലെങ്കിൽ ഡച്ച് ബോണ്ട്",
+            "gardenWall": "ഗാർഡൻ വാൾ ബോണ്ട്",
+            "brickToBrickJoint": "ബ്രിക്ക് ടു ബ്രിക്ക് ജോയിൻ്റ്"
+        },
+        "closer": {
+            "king": "കിംഗ് ക്ലോസർ",
+            "queen": "ക്വീൻ ക്ലോസർ",
+            "halfBat": "ഹാഫ് ബാറ്റ് ക്ലോസർ",
+            "quarterBat": "ക്വാർട്ടർ ബാറ്റ് ക്ലോസർ"
+        },
+        "shapes": {
+            "byVolume": "വ്യാപ്തത്തിനനുസരിച്ച്",
+            "byCube": "ക്യൂബ് അനുസരിച്ച്",
+            "byWall": "ഭിത്തി അനുസരിച്ച്",
+            "lWall": "L ഭിത്തി",
+            "cWall": "C ഭിത്തി",
+            "rectangularChamber": "റെക്ടാഗുലർ ചേംബർ",
+            "wallWithDoor": "വാതിലോടു കൂടിയ ഭിത്തി",
+            "wallWithArcDoor": "ആർക്ക് വാതിലോടു കൂടിയ ഭിത്തി",
+            "cavityWall": "കാവിറ്റി വാൾ",
+            "buttressWall": "ബട്രസ് വാൾ"
+        },
+        "clayBrick": {
+            "title": "ക്ലേ ബ്രിക്ക് / ഫ്ലൈ ആഷ് ബ്രിക്ക്",
+            "detailedTitle": "ക്ലേ ബ്രിക്ക് / ഫ്ലൈ ആഷ് ബ്രിക്ക് വിശദമായ റിപ്പോർട്ട്",
+            "brickSize": "മൺകട്ടയുടെ വലുപ്പം",
+            "wallSize": "ഭിത്തിയുടെ വലുപ്പം",
+            "mortarRatio": "മോർട്ടാർ അനുപാതം",
+            "deductions": "കിഴിവുകൾ",
+            "price": "വില",
+            "brickLength": "നീളം",
+            "brickWidth": "വീതി",
+            "brickThickness": "കനം",
+            "wallLength": "നീളം",
+            "wallHeight": "ഉയരം",
+            "wallThickness": "കനം",
+            "cement": "സിമന്റ്",
+            "sand": "മണൽ",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "മൺകട്ട",
+            "cementPrice": "സിമന്റ്",
+            "sandPrice": "മണൽ",
+            "results": {
+                "volumeOfWall": "ഭിത്തിയുടെ വ്യാപ്തം",
+                "noOfBricks": "മൺകട്ടകളുടെ എണ്ണം",
+                "mortarDryVolume": "മോർട്ടാർ ഡ്രൈ വ്യാപ്തം",
+                "cementBags": "സിമന്റ് ചാക്കുകൾ (50kg)",
+                "sandVolume": "മണൽ വ്യാപ്തം",
+                "brickCost": "മൺകട്ടയുടെ ചിലവ്",
+                "cementCost": "സിമന്റ് ചിലവ്",
+                "sandCost": "മണൽ ചിലവ്",
+                "totalCost": "ആകെ ചിലവ്"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC ബ്ലോക്ക്",
+            "detailedTitle": "AAC/CLC ബ്ലോക്ക് വിശദമായ റിപ്പോർട്ട്",
+            "brickSize": "ബ്ലോക്കിന്റെ വലുപ്പം",
+            "wallSize": "ഭിത്തിയുടെ വലുപ്പം",
+            "deductions": "കിഴിവുകൾ",
+            "price": "വില",
+            "brickLength": "നീളം",
+            "brickWidth": "വീതി",
+            "brickThickness": "കനം",
+            "wallLength": "നീളം",
+            "wallHeight": "ഉയരം",
+            "wallThickness": "കനം",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ബ്ലോക്ക്",
+            "results": {
+                "volumeOfWall": "ഭിത്തിയുടെ വ്യാപ്തം",
+                "noOfBricks": "ബ്ലോക്കുകളുടെ എണ്ണം",
+                "brickCost": "ബ്ലോക്കിന്റെ ചിലവ്",
+                "totalCost": "ആകെ ചിലവ്"
+            }
+        },
+        "sandPlaster": {
+            "title": "സാൻഡ് പ്ലാസ്റ്റർ",
+            "detailedTitle": "സാൻഡ് പ്ലാസ്റ്റർ വിശദമായ റിപ്പോർട്ട്",
+            "wallSize": "ഭിത്തിയുടെ വലുപ്പം",
+            "mortarRatio": "മോർട്ടാർ അനുപാതം",
+            "price": "വില",
+            "length": "നീളം",
+            "width": "വീതി",
+            "thickness": "പ്ലാസ്റ്ററിന്റെ കനം",
+            "cement": "സിമന്റ്",
+            "sand": "മണൽ",
+            "cementPrice": "സിമന്റ്",
+            "sandPrice": "മണൽ",
+            "results": {
+                "plasterArea": "പ്ലാസ്റ്റർ ഏരിയ",
+                "mortarDryVolume": "മോർട്ടാർ ഡ്രൈ വ്യാപ്തം",
+                "cementBags": "സിമന്റ് ചാക്കുകൾ (50kg)",
+                "sand": "മണൽ",
+                "cementCost": "സിമന്റ് ചിലവ്",
+                "sandCost": "മണൽ ചിലവ്",
+                "totalCost": "ആകെ ചിലവ്"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "ജിപ്സം / POP പ്ലാസ്റ്റർ",
+            "detailedTitle": "ജിപ്സം / POP പ്ലാസ്റ്റർ വിശദമായ റിപ്പോർട്ട്",
+            "wallSize": "ഭിത്തിയുടെ വലുപ്പം",
+            "price": "വില",
+            "length": "നീളം",
+            "width": "വീതി",
+            "thickness": "പ്ലാസ്റ്ററിന്റെ കനം",
+            "cement": "സിമന്റ്",
+            "sand": "മണൽ",
+            "results": {
+                "plasterArea": "പ്ലാസ്റ്റർ ഏരിയ",
+                "plasterVolume": "പ്ലാസ്റ്റർ വ്യാപ്തം",
+                "weightOfMaterial": "സാമഗ്രിയുടെ ഭാരം",
+                "noOfBags": "ബാഗുകളുടെ എണ്ണം (25 Kg)",
+                "materialCost": "സാമഗ്രിയുടെ ചിലവ്",
+                "totalCost": "ആകെ ചിലവ്"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "വ്യാപ്തത്തിനനുസരിച്ച്",

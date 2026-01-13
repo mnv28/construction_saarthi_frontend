@@ -349,6 +349,162 @@
             "cutting": "Cutting length calculation UI coming soon..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "Quantity",
+            "bonds": "Bonds",
+            "closerQuantity": "Closer Quantity",
+            "shapes": "Shapes"
+        },
+        "quantity": {
+            "clayBrick": "Clay Brick/Fly ash Brick",
+            "aacBlock": "AAC/CLC Block",
+            "sandPlaster": "Sand Plaster",
+            "gypsumPlaster": "Gypsum / POP Plaster"
+        },
+        "bonds": {
+            "stretcher": "Stretcher Bond",
+            "stretcherTitle": "Stretcher Bond",
+            "stretcherDetailedTitle": "Stretcher Bond Detailed Report",
+            "header": "Header Bond",
+            "headerTitle": "Header Bond",
+            "headerDetailedTitle": "Header Bond Detailed Report",
+            "english": "English Bond",
+            "englishTitle": "English Bond",
+            "englishDetailedTitle": "English Bond Detailed Report",
+            "flemish": "Flemish Bond",
+            "flemishTitle": "Flemish Bond",
+            "flemishDetailedTitle": "Flemish Bond Detailed Report",
+            "stack": "Stack Bond",
+            "dutch": "English Cross or Dutch Bond",
+            "gardenWall": "Garden Wall Bond",
+            "brickToBrickJoint": "Brick to Brick Joint"
+        },
+        "closer": {
+            "king": "King Closer",
+            "queen": "Queen Closer",
+            "halfBat": "Half Bat Closer",
+            "quarterBat": "Quarter Bat Closer"
+        },
+        "shapes": {
+            "byVolume": "By Volume",
+            "byCube": "By Cube",
+            "byWall": "By Wall",
+            "lWall": "L Wall",
+            "cWall": "C Wall",
+            "rectangularChamber": "Rectangular Chamber",
+            "wallWithDoor": "Wall With Door",
+            "wallWithArcDoor": "Wall With Arc Door",
+            "cavityWall": "Cavity Wall",
+            "buttressWall": "Buttress Wall"
+        },
+        "clayBrick": {
+            "title": "Clay Brick / Fly Ash Brick",
+            "detailedTitle": "Clay Brick / Fly Ash Brick Detailed Report",
+            "brickSize": "Brick Size",
+            "wallSize": "Wall Size",
+            "mortarRatio": "Mortar Ratio",
+            "deductions": "Deductions",
+            "price": "Price",
+            "brickLength": "Length",
+            "brickWidth": "Width",
+            "brickThickness": "Thickness",
+            "wallLength": "Length",
+            "wallHeight": "Height",
+            "wallThickness": "Thickness",
+            "cement": "Cement",
+            "sand": "Sand",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "Brick",
+            "cementPrice": "Cement",
+            "sandPrice": "Sand",
+            "results": {
+                "volumeOfWall": "Volume of Wall",
+                "noOfBricks": "No of Bricks",
+                "mortarDryVolume": "Mortar Dry Volume",
+                "cementBags": "Cement Bags (50kg)",
+                "sandVolume": "Sand",
+                "brickCost": "Brick Cost",
+                "cementCost": "Cement Cost",
+                "sandCost": "Sand Cost",
+                "totalCost": "Total Cost"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC Block",
+            "detailedTitle": "AAC/CLC Block Detailed Report",
+            "brickSize": "Brick Size",
+            "wallSize": "Wall Size",
+            "deductions": "Deductions",
+            "price": "Price",
+            "brickLength": "Length",
+            "brickWidth": "Width",
+            "brickThickness": "Thickness",
+            "wallLength": "Length",
+            "wallHeight": "Height",
+            "wallThickness": "Thickness",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "Brick",
+            "results": {
+                "volumeOfWall": "Volume of Wall",
+                "noOfBricks": "No of Bricks",
+                "brickCost": "Brick Cost",
+                "totalCost": "Total Cost"
+            }
+        },
+        "sandPlaster": {
+            "title": "Sand Plaster",
+            "detailedTitle": "Sand Plaster Detailed Report",
+            "wallSize": "Wall Size",
+            "mortarRatio": "Mortar Ratio",
+            "price": "Price",
+            "length": "Length",
+            "width": "Width",
+            "thickness": "Plaster Thickness",
+            "cement": "Cement",
+            "sand": "Sand",
+            "cementPrice": "Cement",
+            "sandPrice": "Sand",
+            "results": {
+                "plasterArea": "Plaster Area",
+                "mortarDryVolume": "Mortar Dry Volume",
+                "cementBags": "Cement Bags(50 Kg)",
+                "sand": "Sand",
+                "cementCost": "Cement Cost",
+                "sandCost": "Sand Cost",
+                "totalCost": "Total Cost"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "Gypsum / POP Plaster",
+            "detailedTitle": "Gypsum / POP Plaster Detailed Report",
+            "wallSize": "Wall Size",
+            "price": "Price",
+            "length": "Length",
+            "width": "Width",
+            "thickness": "Plaster Thickness",
+            "cement": "Cement",
+            "sand": "Sand",
+            "results": {
+                "plasterArea": "Plaster Area",
+                "plasterVolume": "Plaster Volume",
+                "weightOfMaterial": "Weight of Material",
+                "noOfBags": "No of Bags(25 Kg)",
+                "materialCost": "Material Cost",
+                "totalCost": "Total Cost"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "By Volume",

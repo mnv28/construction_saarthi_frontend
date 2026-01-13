@@ -339,6 +339,162 @@
             "cutting": "કટિંગ લેન્થ ગણતરી UI ટૂંક સમયમાં આવી રહ્યું છે..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "માપ/જથ્થો",
+            "bonds": "બોન્ડ્સ",
+            "closerQuantity": "ક્લોઝર જથ્થો",
+            "shapes": "આકારો"
+        },
+        "quantity": {
+            "clayBrick": "ક્લે બ્રિક/ફ્લાય એશ બ્રિક",
+            "aacBlock": "AAC/CLC બ્લોક",
+            "sandPlaster": "સેન્ડ પ્લાસ્ટર",
+            "gypsumPlaster": "જિપ્સમ / POP પ્લાસ્ટર"
+        },
+        "bonds": {
+            "stretcher": "સ્ટ્રેચર બોન્ડ",
+            "stretcherTitle": "સ્ટ્રેચર બોન્ડ",
+            "stretcherDetailedTitle": "સ્ટ્રેચર બોન્ડ વિગતવાર અહેવાલ",
+            "header": "હેડર બોન્ડ",
+            "headerTitle": "હેડર બોન્ડ",
+            "headerDetailedTitle": "હેડર બોન્ડ વિગતવાર અહેવાલ",
+            "english": "ઈંગ્લિશ બોન્ડ",
+            "englishTitle": "ઈંગ્લિશ બોન્ડ",
+            "englishDetailedTitle": "ઈંગ્લિશ બોન્ડ વિગતવાર અહેવાલ",
+            "flemish": "ફ્લેમિશ બોન્ડ",
+            "flemishTitle": "ફ્લેમિશ બોન્ડ",
+            "flemishDetailedTitle": "ફ્લેમિશ બોન્ડ વિગતવાર અહેવાલ",
+            "stack": "સ્ટેક બોન્ડ",
+            "dutch": "ઈંગ્લિશ ક્રોસ અથવા ડચ બોન્ડ",
+            "gardenWall": "ગાર્ડન વોલ બોન્ડ",
+            "brickToBrickJoint": "ઈંટ થી ઈંટનો સાંધો"
+        },
+        "closer": {
+            "king": "કિંગ ક્લોઝર",
+            "queen": "ક્વીન ક્લોઝર",
+            "halfBat": "હાફ બેટ ક્લોઝર",
+            "quarterBat": "ક્વાર્ટર બેટ ક્લોઝર"
+        },
+        "shapes": {
+            "byVolume": "કદ દ્વારા",
+            "byCube": "ઘન દ્વારા",
+            "byWall": "દિવાલ દ્વારા",
+            "lWall": "L દિવાલ",
+            "cWall": "C દિવાલ",
+            "rectangularChamber": "લંબચોરસ ચેમ્બર",
+            "wallWithDoor": "દરવાજા સાથેની દિવાલ",
+            "wallWithArcDoor": "આર્ક દરવાજા સાથેની દિવાલ",
+            "cavityWall": "કેવિટી વોલ",
+            "buttressWall": "બટ્રેસ વોલ"
+        },
+        "clayBrick": {
+            "title": "ક્લે બ્રિક / ફ્લાય એશ બ્રિક",
+            "detailedTitle": "ક્લે બ્રિક / ફ્લાય એશ બ્રિક વિગતવાર અહેવાલ",
+            "brickSize": "ઈંટનું માપ",
+            "wallSize": "દિવાલનું માપ",
+            "mortarRatio": "મોર્ટાર ગુણોત્તર",
+            "deductions": "કપાત",
+            "price": "કિંમત",
+            "brickLength": "લંબાઈ",
+            "brickWidth": "પહોળાઈ",
+            "brickThickness": "જાડાઈ",
+            "wallLength": "લંબાઈ",
+            "wallHeight": "ઊંચાઈ",
+            "wallThickness": "જાડાઈ",
+            "cement": "સિમેન્ટ",
+            "sand": "રેતી",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ઈંટ",
+            "cementPrice": "સિમેન્ટ",
+            "sandPrice": "રેતી",
+            "results": {
+                "volumeOfWall": "દિવાલનું કુલ કદ",
+                "noOfBricks": "ઈંટોની સંખ્યા",
+                "mortarDryVolume": "મોર્ટારનું ડ્રાય વોલ્યુમ",
+                "cementBags": "સિમેન્ટ બેગ (50kg)",
+                "sandVolume": "રેતી",
+                "brickCost": "ઈંટનો ખર્ચ",
+                "cementCost": "સિમેન્ટનો ખર્ચ",
+                "sandCost": "રેતીનો ખર્ચ",
+                "totalCost": "કુલ ખર્ચ"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC બ્લોક",
+            "detailedTitle": "AAC/CLC બ્લોક વિગતવાર અહેવાલ",
+            "brickSize": "બ્લોકનું માપ",
+            "wallSize": "દિવાલનું માપ",
+            "deductions": "કપાત",
+            "price": "કિંમત",
+            "brickLength": "લંબાઈ",
+            "brickWidth": "પહોળાઈ",
+            "brickThickness": "જાડાઈ",
+            "wallLength": "લંબાઈ",
+            "wallHeight": "ઊંચાઈ",
+            "wallThickness": "જાડાઈ",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "બ્લોક",
+            "results": {
+                "volumeOfWall": "દિવાલનું કુલ કદ",
+                "noOfBricks": "બ્લોકની સંખ્યા",
+                "brickCost": "બ્લોકનો ખર્ચ",
+                "totalCost": "કુલ ખર્ચ"
+            }
+        },
+        "sandPlaster": {
+            "title": "સેન્ડ પ્લાસ્ટર",
+            "detailedTitle": "સેન્ડ પ્લાસ્ટર વિગતવાર અહેવાલ",
+            "wallSize": "દિવાલનું માપ",
+            "mortarRatio": "મોર્ટાર ગુણોત્તર",
+            "price": "કિંમત",
+            "length": "લંબાઈ",
+            "width": "પહોળાઈ",
+            "thickness": "પ્લાસ્ટરની જાડાઈ",
+            "cement": "સિમેન્ટ",
+            "sand": "રેતી",
+            "cementPrice": "સિમેન્ટ",
+            "sandPrice": "રેતી",
+            "results": {
+                "plasterArea": "પ્લાસ્ટર વિસ્તાર",
+                "mortarDryVolume": "મોર્ટારનું ડ્રાય વોલ્યુમ",
+                "cementBags": "સિમેન્ટ બેગ (50kg)",
+                "sand": "રેતી",
+                "cementCost": "સિમેન્ટનો ખર્ચ",
+                "sandCost": "રેતીનો ખર્ચ",
+                "totalCost": "કુલ ખર્ચ"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "જિપ્સમ / POP પ્લાસ્ટર",
+            "detailedTitle": "જિપ્સમ / POP પ્લાસ્ટર વિગતવાર અહેવાલ",
+            "wallSize": "દિવાલનું માપ",
+            "price": "કિંમત",
+            "length": "લંબાઈ",
+            "width": "પહોળાઈ",
+            "thickness": "પ્લાસ્ટરની જાડાઈ",
+            "cement": "સિમેન્ટ",
+            "sand": "રેતી",
+            "results": {
+                "plasterArea": "પ્લાસ્ટર વિસ્તાર",
+                "plasterVolume": "પ્લાસ્ટરનું કદ",
+                "weightOfMaterial": "મટીરીયલનું વજન",
+                "noOfBags": "બેગની સંખ્યા (25 Kg)",
+                "materialCost": "મટીરીયલનો ખર્ચ",
+                "totalCost": "કુલ ખર્ચ"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "કદ દ્વારા",

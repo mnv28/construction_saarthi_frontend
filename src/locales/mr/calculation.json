@@ -339,6 +339,162 @@
             "cutting": "कटिंग लेंथ गणना UI लवकरच येत आहे..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "प्रमाण",
+            "bonds": "बाँड्स",
+            "closerQuantity": "क्लोजर प्रमाण",
+            "shapes": "आकार"
+        },
+        "quantity": {
+            "clayBrick": "क्ले ब्रिक / फ्लाय अॅश ब्रिक",
+            "aacBlock": "AAC/CLC ब्लॉक",
+            "sandPlaster": "वाळूचे प्लास्टर",
+            "gypsumPlaster": "जिप्सम / POP प्लास्टर"
+        },
+        "bonds": {
+            "stretcher": "स्ट्रेचर बाँड",
+            "stretcherTitle": "स्ट्रेचर बाँड",
+            "stretcherDetailedTitle": "स्ट्रेचर बाँड विस्तृत अहवाल",
+            "header": "हेडर बाँड",
+            "headerTitle": "हेडर बाँड",
+            "headerDetailedTitle": "हेडर बाँड विस्तृत अहवाल",
+            "english": "इंग्रजी बाँड",
+            "englishTitle": "इंग्रजी बाँड",
+            "englishDetailedTitle": "इंग्रजी बाँड विस्तृत अहवाल",
+            "flemish": "फ्लेमिश बाँड",
+            "flemishTitle": "फ्लेमिश बाँड",
+            "flemishDetailedTitle": "फ्लेमिश बाँड विस्तृत अहवाल",
+            "stack": "स्टॅक बाँड",
+            "dutch": "इंग्रजी क्रॉस किंवा डच बाँड",
+            "gardenWall": "गार्डन वॉल बाँड",
+            "brickToBrickJoint": "विटांपासून विटांचा सांधा"
+        },
+        "closer": {
+            "king": "किंग क्लोजर",
+            "queen": "क्वीन क्लोजर",
+            "halfBat": "हाफ बॅट क्लोजर",
+            "quarterBat": "क्वार्टर बॅट क्लोजर"
+        },
+        "shapes": {
+            "byVolume": "आयतनानुसार",
+            "byCube": "घनानुसार",
+            "byWall": "भिंतीनुसार",
+            "lWall": "L भिंत",
+            "cWall": "C भिंत",
+            "rectangularChamber": "आयताकार चेंबर",
+            "wallWithDoor": "दारासह भिंत",
+            "wallWithArcDoor": "आर्क दारासह भिंत",
+            "cavityWall": "कॅव्हिटी वॉल",
+            "buttressWall": "बट्रेस वॉल"
+        },
+        "clayBrick": {
+            "title": "क्ले ब्रिक / फ्लाय अॅश ब्रिक",
+            "detailedTitle": "क्ले ब्रिक / फ्लाय अॅश ब्रिक तपशीलवार अहवाल",
+            "brickSize": "विटेचा आकार",
+            "wallSize": "भिंतीचा आकार",
+            "mortarRatio": "मोर्टार गुणोत्तर",
+            "deductions": "वजावट",
+            "price": "किंमत",
+            "brickLength": "लांबी",
+            "brickWidth": "रुंदी",
+            "brickThickness": "जाडी",
+            "wallLength": "लांबी",
+            "wallHeight": "ऊंची",
+            "wallThickness": "जाडी",
+            "cement": "सिमेंट",
+            "sand": "वाळू",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "वीट",
+            "cementPrice": "सिमेंट",
+            "sandPrice": "वाळू",
+            "results": {
+                "volumeOfWall": "भिंतीचे आकारमान",
+                "noOfBricks": "विटांची संख्या",
+                "mortarDryVolume": "मोर्टार कोरडे आकारमान",
+                "cementBags": "सिमेंट बॅग (50kg)",
+                "sandVolume": "वाळूचे आकारमान",
+                "brickCost": "विटांचा खर्च",
+                "cementCost": "सिमेंटचा खर्च",
+                "sandCost": "वाळूचा खर्च",
+                "totalCost": "एकूण खर्च"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC ब्लॉक",
+            "detailedTitle": "AAC/CLC ब्लॉक तपशीलवार अहवाल",
+            "brickSize": "ब्लॉकचा आकार",
+            "wallSize": "भिंतीचा आकार",
+            "deductions": "वजावट",
+            "price": "किंमत",
+            "brickLength": "लांबी",
+            "brickWidth": "रुंदी",
+            "brickThickness": "जाडी",
+            "wallLength": "लांबी",
+            "wallHeight": "ऊंची",
+            "wallThickness": "जाडी",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ब्लॉक",
+            "results": {
+                "volumeOfWall": "भिंतीचे आकारमान",
+                "noOfBricks": "ब्लॉकची संख्या",
+                "brickCost": "ब्लॉकचा खर्च",
+                "totalCost": "एकूण खर्च"
+            }
+        },
+        "sandPlaster": {
+            "title": "वाळूचे प्लास्टर",
+            "detailedTitle": "वाळूचे प्लास्टर तपशीलवार अहवाल",
+            "wallSize": "भिंतीचा आकार",
+            "mortarRatio": "मोर्टार गुणोत्तर",
+            "price": "किंमत",
+            "length": "लांबी",
+            "width": "रुंदी",
+            "thickness": "प्लास्टरची जाडी",
+            "cement": "सिमेंट",
+            "sand": "वाळू",
+            "cementPrice": "सिमेंट",
+            "sandPrice": "वाळू",
+            "results": {
+                "plasterArea": "प्लास्टर क्षेत्रफळ",
+                "mortarDryVolume": "मोर्टार कोरडे आकारमान",
+                "cementBags": "सिमेंट बॅग (50kg)",
+                "sand": "वाळू",
+                "cementCost": "सिमेंटचा खर्च",
+                "sandCost": "वाळूचा खर्च",
+                "totalCost": "एकूण खर्च"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "जिप्सम / POP प्लास्टर",
+            "detailedTitle": "जिप्सम / POP प्लास्टर तपशीलवार अहवाल",
+            "wallSize": "भिंतीचा आकार",
+            "price": "किंमत",
+            "length": "लांबी",
+            "width": "रुंदी",
+            "thickness": "प्लास्टरची जाडी",
+            "cement": "सिमेंट",
+            "sand": "वाळू",
+            "results": {
+                "plasterArea": "प्लास्टर क्षेत्रफळ",
+                "plasterVolume": "प्लास्टर आकारमान",
+                "weightOfMaterial": "हित साहित्याचे वजन",
+                "noOfBags": "बॅगची संख्या (25 Kg)",
+                "materialCost": "साहित्याचा खर्च",
+                "totalCost": "एकूण खर्च"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "आयतनानुसार",

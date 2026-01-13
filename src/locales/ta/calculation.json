@@ -339,6 +339,162 @@
             "cutting": "வெட்டு நீளம் கணக்கீடு UI விரைவில்..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "அளவு",
+            "bonds": "பிணைப்புகள்",
+            "closerQuantity": "குளோசர் அளவு",
+            "shapes": "வடிவங்கள்"
+        },
+        "quantity": {
+            "clayBrick": "களிமண் செங்கல் / ஃபிளை ஆஷ் செங்கல்",
+            "aacBlock": "AAC/CLC பிளாக்",
+            "sandPlaster": "மணல் பூச்சு",
+            "gypsumPlaster": "ஜிப்சம் / POP பூச்சு"
+        },
+        "bonds": {
+            "stretcher": "ஸ்ட்ரெச்சர் பிணைப்பு",
+            "stretcherTitle": "ஸ்ட்ரெச்சர் பிணைப்பு",
+            "stretcherDetailedTitle": "ஸ்ட்ரெச்சர் பிணைப்பு விரிவான அறிக்கை",
+            "header": "ஹெடர் பிணைப்பு",
+            "headerTitle": "ஹெடர் பிணைப்பு",
+            "headerDetailedTitle": "ஹெடர் பிணைப்பு விரிவான அறிக்கை",
+            "english": "ஆங்கிலப் பிணைப்பு",
+            "englishTitle": "ஆங்கிலப் பிணைப்பு",
+            "englishDetailedTitle": "ஆங்கிலப் பிணைப்பு விரிவான அறிக்கை",
+            "flemish": "பிளெமிஷ் பிணைப்பு",
+            "flemishTitle": "பிளெமிஷ் பிணைப்பு",
+            "flemishDetailedTitle": "பிளெமிஷ் பிணைப்பு விரிவான அறிக்கை",
+            "stack": "ஸ்டாக் பிணைப்பு",
+            "dutch": "ஆங்கில கிராஸ் அல்லது டச்சு பிணைப்பு",
+            "gardenWall": "கார்டன் வால் பிணைப்பு",
+            "brickToBrickJoint": "செங்கல் முதல் செங்கல் இணைப்பு"
+        },
+        "closer": {
+            "king": "கிங் குளோசர்",
+            "queen": "குவீன் குளோசர்",
+            "halfBat": "ஹாஃப் பேட் குளோசர்",
+            "quarterBat": "குவார்ட்டர் பேட் குளோசர்"
+        },
+        "shapes": {
+            "byVolume": "கன அளவின் அடிப்படையில்",
+            "byCube": "கன சதுரத்தின் அடிப்படையில்",
+            "byWall": "சுவர் அடிப்படையில்",
+            "lWall": "L சுவர்",
+            "cWall": "C சுவர்",
+            "rectangularChamber": "செவ்வக அறை",
+            "wallWithDoor": "கதவுடன் கூடிய சுவர்",
+            "wallWithArcDoor": "வளைவு கதவுடன் கூடிய சுவர்",
+            "cavityWall": "கேவிட்டி வால்",
+            "buttressWall": "பட்ரஸ் வால்"
+        },
+        "clayBrick": {
+            "title": "களிமண் செங்கல் / ஃபிளை ஆஷ் செங்கல்",
+            "detailedTitle": "களிமண் செங்கல் / ஃபிளை ஆஷ் செங்கல் விரிவான அறிக்கை",
+            "brickSize": "செங்கல் அளவு",
+            "wallSize": "சுவர் அளவு",
+            "mortarRatio": "சாந்து விகிதம்",
+            "deductions": "கழிவுகள்",
+            "price": "விலை",
+            "brickLength": "நீளம்",
+            "brickWidth": "அகலம்",
+            "brickThickness": "தடிமன்",
+            "wallLength": "நீளம்",
+            "wallHeight": "உயரம்",
+            "wallThickness": "தடிமன்",
+            "cement": "சிமெண்ட்",
+            "sand": "மணல்",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "செங்கல்",
+            "cementPrice": "சிமெண்ட்",
+            "sandPrice": "மணல்",
+            "results": {
+                "volumeOfWall": "சுவரின் கன அளவு",
+                "noOfBricks": "செங்கற்களின் எண்ணிக்கை",
+                "mortarDryVolume": "சாந்து உலர் கன அளவு",
+                "cementBags": "சிமெண்ட் மூட்டைகள் (50kg)",
+                "sandVolume": "மணல் கன அளவு",
+                "brickCost": "செங்கல் செலவு",
+                "cementCost": "சிமெண்ட் செலவு",
+                "sandCost": "மணல் செலவு",
+                "totalCost": "மொத்த செலவு"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC பிளாக்",
+            "detailedTitle": "AAC/CLC பிளாக் விரிவான அறிக்கை",
+            "brickSize": "பிளாக் அளவு",
+            "wallSize": "சுவர் அளவு",
+            "deductions": "கழிவுகள்",
+            "price": "விலை",
+            "brickLength": "நீளம்",
+            "brickWidth": "அகலம்",
+            "brickThickness": "தடிமன்",
+            "wallLength": "நீளம்",
+            "wallHeight": "உயரம்",
+            "wallThickness": "தடிமன்",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "பிளாக்",
+            "results": {
+                "volumeOfWall": "சுவரின் கன அளவு",
+                "noOfBricks": "பிளாக்குகளின் எண்ணிக்கை",
+                "brickCost": "பிளாக் செலவு",
+                "totalCost": "மொத்த செலவு"
+            }
+        },
+        "sandPlaster": {
+            "title": "மணல் பூச்சு",
+            "detailedTitle": "மணல் பூச்சு விரிவான அறிக்கை",
+            "wallSize": "சுவர் அளவு",
+            "mortarRatio": "சாந்து விகிதம்",
+            "price": "விலை",
+            "length": "நீளம்",
+            "width": "அகலம்",
+            "thickness": "பூச்சின் தடிமன்",
+            "cement": "சிமெண்ட்",
+            "sand": "மணல்",
+            "cementPrice": "சிமெண்ட்",
+            "sandPrice": "மணல்",
+            "results": {
+                "plasterArea": "பூச்சு பரப்பளவு",
+                "mortarDryVolume": "சாந்து உலர் கன அளவு",
+                "cementBags": "சிமெண்ட் மூட்டைகள் (50kg)",
+                "sand": "மணல்",
+                "cementCost": "சிமெண்ட் செலவு",
+                "sandCost": "மணல் செலவு",
+                "totalCost": "மொத்த செலவு"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "ஜிப்சம் / POP பூச்சு",
+            "detailedTitle": "ஜிப்சம் / POP பூச்சு விரிவான அறிக்கை",
+            "wallSize": "சுவர் அளவு",
+            "price": "விலை",
+            "length": "நீளம்",
+            "width": "அகலம்",
+            "thickness": "பூச்சின் தடிமன்",
+            "cement": "சிமெண்ட்",
+            "sand": "மணல்",
+            "results": {
+                "plasterArea": "பூச்சு பரப்பளவு",
+                "plasterVolume": "பூச்சு கன அளவு",
+                "weightOfMaterial": "பொருளின் எடை",
+                "noOfBags": "மூட்டைகளின் எண்ணிக்கை (25 Kg)",
+                "materialCost": "பொருள் செலவு",
+                "totalCost": "மொத்த செலவு"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "கன அளவின் அடிப்படையில்",

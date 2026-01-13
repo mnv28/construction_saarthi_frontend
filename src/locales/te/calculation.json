@@ -337,6 +337,162 @@
             "cutting": "కటింగ్ పొడవు గణన UI త్వరలో వస్తుంది..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "పరిమాణం",
+            "bonds": "బాండ్లు",
+            "closerQuantity": "క్లోజర్ పరిమాణం",
+            "shapes": "ఆకారాలు"
+        },
+        "quantity": {
+            "clayBrick": "క్లే బ్రిక్ / ఫ్లై యాష్ బ్రిక్",
+            "aacBlock": "AAC/CLC బ్లాక్",
+            "sandPlaster": "ఇసుక ప్లాస్టరింగ్",
+            "gypsumPlaster": "జిప్సం / POP ప్లాస్టరింగ్"
+        },
+        "bonds": {
+            "stretcher": "స్ట్రెచర్ బాండ్",
+            "stretcherTitle": "స్ట్రెచర్ బాండ్",
+            "stretcherDetailedTitle": "స్ట్రెచర్ బాండ్ వివరణాత్మక నివేదిక",
+            "header": "హెడర్ బాండ్",
+            "headerTitle": "హెడర్ బాండ్",
+            "headerDetailedTitle": "హెడర్ బాండ్ వివరణాత్మక నివేదిక",
+            "english": "ఇంగ్లీష్ బాండ్",
+            "englishTitle": "ఇంగ్లీష్ బాండ్",
+            "englishDetailedTitle": "ఇంగ్లీష్ బాండ్ వివరణాత్మక నివేదిక",
+            "flemish": "ఫ్లెమిష్ బాండ్",
+            "flemishTitle": "ఫ్లెమిష్ బాండ్",
+            "flemishDetailedTitle": "ఫ్లెమిష్ బాండ్ వివరణాత్మక నివేదిక",
+            "stack": "స్టాక్ బాండ్",
+            "dutch": "ఇంగ్లీష్ క్రాస్ లేదా డచ్ బాండ్",
+            "gardenWall": "గార్డెన్ వాల్ బాండ్",
+            "brickToBrickJoint": "ఇటుక నుండి ఇటుక ఉమ్మడి"
+        },
+        "closer": {
+            "king": "కింగ్ క్లోజర్",
+            "queen": "క్వీన్ క్లోజర్",
+            "halfBat": "హాఫ్ బాట్ క్లోజర్",
+            "quarterBat": "క్వార్టర్ బాట్ క్లోజర్"
+        },
+        "shapes": {
+            "byVolume": "ఘనపరిమాణం ద్వారా",
+            "byCube": "క్యూబ్ ద్వారా",
+            "byWall": "గోడ ద్వారా",
+            "lWall": "L గోడ",
+            "cWall": "C గోడ",
+            "rectangularChamber": "రెక్టాంగ్యులర్ ఛాంబర్",
+            "wallWithDoor": "తలుపు ఉన్న గోడ",
+            "wallWithArcDoor": "ఆర్క్ తలుపు ఉన్న గోడ",
+            "cavityWall": "కావిటీ వాల్",
+            "buttressWall": "బట్రెస్ వాల్"
+        },
+        "clayBrick": {
+            "title": "క్లే బ్రిక్ / ఫ్లై యాష్ బ్రిక్",
+            "detailedTitle": "క్లే బ్రిక్ / ఫ్లై యాష్ బ్రిక్ వివరణాత్మక నివేదిక",
+            "brickSize": "ఇటుక పరిమాణం",
+            "wallSize": "గోడ పరిమాణం",
+            "mortarRatio": "మోర్టార్ నిష్పత్తి",
+            "deductions": "మినహాయింపులు",
+            "price": "ధర",
+            "brickLength": "పొడవు",
+            "brickWidth": "వెడల్పు",
+            "brickThickness": "మందం",
+            "wallLength": "పొడవు",
+            "wallHeight": "ఎత్తు",
+            "wallThickness": "మందం",
+            "cement": "సిమెంట్",
+            "sand": "ఇసుక",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ఇటుక",
+            "cementPrice": "సిమెంట్",
+            "sandPrice": "ఇసుక",
+            "results": {
+                "volumeOfWall": "గోడ ఘనపరిమాణం",
+                "noOfBricks": "ఇటుకల సంఖ్య",
+                "mortarDryVolume": "మోర్టార్ పొడి ఘనపరిమాణం",
+                "cementBags": "సిమెంట్ బ్యాగులు (50kg)",
+                "sandVolume": "ఇసుక ఘనపరిమాణం",
+                "brickCost": "ఇటుకల ఖర్చు",
+                "cementCost": "సిమెంట్ ఖర్చు",
+                "sandCost": "ఇసుక ఖర్చు",
+                "totalCost": "మొత్తం ఖర్చు"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC బ్లాక్",
+            "detailedTitle": "AAC/CLC బ్లాక్ వివరణాత్మక నివేదిక",
+            "brickSize": "బ్లాక్ పరిమాణం",
+            "wallSize": "గోడ పరిమాణం",
+            "deductions": "మినహాయింపులు",
+            "price": "ధర",
+            "brickLength": "పొడవు",
+            "brickWidth": "వెడల్పు",
+            "brickThickness": "మందం",
+            "wallLength": "పొడవు",
+            "wallHeight": "ఎత్తు",
+            "wallThickness": "మందం",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "బ్లాక్",
+            "results": {
+                "volumeOfWall": "గోడ ఘనపరిమాణం",
+                "noOfBricks": "బ్లాకుల సంఖ్య",
+                "brickCost": "బ్లాక్ ఖర్చు",
+                "totalCost": "మొత్తం ఖర్చు"
+            }
+        },
+        "sandPlaster": {
+            "title": "ఇసుక ప్లాస్టరింగ్",
+            "detailedTitle": "ఇసుక ప్లాస్టరింగ్ వివరణాత్మక నివేదిక",
+            "wallSize": "గోడ పరిమాణం",
+            "mortarRatio": "మోర్టార్ నిష్పత్తి",
+            "price": "ధర",
+            "length": "పొడవు",
+            "width": "వెడల్పు",
+            "thickness": "ప్లాస్టరింగ్ మందం",
+            "cement": "సిమెంట్",
+            "sand": "ఇసుక",
+            "cementPrice": "సిమెంట్",
+            "sandPrice": "ఇసుక",
+            "results": {
+                "plasterArea": "ప్లాస్టరింగ్ వైశాల్యం",
+                "mortarDryVolume": "మోర్టార్ పొడి ఘనపరిమాణం",
+                "cementBags": "సిమెంట్ బ్యాగులు (50kg)",
+                "sand": "ఇసుక",
+                "cementCost": "సిమెంట్ ఖర్చు",
+                "sandCost": "ఇసుక ఖర్చు",
+                "totalCost": "మొత్తం ఖర్చు"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "జిప్సం / POP ప్లాస్టరింగ్",
+            "detailedTitle": "జిప్సం / POP ప్లాస్టరింగ్ వివరణాత్మక నివేదిక",
+            "wallSize": "గోడ పరిమాణం",
+            "price": "ధర",
+            "length": "పొడవు",
+            "width": "వెడల్పు",
+            "thickness": "ప్లాస్టరింగ్ మందం",
+            "cement": "సిమెంట్",
+            "sand": "ఇసుక",
+            "results": {
+                "plasterArea": "ప్లాస్టరింగ్ వైశాల్యం",
+                "plasterVolume": "ప్లాస్టరింగ్ ఘనపరిమాణం",
+                "weightOfMaterial": "మెటీరియల్ బరువు",
+                "noOfBags": "బ్యాగుల సంఖ్య (25 Kg)",
+                "materialCost": "మెటీరియల్ ఖర్చు",
+                "totalCost": "మొత్తం ఖర్చు"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "ఘనపరిమాణం ద్వారా",

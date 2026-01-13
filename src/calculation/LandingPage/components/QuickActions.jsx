@@ -76,6 +76,9 @@ const QuickActions = () => {
         concrete: {
             path: '/calculation/concrete',
         },
+        brickWorkPlaster: {
+            path: '/calculation/brick-work-quantities',
+        },
     };
 
     const handleActionClick = (action) => {

@@ -9,7 +9,7 @@ export default function InputField({
     onUnitClick,
 }) {
 
-    // ✅ POSITIVE NUMBER HANDLER
+    //  POSITIVE NUMBER HANDLER
     const handleChange = (e) => {
         const val = e.target.value;
 

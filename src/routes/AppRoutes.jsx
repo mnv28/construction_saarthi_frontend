@@ -10,7 +10,7 @@ import Loader from '../components/ui/Loader';
 import { ROUTES_FLAT, ROUTES } from '../constants/routes';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import Layout from '../components/layout/Layout';
-import Settings from '../pages/Settings';
+
 
 // Lazy load components for better performance (important for 400+ screens)
 // Auth Routes
@@ -126,6 +126,7 @@ const ComingSoon = lazy(() => import('../calculation/common/ComingSoon'));
 // Calculation - Steel
 // Steel - LandingPage
 const SteelQuantities = lazy(() => import('../calculation/steel/LandingPage/pages/SteelQuantities'));
+const BrickWorkQuantities = lazy(() => import('../calculation/brickWorkAndPlaster/LandingPage/pages/BrickWorkQuantities'));
 
 // Steel - Weight
 const ReinforcementWeight = lazy(() => import('../calculation/steel/weight/pages/ReinforcementWeight'));
@@ -197,6 +198,24 @@ const ColumnRingType1 = lazy(() => import('../calculation/steel/column/pages/Col
 const ColumnRingType1Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnRingType1Detailed'));
 const ColumnRingType2 = lazy(() => import('../calculation/steel/column/pages/ColumnRingType2'));
 const ColumnRingType2Detailed = lazy(() => import('../calculation/steel/column/pages/ColumnRingType2Detailed'));
+
+// Calculation - Brick
+const ClayBrick = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/ClayBrick'));
+const ClayBrickDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/ClayBrickDetailed'));
+const AACBlock = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/AACBlock'));
+const AACBlockDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/AACBlockDetailed'));
+const SandPlaster = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/SandPlaster'));
+const SandPlasterDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/SandPlasterDetailed'));
+const GypsumPlaster = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/GypsumPlaster'));
+const GypsumPlasterDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/quantity/pages/GypsumPlasterDetailed'));
+const StretcherBond = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/StretcherBond'));
+const StretcherBondDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/StretcherBondDetailed'));
+const HeaderBond = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/HeaderBond'));
+const HeaderBondDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/HeaderBondDetailed'));
+const EnglishBond = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/EnglishBond'));
+const EnglishBondDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/EnglishBondDetailed'));
+const FlemishBond = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/FlemishBond'));
+const FlemishBondDetailed = lazy(() => import('../calculation/brickWorkAndPlaster/bond/pages/FlemishBondDetailed'));
 
 // Steel - Slab
 const SlabType1 = lazy(() => import('../calculation/steel/slab/pages/SlabType1'));
@@ -274,7 +293,7 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.PROJECT_DETAILS} element={<ProjectDetails />} />
             <Route path={ROUTES_FLAT.ADD_NEW_PROJECT} element={<AddNewProject />} />
             <Route path={ROUTES_FLAT.EDIT_PROJECT} element={<AddNewProject />} />
-            <Route path={ROUTES_FLAT.SETTINGS} element={<Settings />} />
+
             <Route path={ROUTES_FLAT.MEMBERS} element={<Members />} />
             <Route path={ROUTES_FLAT.MY_ACCOUNT} element={<MyAccount />} />
             <Route path={ROUTES_FLAT.MY_PROFILE} element={<MyProfile />} />
@@ -343,6 +362,7 @@ function AppRoutes() {
             {/* Calculation - Steel */}
             {/* Steel - LandingPage */}
             <Route path={ROUTES_FLAT.CALCULATION_STEEL_QUANTITIES} element={<SteelQuantities />} />
+            <Route path={ROUTES_FLAT.CALCULATION_BRICK_WORK_QUANTITIES} element={<BrickWorkQuantities />} />
 
             {/* Steel - Weight */}
             <Route path={ROUTES_FLAT.CALCULATION_REINFORCEMENT_WEIGHT} element={<ReinforcementWeight />} />
@@ -461,6 +481,24 @@ function AppRoutes() {
             {/* Concrete - Wall */}
             <Route path="/calculation/concrete/wall/shape1" element={<WallShape1 />} />
             <Route path="/calculation/concrete/wall/shape2" element={<WallShape2 />} />
+
+            {/* Calculation - Brick */}
+            <Route path={ROUTES_FLAT.CALCULATION_CLAY_BRICK} element={<ClayBrick />} />
+            <Route path={ROUTES_FLAT.CALCULATION_CLAY_BRICK_DETAILED} element={<ClayBrickDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_AAC_BLOCK} element={<AACBlock />} />
+            <Route path={ROUTES_FLAT.CALCULATION_AAC_BLOCK_DETAILED} element={<AACBlockDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_SAND_PLASTER} element={<SandPlaster />} />
+            <Route path={ROUTES_FLAT.CALCULATION_SAND_PLASTER_DETAILED} element={<SandPlasterDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_GYPSUM_PLASTER} element={<GypsumPlaster />} />
+            <Route path={ROUTES_FLAT.CALCULATION_GYPSUM_PLASTER_DETAILED} element={<GypsumPlasterDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_STRETCHER_BOND} element={<StretcherBond />} />
+            <Route path={ROUTES_FLAT.CALCULATION_STRETCHER_BOND_DETAILED} element={<StretcherBondDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_HEADER_BOND} element={<HeaderBond />} />
+            <Route path={ROUTES_FLAT.CALCULATION_HEADER_BOND_DETAILED} element={<HeaderBondDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_ENGLISH_BOND} element={<EnglishBond />} />
+            <Route path={ROUTES_FLAT.CALCULATION_ENGLISH_BOND_DETAILED} element={<EnglishBondDetailed />} />
+            <Route path={ROUTES_FLAT.CALCULATION_FLEMISH_BOND} element={<FlemishBond />} />
+            <Route path={ROUTES_FLAT.CALCULATION_FLEMISH_BOND_DETAILED} element={<FlemishBondDetailed />} />
           </Route>
         </Route>
 

@@ -181,7 +181,7 @@ const Sidebar = () => {
       labelKey: "sidebar.settings.settings",
       icon: Settings,
       activeIcon: Settings,
-      path: ROUTES_FLAT.SETTINGS,
+      path: "/settings",
     },
     {
       label: "Help",

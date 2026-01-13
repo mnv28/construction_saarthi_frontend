@@ -335,6 +335,162 @@
             "cutting": "कटिंग लेंथ गणना UI जल्द आवे वाला बा..."
         }
     },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "मात्रा",
+            "bonds": "बोंड",
+            "closerQuantity": "क्लोजर मात्रा",
+            "shapes": "आकार"
+        },
+        "quantity": {
+            "clayBrick": "क्ले ब्रिक/फ्लाई ऐश ब्रिक",
+            "aacBlock": "AAC/CLC ब्लॉक",
+            "sandPlaster": "बालू प्लास्टर",
+            "gypsumPlaster": "जिप्सम / POP प्लास्टर"
+        },
+        "bonds": {
+            "stretcher": "स्ट्रेचर बॉन्ड",
+            "stretcherTitle": "स्ट्रेचर बॉन्ड",
+            "stretcherDetailedTitle": "स्ट्रेचर बॉन्ड विस्तृत रिपोर्ट",
+            "header": "हेडर बॉन्ड",
+            "headerTitle": "हेडर बॉन्ड",
+            "headerDetailedTitle": "हेडर बॉन्ड विस्तृत रिपोर्ट",
+            "english": "इंग्लिश बॉन्ड",
+            "englishTitle": "इंग्लिश बॉन्ड",
+            "englishDetailedTitle": "इंग्लिश बॉन्ड विस्तृत रिपोर्ट",
+            "flemish": "फ्लेमिश बॉन्ड",
+            "flemishTitle": "फ्लेमिश बॉन्ड",
+            "flemishDetailedTitle": "फ्लेमिश बॉन्ड विस्तृत रिपोर्ट",
+            "stack": "स्टैक बॉन्ड",
+            "dutch": "इंग्लिश क्रॉस भा डच बॉन्ड",
+            "gardenWall": "गार्डन वॉल बॉन्ड",
+            "brickToBrickJoint": "ईंटा से ईंटा के जोड़"
+        },
+        "closer": {
+            "king": "किंग क्लोजर",
+            "queen": "क्वीन क्लोजर",
+            "halfBat": "हाफ बैट क्लोजर",
+            "quarterBat": "क्वार्टर बैट क्लोजर"
+        },
+        "shapes": {
+            "byVolume": "आयतन से",
+            "byCube": "घन से",
+            "byWall": "दीवार से",
+            "lWall": "L दीवार",
+            "cWall": "C दीवार",
+            "rectangularChamber": "आयताकार चैंबर",
+            "wallWithDoor": "केवाड़ी के साथ दीवार",
+            "wallWithArcDoor": "आर्क केवाड़ी के साथ दीवार",
+            "cavityWall": "कैविटी वॉल",
+            "buttressWall": "बट्रेस वॉल"
+        },
+        "clayBrick": {
+            "title": "क्ले ब्रिक / फ्लाई ऐश ब्रिक",
+            "detailedTitle": "क्ले ब्रिक / फ्लाई ऐश ब्रिक विस्तृत रिपोर्ट",
+            "brickSize": "ईंटा के आकार",
+            "wallSize": "दीवार के आकार",
+            "mortarRatio": "मसाला के अनुपात",
+            "deductions": "कटौती",
+            "price": "कीमत",
+            "brickLength": "लंबाई",
+            "brickWidth": "चौड़ाई",
+            "brickThickness": "मोटाई",
+            "wallLength": "लंबाई",
+            "wallHeight": "ऊंचाई",
+            "wallThickness": "मोटाई",
+            "cement": "सीमेंट",
+            "sand": "बालू",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ईंटा",
+            "cementPrice": "सीमेंट",
+            "sandPrice": "बालू",
+            "results": {
+                "volumeOfWall": "दीवार के आयतन",
+                "noOfBricks": "ईंटा के संख्या",
+                "mortarDryVolume": "मसाला के सूखा आयतन",
+                "cementBags": "सीमेंट के बोरा (50kg)",
+                "sandVolume": "बालू के आयतन",
+                "brickCost": "ईंटा के लागत",
+                "cementCost": "सीमेंट के लागत",
+                "sandCost": "बालू के लागत",
+                "totalCost": "कुल लागत"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC ब्लॉक",
+            "detailedTitle": "AAC/CLC ब्लॉक विस्तृत रिपोर्ट",
+            "brickSize": "ब्लॉक के आकार",
+            "wallSize": "दीवार के आकार",
+            "deductions": "कटौती",
+            "price": "कीमत",
+            "brickLength": "लंबाई",
+            "brickWidth": "चौड़ाई",
+            "brickThickness": "मोटाई",
+            "wallLength": "लंबाई",
+            "wallHeight": "ऊंचाई",
+            "wallThickness": "मोटाई",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "ब्लॉक",
+            "results": {
+                "volumeOfWall": "दीवार के आयतन",
+                "noOfBricks": "ब्लॉक के संख्या",
+                "brickCost": "ब्लॉक के लागत",
+                "totalCost": "कुल लागत"
+            }
+        },
+        "sandPlaster": {
+            "title": "बालू प्लास्टर",
+            "detailedTitle": "बालू प्लास्टर विस्तृत रिपोर्ट",
+            "wallSize": "दीवार के आकार",
+            "mortarRatio": "मसाला के अनुपात",
+            "price": "कीमत",
+            "length": "लंबाई",
+            "width": "चौड़ाई",
+            "thickness": "प्लास्टर के मोटाई",
+            "cement": "सीमेंट",
+            "sand": "बालू",
+            "cementPrice": "सीमेंट",
+            "sandPrice": "बालू",
+            "results": {
+                "plasterArea": "प्लास्टर के क्षेत्रफल",
+                "mortarDryVolume": "मसाला के सूखा आयतन",
+                "cementBags": "सीमेंट के बोरा (50kg)",
+                "sand": "बालू",
+                "cementCost": "सीमेंट के लागत",
+                "sandCost": "बालू के लागत",
+                "totalCost": "कुल लागत"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "जिप्सम / POP प्लास्टर",
+            "detailedTitle": "जिप्सम / POP प्लास्टर विस्तृत रिपोर्ट",
+            "wallSize": "दीवार के आकार",
+            "price": "कीमत",
+            "length": "लंबाई",
+            "width": "चौड़ाई",
+            "thickness": "प्लास्टर के मोटाई",
+            "cement": "सीमेंट",
+            "sand": "बालू",
+            "results": {
+                "plasterArea": "प्लास्टर के क्षेत्रफल",
+                "plasterVolume": "प्लास्टर के आयतन",
+                "weightOfMaterial": "सामग्री के वजन",
+                "noOfBags": "बोरा के संख्या (25 Kg)",
+                "materialCost": "सामग्री के लागत",
+                "totalCost": "कुल लागत"
+            }
+        }
+    },
     "concrete": {
         "sections": {
             "byVolume": "आयतन से",

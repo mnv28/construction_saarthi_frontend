@@ -336,6 +336,162 @@
       "cutting": "কাটিং লেংথ গণনা UI অতি সোনকালে আহিব..."
     }
   },
+  "brickWorkAndPlaster": {
+    "sections": {
+      "quantity": "পৰিমাণ",
+      "bonds": "বণ্ড",
+      "closerQuantity": "ক্লোজাৰ পৰিমাণ",
+      "shapes": "আকৃতি"
+    },
+    "quantity": {
+      "clayBrick": "মৃত্তিকাৰ ইটা / ফ্লাই অছ ইটা",
+      "aacBlock": "AAC/CLC ব্লক",
+      "sandPlaster": "বালিৰ প্লাষ্টাৰ",
+      "gypsumPlaster": "জিপচাম / POP প্লাষ্টাৰ"
+    },
+    "bonds": {
+      "stretcher": "ষ্ট্ৰেচাৰ বণ্ড",
+      "stretcherTitle": "ষ্ট্ৰেচাৰ বণ্ড",
+      "stretcherDetailedTitle": "ষ্ট্ৰেচাৰ বণ্ডৰ বিস্তৃত প্ৰতিবেদন",
+      "header": "হেডাৰ বণ্ড",
+      "headerTitle": "হেডাৰ বণ্ড",
+      "headerDetailedTitle": "হেডাৰ বণ্ডৰ বিস্তৃত প্ৰতিবেদন",
+      "english": "ইংলিছ বণ্ড",
+      "englishTitle": "ইংলিছ বণ্ড",
+      "englishDetailedTitle": "ইংলিছ বণ্ডৰ বিস্তৃত প্ৰতিবেদন",
+      "flemish": "ফ্লেমিছ বণ্ড",
+      "flemishTitle": "ফ্লেমিছ বণ্ড",
+      "flemishDetailedTitle": "ফ্লেমিছ বণ্ডৰ বিস্তৃত প্ৰতিবেদন",
+      "stack": "ষ্টেক বণ্ড",
+      "dutch": "ইংলিছ ক্ৰছ বা ডাচ বণ্ড",
+      "gardenWall": "গাৰ্ডেন ৱাল বণ্ড",
+      "brickToBrickJoint": "ইটাৰ পৰা ইটাৰ জোৰা"
+    },
+    "closer": {
+      "king": "কিং ক্লোজাৰ",
+      "queen": "কুইন ক্লোজাৰ",
+      "halfBat": "হাফ বেট ক্লোজাৰ",
+      "quarterBat": "কোৱাৰ্টাৰ বেট ক্লোজাৰ"
+    },
+    "shapes": {
+      "byVolume": "আয়তন অনুসৰি",
+      "byCube": "ঘন অনুসৰি",
+      "byWall": "দেৱাল অনুসৰি",
+      "lWall": "L দেৱাল",
+      "cWall": "C দেৱাল",
+      "rectangularChamber": "আয়তাকাৰ কক্ষ",
+      "wallWithDoor": "দুৱাৰ থকা দেৱাল",
+      "wallWithArcDoor": "আৰ্ক দুৱাৰ থকা দেৱাল",
+      "cavityWall": "কেভিটি ৱাল",
+      "buttressWall": "বাট্ৰেছ ৱাল"
+    },
+    "clayBrick": {
+      "title": "মৃত্তিকাৰ ইটা / ফ্লাই অছ ইটা",
+      "detailedTitle": "মৃত্তিকাৰ ইটা / ফ্লাই অছ ইটাৰ বিস্তৃত প্ৰতিবেদন",
+      "brickSize": "ইটাৰ জোখ",
+      "wallSize": "দেৱালৰ জোখ",
+      "mortarRatio": "মৰ্টাৰৰ অনুপাত",
+      "deductions": "বাদ দিয়া অংশ",
+      "price": "দাম",
+      "brickLength": "দৈৰ্ঘ্য",
+      "brickWidth": "প্ৰস্থ",
+      "brickThickness": "ডাঠতা",
+      "wallLength": "দৈৰ্ঘ্য",
+      "wallHeight": "উচ্চতা",
+      "wallThickness": "ডাঠতা",
+      "cement": "চিমেণ্ট",
+      "sand": "বালি",
+      "w1": "W1",
+      "h1": "H1",
+      "w2": "W2",
+      "h2": "H2",
+      "w3": "W3",
+      "h3": "H3",
+      "brickPrice": "ইটা",
+      "cementPrice": "চিমেণ্ট",
+      "sandPrice": "বালি",
+      "results": {
+        "volumeOfWall": "দেৱালৰ আয়তন",
+        "noOfBricks": "ইটাৰ সংখ্যা",
+        "mortarDryVolume": "মৰ্টাৰৰ শুকান আয়তন",
+        "cementBags": "চিমেণ্টৰ মোনা (৫০ কেজি)",
+        "sandVolume": "বালিৰ আয়তন",
+        "brickCost": "ইটাৰ খৰচ",
+        "cementCost": "চিমেণ্টৰ খৰচ",
+        "sandCost": "বালিৰ খৰচ",
+        "totalCost": "মুঠ খৰচ"
+      }
+    },
+    "aacBlock": {
+      "title": "AAC/CLC ব্লক",
+      "detailedTitle": "AAC/CLC ব্লকৰ বিস্তৃত প্ৰতিবেদন",
+      "brickSize": "ব্লকৰ জোখ",
+      "wallSize": "দেৱালৰ জোখ",
+      "deductions": "বাদ দিয়া অংশ",
+      "price": "দাম",
+      "brickLength": "দৈৰ্ঘ্য",
+      "brickWidth": "প্ৰস্থ",
+      "brickThickness": "ডাঠতা",
+      "wallLength": "দৈৰ্ঘ্য",
+      "wallHeight": "উচ্চতা",
+      "wallThickness": "ডাঠতা",
+      "w1": "W1",
+      "h1": "H1",
+      "w2": "W2",
+      "h2": "H2",
+      "w3": "W3",
+      "h3": "H3",
+      "brickPrice": "ব্লক",
+      "results": {
+        "volumeOfWall": "দেৱালৰ আয়তন",
+        "noOfBricks": "ব্লকৰ সংখ্যা",
+        "brickCost": "ব্লকৰ খৰচ",
+        "totalCost": "মুঠ খৰচ"
+      }
+    },
+    "sandPlaster": {
+      "title": "বালিৰ প্লাষ্টাৰ",
+      "detailedTitle": "বালিৰ প্লাষ্টাৰৰ বিস্তৃত প্ৰতিবেদন",
+      "wallSize": "দেৱালৰ জোখ",
+      "mortarRatio": "মৰ্টাৰৰ অনুপাত",
+      "price": "দাম",
+      "length": "দৈৰ্ঘ্য",
+      "width": "প্ৰস্থ",
+      "thickness": "প্লাষ্টাৰৰ ডাঠতা",
+      "cement": "চিমেণ্ট",
+      "sand": "বালি",
+      "cementPrice": "চিমেণ্ট",
+      "sandPrice": "বালি",
+      "results": {
+        "plasterArea": "প্লাষ্টাৰৰ ক্ষেত্ৰফল",
+        "mortarDryVolume": "মৰ্টাৰৰ শুকান আয়তন",
+        "cementBags": "চিমেণ্টৰ মোনা (৫০ কেজি)",
+        "sand": "বালি",
+        "cementCost": "চিমেণ্টৰ খৰচ",
+        "sandCost": "বালিৰ খৰচ",
+        "totalCost": "মুঠ খৰচ"
+      }
+    },
+    "gypsumPlaster": {
+      "title": "জিপচাম / POP প্লাষ্টাৰ",
+      "detailedTitle": "জিপচাম / POP প্লাষ্টাৰৰ বিস্তৃত প্ৰতিবেদন",
+      "wallSize": "দেৱালৰ জোখ",
+      "price": "দাম",
+      "length": "দৈৰ্ঘ্য",
+      "width": "প্ৰস্থ",
+      "thickness": "প্লাষ্টাৰৰ ডাঠতা",
+      "cement": "চিমেণ্ট",
+      "sand": "বালি",
+      "results": {
+        "plasterArea": "প্লাষ্টাৰৰ ক্ষেত্ৰফল",
+        "plasterVolume": "প্লাষ্টাৰৰ আয়তন",
+        "weightOfMaterial": "সামগ্ৰীৰ ওজন",
+        "noOfBags": "ব্যাগৰ সংখ্যা (২৫ কেজি)",
+        "materialCost": "সামগ্ৰীৰ খৰচ",
+        "totalCost": "মুঠ খৰচ"
+      }
+    }
+  },
   "concrete": {
     "sections": {
       "byVolume": "আয়তন অনুসাৰে",

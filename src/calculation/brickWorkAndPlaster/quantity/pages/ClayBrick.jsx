@@ -1,0 +1,445 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Share2, Download, History as HistoryIcon } from 'lucide-react';
+import PageHeader from '../../../../components/layout/PageHeader';
+import Button from '../../../../components/ui/Button';
+import { ROUTES_FLAT } from '../../../../constants/routes';
+import InputField from '../../../common/InputField';
+import DownloadPDFModal from '../../../common/DownloadPDFModal';
+
+// Import icons
+import clayBrickQt from '../../../../assets/icons/clayBrickQt.svg';
+
+const ClayBrick = () => {
+    const navigate = useNavigate();
+    const { t } = useTranslation('calculation');
+
+    // Brick Size (mm)
+    const [brickL, setBrickL] = useState('');
+    const [brickW, setBrickW] = useState('');
+    const [brickT, setBrickT] = useState('');
+
+    // Wall Size (m)
+    const [wallL, setWallL] = useState('');
+    const [wallH, setWallH] = useState('');
+    const [wallT, setWallT] = useState('');
+
+    // Mortar Ratio
+    const [cementRatio, setCementRatio] = useState('');
+    const [sandRatio, setSandRatio] = useState('');
+
+    // Deductions (m)
+    const [w1, setW1] = useState('');
+    const [h1, setH1] = useState('');
+    const [w2, setW2] = useState('');
+    const [h2, setH2] = useState('');
+    const [w3, setW3] = useState('');
+    const [h3, setH3] = useState('');
+
+    // Price
+    const [brickPrice, setBrickPrice] = useState('');
+    const [cementPrice, setCementPrice] = useState('');
+    const [sandPrice, setSandPrice] = useState('');
+
+    const [showResult, setShowResult] = useState(false);
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+
+    // Calculation Logic
+    const L_m = (parseFloat(brickL) || 0) / 1000;
+    const W_m = (parseFloat(brickW) || 0) / 1000;
+    const T_m = (parseFloat(brickT) || 0) / 1000;
+
+    const l = parseFloat(wallL) || 0;
+    const h = parseFloat(wallH) || 0;
+    const t_wall = parseFloat(wallT) || 0;
+
+    const c = parseFloat(cementRatio) || 0;
+    const s = parseFloat(sandRatio) || 0;
+
+    const W1 = parseFloat(w1) || 0;
+    const H1 = parseFloat(h1) || 0;
+    const W2 = parseFloat(w2) || 0;
+    const H2 = parseFloat(h2) || 0;
+    const W3 = parseFloat(w3) || 0;
+    const H3 = parseFloat(h3) || 0;
+
+    const B1 = parseFloat(brickPrice) || 0;
+    const C1 = parseFloat(cementPrice) || 0;
+    const S1 = parseFloat(sandPrice) || 0;
+
+    // Volume of Wall = (lxhxt)-(W1XH1xt+W2xH2xt+W3xH3xt)
+    const volumeOfWall = (l * h * t_wall) - (W1 * H1 * t_wall + W2 * H2 * t_wall + W3 * H3 * t_wall);
+
+    // No of Bricks = V / ((L+0.01)xwx(T+0.01))
+    // Assuming 0.01m (10mm) is mortar thickness
+    const brickWithMortarVol = (L_m + 0.01) * W_m * (T_m + 0.01);
+    const noOfBricks = brickWithMortarVol > 0 ? volumeOfWall / brickWithMortarVol : 0;
+
+    // Mortar Dry Volume = (V - (N * L * W * T)) * 1.42
+    const totalBrickVolWithoutMortar = noOfBricks * L_m * W_m * T_m;
+    const mortarDryVolume = (volumeOfWall - totalBrickVolWithoutMortar) * 1.42;
+
+    // Cement Bags (50kg) = (c * DryVol) / ((c+s) * 0.035)
+    const cementBags = (c + s) > 0 ? (c * mortarDryVolume) / ((c + s) * 0.035) : 0;
+
+    // Sand Volume = (s * DryVol) / (c+s)
+    const sandVolume = (c + s) > 0 ? (s * mortarDryVolume) / (c + s) : 0;
+
+    // Costs
+    const brickCostVal = noOfBricks * B1;
+    const cementCostVal = cementBags * C1;
+    const sandCostVal = sandVolume * S1;
+    const totalCostVal = brickCostVal + cementCostVal + sandCostVal;
+
+    const handleReset = () => {
+        setBrickL(''); setBrickW(''); setBrickT('');
+        setWallL(''); setWallH(''); setWallT('');
+        setCementRatio(''); setSandRatio('');
+        setW1(''); setH1(''); setW2(''); setH2(''); setW3(''); setH3('');
+        setBrickPrice(''); setCementPrice(''); setSandPrice('');
+        setShowResult(false);
+    };
+
+    const handleCalculate = () => {
+        setShowResult(true);
+    };
+
+    const handleDownload = async (pdfTitle) => {
+        try {
+            setIsDownloading(true);
+            console.log('Downloading PDF with title:', pdfTitle);
+            // Simulate download delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+        } catch (error) {
+            console.error('Download failed:', error);
+        } finally {
+            setIsDownloading(false);
+            setIsDownloadModalOpen(false);
+        }
+    };
+
+    const calculationData = [
+        { labelKey: 'brickWorkAndPlaster.clayBrick.brickLength', symbol: 'L', value: `${brickL} mm` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.brickWidth', symbol: 'W', value: `${brickW} mm` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.brickThickness', symbol: 'T', value: `${brickT} mm` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.wallLength', symbol: 'l', value: `${wallL} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.wallHeight', symbol: 'h', value: `${wallH} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.wallThickness', symbol: 't', value: `${wallT} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.cement', symbol: 'c', value: cementRatio },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.sand', symbol: 's', value: sandRatio },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.w1', symbol: 'W1', value: `${w1} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.h1', symbol: 'H1', value: `${h1} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.w2', symbol: 'W2', value: `${w2} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.h2', symbol: 'H2', value: `${h2} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.w3', symbol: 'W3', value: `${w3} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.h3', symbol: 'H3', value: `${h3} m` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.brickPrice', symbol: 'B1', value: `${brickPrice} currency per unit` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.cementPrice', symbol: 'C1', value: `${cementPrice} currency` },
+        { labelKey: 'brickWorkAndPlaster.clayBrick.sandPrice', symbol: 'S1', value: `${sandPrice} currency per unit` },
+    ];
+
+    const detailedOutputs = [
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.volumeOfWall',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.volumeOfWall',
+            labelSuffix: '=',
+            formula: '(lxhxt)-(W1XH1xt+W2xH2xt+W3xH3xt)',
+            value: `${volumeOfWall.toFixed(3)} m³`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.noOfBricks',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.noOfBricks',
+            labelSuffix: '=',
+            formula: 'V / ((L+0.01)xwx(T+0.01))',
+            value: `${noOfBricks.toFixed(3)} NOS`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.mortarDryVolume',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.mortarDryVolume',
+            labelSuffix: '=',
+            formula: '(V - (N x L x W x T)) x 1.42',
+            value: `${mortarDryVolume.toFixed(3)} m³`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.cementBags',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.cementBags',
+            labelSuffix: '=',
+            formula: '(c * DryVol) / ((c+s) * 0.035)',
+            value: `${cementBags.toFixed(3)} NOS`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.sandVolume',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.sandVolume',
+            labelSuffix: '=',
+            formula: '(s * DryVol) / (c+s)',
+            value: `${sandVolume.toFixed(3)} m³`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.brickCost',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.brickCost',
+            labelSuffix: '=',
+            formula: 'B1 * No of Bricks',
+            value: `₹ ${brickCostVal.toFixed(3)}`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.cementCost',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.cementCost',
+            labelSuffix: '=',
+            formula: 'C1 * Cement Bags',
+            value: `₹ ${cementCostVal.toFixed(3)}`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.sandCost',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.sandCost',
+            labelSuffix: '=',
+            formula: 'S1 * Sand Volume',
+            value: `₹ ${sandCostVal.toFixed(3)}`
+        },
+        {
+            titleKey: 'brickWorkAndPlaster.clayBrick.results.totalCost',
+            labelKey: 'brickWorkAndPlaster.clayBrick.results.totalCost',
+            labelSuffix: '=',
+            formula: 'Brick Cost + Cement Cost + Sand Cost',
+            value: `₹ ${totalCostVal.toFixed(3)}`
+        }
+    ];
+
+    return (
+        <div className="min-h-screen max-w-7xl mx-auto pb-20">
+            <div className="mb-6">
+                <PageHeader
+                    title={t('brickWorkAndPlaster.clayBrick.title')}
+                    showBackButton
+                    onBack={() => navigate(-1)}
+                >
+                    <div className="flex gap-4 items-center">
+                        <Button
+                            variant="secondary"
+                            onClick={() => setIsDownloadModalOpen(true)}
+                            className="border-[#E0E0E0] rounded-xl text-secondary !px-2 sm:!px-4 py-2"
+                            leftIcon={<Download className="w-4 h-4 text-secondary " />}
+                        >
+                            <span className="text-sm font-medium">{t('history.downloadReport')}</span>
+                        </Button>
+                    </div>
+                </PageHeader>
+            </div>
+
+            <div className="bg-[#F9F4EE] rounded-3xl p-4 sm:p-6">
+                <div className="flex items-center gap-4 sm:gap-10 pb-6 border-b border-[#060C120A]">
+                    <div className="flex items-center justify-center">
+                        <img src={clayBrickQt} alt="Clay Brick" className="object-contain" />
+                    </div>
+                </div>
+
+                <div className="space-y-4 pt-4">
+                    {/* Brick Size */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('brickWorkAndPlaster.clayBrick.brickSize')}</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                            <InputField
+                                unit="mm"
+                                value={brickL}
+                                onChange={(e) => setBrickL(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.brickLength')}
+                            />
+                            <InputField
+                                unit="mm"
+                                value={brickW}
+                                onChange={(e) => setBrickW(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.brickWidth')}
+                            />
+                            <div className="col-span-2 md:col-span-1">
+                                <InputField
+                                    unit="mm"
+                                    value={brickT}
+                                    onChange={(e) => setBrickT(e.target.value)}
+                                    placeholder={t('brickWorkAndPlaster.clayBrick.brickThickness')}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Wall Size */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('brickWorkAndPlaster.clayBrick.wallSize')}</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                            <InputField
+                                unit="m"
+                                value={wallL}
+                                onChange={(e) => setWallL(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.wallLength')}
+                            />
+                            <InputField
+                                unit="m"
+                                value={wallH}
+                                onChange={(e) => setWallH(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.wallHeight')}
+                            />
+                            <div className="col-span-2 md:col-span-1">
+                                <InputField
+                                    unit="m"
+                                    value={wallT}
+                                    onChange={(e) => setWallT(e.target.value)}
+                                    placeholder={t('brickWorkAndPlaster.clayBrick.wallThickness')}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mortar Ratio */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('brickWorkAndPlaster.clayBrick.mortarRatio')}</h3>
+                        <div className="grid grid-cols-2 gap-2 md:gap-4">
+                            <InputField
+                                value={cementRatio}
+                                onChange={(e) => setCementRatio(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.cement')}
+                            />
+                            <InputField
+                                value={sandRatio}
+                                onChange={(e) => setSandRatio(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.sand')}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Deductions */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('brickWorkAndPlaster.clayBrick.deductions')}</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                            <div className="order-1 md:order-1">
+                                <InputField unit="m" value={w1} onChange={(e) => setW1(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.w1')} />
+                            </div>
+                            <div className="order-2 md:order-4">
+                                <InputField unit="m" value={h1} onChange={(e) => setH1(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.h1')} />
+                            </div>
+                            <div className="order-3 md:order-2">
+                                <InputField unit="m" value={w2} onChange={(e) => setW2(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.w2')} />
+                            </div>
+                            <div className="order-4 md:order-5">
+                                <InputField unit="m" value={h2} onChange={(e) => setH2(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.h2')} />
+                            </div>
+                            <div className="order-5 md:order-3">
+                                <InputField unit="m" value={w3} onChange={(e) => setW3(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.w3')} />
+                            </div>
+                            <div className="order-6 md:order-6">
+                                <InputField unit="m" value={h3} onChange={(e) => setH3(e.target.value)} placeholder={t('brickWorkAndPlaster.clayBrick.h3')} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Price */}
+                    <div className="space-y-2">
+                        <h3 className="font-medium text-primary ml-1">{t('brickWorkAndPlaster.clayBrick.price')}</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+                            <InputField
+                                suffix="₹/Unit"
+                                value={brickPrice}
+                                onChange={(e) => setBrickPrice(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.brickPrice')}
+                            />
+                            <InputField
+                                suffix="₹"
+                                value={cementPrice}
+                                onChange={(e) => setCementPrice(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.cementPrice')}
+                            />
+                            <InputField
+                                suffix="₹/Unit"
+                                value={sandPrice}
+                                onChange={(e) => setSandPrice(e.target.value)}
+                                placeholder={t('brickWorkAndPlaster.clayBrick.sandPrice')}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex justify-end gap-3 sm:gap-6 mt-10">
+                    <Button
+                        variant="secondary"
+                        onClick={handleReset}
+                        className="h-[50px] sm:h-[58px] flex-1 sm:flex-none px-6 sm:px-12 bg-white border-[#E7D7C1] !rounded-2xl text-primary font-medium text-sm sm:text-base"
+                    >
+                        {t('steel.weight.reset')}
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={handleCalculate}
+                        className="h-[50px] sm:h-[58px] flex-1 sm:flex-none px-6 sm:px-12 !bg-[#B02E0C] text-white !rounded-2xl font-medium text-sm sm:text-base"
+                    >
+                        {t('steel.weight.calculate')}
+                    </Button>
+                </div>
+            </div>
+
+            {showResult && (
+                <div className="mt-10 animate-fade-in pb-10">
+                    <h2 className="text-2xl font-semibold text-primary mb-6">{t('steel.weight.result')}</h2>
+
+                    <div className="bg-white rounded-xl border border-[#060C121A] overflow-hidden mb-8 overflow-x-auto">
+                        <table className="w-full text-left border-collapse min-w-[320px]">
+                            <thead>
+                                <tr className="bg-[#F7F7F7] border-b border-[#060C120A]">
+                                    <th className="px-6 py-4 text-sm font-medium text-primary border-r border-[#060C120A]">{t('history.headers.material')}</th>
+                                    <th className="px-6 py-4 text-sm font-medium text-primary border-r border-[#060C120A]">{t('history.headers.quantity')}</th>
+                                    <th className="px-6 py-4 text-sm font-medium text-primary">{t('history.headers.unit')}</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#060C120A]">
+                                {[
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.volumeOfWall'), quantity: volumeOfWall.toFixed(3), unit: 'm³' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.noOfBricks'), quantity: noOfBricks.toFixed(3), unit: 'NOS' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.mortarDryVolume'), quantity: mortarDryVolume.toFixed(3), unit: 'm³' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.cementBags'), quantity: cementBags.toFixed(3), unit: 'NOS' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.sandVolume'), quantity: sandVolume.toFixed(3), unit: 'm³' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.brickCost'), quantity: brickCostVal.toFixed(3), unit: '₹' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.cementCost'), quantity: cementCostVal.toFixed(3), unit: '₹' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.sandCost'), quantity: sandCostVal.toFixed(3), unit: '₹' },
+                                    { material: t('brickWorkAndPlaster.clayBrick.results.totalCost'), quantity: totalCostVal.toFixed(3), unit: '₹' },
+                                ].map((row, index) => (
+                                    <tr key={index} className="hover:bg-[#F9F9F9] transition-colors">
+                                        <td className="px-6 py-4 text-sm text-primary border-r border-[#060C120A]">{row.material}</td>
+                                        <td className="px-6 py-4 text-sm text-primary border-r border-[#060C120A]">{row.quantity}</td>
+                                        <td className="px-6 py-4 text-sm text-primary">{row.unit}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-[#FDF9F4] p-4 rounded-2xl flex items-center justify-between border border-[#F5E6D3] h-[58px]">
+                            <span className="font-medium text-primary uppercase text-sm tracking-wider">{t('brickWorkAndPlaster.clayBrick.results.totalCost')}</span>
+                            <span className="font-bold text-accent text-xl">₹{totalCostVal.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span>
+                        </div>
+                        <Button
+                            variant="primary"
+                            onClick={() => navigate(ROUTES_FLAT.CALCULATION_CLAY_BRICK_DETAILED, {
+                                state: {
+                                    calculationData,
+                                    outputs: detailedOutputs
+                                }
+                            })}
+                            className="!rounded-2xl text-lg font-medium hover:bg-[#B02E0C] transition-all h-[58px]"
+                        >
+                            {t('steel.weight.viewDetailed')}
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            <DownloadPDFModal
+                isOpen={isDownloadModalOpen}
+                onClose={() => setIsDownloadModalOpen(false)}
+                onDownload={handleDownload}
+                defaultTitle={t('brickWorkAndPlaster.clayBrick.detailedTitle')}
+                isLoading={isDownloading}
+            />
+        </div>
+    );
+};
+
+export default ClayBrick;

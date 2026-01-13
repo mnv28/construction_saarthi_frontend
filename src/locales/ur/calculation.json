@@ -332,7 +332,163 @@
         "comingSoon": {
             "beam": "بیم کیلکولیشن UI جلد آ رہا ہے...",
             "slab": "سلیب کیلکولیشن UI جلد آ رہا ہے...",
-            "cutting": "کٹنگ کی لمبائی کیلکولیشن UI جلد آ رہا ہے..."
+            "cutting": "کٹিং کی لمبائی کیلکولیشن UI جلد آ رہا ہے..."
+        }
+    },
+    "brickWorkAndPlaster": {
+        "sections": {
+            "quantity": "مقدار",
+            "bonds": "بانڈز",
+            "closerQuantity": "کلوزر کی مقدار",
+            "shapes": "اشکال"
+        },
+        "quantity": {
+            "clayBrick": "مٹی کی اینٹ / فلائی ایش اینٹ",
+            "aacBlock": "AAC/CLC بلاک",
+            "sandPlaster": "ریت کا پلستر",
+            "gypsumPlaster": "جپسم / POP پلستر"
+        },
+        "bonds": {
+            "stretcher": "سٹریچر بانڈ",
+            "stretcherTitle": "سٹریچر بانڈ",
+            "stretcherDetailedTitle": "سٹریچر بانڈ کی تفصیلی رپورٹ",
+            "header": "ہیڈر بانڈ",
+            "headerTitle": "ہیڈر بانڈ",
+            "headerDetailedTitle": "ہیڈر بانڈ کی تفصیلی رپورٹ",
+            "english": "انگلش بانڈ",
+            "englishTitle": "انگلش بانڈ",
+            "englishDetailedTitle": "انگلش بانڈ کی تفصیلی رپورٹ",
+            "flemish": "فلیمش بانڈ",
+            "flemishTitle": "فلیمش بانڈ",
+            "flemishDetailedTitle": "فلیمش بانڈ کی تفصیلی رپورٹ",
+            "stack": "سٹیک بانڈ",
+            "dutch": "انگلش کراس یا ڈچ بانڈ",
+            "gardenWall": "گارڈن وال بانڈ",
+            "brickToBrickJoint": "اینٹ سے اینٹ کا جوڑ"
+        },
+        "closer": {
+            "king": "キング کلوزر",
+            "queen": "کوئین کلوزر",
+            "halfBat": "آدھی اینٹ کا کلوزر",
+            "quarterBat": "پونی اینٹ کا کلوزر"
+        },
+        "shapes": {
+            "byVolume": "بلحاظ حجم",
+            "byCube": "بلحاظ مکعب",
+            "byWall": "بلحاظ دیوار",
+            "lWall": "L دیوار",
+            "cWall": "C دیوار",
+            "rectangularChamber": "مستطیل چیمبر",
+            "wallWithDoor": "دروازے والی دیوار",
+            "wallWithArcDoor": "مہراب دار دروازے والی دیوار",
+            "cavityWall": "کیویٹی وال",
+            "buttressWall": "بٹریس وال"
+        },
+        "clayBrick": {
+            "title": "مٹی کی اینٹ / فلائی ایش اینٹ",
+            "detailedTitle": "مٹی کی اینٹ / فلائی ایش اینٹ کی تفصیلی رپورٹ",
+            "brickSize": "اینٹ کا سائز",
+            "wallSize": "دیوار کا سائز",
+            "mortarRatio": "مسالہ کا تناسب",
+            "deductions": "کٹوتی",
+            "price": "قیمت",
+            "brickLength": "لمبائی",
+            "brickWidth": "چوڑائی",
+            "brickThickness": "موٹائی",
+            "wallLength": "لمبائی",
+            "wallHeight": "اونچائی",
+            "wallThickness": "موٹائی",
+            "cement": "سیمنٹ",
+            "sand": "ریت",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "اینٹ",
+            "cementPrice": "سیمنٹ",
+            "sandPrice": "ریت",
+            "results": {
+                "volumeOfWall": "دیوار کا حجم",
+                "noOfBricks": "اینٹوں کی تعداد",
+                "mortarDryVolume": "مسالہ کا خشک حجم",
+                "cementBags": "سیمنٹ کی بوریاں (50kg)",
+                "sandVolume": "ریت کا حجم",
+                "brickCost": "اینٹوں کی لاگت",
+                "cementCost": "سیمنٹ کی لاگت",
+                "sandCost": "ریت کی لاگت",
+                "totalCost": "کل لاگت"
+            }
+        },
+        "aacBlock": {
+            "title": "AAC/CLC بلاک",
+            "detailedTitle": "AAC/CLC بلاک کی تفصیلی رپورٹ",
+            "brickSize": "بلاک کا سائز",
+            "wallSize": "دیوار کا سائز",
+            "deductions": "کٹوتی",
+            "price": "قیمت",
+            "brickLength": "لمبائی",
+            "brickWidth": "چوڑائی",
+            "brickThickness": "موٹائی",
+            "wallLength": "لمبائی",
+            "wallHeight": "اونچائی",
+            "wallThickness": "موٹائی",
+            "w1": "W1",
+            "h1": "H1",
+            "w2": "W2",
+            "h2": "H2",
+            "w3": "W3",
+            "h3": "H3",
+            "brickPrice": "بلاک",
+            "results": {
+                "volumeOfWall": "دیوار کا حجم",
+                "noOfBricks": "بلاکوں کی تعداد",
+                "brickCost": "بلاک کی لاگت",
+                "totalCost": "کل لاگت"
+            }
+        },
+        "sandPlaster": {
+            "title": "ریت کا پلستر",
+            "detailedTitle": "ریت کا پلستر کی تفصیلی رپورٹ",
+            "wallSize": "دیوار کا سائز",
+            "mortarRatio": "مسالہ کا تناسب",
+            "price": "قیمت",
+            "length": "لمبائی",
+            "width": "چوڑائی",
+            "thickness": "پلستر کی موٹائی",
+            "cement": "سیمنٹ",
+            "sand": "ریت",
+            "cementPrice": "سیمنٹ",
+            "sandPrice": "ریت",
+            "results": {
+                "plasterArea": "پلستر کا رقبہ",
+                "mortarDryVolume": "مسالہ کا خشک حجم",
+                "cementBags": "سیمنٹ کی بوریاں (50kg)",
+                "sand": "ریت",
+                "cementCost": "سیمنٹ کی لاگت",
+                "sandCost": "ریت کی لاگت",
+                "totalCost": "کل لاگت"
+            }
+        },
+        "gypsumPlaster": {
+            "title": "جپسم / POP پلستر",
+            "detailedTitle": "جپسم / POP پلستر کی تفصیلی رپورٹ",
+            "wallSize": "دیوار کا سائز",
+            "price": "قیمت",
+            "length": "لمبائی",
+            "width": "چوڑائی",
+            "thickness": "پلستر کی موٹائی",
+            "cement": "سیمنٹ",
+            "sand": "ریت",
+            "results": {
+                "plasterArea": "پلستر کا رقبہ",
+                "plasterVolume": "پلستر کا حجم",
+                "weightOfMaterial": "مواد کا وزن",
+                "noOfBags": "بوریوں کی تعداد (25 Kg)",
+                "materialCost": "مواد کی لاگت",
+                "totalCost": "کل لاگت"
+            }
         }
     },
     "concrete": {

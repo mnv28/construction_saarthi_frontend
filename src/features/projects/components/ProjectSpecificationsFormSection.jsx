@@ -93,6 +93,7 @@ function ProjectSpecificationsFormSection({
             label={t('addNewProject.form.constructionType')}
             value={constructionType}
             onChange={onConstructionTypeChange}
+            required
             placeholder={isLoadingConstructionTypes ? t('addNewProject.form.loading') : t('addNewProject.form.selectType')}
             options={constructionTypeOptions}
             error={errors.constructionType?.message}
@@ -121,6 +122,7 @@ function ProjectSpecificationsFormSection({
             label={t('addNewProject.form.contractType')}
             value={contractType}
             onChange={onContractTypeChange}
+            required
             placeholder={isLoadingContractTypes ? t('addNewProject.form.loading') : t('addNewProject.form.selectType')}
             options={contractTypeOptions}
             error={errors.contractType?.message}
@@ -139,6 +141,10 @@ function ProjectSpecificationsFormSection({
           type="number"
           placeholder={t('addNewProject.form.currencyPlaceholder')}
           register={register}
+          required
+          validationRules={{
+            required: t("addNewProject.validation.estimatedBudgetRequired") || "Estimated budget is required",
+          }}
           errors={errors}
           labelClassName="text-primary font-normal"
         />
@@ -157,7 +163,7 @@ function ProjectSpecificationsFormSection({
 
       {/* Actions */}
       <div className="mt-6 flex justify-end gap-3">
-        {onBack && (
+        {/* {onBack && (
           <Button
             type="button"
             variant="secondary"
@@ -167,7 +173,7 @@ function ProjectSpecificationsFormSection({
           >
             {t('common.back', { defaultValue: 'Back' })}
           </Button>
-        )}
+        )} */}
         {onCancel && (
           <Button
             type="button"

@@ -1,65 +1,47 @@
-/**
- * Add-ons Component
- * Displays add-ons for members and calculations
- */
-
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { User, Plus, Minus } from 'lucide-react';
-import Button from '../../../components/ui/Button';
+import { PlusCircle, Plus, Minus, ChevronRight } from 'lucide-react';
 import AddMemberModal from './AddMemberModal';
 import { useSubscriptions } from '../hooks';
 import { getWorkspaceMembers } from '../../auth/api';
 import { useAuth } from '../../auth/store';
 import { showError } from '../../../utils/toast';
 import { ROUTES_FLAT } from '../../../constants/routes';
+import { updateAddon } from '../api/subscriptionApi';
+import addCircleIcon from "../../../assets/icons/Add Circle.svg";
 
 export default function AddOns({ onCalculationChange, onUsersChange }) {
   const { t } = useTranslation('subscription');
   const navigate = useNavigate();
   const { selectedWorkspace } = useAuth();
-  const { subscriptions } = useSubscriptions();
-  const [calculationQuantity, setCalculationQuantity] = useState(25); // Default 25
+  const {
+    subscriptions,
+    purchasedPlan,
+    hasActiveSubscription,
+    planSummary,
+    isLoadingSummary,
+    fetchPlanSummary
+  } = useSubscriptions();
+
+  const [calculationQuantity, setCalculationQuantity] = useState(25); // Default increment unit
+  const [isCalcEditEnabled, setIsCalcEditEnabled] = useState(false);
+  const [memberQuantity, setMemberQuantity] = useState(1);
   const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const [isLoadingMembers, setIsLoadingMembers] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const usedMembers = 2;
-  const totalMembers = 3;
-  const usedCalculations = 47;
-  const totalCalculations = 50;
-  
-  // Calculate price: (quantity - 25) * 10, minimum 0
-  const calculationPrice = useMemo(() => {
-    return Math.max(0, (calculationQuantity - 25) * 10);
-  }, [calculationQuantity]);
+  // Constants - use planSummary for available counts, fallback to defaults
+  const freeMembersCount = planSummary?.members?.available ?? (purchasedPlan?.free_sub_user_count || 0);
+  const freeCalculationsCount = planSummary?.calculations?.available ?? (purchasedPlan?.free_calculation || 0);
+  const planName = hasActiveSubscription && purchasedPlan ? purchasedPlan.name : 'Free';
 
-  // Get first 2 members for display
-  const displayedMembers = members.slice(0, 2);
-
-  // Get member price from shared subscription plans data
-  const memberPrice = useMemo(() => {
-    if (!subscriptions || subscriptions.length === 0) {
-      return 99; // Default price
-    }
-
-    // Get the first active plan's addMember price
-    const firstPlan = subscriptions.find(plan =>
-      plan &&
-      plan.addMember?.price_per_member
-    );
-
-    if (firstPlan?.addMember?.price_per_member) {
-      const price = parseFloat(firstPlan.addMember.price_per_member);
-      if (!isNaN(price)) {
-        return price;
-      }
-    }
-    
-    return 99; // Default price
-  }, [subscriptions]);
+  // Prices - use dynamic prices from purchasedPlan, fallback to defaults
+  const memberPrice = parseFloat(purchasedPlan?.addMember?.price_per_member || 99);
+  const calculationPricePerUnit = parseFloat(purchasedPlan?.addCalculation?.price_per_member || 10);
+  const calculationMinPack = parseInt(purchasedPlan?.addCalculation?.minimum_calculation || 20);
+  const calculationPackPrice = calculationPricePerUnit * calculationMinPack;
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -71,12 +53,9 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
       try {
         setIsLoadingMembers(true);
         const response = await getWorkspaceMembers(selectedWorkspace);
-
-        // Handle different response structures (same pattern as AddedMembers and useMembers hook)
         const membersData = response?.data || response?.members || response || [];
         const membersList = Array.isArray(membersData) ? membersData : [];
 
-        // Map API response to component format
         const mappedMembers = membersList.map(member => ({
           id: member.id,
           name: member.name || '',
@@ -89,10 +68,7 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
         setMembers(mappedMembers);
       } catch (error) {
         console.error('Error fetching workspace members:', error);
-        const errorMessage = error?.response?.data?.message ||
-          error?.message ||
-          'Failed to load members';
-        showError(errorMessage);
+        showError('Failed to load members');
         setMembers([]);
       } finally {
         setIsLoadingMembers(false);
@@ -102,7 +78,25 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
     fetchMembers();
   }, [selectedWorkspace, refreshKey]);
 
-  const handleAddMember = () => {
+  const handleUpdateAddon = async (type, action) => {
+    if (!purchasedPlan?.id) return;
+
+    try {
+      await updateAddon({
+        subscription_plan_id: purchasedPlan.id,
+        type,
+        action
+      });
+      // Refetch summary to update "Available" counts
+      fetchPlanSummary(purchasedPlan.id);
+    } catch (error) {
+      console.error('Failed to update addon:', error);
+      // Fallback state update is still done locally, but error is shown
+      showError(t('common.error', { defaultValue: 'Action failed' }));
+    }
+  };
+
+  const handleAddMemberClick = () => {
     setIsAddMemberModalOpen(true);
   };
 
@@ -110,14 +104,7 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
     setIsAddMemberModalOpen(false);
   };
 
-  const handleSaveMember = (memberData) => {
-    // This callback is kept for backward compatibility
-    // The actual API call is now handled in AddMemberModal
-    console.log('Member data saved:', memberData);
-  };
-
   const handleMemberAdded = () => {
-    // Refresh members list after successful addition
     setRefreshKey(prev => prev + 1);
   };
 
@@ -125,27 +112,9 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
     navigate(ROUTES_FLAT.SUBSCRIPTION_ADDED_MEMBERS);
   };
 
-  const handleIncrement = () => {
-    setCalculationQuantity(prev => {
-      const newValue = prev + 1;
-      // Notify parent of calculation change
-      if (onCalculationChange) {
-        onCalculationChange(newValue);
-      }
-      return newValue;
-    });
-  };
-
-  const handleDecrement = () => {
-    setCalculationQuantity(prev => {
-      // Cannot decrease below 25
-      const newValue = Math.max(25, prev - 1);
-      // Notify parent of calculation change
-      if (onCalculationChange) {
-        onCalculationChange(newValue);
-      }
-      return newValue;
-    });
+  // Toggle Calculation Edit
+  const handleToggleCalcEdit = () => {
+    setIsCalcEditEnabled(prev => !prev);
   };
 
   // Notify parent when calculation quantity changes
@@ -157,140 +126,167 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
 
   // Notify parent when members change
   useEffect(() => {
-    if (onUsersChange && members.length > 0) {
-      // Count main users and sub users from members list
-      // For now, using defaults - you may need to check member roles/types
-      const mainUsers = members.filter(m => m.role === 'main' || !m.role).length || 5;
-      const subUsers = members.filter(m => m.role === 'sub').length || 10;
-      onUsersChange(mainUsers, subUsers);
+    if (onUsersChange) {
+      // Assuming memberQuantity is the additional users being purchased
+      // Total main users + sub users check
+      const mainUsersCount = 1; // Default
+      const subUsersCount = (members.length || freeMembersCount) + (memberQuantity - 1);
+      onUsersChange(mainUsersCount, subUsersCount);
     }
-  }, [members, onUsersChange]);
+  }, [memberQuantity, members, onUsersChange, freeMembersCount]);
+
+  // Calculation Counter
+  const handleCalcIncrement = () => {
+    if (!isCalcEditEnabled) return;
+    setCalculationQuantity(prev => prev + 1);
+    handleUpdateAddon('calculation', 'add');
+  };
+
+  const handleCalcDecrement = () => {
+    if (!isCalcEditEnabled || calculationQuantity <= 1) return;
+    setCalculationQuantity(prev => prev - 1);
+    handleUpdateAddon('calculation', 'remove');
+  };
+
+  // Member Counter
+  const handleMemberIncrement = () => {
+    setMemberQuantity(prev => prev + 1);
+    handleUpdateAddon('member', 'add');
+  };
+
+  const handleMemberDecrement = () => {
+    if (memberQuantity <= 1) return;
+    setMemberQuantity(prev => prev - 1);
+    handleUpdateAddon('member', 'remove');
+  };
 
   return (
     <section className="mb-6">
-      <h2 className="font-medium text-primary mb-2">
+      <h2 className="text-base md:text-lg font-medium text-primary mb-3">
         {t('addOns.title', { defaultValue: 'Add-ons' })}
       </h2>
 
-      <div className="space-y-4">
-        {/* Add More Members */}
-        <div className="bg-[#F6F6F6CC] rounded-2xl border border-lightGray p-4 md:p-5">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="flex-1 min-w-0">
-              <h3 className="text-base md:text-lg font-medium text-primary mb-1">
-                {t('addOns.addMoreMembers', { defaultValue: 'Add More Members' })}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Members Add-on Card */}
+        <div className="bg-[#F6F6F6CC] rounded-2xl border border-[#060C120F] flex flex-col">
+          <div className="p-4 md:p-5 flex-1">
+            <div className="mb-4">
+              <h3 className="text-base font-medium text-primary">
+                {t('addOns.availableMembers')} <span className="text-accent">{freeMembersCount}</span>
               </h3>
-              <p className="text-xs md:text-[13px] text-primary-light">
-                {t('addOns.membersUsed', {
-                  defaultValue: "You've used {{used}} of {{total}} included users",
-                  used: usedMembers,
-                  total: totalMembers,
-                })}
+              <p className="text-[13px] text-[#060C1280] mt-1">
+                {t('addOns.membersSubtext', { count: freeMembersCount, plan: planName })}
               </p>
             </div>
-            <p className="text-sm md:text-[20px] font-semibold text-accent mt-2">
-              ₹{memberPrice}
-              <span className="text-xs md:text-sm font-normal text-primary-light">
-                /user/month
+
+            {/* Inner White Box */}
+            <div className="bg-white rounded-xl p-4">
+              <div
+                className="flex items-center gap-2 mb-4 cursor-pointer group"
+                onClick={handleAddMemberClick}
+              >
+                <img
+                  src={addCircleIcon}
+                  alt="Add"
+                  className="w-5 h-5 flex-shrink-0"
+                />
+                <span className="text-accent text-sm md:text-base font-medium">
+                  {t('addOns.addMoreMembers')}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* Custom Counter Control */}
+                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1">
+                  <button
+                    onClick={handleMemberDecrement}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"
+                  >
+                    <Minus className="w-4 h-4 text-primary opacity-50" />
+                  </button>
+                  <div className="w-10 h-8 flex items-center justify-center bg-[#F6F6F6] rounded-md">
+                    <span className="text-sm font-semibold text-primary">{memberQuantity}</span>
+                  </div>
+                  <button
+                    onClick={handleMemberIncrement}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"
+                  >
+                    <Plus className="w-4 h-4 text-primary opacity-50" />
+                  </button>
+                </div>
+
+                <p className="text-primary text-sm font-medium">
+                  ₹{memberPrice}<span className="text-[#060C1280] font-normal">/{t('addOns.perMember')}</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Bottom Row */}
+            <button
+              onClick={handleViewAddedMembers}
+              className="flex items-center justify-between mt-2 cursor-pointer"
+            >
+              <span className=" text-primary">
+                {t('addOns.viewAllAddedMembers')}
               </span>
-            </p>
+              <ChevronRight className="w-4 h-4 text-[#060C124D] inline-block" />
+            </button>
           </div>
 
-          {/* Members List */}
-          <div className="space-y-2 pt-3 border-t border-lightGray">
-            {isLoadingMembers ? (
-              <p className="text-sm text-primary-light">{t('common.loading', { defaultValue: 'Loading members...' })}</p>
-            ) : displayedMembers.length > 0 ? (
-              displayedMembers.map((member) => (
-                <div key={member.id} className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-accent flex-shrink-0" />
-                  <p className="text-sm md:text-base text-primary">
-                    {member.name}: <span className="text-primary-light">{member.role}</span>
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-primary-light">{t('addOns.noMembers', { defaultValue: 'No members found' })}</p>
-            )}
-          </div>
-          <div className="flex-shrink-0 flex items-center justify-end gap-2 sm:gap-4 mt-2 md:mt-0">
-            <button
-              type="button"
-              onClick={handleViewAddedMembers}
-              className="text-sm md:text-[13px] font-medium text-accent whitespace-nowrap cursor-pointer"
-            >
-              <span className="sm:hidden">
-                {t('addOns.viewMembersMobile', { defaultValue: 'View members' })}
-              </span>
-              <span className="hidden sm:inline">
-                {t('addOns.viewAddedMembers', {
-                  defaultValue: 'View Added Member List',
-                })}
-              </span>
-            </button>
-            <Button
-              variant="primary"
-              size="md"
-              onClick={handleAddMember}
-              className="whitespace-nowrap !rounded-xl !px-4 !py-2"
-            >
-              {t('addOns.addMember', { defaultValue: 'Add Member' })}
-            </Button>
-          </div>
+
         </div>
 
-        {/* Buy More Calculations */}
-        <div className="bg-[#F6F6F6CC] rounded-2xl border border-lightGray p-4 md:p-5">
-          <div className="mb-4">
-            <h3 className="text-base md:text-lg font-medium text-primary mb-1">
-              {t('addOns.buyMoreCalculations', { defaultValue: 'Buy More Calculations' })}
-            </h3>
-            <p className="text-xs md:text-sm text-primary-light">
-              {t('addOns.calculationsUsed', {
-                defaultValue: "You've used {{used}} of {{total}} available calculations this cycle.",
-                used: usedCalculations,
-                total: totalCalculations,
-              })}
-            </p>
-          </div>
+        {/* Calculations Add-on Card */}
+        <div className="bg-[#F6F6F6CC] rounded-2xl border border-[#060C120F] flex flex-col">
+          <div className="p-4 md:p-5 flex-1 text-left">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-medium text-primary">
+                  {t('addOns.availableCalculations')} <span className="text-accent">{freeCalculationsCount}</span>
+                </h3>
+                <p className="text-[13px] text-[#060C1280] mt-1">
+                  {t('addOns.calculationsSubtext', { count: freeCalculationsCount, plan: planName })}
+                </p>
+              </div>
+              <div
+                className="flex items-center gap-1 cursor-pointer group shrink-0"
+                onClick={handleToggleCalcEdit}
+              >
+                <img
+                  src={addCircleIcon}
+                  alt="Add"
+                  className="w-5 h-5 flex-shrink-0"
+                />
+                <span className="text-accent text-[11px] md:text-sm font-medium whitespace-nowrap">
+                  {t('addOns.addMoreCalculationPacks')}
+                </span>
+              </div>
+            </div>
 
-          {/* Packs Available */}
-          <div className="pt-3 border-t border-lightGray">
-            <p className="text-sm md:text-base font-medium text-primary ">
-              {t('addOns.packsAvailable', { defaultValue: 'Packs Available' })}
-            </p>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-xs md:text-xs text-primary-light">
-                +25 {t('addOns.calculations', { defaultValue: 'Calculations' })}
-              </p>
-              <div className="flex items-center gap-3">
-                {/* Quantity Selector */}
-                <div className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg bg-white">
+            {/* Inner White Box */}
+            <div className={`bg-white rounded-xl p-4 transition-all ${!isCalcEditEnabled ? 'opacity-50 pointer-events-none' : ''}`}>
+              <div className="flex items-center justify-between gap-4">
+                {/* Custom Counter Control */}
+                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1">
                   <button
-                    type="button"
-                    onClick={handleDecrement}
-                    className="p-2 hover:bg-[#F9FAFB] transition-colors"
-                    aria-label="Decrease quantity"
+                    onClick={handleCalcDecrement}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"
                   >
-                    <Minus className="w-4 h-4 text-primary cursor-pointer" />
+                    <Minus className="w-4 h-4 text-primary opacity-50" />
                   </button>
-                  <input
-                    type="number"
-                    value={calculationQuantity}
-                    readOnly
-                    className="w-12 text-center text-sm md:text-base font-medium text-primary border-0 focus:outline-none"
-                  />
+                  <div className="w-10 h-8 flex items-center justify-center bg-[#F6F6F6] rounded-md">
+                    <span className="text-sm font-semibold text-primary">{calculationQuantity}</span>
+                  </div>
                   <button
-                    type="button"
-                    onClick={handleIncrement}
-                    className="p-2 hover:bg-[#F9FAFB] transition-colors"
-                    aria-label="Increase quantity"
+                    onClick={handleCalcIncrement}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"
                   >
-                    <Plus className="w-4 h-4 text-primary cursor-pointer" />
+                    <Plus className="w-4 h-4 text-primary opacity-50" />
                   </button>
                 </div>
-                <p className="text-base md:text-lg font-medium text-accent whitespace-nowrap">
-                  ₹{calculationPrice}
+
+                <p className="text-primary text-sm font-medium">
+                  ₹{calculationPackPrice}<span className="text-[#060C1280] font-normal">/{t('addOns.perCalculations', { count: 25 })}</span>
                 </p>
               </div>
             </div>
@@ -302,9 +298,8 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
       <AddMemberModal
         isOpen={isAddMemberModalOpen}
         onClose={handleCloseModal}
-        onSave={handleSaveMember}
         onMemberAdded={handleMemberAdded}
-        existingMembersCount={usedMembers}
+        existingMembersCount={members.length}
         memberPrice={memberPrice}
       />
     </section>

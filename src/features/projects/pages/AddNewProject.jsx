@@ -25,7 +25,7 @@ import {
   useEditProject,
   useProjectDetails,
 } from "../hooks";
-import { startProject } from "../api";
+import { startProject, getProjectPrompt } from "../api";
 import { showError, showSuccess } from "../../../utils/toast";
 import { PROJECT_ROUTES } from "../constants";
 import PageHeader from "../../../components/layout/PageHeader";
@@ -61,8 +61,24 @@ function AddNewProject() {
       contractType: "",
       estimatedBudget: "",
       projectDescription: "",
+      startDate: null,
     },
   });
+
+  useEffect(() => {
+    register("builderName", {
+      required: t("addNewProject.validation.selectBuilder") || "Builder name is required",
+    });
+    register("startDate", {
+      required: t("addNewProject.validation.selectStartDate") || "Start date is required",
+    });
+    register("constructionType", {
+      required: t("addNewProject.validation.constructionTypeRequired") || "Construction type is required",
+    });
+    register("contractType", {
+      required: t("addNewProject.validation.contractTypeRequired") || "Contract type is required",
+    });
+  }, [register, t]);
 
   const [currentStep, setCurrentStep] = useState(1); // Step navigation: 1 = Site Overview, 2 = Project Specifications, 3 = Upload Documents
   const [startDate, setStartDate] = useState(null);
@@ -137,15 +153,18 @@ function AddNewProject() {
 
     if (currentStep === 1) {
       // Validate Site Overview fields
-      fieldsToValidate = ['siteName', 'address', 'builderName'];
+      fieldsToValidate = ['siteName', 'address', 'builderName', 'startDate'];
       const isValid = await trigger(fieldsToValidate);
       if (isValid) {
         setCurrentStep(2);
       }
     } else if (currentStep === 2) {
-      // Validate Project Specifications fields (optional - can be empty)
-      // Just move to next step
-      setCurrentStep(3);
+      // Validate Project Specifications fields
+      fieldsToValidate = ['estimatedBudget', 'constructionType', 'contractType'];
+      const isValid = await trigger(fieldsToValidate);
+      if (isValid) {
+        setCurrentStep(3);
+      }
     }
   };
 
@@ -157,31 +176,22 @@ function AddNewProject() {
 
   const onSubmit = async (data) => {
     // Validate all required fields from Step 1 (Site Overview)
-    const step1Fields = ['siteName', 'address', 'builderName'];
+    const step1Fields = ['siteName', 'address', 'builderName', 'startDate'];
     const step1Valid = await trigger(step1Fields);
 
     if (!step1Valid) {
       showError(t('addNewProject.validation.fillSiteOverview') || "Please fill all required fields in Site Overview section");
+      setCurrentStep(1);
       return;
     }
 
     // Validate required fields from Step 2 (Project Specifications)
-    const step2Fields = ['totalArea', 'perSqFtRate', 'noOfFloors', 'estimatedBudget'];
+    const step2Fields = ['estimatedBudget', 'constructionType', 'contractType'];
     const step2Valid = await trigger(step2Fields);
 
     if (!step2Valid) {
       showError(t('addNewProject.validation.fillProjectSpecifications') || "Please fill all required fields in Project Specifications section");
-      return;
-    }
-
-    // Validate dropdown fields
-    if (!constructionType) {
-      showError(t('addNewProject.validation.constructionTypeRequired') || "Construction type is required");
-      return;
-    }
-
-    if (!contractType) {
-      showError(t('addNewProject.validation.contractTypeRequired') || "Contract type is required");
+      setCurrentStep(2);
       return;
     }
 
@@ -217,7 +227,7 @@ function AddNewProject() {
         navigate(PROJECT_ROUTES.PROJECTS);
       } else {
         // Create mode: Use createProject hook
-        await createProjectHook({
+        const newProject = await createProjectHook({
           siteName: data.siteName,
           address: data.address || "",
           builderId: data.builderName || null,
@@ -239,6 +249,17 @@ function AddNewProject() {
           // pass pre-fetched projectKey if available to avoid duplicate start call
           projectKey: preProjectKey,
         });
+
+        // Call background API for construction cost estimation
+        // This is done in the background without blocking navigation
+        if (newProject) {
+          const createdId = newProject.id || newProject.projectId || newProject.project_id;
+          if (createdId) {
+            getProjectPrompt(createdId).catch(err =>
+              console.error("Background prompt call failed:", err)
+            );
+          }
+        }
 
         // Navigate to projects list
         navigate(PROJECT_ROUTES.PROJECTS);
@@ -335,7 +356,7 @@ function AddNewProject() {
       mediaArray.forEach((mediaItem) => {
         const typeId = String(mediaItem.typeId || mediaItem.type_id || '');
         const mediaUrl = mediaItem.url || '';
-        
+
         // Map typeId to categories based on backend response
         // typeId "3" = image, "4" = video, "2" = document
         // typeId "1" might be profile photo, but we'll also check for it
@@ -474,6 +495,11 @@ function AddNewProject() {
     setValue("projectStatus", value, { shouldValidate: true });
   };
 
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    setValue("startDate", date, { shouldValidate: true });
+  };
+
   const handleBuilderNameChange = (value) => {
     setValue("builderName", value, { shouldValidate: true });
   };
@@ -560,94 +586,113 @@ function AddNewProject() {
           className="flex flex-col lg:flex-row gap-6"
         >
           {/* Left: Steps Sidebar */}
-          <AddProjectSteps steps={steps} currentStep={currentStep} />
+          <AddProjectSteps
+            steps={steps}
+            currentStep={currentStep}
+            onStepClick={(stepId) => {
+              // Only allow jumping to previous steps or next step if valid
+              if (stepId < currentStep) {
+                setCurrentStep(stepId);
+              } else if (stepId === currentStep + 1) {
+                handleNextStep();
+              }
+            }}
+          />
 
-          {/* Right: Form Content - Show all 3 cards */}
-          <section className="flex-1 space-y-5">
+          {/* Right: Form Content - Show step-wise */}
+          <section className="flex-1">
             {/* Card 1: Site Overview */}
-            <SiteOverviewFormSection
-              t={t}
-              register={register}
-              errors={errors}
-              startDate={startDate}
-              setStartDate={setStartDate}
-              completionDate={completionDate}
-              setCompletionDate={setCompletionDate}
-              projectStatus={projectStatus}
-              onStatusChange={handleStatusChange}
-              builderName={builderName}
-              onBuilderNameChange={handleBuilderNameChange}
-              builderOptions={builders}
-              isLoadingBuilders={isLoadingBuilders}
-              onAddNewBuilder={handleAddNewBuilder}
-              workspaceId={selectedWorkspace}
-              onProfilePhotoChange={setProfilePhoto}
-              projectKey={isEditMode ? projectId : preProjectKey}
-              existingProfilePhotoUrl={profilePhotoUrl}
-              onSaveAndContinue={handleNextStep}
-              onCancel={() => navigate(-1)}
-            />
+            {currentStep === 1 && (
+              <SiteOverviewFormSection
+                t={t}
+                register={register}
+                errors={errors}
+                startDate={startDate}
+                setStartDate={handleStartDateChange}
+                completionDate={completionDate}
+                setCompletionDate={setCompletionDate}
+                projectStatus={projectStatus}
+                onStatusChange={handleStatusChange}
+                builderName={builderName}
+                onBuilderNameChange={handleBuilderNameChange}
+                builderOptions={builders}
+                isLoadingBuilders={isLoadingBuilders}
+                onAddNewBuilder={handleAddNewBuilder}
+                workspaceId={selectedWorkspace}
+                onProfilePhotoChange={setProfilePhoto}
+                projectKey={isEditMode ? projectId : preProjectKey}
+                existingProfilePhotoUrl={profilePhotoUrl}
+                onSaveAndContinue={handleNextStep}
+                onCancel={() => navigate(-1)}
+              />
+            )}
 
             {/* Card 2: Project Specifications */}
-            <ProjectSpecificationsFormSection
-              t={t}
-              register={register}
-              errors={errors}
-              areaUnit={areaUnit}
-              setAreaUnit={setAreaUnit}
-              constructionType={constructionType}
-              onConstructionTypeChange={handleConstructionTypeChange}
-              constructionTypeOptions={constructionTypes}
-              isLoadingConstructionTypes={isLoadingConstructionTypes}
-              onAddNewConstructionType={handleAddNewConstructionType}
-              contractType={contractType}
-              onContractTypeChange={handleContractTypeChange}
-              contractTypeOptions={contractTypes}
-              isLoadingContractTypes={isLoadingContractTypes}
-              onAddNewContractType={handleAddNewContractType}
-              onSaveAndContinue={handleNextStep}
-              onBack={handlePreviousStep}
-              onCancel={() => navigate(-1)}
-            />
+            {currentStep === 2 && (
+              <ProjectSpecificationsFormSection
+                t={t}
+                register={register}
+                errors={errors}
+                areaUnit={areaUnit}
+                setAreaUnit={setAreaUnit}
+                constructionType={constructionType}
+                onConstructionTypeChange={handleConstructionTypeChange}
+                constructionTypeOptions={constructionTypes}
+                isLoadingConstructionTypes={isLoadingConstructionTypes}
+                onAddNewConstructionType={handleAddNewConstructionType}
+                contractType={contractType}
+                onContractTypeChange={handleContractTypeChange}
+                contractTypeOptions={contractTypes}
+                isLoadingContractTypes={isLoadingContractTypes}
+                onAddNewContractType={handleAddNewContractType}
+                onSaveAndContinue={handleNextStep}
+                onBack={handlePreviousStep}
+                onCancel={() => navigate(-1)}
+              />
+            )}
 
             {/* Card 3: Upload Documents */}
-            <UploadDocumentsSection
-              t={t}
-              onFilesChange={setUploadedFiles}
-              projectKey={isEditMode ? projectId : preProjectKey}
-              existingFiles={uploadedFiles}
-            />
+            {currentStep === 3 && (
+              <div className="space-y-5">
+                <UploadDocumentsSection
+                  t={t}
+                  onFilesChange={setUploadedFiles}
+                  projectKey={isEditMode ? projectId : preProjectKey}
+                  existingFiles={uploadedFiles}
+                />
+
+                {/* Actions - Show Create Project button at bottom */}
+                <div className="mt-6 flex justify-end gap-3">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    className="px-6"
+                    onClick={() => navigate(-1)}
+                  >
+                    {t("cancel", { ns: "common" })}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    className="px-6"
+                    onClick={handleSubmit(onSubmit)}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting
+                      ? (isEditMode
+                        ? t("addNewProject.form.updating", { defaultValue: "Updating..." })
+                        : t("addNewProject.form.creating"))
+                      : (isEditMode
+                        ? t("addNewProject.form.updateProject", { defaultValue: "Update Project" })
+                        : t("addNewProject.form.createProject"))}
+                  </Button>
+                </div>
+              </div>
+            )}
           </section>
         </form>
-
-        {/* Actions - Show Create Project button at bottom */}
-        <div className="mt-6 flex justify-end gap-3">
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className="px-6"
-            onClick={() => navigate(-1)}
-          >
-            {t("cancel", { ns: "common" })}
-          </Button>
-          <Button
-            type="button"
-            variant="primary"
-            size="sm"
-            className="px-6"
-            onClick={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? (isEditMode
-                ? t("addNewProject.form.updating", { defaultValue: "Updating..." })
-                : t("addNewProject.form.creating"))
-              : (isEditMode
-                ? t("addNewProject.form.updateProject", { defaultValue: "Update Project" })
-                : t("addNewProject.form.createProject"))}
-          </Button>
-        </div>
       </div>
     </div>
   );

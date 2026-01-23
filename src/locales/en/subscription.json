@@ -26,21 +26,24 @@
       "12month": "12 Month Plan",
       "description": "Contractor + 3 Free Users",
       "periodMonth": "Month",
-      "periodMonths": "Months"
-    }
+      "periodMonths": "Months",
+      "yearly": "Yearly",
+      "3years": "3 Years"
+    },
+    "noBenefits": "No benefits available",
+    "noPlans": "No plans available"
   },
   "addOns": {
     "title": "Add-ons",
+    "availableMembers": "Available Members:",
+    "membersSubtext": "You'll get {{count}} free members with your {{plan}} subscription.",
     "addMoreMembers": "Add More Members",
-    "membersUsed": "You've used {{used}} of {{total}} included users",
-    "memberPricePerMonth": "/user/month",
-    "addMember": "Add Member",
-    "viewAddedMembers": "View Added Member List",
-    "viewMembersMobile": "View members",
-    "buyMoreCalculations": "Buy More Calculations",
-    "calculationsUsed": "You've used {{used}} of {{total}} available calculations this cycle.",
-    "packsAvailable": "Packs Available",
-    "calculations": "Calculations"
+    "perMember": "per member",
+    "viewAllAddedMembers": "View all added members",
+    "availableCalculations": "Available Calculations:",
+    "calculationsSubtext": "You'll get {{count}} calculations with your {{plan}} subscription.",
+    "addMoreCalculationPacks": "Add More Calculation Packs",
+    "perCalculations": "per {{count}} calculations"
   },
   "offersRewards": {
     "title": "Offers & Rewards",
@@ -96,6 +99,14 @@
   "emptyState": {
     "noMembers": "No members added yet.",
     "noCoupons": "No coupons available."
+  },
+  "activities": {
+    "title": "Your Activities",
+    "members": "Members",
+    "purchasedMembers": "Purchased Members:",
+    "memberUsed": "Member Used:",
+    "calculations": "Calculations",
+    "purchasedCalculations": "Purchased Calculations:",
+    "calculationUsed": "Calculation Used:"
   }
 }
-

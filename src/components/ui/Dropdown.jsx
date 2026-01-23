@@ -48,8 +48,8 @@ export default function Dropdown({
   // Filter options based on search query
   const filteredOptions = searchable && searchQuery
     ? options.filter((option) =>
-        option.label?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      option.label?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : options;
 
   // Close dropdown on outside click
@@ -83,7 +83,7 @@ export default function Dropdown({
       {label && (
         <label className="block text-md text-black font-normal mb-1">
           {label}
-          {required && <span>*</span>}
+          {required && <span className="text-accent ml-1">*</span>}
         </label>
       )}
 
@@ -106,17 +106,15 @@ export default function Dropdown({
           </span>
 
           <ChevronDown
-            className={`w-5 h-5 text-gray-500 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
+            className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""
+              }`}
           />
         </button>
       )}
 
       {isOpen && (
-        <div className={`absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-auto ${
-          position === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'
-        }`}>
+        <div className={`absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-auto ${position === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'
+          }`}>
           {/* Search Input */}
           {searchable && (
             <div className="sticky top-0 bg-white border-b border-gray-200 px-2 py-2 z-10">
@@ -143,18 +141,18 @@ export default function Dropdown({
             )}
 
             {filteredOptions.map((option) => {
-            const isSelected = value === option.value;
-            return (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => handleSelect(option)}
-                className={`w-full px-4 py-2 rounded-xl text-left text-sm transition-colors cursor-pointer
+              const isSelected = value === option.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleSelect(option)}
+                  className={`w-full px-4 py-2 rounded-xl text-left text-sm transition-colors cursor-pointer
                          ${isSelected ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
-              >
-                {renderOption ? renderOption(option, isSelected) : option.label}
-              </button>
-            );
+                >
+                  {renderOption ? renderOption(option, isSelected) : option.label}
+                </button>
+              );
             })}
           </div>
 
@@ -184,7 +182,7 @@ export default function Dropdown({
         </div>
       )}
 
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-sm text-accent mt-1">{error}</p>}
 
       {/* Custom Modal, Builder Form Modal, or Add Item Modal */}
       {onAddNew && CustomModal && isModalOpen ? (
@@ -208,7 +206,7 @@ export default function Dropdown({
               value: `temp-${Date.now()}`,
               label: builderData.full_name || builderData.name,
             };
-            
+
             // Parent will create builder and return the actual builder with ID
             await onAddNew(tempOption, builderData);
           }}

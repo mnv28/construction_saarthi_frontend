@@ -99,10 +99,18 @@
     "deductions": "Deductions",
     "notesAndVoiceMemos": "Notes & Voice Memos",
     "addNote": "Add Note",
+    "addNotes": "Add Notes",
+    "textNote": "Text Note",
+    "voiceNote": "Voice Note",
+    "both": "Both",
+    "recording": "Recording",
+    "rerecord": "Re-record",
+    "holdMicToRecord": "Hold mic to record your voice",
     "writeNotePlaceholder": "Write a note…",
     "selectedFile": "Selected:",
     "missingDetails": "Missing workspace/labour details",
     "savingNote": "Saving note…",
+    "addingNote": "Adding...",
     "noteAdded": "Note added",
     "noteAddFail": "Failed to add note",
     "validAmount": "Please enter a valid amount",
@@ -114,7 +122,12 @@
     "bonusFail": "Failed to add bonus",
     "addingDeduction": "Adding deduction…",
     "deductionAdded": "Deduction added",
-    "deductionFail": "Failed to add deduction"
+    "deductionFail": "Failed to add deduction",
+    "errors": {
+      "voiceNoteRequired": "Voice note is required",
+      "textNoteRequired": "Text note is required",
+      "microphoneAccess": "Microphone access denied. Please allow microphone access."
+    }
   },
   "overtimeModal": {
     "title": "Enter Over Time",
@@ -125,5 +138,3 @@
     "todaysWage": "Today's Wage Per Day"
   }
 }
-
-

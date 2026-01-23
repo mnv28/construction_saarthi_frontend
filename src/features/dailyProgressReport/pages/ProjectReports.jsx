@@ -3,15 +3,20 @@
  * Displays list of reports for a specific project
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 import SearchBar from '../../../components/ui/SearchBar';
 import Filter from '../../../components/ui/Filter';
+import DatePicker from '../../../components/ui/DatePicker';
 import PageHeader from '../../../components/layout/PageHeader';
+import Loader from '../../../components/ui/Loader';
 import { ReportCard } from '../components';
 import { ROUTES, getRoute } from '../../../constants/routes';
 import { useWorkspaceRole } from '../../dashboard/hooks';
+import { useAuth } from '../../auth/store/authStore';
+import { useDPRLogs } from '../hooks/useDPRLogs';
 import addCircleIcon from '../../../assets/icons/Add Circle.svg';
 
 export default function ProjectReports() {
@@ -19,66 +24,68 @@ export default function ProjectReports() {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const location = useLocation();
+  const { selectedWorkspace } = useAuth();
   const projectName = location.state?.projectName || 'Project';
   const currentUserRole = useWorkspaceRole();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  
+  const [timeFilter, setTimeFilter] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [tempDate, setTempDate] = useState(null);
+
+  // Calculate date range based on filters
+  const { startDate, endDate } = useMemo(() => {
+    let start = null;
+    let end = null;
+
+    if (selectedDate) {
+      const d = dayjs(selectedDate);
+      if (d.isValid()) {
+        const formatted = d.format('YYYY-MM-DD');
+        start = formatted;
+        end = formatted;
+      }
+    } else if (timeFilter) {
+      const today = dayjs();
+      end = today.format('YYYY-MM-DD');
+
+      switch (timeFilter) {
+        case 'today':
+          start = end;
+          break;
+        case 'last_week':
+          start = today.subtract(7, 'day').format('YYYY-MM-DD');
+          break;
+        case 'last_month':
+          start = today.subtract(30, 'day').format('YYYY-MM-DD');
+          break;
+        case 'last_3_months':
+          start = today.subtract(90, 'day').format('YYYY-MM-DD');
+          break;
+        default:
+          start = null;
+          end = null;
+      }
+    }
+
+    return { startDate: start, endDate: end };
+  }, [selectedDate, timeFilter]);
+
+  const { logs, isLoading } = useDPRLogs({
+    workspaceId: selectedWorkspace,
+    projectId,
+    startDate,
+    endDate
+  });
+
   // Check if user can add reports (builder role cannot add)
   const canAddReport = currentUserRole?.toLowerCase() !== 'builder';
 
-  // Mock data - will be replaced with API integration later
-  const MOCK_REPORTS = [
-    {
-      id: 1,
-      title: 'Slab Shuttering Completed, RCC...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 2,
-      title: 'Plinth Completed and Flooring St...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 3,
-      title: 'Slab Shuttering Completed, RCC...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 4,
-      title: 'Plinth Completed and Flooring St...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 5,
-      title: 'Slab Shuttering Completed, RCC...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 6,
-      title: 'Plinth Completed and Flooring St...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-    {
-      id: 7,
-      title: 'Slab Shuttering Completed, RCC...',
-      date: '2025-06-12',
-      status: 'completed',
-    },
-  ];
-
-  const STATUS_OPTIONS = [
-    { value: '', label: t('filter.all') },
-    { value: 'completed', label: t('filter.completed') },
-    { value: 'in_progress', label: t('filter.inProgress') },
-    { value: 'upcoming', label: t('filter.upcoming') },
+  const TIME_OPTIONS = [
+    { value: 'today', label: t('filter.today') },
+    { value: 'last_week', label: t('filter.lastWeek') },
+    { value: 'last_month', label: t('filter.lastMonth') },
+    { value: 'last_3_months', label: t('filter.last3Months') },
   ];
 
   const handleReportClick = (report) => {
@@ -103,25 +110,19 @@ export default function ProjectReports() {
     });
   };
 
-  // Filter reports based on search and status - using mock data
+  // Filter reports locally based on search
   const filteredReports = useMemo(() => {
-    return MOCK_REPORTS.filter((report) => {
-      const matchesSearch =
-        !searchQuery ||
-        (report.title || '')
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        (report.description || '')
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
+    return logs.filter((report) => {
+      const searchText = searchQuery.toLowerCase();
+      let title = report.title || report.description || report.metadata?.note || `Report - ${report.date || ''}`;
 
-      const matchesStatus =
-        !statusFilter ||
-        (report.status || '').toLowerCase() === statusFilter.toLowerCase();
+      if (title.toLowerCase().includes('auto-generated by cron job') && report.project?.name) {
+        title = report.project.name;
+      }
 
-      return matchesSearch && matchesStatus;
+      return !searchQuery || title.toLowerCase().includes(searchText);
     });
-  }, [searchQuery, statusFilter]);
+  }, [logs, searchQuery]);
 
   return (
     <div>
@@ -129,8 +130,8 @@ export default function ProjectReports() {
         {/* Header Section */}
         <div className="mb-6">
           <PageHeader title={projectName}
-          showBackButton={true}
-          backTo={ROUTES.DPR.LIST}
+            showBackButton={true}
+            backTo={ROUTES.DPR.LIST}
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 flex-1 w-full lg:justify-end">
               <SearchBar
@@ -141,40 +142,75 @@ export default function ProjectReports() {
               />
 
               <Filter
-                options={STATUS_OPTIONS}
-                value={statusFilter}
-                onChange={setStatusFilter}
+                options={TIME_OPTIONS}
+                value={timeFilter}
+                onChange={(val) => {
+                  setTimeFilter(val);
+                  if (val) {
+                    setSelectedDate(null);
+                    setTempDate(null);
+                  }
+                }}
                 placeholder={t('filter.label')}
                 className="w-full sm:w-[140px] flex-shrink-0"
               />
 
-              {canAddReport && (
+              <DatePicker
+                value={tempDate}
+                onChange={(val) => setTempDate(val)}
+                onAccept={(val) => {
+                  setSelectedDate(val);
+                  setTempDate(val);
+                  if (val) setTimeFilter('');
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setSelectedDate(tempDate);
+                    if (tempDate) setTimeFilter('');
+                  }
+                }}
+                className="w-full sm:w-[180px] flex-shrink-0"
+                placeholder="dd/mm/yyyy"
+              />
+
+              {/* {canAddReport && (
                 <button
                   type="button"
                   onClick={handleAddReport}
                   className="flex items-center justify-center sm:justify-start gap-2 text-accent font-medium whitespace-normal sm:whitespace-nowrap flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity w-full sm:w-auto"
                 >
-                  <img 
-                    src={addCircleIcon} 
-                    alt="Add" 
+                  <img
+                    src={addCircleIcon}
+                    alt="Add"
                     className="w-5 h-5 flex-shrink-0"
                   />
                   <span className="text-sm sm:text-base">{t('actions.addReport')}</span>
                 </button>
-              )}
+              )} */}
             </div>
           </PageHeader>
         </div>
 
         {/* Reports List */}
-        {filteredReports.length === 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader size="lg" />
+          </div>
+        ) : (!selectedDate && !timeFilter && !searchQuery) ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
               <p className="text-secondary text-lg mb-2">{t('emptyState.noReports')}</p>
               <p className="text-secondary text-sm">
-                {searchQuery || statusFilter
-                  ? t('emptyState.adjustSearch')
-                  : t('emptyState.getStarted')}
+                {t('emptyState.getStarted')}
+              </p>
+            </div>
+          </div>
+        ) : filteredReports.length === 0 ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <p className="text-secondary text-lg mb-2">{t('emptyState.noReports')}</p>
+              <p className="text-secondary text-sm">
+                {t('emptyState.adjustSearch')}
               </p>
             </div>
           </div>

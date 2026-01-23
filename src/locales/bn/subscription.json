@@ -10,7 +10,7 @@
     "daysLeft": "ফ্রি ট্রায়ালে {{days}} দিন বাকি"
   },
   "availablePlans": {
-    "title": "উপলব্ধ পরিকল্পনা",
+    "title": "বৈশিষ্ট্য",
     "saveAmount": "₹{{amount}} সাশ্রয় করুন",
     "bestValue": "সেরা মূল্য",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "কোনো কুপন উপলব্ধ নেই।"
   }
 }
-

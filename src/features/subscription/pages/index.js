@@ -6,4 +6,5 @@
 export { default as Subscription } from './Subscription';
 export { default as AddedMembers } from './AddedMembers';
 export { default as Coupon } from './Coupon';
+export { default as AvailablePlans } from './AvailablePlans';
 

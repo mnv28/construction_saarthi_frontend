@@ -25,7 +25,7 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
         t('availablePlans.benefits.calculations', { defaultValue: '50 Construction Calculations per subscription (more purchasable)' }),
       ];
     }
-    
+
     return availablePlans
       .map(item => item.description)
       .filter(Boolean); // Remove any empty descriptions
@@ -41,14 +41,14 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
     const processedPlans = subscriptions
       .map((plan, index) => {
         const planName = (plan.name || '').toLowerCase();
-        
+
         // Determine display name and id based on plan name
         let displayName, planId;
         if (planName.includes('12 month') || planName.includes('12month') || planName.includes('yearly')) {
           displayName = t('availablePlans.plans.yearly', { defaultValue: 'Yearly' });
           planId = 'yearly';
-        } else if (planName.includes('3 year') || planName.includes('3year') || 
-                   planName.includes('36 month') || planName.includes('36month')) {
+        } else if (planName.includes('3 year') || planName.includes('3year') ||
+          planName.includes('36 month') || planName.includes('36month')) {
           displayName = t('availablePlans.plans.3years', { defaultValue: '3 Years' });
           planId = '3years';
         } else {
@@ -56,13 +56,13 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
           displayName = plan.name || '';
           planId = plan.id || `plan-${index}`;
         }
-        
+
         // Build description from plan data
         const freeUsersCount = (plan.free_main_user_count || 0) + (plan.free_sub_user_count || 0);
-        const description = freeUsersCount > 0 
+        const description = freeUsersCount > 0
           ? t('availablePlans.plans.description', { defaultValue: `Contractor + ${freeUsersCount} Free Users` })
           : t('availablePlans.plans.description', { defaultValue: 'Contractor + 3 Free Users' });
-        
+
         return {
           id: planId,
           apiId: plan.id,
@@ -73,7 +73,7 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
           originalData: plan,
         };
       });
-    
+
     // Sort: Yearly first, then 3 Years, then others
     processedPlans.sort((a, b) => {
       if (a.id === 'yearly') return -1;
@@ -83,7 +83,7 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
       // Sort by original index/price if neither is yearly or 3years
       return parseFloat(a.originalData?.price || 0) - parseFloat(b.originalData?.price || 0);
     });
-    
+
     setPlans(processedPlans);
   }, [subscriptions, selectedPlanId, t]);
 
@@ -93,7 +93,7 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
       const selectedPlan = plans.find(
         plan => plan.id === selectedPlanId || (!selectedPlanId && plan.id === 'yearly')
       ) || plans[0];
-      
+
       if (selectedPlan) {
         onPlanSelect(selectedPlan.id, selectedPlan);
       }
@@ -108,9 +108,9 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
           const shouldBeSelected = plan.id === selectedPlanId || (!selectedPlanId && plan.id === 'yearly');
           return plan.isSelected !== shouldBeSelected;
         });
-        
+
         if (!hasChanges) return prevPlans;
-        
+
         return prevPlans.map(plan => ({
           ...plan,
           isSelected: plan.id === selectedPlanId || (!selectedPlanId && plan.id === 'yearly'),
@@ -166,44 +166,42 @@ export default function AvailablePlans({ selectedPlanId, onPlanSelect }) {
       ) : plans.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
           {plans.map((plan) => (
-          <div
-            key={plan.id}
-            onClick={() => handlePlanSelect(plan.id)}
-            className={`relative bg-white rounded-2xl border-1 p-4 md:p-5 cursor-pointer transition-all ${
-              plan.isSelected
-                ? 'border-accent !bg-[#F9F4EE]'
-                : 'border-lightGray bg-[#F6F6F6CC]'
-            }`}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="flex-shrink-0 mt-1">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    plan.isSelected
-                      ? 'border-[#B3330E] bg-[#B3330E]'
-                      : 'border-[#9CA3AF] bg-white'
-                  }`}>
-                    {plan.isSelected && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
+            <div
+              key={plan.id}
+              onClick={() => handlePlanSelect(plan.id)}
+              className={`relative bg-white rounded-2xl border-1 p-4 md:p-5 cursor-pointer transition-all ${plan.isSelected
+                  ? 'border-accent !bg-[#F9F4EE]'
+                  : 'border-lightGray bg-[#F6F6F6CC]'
+                }`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${plan.isSelected
+                        ? 'border-[#B3330E] bg-[#B3330E]'
+                        : 'border-[#9CA3AF] bg-white'
+                      }`}>
+                      {plan.isSelected && (
+                        <div className="w-2 h-2 rounded-full bg-white" />
+                      )}
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-lg font-medium text-primary">
+                      {plan.name}
+                    </p>
+                    <p className="text-xs md:text-sm text-primary-light mt-1">
+                      {plan.description}
+                    </p>
                   </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-lg font-medium text-primary">
-                    {plan.name}
-                  </p>
-                  <p className="text-xs md:text-sm text-primary-light mt-1">
-                    {plan.description}
+                <div className="flex-shrink-0">
+                  <p className="text-[20px] font-medium text-accent">
+                    ₹{plan.price.toLocaleString()}
                   </p>
                 </div>
               </div>
-              <div className="flex-shrink-0">
-                <p className="text-[20px] font-medium text-accent">
-                  ₹{plan.price.toLocaleString()}
-                </p>
-              </div>
             </div>
-          </div>
           ))}
         </div>
       ) : (

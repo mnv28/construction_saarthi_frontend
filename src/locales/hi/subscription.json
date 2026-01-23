@@ -10,7 +10,7 @@
     "daysLeft": "नि:शुल्क परीक्षण में {{days}} दिन शेष"
   },
   "availablePlans": {
-    "title": "उपलब्ध योजनाएं",
+    "title": "विशेषताएं",
     "saveAmount": "₹{{amount}} बचाएं",
     "bestValue": "सर्वोत्तम मूल्य",
     "benefits": {
@@ -26,8 +26,12 @@
       "12month": "12 महीने की योजना",
       "description": "ठेकेदार + 3 नि:शुल्क उपयोगकर्ता",
       "periodMonth": "महीना",
-      "periodMonths": "महीने"
-    }
+      "periodMonths": "महीने",
+      "yearly": "वार्षिक",
+      "3years": "3 साल"
+    },
+    "noBenefits": "कोई लाभ उपलब्ध नहीं है",
+    "noPlans": "कोई योजना उपलब्ध नहीं है"
   },
   "addOns": {
     "title": "एड-ऑन",
@@ -98,4 +102,3 @@
     "noCoupons": "कोई कूपन उपलब्ध नहीं है।"
   }
 }
-

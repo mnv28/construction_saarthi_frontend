@@ -42,35 +42,56 @@ export default function CreatePaymentEntryModal({
     { value: 'other', label: t('other', { defaultValue: 'Other' }) },
   ];
 
-  // Generate auto payment number in format RCPT-XXX (sequential, always 3 digits)
+  // Generate auto payment number in format pa-XXXXX (always unique)
   const generatePaymentNumber = () => {
-    // Extract numbers from existing entries (only 3-digit numbers)
+    // Get current timestamp for uniqueness
+    const now = Date.now();
+    const timestamp = now.toString().slice(-6); // Last 6 digits of timestamp
+    
+    // Extract numbers from existing entries (handle different formats)
     const numbers = existingEntries
       .map((entry) => {
         const paymentNo = entry.paymentNo || entry.payment_no || '';
-        // Match RCPT-XXX format (only match 1-3 digit numbers)
-        const match = paymentNo.match(/RCPT-(\d{1,3})$/);
+        
+        // Try different patterns:
+        // 1. RCPT-XXX format
+        // 2. pa-XXXXX format (like pa-13506)
+        // 3. Any number at the end
+        let match = paymentNo.match(/RCPT-(\d{1,6})$/);
         if (match) {
           const num = parseInt(match[1], 10);
-          // Only consider numbers that are 3 digits or less (001-999)
-          return num > 0 && num <= 999 ? num : 0;
+          return num > 0 ? num : 0;
         }
+        
+        // Try pa-XXXXX format (handle up to 6 digits)
+        match = paymentNo.match(/pa-(\d{1,6})$/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          return num > 0 ? num : 0;
+        }
+        
+        // Try any number at the end (up to 6 digits)
+        match = paymentNo.match(/(\d{1,6})$/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          return num > 0 ? num : 0;
+        }
+        
         return 0;
       })
       .filter((num) => num > 0);
 
-    // Get the highest number, or start from 22 if no entries (so next is 023)
-    const maxNumber = numbers.length > 0 ? Math.max(...numbers) : 22;
+    // Get the highest number from existing entries
+    const maxNumber = numbers.length > 0 ? Math.max(...numbers) : 13506;
     
-    // Generate next sequential number (always 3 digits)
-    const nextNumber = maxNumber + 1;
+    // Generate unique number using timestamp + max number
+    // This ensures every modal open gets a new number
+    const uniqueNumber = Math.max(maxNumber, parseInt(timestamp)) + 1;
     
-    // Ensure the number doesn't exceed 999, if it does, wrap around to 001
-    const finalNumber = nextNumber > 999 ? 1 : nextNumber;
+    // Use pa-XXXXX format to match existing pattern
+    const result = `pa-${uniqueNumber}`;
     
-    // Ensure always 3 digits with leading zeros
-    const paddedNumber = String(finalNumber).padStart(3, '0');
-    return `RCPT-${paddedNumber}`;
+    return result;
   };
 
   useEffect(() => {

@@ -185,7 +185,9 @@ export const addLabourNote = async (formData) => {
   if (!(formData instanceof FormData)) {
     throw new Error('addLabourNote requires FormData');
   }
-  return http.post(E.LABOUR.ADD_NOTE, formData);
+  return http.post(E.LABOUR.ADD_NOTE, formData, {
+    timeout: 90000, // Increase timeout to 90 seconds for large voice notes
+  });
 };
 
 export const getLabourProfile = async ({ workspaceId, labourId }) => {
@@ -213,6 +215,24 @@ export const getLabourProfile = async ({ workspaceId, labourId }) => {
   }
 
   // Map API response to expected format for LabourDetails UI
+  const notes = notesArray;
+  
+  // Handle voice notes - check if they are objects with url field
+  let voiceMemos = [];
+  if (data.voiceMemos && Array.isArray(data.voiceMemos)) {
+    voiceMemos = data.voiceMemos.map(item => 
+      typeof item === 'string' ? item : (item.url || item.audio || item)
+    );
+  } else if (data.voiceNotes && Array.isArray(data.voiceNotes)) {
+    voiceMemos = data.voiceNotes.map(item => 
+      typeof item === 'string' ? item : (item.url || item.audio || item)
+    );
+  } else if (data.voice_notes && Array.isArray(data.voice_notes)) {
+    voiceMemos = data.voice_notes.map(item => 
+      typeof item === 'string' ? item : (item.url || item.audio || item)
+    );
+  }
+
   return {
     data: {
       id: data.id,
@@ -227,13 +247,15 @@ export const getLabourProfile = async ({ workspaceId, labourId }) => {
       joinDate: data.join_date,
       profilePhoto: data.category_image_url || '',
       profilePhotoPreview: data.category_image_url || '',
+      profile_photo: data.profile_photo || '', // Ensure this is also available
+      profile_photo_url: data.category_image_url || '',
       shiftType: data.shift_name,
       shiftTypeId: data.shift_type_id,
       projectId: data.project_id,
       projectName: data.project_name,
-      notes: notesArray,
-      voiceMemoUrl: data.voiceNotes?.[0] || '',
-      voiceNotes: data.voiceNotes || [],
+      notes: notes,
+      voiceNotes: voiceMemos,
+      voiceMemoUrl: voiceMemos[0] || '',
       // Attendance Summary
       attendanceSummary: {
         shift: data.shift_name,

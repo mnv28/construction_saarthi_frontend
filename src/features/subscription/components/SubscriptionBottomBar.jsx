@@ -5,6 +5,7 @@
 
 import { useTranslation } from 'react-i18next';
 import Button from '../../../components/ui/Button';
+import { useSubscriptions } from '../hooks';
 
 export default function SubscriptionBottomBar({
   selectedPlan = null,
@@ -13,17 +14,16 @@ export default function SubscriptionBottomBar({
   onContinue,
 }) {
   const { t } = useTranslation('subscription');
+  const { planSummary, purchasedPlan } = useSubscriptions();
 
-  // Default plan if none selected
-  const plan = selectedPlan || {
-    name: 'Monthly',
-    price: 999,
-    period: 'Month',
-    description: 'Contractor + 3 Free Users',
-  };
+  // Get data from planSummary or fallback to selectedPlan/defaults
+  const apiPlan = planSummary?.plan;
+  const payableAmount = apiPlan?.payable_amount ?? (selectedPlan?.price || 0) + (calculationPrice || 0);
+  const planName = apiPlan?.plan_name || selectedPlan?.name || purchasedPlan?.name || 'Monthly';
+  const planPeriod = selectedPlan?.period || purchasedPlan?.billing_period || 'Month';
 
-  // Calculate total amount: plan price + calculation price
-  const totalAmount = (plan.price || 0) + (calculationPrice || 0);
+  // Format description
+  const description = selectedPlan?.description || purchasedPlan?.description || t('availablePlans.plans.description', { defaultValue: 'Contractor + 3 Free Users' });
 
   const handleCancel = () => {
     if (onCancel) {
@@ -39,21 +39,30 @@ export default function SubscriptionBottomBar({
 
   return (
     <div className="mt-6">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-4 bg-white p-6 rounded-lg">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
         {/* Plan Summary */}
         <div className="">
           <p className="text-base md:text-[22px] font-medium text-primary">
-            ₹{totalAmount.toLocaleString()}
-            <span className="text-sm text-primary-light"> /{plan.period} </span>
+            ₹{Number(payableAmount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <span className="text-sm text-primary-light"> /{planPeriod}</span>
           </p>
           <p className="text-xs md:text-sm text-primary-light">
-            {plan.description}
+            {description}
           </p>
         </div>
 
-          {/* Action Buttons */}
-          {/* <div className="flex gap-3 md:flex-row flex-col w-full md:w-auto"> */}
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3">
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={handleCancel}
+            className="!px-12 !py-3 rounded-xl border border-[#060C121A] !bg-white !text-primary hover:!bg-gray-50"
+          >
+            {t("bottomBar.cancel", { defaultValue: "Cancel" })}
+          </Button>
+
           <Button
             variant="primary"
             size="md"
@@ -62,8 +71,7 @@ export default function SubscriptionBottomBar({
           >
             {t("bottomBar.continue", { defaultValue: "Continue" })}
           </Button>
-          {/* </div> */}
-        {/* </div> */}
+        </div>
       </div>
     </div>
 

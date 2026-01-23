@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AuthLayout from '../layouts/AuthLayout';
 import Input from '../../../components/ui/Input';
@@ -14,14 +14,30 @@ import registerImage from '../../../assets/images/Register.png';
 export default function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [searchParams] = useSearchParams();
+  
+  // Extract URL parameters
+  const refCode = searchParams.get('ref');
+  const uniqueId = searchParams.get('uniq');
+  
+  const [formData, setFormData] = useState(() => ({
     fullName: '',
     phone: '',
-    referralCode: '',
+    referralCode: refCode || '', // Pre-fill from URL using function form
     agreeToTerms: false,
-  });
+  }));
   const [countryCode, setCountryCode] = useState('+91');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Update referral code if URL parameters change
+  useEffect(() => {
+    if (refCode && formData.referralCode !== refCode) {
+      setFormData(prev => ({
+        ...prev,
+        referralCode: refCode
+      }));
+    }
+  }, [refCode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +53,14 @@ export default function RegisterPage() {
         type: 'register',
       };
 
-      // Add referral code if provided
+      // Add referral code and unique ID if provided
       if (formData.referralCode.trim()) {
         requestData.referral_code = formData.referralCode.trim();
+      }
+      
+      // Add unique ID from URL if available
+      if (uniqueId) {
+        requestData.unique_id = uniqueId;
       }
 
       const response = await sendOTP(requestData);

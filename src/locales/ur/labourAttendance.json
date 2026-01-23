@@ -99,10 +99,18 @@
     "deductions": "کٹوتیاں",
     "notesAndVoiceMemos": "نوٹس اور وائس میموز",
     "addNote": "نوٹ شامل کریں",
+    "addNotes": "نوٹس شامل کریں",
+    "textNote": "ٹیکسٹ نوٹ",
+    "voiceNote": "وائس نوٹ",
+    "both": "دونوں",
+    "recording": "ریکارڈنگ ہو رہی ہے",
+    "rerecord": "دوبارہ ریکارڈ کریں",
+    "holdMicToRecord": "اپنی آواز ریکارڈ کرنے کے لیے مائیک دبائے رکھیں",
     "writeNotePlaceholder": "نوٹ لکھیں…",
     "selectedFile": "منتخب شدہ:",
     "missingDetails": "ورک اسپیس/مزدور کی تفصیلات غائب ہیں",
     "savingNote": "نوٹ محفوظ کیا جا رہا ہے…",
+    "addingNote": "شامل کیا جا رہا ہے...",
     "noteAdded": "نوٹ شامل کر دیا گیا",
     "noteAddFail": "نوٹ شامل کرنے میں ناکام",
     "validAmount": "براہ کرم درست رقم درج کریں",
@@ -114,7 +122,12 @@
     "bonusFail": "بونس شامل کرنے میں ناکام",
     "addingDeduction": "کٹوتی شامل کی جا رہی ہے…",
     "deductionAdded": "کٹوتی شامل کر دی گئی",
-    "deductionFail": "کٹوتی شامل کرنے میں ناکام"
+    "deductionFail": "کٹوتی شامل کرنے میں ناکام",
+    "errors": {
+      "voiceNoteRequired": "وائس نوٹ درکار ہے",
+      "textNoteRequired": "ٹیکسٹ نوٹ درکار ہے",
+      "microphoneAccess": "مائیکروفون تک رسائی سے انکار کر دیا گیا۔ براہ کرم مائیکروفون تک رسائی کی اجازت دیں۔"
+    }
   },
   "overtimeModal": {
     "title": "اوور ٹائم درج کریں",

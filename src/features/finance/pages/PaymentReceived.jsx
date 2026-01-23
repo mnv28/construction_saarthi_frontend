@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ROUTES_FLAT, getRoute } from "../../../constants/routes";
 import PageHeader from "../../../components/layout/PageHeader";
+import { useAuth } from "../../auth/store";
 import SearchBar from "../../../components/ui/SearchBar";
 import Button from "../../../components/ui/Button";
 import DropdownMenu from "../../../components/ui/DropdownMenu";
@@ -33,6 +34,7 @@ export default function PaymentReceived() {
   const { t } = useTranslation("finance");
   const navigate = useNavigate();
   const { projectId } = useParams();
+  const { selectedWorkspace } = useAuth();
 
   // State management
   const [searchQuery, setSearchQuery] = useState("");
@@ -169,6 +171,8 @@ export default function PaymentReceived() {
           : parseFloat(formData.amount),
         method: mapModeToMethod(formData.mode),
         description: formData.description || '',
+        project_id: projectId,
+        workspace_id: selectedWorkspace,
       };
 
       // Add bank_id if available

@@ -1,15 +1,11 @@
-/**
- * Project Documents Page
- * Shows document categories for a specific project
- */
-
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
+import Loader from '../../../components/ui/Loader';
 import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
+import { getProjectDocuments } from '../../projects/api';
 
 // Static project names mapping
 const staticProjectNames = {
@@ -26,105 +22,33 @@ export default function ProjectDocuments() {
   const { t } = useTranslation('documents');
   const navigate = useNavigate();
   const { projectId } = useParams();
-  
+
+  const [documents, setDocuments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const projectName = staticProjectNames[projectId] || t('project');
-
-  const [expandedCategories, setExpandedCategories] = useState({
-    preConstruction: true,
-    procurement: true,
-    safety: true,
-    financial: true,
-    handover: true,
-  });
-
-  const toggleCategory = (category) => {
-    setExpandedCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }));
-  };
 
   const handleDocumentClick = (documentId) => {
     navigate(getRoute(ROUTES_FLAT.DOCUMENTS_DOCUMENT_DETAILS, { projectId, documentId }));
   };
 
-  const documentCategories = useMemo(() => [
-    {
-      id: 'preConstruction',
-      title: t('categories.preConstruction'),
-      documents: [
-        {
-          id: 'proposal',
-          name: t('documents.proposal'),
-          description: t('documents.proposalDescription'),
-        },
-        {
-          id: 'approval',
-          name: t('documents.approval'),
-          description: t('documents.approvalDescription'),
-        },
-      ],
-    },
-    {
-      id: 'procurement',
-      title: t('categories.procurement'),
-      documents: [
-        {
-          id: 'material',
-          name: t('documents.material'),
-          description: t('documents.materialDescription'),
-        },
-        {
-          id: 'vendor',
-          name: t('documents.vendor'),
-          description: t('documents.vendorDescription'),
-        },
-      ],
-    },
-    {
-      id: 'safety',
-      title: t('categories.safety'),
-      documents: [
-        {
-          id: 'safety',
-          name: t('documents.safety'),
-          description: t('documents.safetyDescription'),
-        },
-      ],
-    },
-    {
-      id: 'financial',
-      title: t('categories.financial'),
-      documents: [
-        {
-          id: 'raBill',
-          name: t('documents.raBill'),
-          description: t('documents.raBillDescription'),
-        },
-        {
-          id: 'finalBill',
-          name: t('documents.finalBill'),
-          description: t('documents.finalBillDescription'),
-        },
-      ],
-    },
-    {
-      id: 'handover',
-      title: t('categories.handover'),
-      documents: [
-        {
-          id: 'completion',
-          name: t('documents.completion'),
-          description: t('documents.completionDescription'),
-        },
-        {
-          id: 'maintenance',
-          name: t('documents.maintenance'),
-          description: t('documents.maintenanceDescription'),
-        },
-      ],
-    },
-  ], [t]);
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      if (!projectId) return;
+
+      try {
+        setIsLoading(true);
+        const data = await getProjectDocuments(projectId);
+        setDocuments(data);
+      } catch (error) {
+        console.error('Error fetching project documents:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, [projectId]);
 
   return (
     <div className="max-w-7xl mx-auto relative">
@@ -138,53 +62,36 @@ export default function ProjectDocuments() {
         <img src={aiPoweredIcon} alt="AI Powered" className="h-9 cursor-pointer" />
       </div>
 
-      {/* Document Categories */}
+      {/* Documents List */}
       <div className="space-y-4 mt-6">
-        {documentCategories.map((category) => (
-          <div
-            key={category.id}
-            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
-          >
-            {/* Category Header */}
-            <button
-              onClick={() => toggleCategory(category.id)}
-              className="w-full px-4 sm:px-6 py-4 flex items-center justify-between cursor-pointer"
-            >
-              <h3 className="text-base sm:text-lg font-medium text-primary">
-                {category.title}
-              </h3>
-              {expandedCategories[category.id] ? (
-                <ChevronUp className="w-5 h-5 text-secondary" />
-              ) : (
-                <ChevronDown className="w-5 h-5 text-secondary" />
-              )}
-            </button>
-
-            {/* Category Documents */}
-            {expandedCategories[category.id] && (
-              <div className="px-4 sm:px-6 pb-4 space-y-3">
-                {category.documents.map((document) => (
-                  <div
-                    key={document.id}
-                    onClick={() => handleDocumentClick(document.id)}
-                    className="bg-white rounded-lg p-4 border border-gray-200 flex items-start gap-3 relative cursor-pointer"
-                  >
-                    {/* Red vertical bar - Vector element */}
-                    <div className="w-1 h-6 bg-accent rounded-full absolute left-0 top-3 bottom-4"></div>
-                    <div className="flex-1 pl-3">
-                      <h4 className="text-sm sm:text-base font-medium text-primary mb-1">
-                        {document.name}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-secondary">
-                        {document.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader size="lg" />
           </div>
-        ))}
+        ) : documents.length === 0 ? (
+          <div className="flex items-center justify-center py-20">
+            <p className="text-secondary">{t('noDocumentsFound', { defaultValue: 'No documents found' })}</p>
+          </div>
+        ) : (
+          documents.map((document) => (
+            <div
+              key={document.id}
+              onClick={() => handleDocumentClick(document.id)}
+              className="bg-white rounded-xl p-4 border border-gray-100 flex items-start gap-3 relative cursor-pointer shadow-sm"
+            >
+              {/* Red vertical bar - Vector element */}
+              <div className="w-1 h-8 bg-accent rounded-full absolute left-0 top-1/2 -translate-y-1/2"></div>
+              <div className="flex-1 pl-3">
+                <h4 className="text-sm sm:text-base font-semibold text-primary mb-1">
+                  {document.title}
+                </h4>
+                <p className="text-xs sm:text-sm text-secondary">
+                  {document.prompt_title}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

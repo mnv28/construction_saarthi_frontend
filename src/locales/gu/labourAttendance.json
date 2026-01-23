@@ -99,10 +99,18 @@
     "deductions": "કપાત",
     "notesAndVoiceMemos": "નોંધો અને વૉઇસ મેમો",
     "addNote": "નોંધ ઉમેરો",
+    "addNotes": "નોંધો ઉમેરો",
+    "textNote": "ટેક્સ્ટ નોંધ",
+    "voiceNote": "વૉઇસ નોંધ",
+    "both": "બંને",
+    "recording": "રેકોર્ડિંગ",
+    "rerecord": "ફરીથી રેકોર્ડ કરો",
+    "holdMicToRecord": "તમારો અવાજ રેકોર્ડ કરવા માટે માઇક દબાવી રાખો",
     "writeNotePlaceholder": "નોંધ લખો…",
     "selectedFile": "પસંદ કરેલ:",
     "missingDetails": "વર્કસ્પેસ/મજૂર વિગતો ગુમ છે",
     "savingNote": "નોંધ સાચવી રહ્યા છીએ…",
+    "addingNote": "ઉમેરી રહ્યા છીએ...",
     "noteAdded": "નોંધ ઉમેરી",
     "noteAddFail": "નોંધ ઉમેરવામાં નિષ્ફળ",
     "validAmount": "કૃપા કરીને માન્ય રકમ દાખલ કરો",
@@ -114,7 +122,12 @@
     "bonusFail": "બોનસ ઉમેરવામાં નિષ્ફળ",
     "addingDeduction": "કપાત ઉમેરી રહ્યા છીએ…",
     "deductionAdded": "કપાત ઉમેરી",
-    "deductionFail": "કપાત ઉમેરવામાં નિષ્ફળ"
+    "deductionFail": "કપાત ઉમેરવામાં નિષ્ફળ",
+    "errors": {
+      "voiceNoteRequired": "વૉઇસ નોંધ આવશ્યક છે",
+      "textNoteRequired": "ટેક્સ્ટ નોંધ આવશ્યક છે",
+      "microphoneAccess": "માઇક્રોફોન ઍક્સેસ નકારવામાં આવ્યો. કૃપા કરીને માઇક્રોફોન ઍક્સેસની મંજૂરી આપો."
+    }
   },
   "overtimeModal": {
     "title": "ઓવરટાઇમ દાખલ કરો",

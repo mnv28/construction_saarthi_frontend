@@ -99,10 +99,18 @@
     "deductions": "कपाती",
     "notesAndVoiceMemos": "नोट्स आणि व्हॉइस मेमो",
     "addNote": "नोट जोडा",
+    "addNotes": "नोट्स जोडा",
+    "textNote": "टेक्स्ट नोट",
+    "voiceNote": "व्हॉइस नोट",
+    "both": "दोन्ही",
+    "recording": "रेकॉर्डिंग",
+    "rerecord": "पुन्हा रेकॉर्ड करा",
+    "holdMicToRecord": "तुमचा आवाज रेकॉर्ड करण्यासाठी माइक दाबून ठेवा",
     "writeNotePlaceholder": "नोट लिहा…",
     "selectedFile": "निवडलेले:",
     "missingDetails": "वर्कस्पेस/कामगार तपशील गहाळ आहेत",
     "savingNote": "नोट सेव्ह केला जात आहे…",
+    "addingNote": "जोडले जात आहे...",
     "noteAdded": "नोट जोडला",
     "noteAddFail": "नोट जोडण्यात अयशस्वी",
     "validAmount": "कृपया वैध रक्कम प्रविष्ट करा",
@@ -114,7 +122,12 @@
     "bonusFail": "बोनस जोडण्यात अयशस्वी",
     "addingDeduction": "कपात जोडली जात आहे…",
     "deductionAdded": "कपात जोडली",
-    "deductionFail": "कपात जोडण्यात अयशस्वी"
+    "deductionFail": "कपात जोडण्यात अयशस्वी",
+    "errors": {
+      "voiceNoteRequired": "व्हॉइस नोट आवश्यक आहे",
+      "textNoteRequired": "टेक्स्ट नोट आवश्यक आहे",
+      "microphoneAccess": "मायक्रोफोन ऍक्सेस नाकारला. कृपया मायक्रोफोन ऍक्सेसला अनुमती द्या."
+    }
   },
   "overtimeModal": {
     "title": "ओव्हरटाइम प्रविष्ट करा",

@@ -52,6 +52,7 @@ export const ROUTES = {
     HOME: '/subscription',
     ADDED_MEMBERS: '/subscription/added-members',
     COUPON: '/subscription/coupon',
+    AVAILABLE_PLANS: '/subscription/available-plans',
   },
   // Site Inventory Routes
   SITE_INVENTORY: {
@@ -384,6 +385,7 @@ export const ROUTES_FLAT = {
   SUBSCRIPTION: ROUTES.SUBSCRIPTION.HOME,
   SUBSCRIPTION_ADDED_MEMBERS: ROUTES.SUBSCRIPTION.ADDED_MEMBERS,
   SUBSCRIPTION_COUPON: ROUTES.SUBSCRIPTION.COUPON,
+  SUBSCRIPTION_AVAILABLE_PLANS: ROUTES.SUBSCRIPTION.AVAILABLE_PLANS,
 
   // Site Inventory
   SITE_INVENTORY: ROUTES.SITE_INVENTORY.LIST,

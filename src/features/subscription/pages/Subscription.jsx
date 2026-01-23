@@ -16,27 +16,29 @@ import { prepareSubscription, createPaymentOrder, verifyPayment, reportPaymentFa
 import { showLoading, updateToast, showError, showSuccess } from '../../../utils/toast';
 import {
   CurrentPlan,
-  AvailablePlans,
+  SubscriptionActivities,
   AddOns,
   OffersRewards,
   SubscriptionBottomBar,
+  AvailablePlans,
 } from '../components';
+import { ChevronRight } from 'lucide-react';
 import { ROUTES_FLAT } from '../../../constants/routes';
 
 function SubscriptionContent() {
   const { t } = useTranslation('subscription');
   const navigate = useNavigate();
   const location = useLocation();
-  const { isLoadingSubscriptions } = useSubscriptions();
+  const { isLoadingSubscriptions, hasActiveSubscription, purchasedPlan } = useSubscriptions();
   const [selectedPlanId, setSelectedPlanId] = useState('yearly');
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlanData, setSelectedPlanData] = useState(null); // Full plan data including apiId
   const [appliedCoupon, setAppliedCoupon] = useState(
     location.state?.appliedCoupon || null
   );
-  const [totalMainUsers, setTotalMainUsers] = useState(5); // Default values
-  const [totalSubUsers, setTotalSubUsers] = useState(10);
-  const [totalCalculationRequired, setTotalCalculationRequired] = useState(25); // Default 25
+  const [totalMainUsers, setTotalMainUsers] = useState(1); // Default values
+  const [totalSubUsers, setTotalSubUsers] = useState(0);
+  const [totalCalculationRequired, setTotalCalculationRequired] = useState(0);
   const [calculationPrice, setCalculationPrice] = useState(0); // Price for calculations addon
 
   useEffect(() => {
@@ -87,17 +89,22 @@ function SubscriptionContent() {
   }, []);
 
   const handleContinue = useCallback(async () => {
-    if (!selectedPlanData || !selectedPlanData.apiId) {
+    // Use selected plan apiId or fallback to purchased plan id
+    const planId = selectedPlanData?.apiId || purchasedPlan?.id;
+
+    if (!planId) {
       showError('Please select a subscription plan');
       return;
     }
 
     const toastId = showLoading('Preparing subscription...');
-    
+
     try {
       // Step 1: Prepare subscription
       const preparePayload = {
-        subscription_plan_id: Number(selectedPlanData.apiId),
+        subscription_plan_id: Number(planId),
+        // These can be dynamically set based on what changed, 
+        // but often the backend handles add-ons from previous sync calls
         total_main_users: totalMainUsers,
         total_sub_users: totalSubUsers,
         total_calculation_required: totalCalculationRequired,
@@ -109,7 +116,7 @@ function SubscriptionContent() {
       }
 
       const prepareResponse = await prepareSubscription(preparePayload);
-      
+
       if (!prepareResponse?.redis_key) {
         throw new Error('Failed to prepare subscription: No redis_key received');
       }
@@ -118,7 +125,7 @@ function SubscriptionContent() {
 
       // Step 2: Create payment order
       const orderToastId = showLoading('Creating payment order...');
-      
+
       const orderResponse = await createPaymentOrder({
         redis_key: prepareResponse.redis_key,
       });
@@ -137,7 +144,7 @@ function SubscriptionContent() {
 
       // Step 4: Open Razorpay payment modal
       // Get amount from prepareResponse (payable_amount in rupees) - convert to paise
-      const amountInPaise = prepareResponse.payable_amount 
+      const amountInPaise = prepareResponse.payable_amount
         ? Math.round(prepareResponse.payable_amount * 100) // Convert rupees to paise
         : 0;
 
@@ -170,15 +177,15 @@ function SubscriptionContent() {
 
             updateToast(verifyToastId, { type: 'success', message: 'Payment verified successfully' });
             showSuccess('Payment successful! Your subscription is now active.');
-            
+
             // TODO: Refresh subscription data or navigate to success page
             // You may want to refetch subscription data here
             console.log('Payment verified:', verifyResponse);
           } catch (error) {
             console.error('Payment verification error:', error);
-            updateToast(verifyToastId, { 
-              type: 'error', 
-              message: error?.response?.data?.message || error?.message || 'Payment verification failed' 
+            updateToast(verifyToastId, {
+              type: 'error',
+              message: error?.response?.data?.message || error?.message || 'Payment verification failed'
             });
           }
         },
@@ -199,15 +206,15 @@ function SubscriptionContent() {
 
       const rzp = new window.Razorpay(options);
       rzp.open();
-      
+
     } catch (error) {
       console.error('Subscription flow error:', error);
-      updateToast(toastId, { 
-        type: 'error', 
-        message: error?.response?.data?.message || error?.message || 'Failed to process subscription' 
+      updateToast(toastId, {
+        type: 'error',
+        message: error?.response?.data?.message || error?.message || 'Failed to process subscription'
       });
     }
-  }, [selectedPlanData, totalMainUsers, totalSubUsers, totalCalculationRequired, appliedCoupon, selectedPlan, loadRazorpayScript]);
+  }, [selectedPlanData, purchasedPlan, totalMainUsers, totalSubUsers, totalCalculationRequired, appliedCoupon, selectedPlan, loadRazorpayScript]);
 
   // Default plan if none selected
   const displayPlan = selectedPlan || {
@@ -218,58 +225,78 @@ function SubscriptionContent() {
   };
 
   return (
+    <div className="max-w-7xl mx-auto px-0 md:px-4">
+      <PageHeader
+        title={t('header.title', { defaultValue: 'My Subscription' })}
+        showBackButton={false}
+      >
+        <div className="flex justify-start md:justify-end">
+          <Button
+            variant="primary"
+            size="sm"
+            className="whitespace-nowrap rounded-lg px-4 py-2"
+            onClick={handleViewWallet}
+          >
+            {t('header.viewWallet', { defaultValue: 'View My Wallet' })}
+          </Button>
+        </div>
+      </PageHeader>
 
-      <div className="max-w-7xl mx-auto px-0 md:px-4">
-        <PageHeader 
-          title={t('header.title', { defaultValue: 'My Subscription' })}
-          showBackButton={false}
-        >
-          <div className="flex justify-start md:justify-end">
-            <Button
-              variant="primary"
-              size="sm"
-              className="whitespace-nowrap rounded-lg px-4 py-2"
-              onClick={handleViewWallet}
-            >
-              {t('header.viewWallet', { defaultValue: 'View My Wallet' })}
-            </Button>
-          </div>
-        </PageHeader>
-
-        {isLoadingSubscriptions ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader size="lg" />
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <CurrentPlan />
-            <AvailablePlans 
+      {isLoadingSubscriptions ? (
+        <div className="flex items-center justify-center py-20">
+          <Loader size="lg" />
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {!hasActiveSubscription ? (
+            // No Active Subscription: Show Plan Selection UI
+            <AvailablePlans
               selectedPlanId={selectedPlanId}
               onPlanSelect={handlePlanSelect}
             />
-            <AddOns 
-              onCalculationChange={(quantity) => {
-                setTotalCalculationRequired(quantity);
-                // Calculate price: (quantity - 25) * 10, minimum 0
-                setCalculationPrice(Math.max(0, (quantity - 25) * 10));
-              }}
-              onUsersChange={(mainUsers, subUsers) => {
-                setTotalMainUsers(mainUsers);
-                setTotalSubUsers(subUsers);
-              }}
-            />
-            <OffersRewards appliedCoupon={appliedCoupon} />
-            
-            {/* Bottom Bar - Inside Page Content */}
-            <SubscriptionBottomBar
-              selectedPlan={displayPlan}
-              calculationPrice={calculationPrice}
-              onCancel={handleCancel}
-              onContinue={handleContinue}
-            />
-          </div>
-        )}
-      </div>
+          ) : (
+            // Active Subscription: Show Management UI
+            <>
+              <CurrentPlan />
+              <SubscriptionActivities />
+              <AddOns
+                onCalculationChange={(quantity) => {
+                  setTotalCalculationRequired(quantity);
+                  // Calculate price: (quantity - base) * price
+                  const base = purchasedPlan?.addCalculation?.minimum_calculation || 25;
+                  const price = purchasedPlan?.addCalculation?.price_per_member || 10;
+                  setCalculationPrice(Math.max(0, (quantity - base) * price));
+                }}
+                onUsersChange={(mainUsers, subUsers) => {
+                  setTotalMainUsers(mainUsers);
+                  setTotalSubUsers(subUsers);
+                }}
+              />
+
+              <button
+                onClick={() => navigate(ROUTES_FLAT.SUBSCRIPTION_AVAILABLE_PLANS)}
+                className="w-full bg-[#F9F4EE] rounded-2xl border cursor-pointer border-[#060C120F] p-4 md:p-5 flex items-center justify-between group transition-colors hover:bg-[#F2E8DB]"
+              >
+                <span className="font-medium text-primary">
+                  {t('availablePlans.viewAll', { defaultValue: 'View all available plans' })}
+                </span>
+                <ChevronRight className="w-5 h-5 text-[#060C124D] group-hover:text-primary" />
+              </button>
+            </>
+          )}
+
+          <OffersRewards appliedCoupon={appliedCoupon} />
+
+          {/* Bottom Bar - Inside Page Content */}
+          <SubscriptionBottomBar
+            selectedPlan={displayPlan}
+            calculationPrice={calculationPrice}
+            onCancel={handleCancel}
+            onContinue={handleContinue}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 

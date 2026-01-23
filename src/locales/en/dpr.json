@@ -10,7 +10,12 @@
     "all": "All",
     "completed": "Completed",
     "inProgress": "In Progress",
-    "upcoming": "Upcoming"
+    "upcoming": "Upcoming",
+    "today": "Today",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month",
+    "last3Months": "Last 3 Months",
+    "custom": "Custom"
   },
   "actions": {
     "addReport": "Add Report",
@@ -90,4 +95,3 @@
     "confirmText": "Yes, Delete"
   }
 }
-

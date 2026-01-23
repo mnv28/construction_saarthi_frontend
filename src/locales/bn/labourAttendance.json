@@ -99,10 +99,18 @@
     "deductions": "কাটছাঁট",
     "notesAndVoiceMemos": "নোট এবং ভয়েস মেমো",
     "addNote": "নোট যোগ করুন",
+    "addNotes": "নোটগুলি যোগ করুন",
+    "textNote": "টেক্সট নোট",
+    "voiceNote": "ভয়েস নোট",
+    "both": "উভয়",
+    "recording": "রেকর্ডিং হচ্ছে",
+    "rerecord": "আবার রেকর্ড করুন",
+    "holdMicToRecord": "ভয়েস রেকর্ড করতে মাইক চেপে ধরুন",
     "writeNotePlaceholder": "একটি নোট লিখুন…",
     "selectedFile": "নির্বাচিত:",
     "missingDetails": "ওয়ার্কস্পেস/শ্রমিকের বিবরণ অনুপস্থিত",
     "savingNote": "নোট সংরক্ষণ করা হচ্ছে…",
+    "addingNote": "যোগ করা হচ্ছে...",
     "noteAdded": "নোট যোগ করা হয়েছে",
     "noteAddFail": "নোট যোগ করতে ব্যর্থ",
     "validAmount": "অনুগ্রহ করে একটি বৈধ পরিমাণ লিখুন",
@@ -114,7 +122,12 @@
     "bonusFail": "বোনাস যোগ করতে ব্যর্থ",
     "addingDeduction": "কাটছাঁট যোগ করা হচ্ছে…",
     "deductionAdded": "কাটছাঁট যোগ করা হয়েছে",
-    "deductionFail": "কাটছাঁট যোগ করতে ব্যর্থ"
+    "deductionFail": "কাটছাঁট যোগ করতে ব্যর্থ",
+    "errors": {
+      "voiceNoteRequired": "ভয়েস নোট প্রয়োজন",
+      "textNoteRequired": "টেক্সট নোট প্রয়োজন",
+      "microphoneAccess": "মাইক্রোফোন অ্যাক্সেস নেই। অনুগ্রহ করে মাইক্রোফোন অ্যাক্সেস মঞ্জুর করুন।"
+    }
   },
   "overtimeModal": {
     "title": "ওভারটাইম লিখুন",

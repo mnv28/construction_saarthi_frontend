@@ -110,101 +110,102 @@ export default function DatePicker({
           {required && <span className="text-accent ml-1">*</span>}
         </label>
       )}
-      
+
       <ThemeProvider theme={datePickerTheme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MuiDatePicker
-          value={value ? dayjs(value) : null}
-          onChange={(newValue) => {
-            if (onChange) {
-              onChange(newValue ? newValue.toDate() : null);
-            }
-          }}
-          disabled={disabled}
-          minDate={minDate ? dayjs(minDate) : undefined}
-          maxDate={maxDate ? dayjs(maxDate) : undefined}
-          format="DD/MM/YYYY"
-          slotProps={{
-            textField: {
-              placeholder: placeholder,
-              error: !!error,
-              helperText: error,
-              fullWidth: true,
-              size: 'small',
-              sx: {
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  fontFamily: 'inherit',
-                  backgroundColor: disabled ? '#F9FAFB' : '#FFFFFF',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: error ? '#EF4444' : '#9CA3AF !important',
-                    borderWidth: '1px !important',
+            value={value ? dayjs(value) : null}
+            onChange={(newValue) => {
+              if (onChange) {
+                onChange(newValue ? newValue.toDate() : null);
+              }
+            }}
+            disabled={disabled}
+            minDate={minDate ? dayjs(minDate) : undefined}
+            maxDate={maxDate ? dayjs(maxDate) : undefined}
+            format="DD/MM/YYYY"
+            slotProps={{
+              textField: {
+                placeholder: placeholder,
+                error: !!error,
+                helperText: error,
+                fullWidth: true,
+                size: 'small',
+                onKeyDown: props.onKeyDown,
+                sx: {
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px',
+                    fontFamily: 'inherit',
+                    backgroundColor: disabled ? '#F9FAFB' : '#FFFFFF',
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: error ? '#B02E0C' : '#9CA3AF !important',
+                      borderWidth: '1px !important',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: error ? '#B02E0C !important' : 'rgba(0, 0, 0, 0.3) !important',
+                      borderWidth: '1px !important',
+                    },
+                    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#B02E0C !important',
+                      borderWidth: '1px !important',
+                    },
+                    '&.Mui-disabled': {
+                      opacity: 0.5,
+                      cursor: 'not-allowed',
+                      backgroundColor: '#F9FAFB',
+                    },
+                    '& fieldset': {
+                      borderColor: error ? '#B02E0C' : '#D1D5DB',
+                      borderWidth: '1px',
+                      transition: 'border-color 0.2s ease',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: error ? '#B02E0C !important' : 'rgba(0, 0, 0, 0.3) !important',
+                      borderWidth: '1px !important',
+                    },
                   },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: error ? '#EF4444 !important' : 'rgba(0, 0, 0, 0.3) !important',
-                    borderWidth: '1px !important',
+                  '& .MuiInputLabel-root': {
+                    display: 'none',
                   },
-                  '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#EF4444 !important',
-                    borderWidth: '1px !important',
+                  '& .MuiInputBase-input': {
+                    fontFamily: 'inherit',
+                    fontSize: '0.875rem',
+                    padding: '10px 16px',
+                    color: '#060C12',
+                    cursor: disabled ? 'not-allowed' : 'text',
+                    '&::placeholder': {
+                      color: '#060C1280',
+                      opacity: 1,
+                    },
+                    '&:focus': {
+                      outline: 'none',
+                    },
                   },
-                  '&.Mui-disabled': {
-                    opacity: 0.5,
-                    cursor: 'not-allowed',
-                    backgroundColor: '#F9FAFB',
+                  '& .MuiFormHelperText-root': {
+                    fontFamily: 'inherit',
+                    fontSize: '0.875rem',
+                    marginTop: '4px',
+                    marginLeft: '0px',
+                    color: '#B02E0C',
                   },
-                  '& fieldset': {
-                    borderColor: error ? '#EF4444' : '#D1D5DB',
-                    borderWidth: '1px',
-                    transition: 'border-color 0.2s ease',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: error ? '#EF4444 !important' : 'rgba(0, 0, 0, 0.3) !important',
-                    borderWidth: '1px !important',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  display: 'none',
-                },
-                '& .MuiInputBase-input': {
-                  fontFamily: 'inherit',
-                  fontSize: '0.875rem',
-                  padding: '10px 16px',
-                  color: '#060C12',
-                  cursor: disabled ? 'not-allowed' : 'text',
-                  '&::placeholder': {
-                    color: '#060C1280',
-                    opacity: 1,
-                  },
-                  '&:focus': {
-                    outline: 'none',
-                  },
-                },
-                '& .MuiFormHelperText-root': {
-                  fontFamily: 'inherit',
-                  fontSize: '0.875rem',
-                  marginTop: '4px',
-                  marginLeft: '0px',
-                  color: '#EF4444',
-                },
-                '& .MuiIconButton-root': {
-                  color: '#6B6B6B',
-                  padding: '8px',
-                  '&:hover': {
-                    backgroundColor: 'rgba(6, 12, 18, 0.04)',
-                  },
-                  '&:focus': {
-                    outline: 'none',
-                  },
-                  '&.Mui-disabled': {
-                    opacity: 0.5,
+                  '& .MuiIconButton-root': {
+                    color: '#6B6B6B',
+                    padding: '8px',
+                    '&:hover': {
+                      backgroundColor: 'rgba(6, 12, 18, 0.04)',
+                    },
+                    '&:focus': {
+                      outline: 'none',
+                    },
+                    '&.Mui-disabled': {
+                      opacity: 0.5,
+                    },
                   },
                 },
               },
-            },
-          }}
-          {...props}
-        />
+            }}
+            {...props}
+          />
         </LocalizationProvider>
       </ThemeProvider>
     </div>

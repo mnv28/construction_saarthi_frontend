@@ -45,6 +45,7 @@ const Wallet = lazy(() => import('../features/refer_earn/pages/Wallet'));
 const Subscription = lazy(() => import('../features/subscription/pages/Subscription'));
 const AddedMembers = lazy(() => import('../features/subscription/pages/AddedMembers'));
 const Coupon = lazy(() => import('../features/subscription/pages/Coupon'));
+const AvailablePlans = lazy(() => import('../features/subscription/pages/AvailablePlans'));
 
 // Site Inventory
 const SiteInventory = lazy(() => import('../features/siteInventory/pages/SiteInventory'));
@@ -422,6 +423,7 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.SUBSCRIPTION} element={<Subscription />} />
             <Route path={ROUTES_FLAT.SUBSCRIPTION_ADDED_MEMBERS} element={<AddedMembers />} />
             <Route path={ROUTES_FLAT.SUBSCRIPTION_COUPON} element={<Coupon />} />
+            <Route path={ROUTES_FLAT.SUBSCRIPTION_AVAILABLE_PLANS} element={<AvailablePlans />} />
             <Route path={ROUTES_FLAT.SITE_INVENTORY} element={<SiteInventory />} />
             <Route path={ROUTES_FLAT.ADD_SITE_INVENTORY} element={<AddSiteInventory />} />
             <Route path={ROUTES_FLAT.EDIT_SITE_INVENTORY} element={<EditSiteInventory />} />

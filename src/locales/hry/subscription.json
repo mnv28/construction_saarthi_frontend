@@ -10,7 +10,7 @@
     "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बचे"
   },
   "availablePlans": {
-    "title": "उपलब्ध योजना",
+    "title": "खासियत",
     "saveAmount": "₹{{amount}} बचाओ",
     "bestValue": "सबसे बढ़िया कीमत",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "कोई कूपन उपलब्ध ना।"
   }
 }
-

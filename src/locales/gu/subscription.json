@@ -10,7 +10,7 @@
     "daysLeft": "મફત ટ્રાયલમાં {{days}} દિવસ બાકી"
   },
   "availablePlans": {
-    "title": "ઉપલબ્ધ યોજનાઓ",
+    "title": "વિશેષતાઓ",
     "saveAmount": "₹{{amount}} બચાવો",
     "bestValue": "શ્રેષ્ઠ મૂલ્ય",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "કોઈ કૂપન ઉપલબ્ધ નથી."
   }
 }
-

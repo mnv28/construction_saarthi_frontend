@@ -13,17 +13,17 @@ import { SUBSCRIPTION_ENDPOINTS_FLAT } from '../constants/subscriptionEndpoints'
 export const getAvailablePlans = async () => {
   try {
     const response = await http.get(SUBSCRIPTION_ENDPOINTS_FLAT.AVAILABLE_PLANS);
-    
+
     // Handle different response structures
     if (Array.isArray(response)) {
       return response;
     }
-    
+
     // Check for features property (API returns { features: [...] })
     if (response?.features && Array.isArray(response.features)) {
       return response.features;
     }
-    
+
     // Fallback to other possible structures
     return response?.data || response?.plans || [];
   } catch (error) {
@@ -39,13 +39,7 @@ export const getAvailablePlans = async () => {
 export const getSubscriptionPlans = async () => {
   try {
     const response = await http.get(SUBSCRIPTION_ENDPOINTS_FLAT.GET_SUBSCRIPTION_PLANS);
-    
-    // Handle different response structures
-    if (Array.isArray(response)) {
-      return response;
-    }
-    
-    return response?.data || response?.plans || [];
+    return response;
   } catch (error) {
     console.error('Get subscription plans error:', error);
     throw error;
@@ -66,12 +60,12 @@ export const getEligibleCoupons = async (subscriptionPlanId) => {
     const response = await http.get(
       `${SUBSCRIPTION_ENDPOINTS_FLAT.ELIGIBLE_COUPONS}/${subscriptionPlanId}`
     );
-    
+
     // Handle different response structures
     if (Array.isArray(response)) {
       return response;
     }
-    
+
     return response?.data || response?.coupons || [];
   } catch (error) {
     console.error('Get eligible coupons error:', error);
@@ -152,6 +146,51 @@ export const verifyPayment = async (payload) => {
  * @param {string} payload.error_description - Error description
  * @returns {Promise<Object>} Failure response
  */
+/**
+ * Get subscription summary with plan details
+ * @param {string|number} planId - The ID of the subscription plan
+ * @returns {Promise<Object>} Summary data including members and calculations
+ */
+export const getSubscriptionSummaryWithPlan = async (planId) => {
+  if (!planId) {
+    throw new Error('Plan ID is required');
+  }
+
+  try {
+    const response = await http.get(
+      `${SUBSCRIPTION_ENDPOINTS_FLAT.SUMMARY_WITH_PLAN}?plan_id=${planId}`
+    );
+    return response?.data || response;
+  } catch (error) {
+    console.error('Get subscription summary error:', error);
+    throw error;
+  }
+};
+
+
+/**
+ * Update subscription add-on (add/remove member or calculation)
+ * @param {Object} payload - Update payload
+ * @param {number|string} payload.subscription_plan_id - Subscription plan ID
+ * @param {string} payload.type - Type of add-on ('member' or 'calculation')
+ * @param {string} payload.action - Action to perform ('add' or 'remove')
+ * @returns {Promise<Object>} Update response
+ */
+export const updateAddon = async (payload) => {
+  if (!payload.subscription_plan_id || !payload.type || !payload.action) {
+    throw new Error('All update fields are required');
+  }
+
+  try {
+    const response = await http.post(SUBSCRIPTION_ENDPOINTS_FLAT.UPDATE_ADDON, payload);
+    return response?.data || response;
+  } catch (error) {
+    console.error('Update add-on error:', error);
+    throw error;
+  }
+};
+
+
 export const reportPaymentFailure = async (payload) => {
   if (!payload.razorpay_order_id) {
     throw new Error('Order ID is required');

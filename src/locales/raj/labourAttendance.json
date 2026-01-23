@@ -99,10 +99,18 @@
     "deductions": "कटौती",
     "notesAndVoiceMemos": "नोट्स आ वॉइस मेमो",
     "addNote": "नोट जोड़ो",
+    "addNotes": "नोट्स जोड़ो",
+    "textNote": "टेक्स्ट नोट",
+    "voiceNote": "वॉइस नोट",
+    "both": "दोई",
+    "recording": "रिकॉर्डिंग हो रही है",
+    "rerecord": "पाछो रिकॉर्ड करो",
+    "holdMicToRecord": "आपरी आवाज रिकॉर्ड करण खातिर माइक दबाए राखो",
     "writeNotePlaceholder": "एक नोट लिखो…",
     "selectedFile": "चयनित:",
     "missingDetails": "वर्कस्पेस/मजदूर विवरण गुम है",
     "savingNote": "नोट सेव हो रहो है…",
+    "addingNote": "जोड़ा जा रहो है...",
     "noteAdded": "नोट जोड़ा गया",
     "noteAddFail": "नोट जोड़ने में असफल",
     "validAmount": "कृपया एक वैध राशि दर्ज करो",
@@ -114,7 +122,12 @@
     "bonusFail": "बोनस जोड़ने में असफल",
     "addingDeduction": "कटौती जोड़ी जा रही है…",
     "deductionAdded": "कटौती जोड़ी गई",
-    "deductionFail": "कटौती जोड़ने में असफल"
+    "deductionFail": "कटौती जोड़ने में असफल",
+    "errors": {
+      "voiceNoteRequired": "वॉइस नोट जरूरी है",
+      "textNoteRequired": "टेक्स्ट नोट जरूरी है",
+      "microphoneAccess": "माइक एक्सेस बाधित। कृपा कर माइक री अनुमति दयो।"
+    }
   },
   "overtimeModal": {
     "title": "ओवरटाइम दर्ज करो",

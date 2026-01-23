@@ -271,44 +271,16 @@ export default function FinanceProjectDetail() {
           <OverviewRow
             label={t('status', { defaultValue: 'Status' })}
             value={
-              <Dropdown
-                options={statusOptions}
-                value={status}
-                onChange={setStatus}
-                className="w-40"
-                customButton={(isOpen, setIsOpen) => {
-                  const selectedOption = statusOptions.find(opt => opt.value === status);
-                  let colors;
-                  if (status === 'completed') {
-                    colors = statusBadgeColors.green;
-                  } else if (status === 'inProgress') {
-                    colors = statusBadgeColors.yellow;
-                  } else if (status === 'upcoming') {
-                    colors = statusBadgeColors.blue;
-                  } else {
-                    colors = statusBadgeColors.green; // default
-                  }
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="px-3 py-1.5 rounded-full flex items-center gap-2 font-medium border transition-colors cursor-pointer"
-                      style={{
-                        borderColor: colors.border,
-                        backgroundColor: colors.background,
-                        color: colors.text,
-                      }}
-                    >
-                      <span>{selectedOption?.label || 'Completed'}</span>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''
-                          }`}
-                        style={{ color: colors.text }}
-                      />
-                    </button>
-                  );
+              <span
+                className="px-3 py-1.5 rounded-full flex items-center gap-2 font-medium border inline-flex"
+                style={{
+                  borderColor: statusBadgeColors[status === 'completed' ? 'green' : status === 'inProgress' ? 'yellow' : 'blue'].border,
+                  backgroundColor: statusBadgeColors[status === 'completed' ? 'green' : status === 'inProgress' ? 'yellow' : 'blue'].background,
+                  color: statusBadgeColors[status === 'completed' ? 'green' : status === 'inProgress' ? 'yellow' : 'blue'].text,
                 }}
-              />
+              >
+                {statusOptions.find(opt => opt.value === status)?.label || 'Completed'}
+              </span>
             }
           />
         </div>

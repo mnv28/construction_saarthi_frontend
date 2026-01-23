@@ -10,7 +10,7 @@
     "daysLeft": "মুক্ত পৰীক্ষণত {{days}} দিন বাকী আছে"
   },
   "availablePlans": {
-    "title": "উপলব্ধ পৰিকল্পনা",
+    "title": "বৈশিষ্ট্যসমূহ",
     "saveAmount": "₹{{amount}} সাঁচি থওক",
     "bestValue": "শ্ৰেষ্ঠ মূল্য",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "কুপন উপলব্ধ নাই।"
   }
 }
-

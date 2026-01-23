@@ -8,5 +8,6 @@ export { default as AvailablePlans } from './AvailablePlans';
 export { default as AddOns } from './AddOns';
 export { default as OffersRewards } from './OffersRewards';
 export { default as SubscriptionBottomBar } from './SubscriptionBottomBar';
+export { default as SubscriptionActivities } from './SubscriptionActivities';
 export { default as AddMemberModal } from './AddMemberModal';
 

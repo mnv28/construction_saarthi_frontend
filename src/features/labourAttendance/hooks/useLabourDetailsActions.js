@@ -20,7 +20,7 @@ import { toNumber } from '../utils/formatting';
 export const useLabourDetailsActions = ({ labour, labourId, projectId, projectName, refetch }) => {
   const { t } = useTranslation('labourAttendance');
   const navigate = useNavigate();
-  const { selectedWorkspace } = useAuth();
+  const { user, selectedWorkspace } = useAuth();
 
   const [activeModal, setActiveModal] = useState(null); // 'advance' | 'bonus' | 'deduction' | null
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -119,35 +119,30 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
     showSuccess(t('attendancePage.downloadSuccess'));
   }, [labour, projectName, t]);
 
-  const handleAddNote = useCallback(async () => {
+  const handleAddNote = useCallback(async (data) => {
     const wid = toNumber(selectedWorkspace);
     const lid = toNumber(labour?.id || labourId);
     const pid = toNumber(projectId);
-    
+
     if (!wid || !lid || !pid) {
       showError(t('labourDetails.missingDetails', { defaultValue: 'Missing workspace/labour/project details' }));
       return;
     }
 
-    if (!noteText.trim() && (!voiceFile || voiceFile.length === 0)) {
-      showError(t('labourDetails.emptyNote', { defaultValue: 'Please enter a note or select voice file(s)' }));
-      return;
-    }
+    const { noteText: text, voiceFile: files } = data || {};
 
     const fd = new FormData();
     fd.append('workspaceId', String(wid));
     fd.append('labourId', String(lid));
     fd.append('projectId', String(pid));
-    
-    if (noteText.trim()) {
-      fd.append('noteText', noteText.trim());
-    }
-    
-    // Append all voice files
-    if (voiceFile && voiceFile.length > 0) {
-      Array.from(voiceFile).forEach((file) => {
-        fd.append('voiceNotes_LabourAttendance', file);
-      });
+    fd.append('noteText', text?.trim() || 'Voice Memo');
+
+    // Append voice file if exists
+    if (files && files.length > 0 && files[0]) {
+      const audioFile = files[0];
+      console.log(`Uploading voice note: ${audioFile.size} bytes`);
+      const renamedFile = new File([audioFile], `voice_${Date.now()}.mp3`, { type: audioFile.type });
+      fd.append('voiceNotes_LabourAttendance', renamedFile);
     }
 
     const toastId = showLoading(t('labourDetails.savingNote', { defaultValue: 'Saving note…' }));
@@ -157,17 +152,15 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
       updateToast(toastId, { type: 'success', message: t('labourDetails.noteAdded', { defaultValue: 'Note added successfully' }) });
       setNoteText('');
       setVoiceFile(null);
-      // Reset file input
-      const fileInput = document.querySelector('input[type="file"][accept="audio/*"]');
-      if (fileInput) fileInput.value = '';
+      setActiveModal(null);
       await refetch?.();
     } catch (e) {
-      console.error(e);
+      console.error('Add Note Error details:', e.response?.data || e);
       updateToast(toastId, { type: 'error', message: e?.response?.data?.message || e?.message || t('labourDetails.noteAddFail', { defaultValue: 'Failed to add note' }) });
     } finally {
       setIsSubmitting(false);
     }
-  }, [selectedWorkspace, labour, labourId, projectId, noteText, voiceFile, refetch, t]);
+  }, [selectedWorkspace, labour, labourId, projectId, refetch, t]);
 
   const handlePayAdvance = useCallback(async (amount) => {
     const amt = toNumber(amount);
@@ -280,11 +273,11 @@ export const useLabourDetailsActions = ({ labour, labourId, projectId, projectNa
     try {
       await deleteLabour(lid);
       updateToast(toastId, { type: 'success', message: t('attendancePage.labourDeleted') });
-    setDeleteOpen(false);
-    navigate(
-      getRoute(ROUTES_FLAT.LABOUR_ATTENDANCE_PROJECT, { projectId }),
-      { replace: true, state: { projectName, deletedLabourId: labour.id } }
-    );
+      setDeleteOpen(false);
+      navigate(
+        getRoute(ROUTES_FLAT.LABOUR_ATTENDANCE_PROJECT, { projectId }),
+        { replace: true, state: { projectName, deletedLabourId: labour.id } }
+      );
     } catch (e) {
       console.error(e);
       updateToast(toastId, { type: 'error', message: e?.response?.data?.message || e?.message || t('labourDetails.deleteFail', { defaultValue: 'Failed to delete labour' }) });

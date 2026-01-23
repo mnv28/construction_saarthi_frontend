@@ -99,10 +99,18 @@
     "deductions": "কাটনি",
     "notesAndVoiceMemos": "নোট আৰু ভইচ মেমো",
     "addNote": "নোট যোগ কৰক",
+    "addNotes": "নোটবোৰ যোগ কৰক",
+    "textNote": "পাঠ্য টোকা",
+    "voiceNote": "ভইচ নোট",
+    "both": "উভয়",
+    "recording": "ৰেকৰ্ডিং হৈ আছে",
+    "rerecord": "পুনৰ ৰেকৰ্ডিং কৰক",
+    "holdMicToRecord": "ভইচ ৰেকৰ্ডিং কৰিবলৈ মাইক টিপি ধৰি ৰাখক",
     "writeNotePlaceholder": "নোট লিখক…",
     "selectedFile": "নিৰ্বাচিত:",
     "missingDetails": "ৱৰ্কস্পেচ/শ্ৰমিকৰ বিবৰণ নাই",
     "savingNote": "নোট সংৰক্ষণ কৰা হৈছে…",
+    "addingNote": "যোগ কৰা হৈছে...",
     "noteAdded": "নোট যোগ কৰা হ'ল",
     "noteAddFail": "নোট যোগ কৰাত ব্যৰ্থ",
     "validAmount": "অনুগ্ৰহ কৰি বৈধ পৰিমাণ লিখক",
@@ -114,7 +122,12 @@
     "bonusFail": "বোনাচ যোগ কৰাত ব্যৰ্থ",
     "addingDeduction": "কাটনি যোগ কৰা হৈছে…",
     "deductionAdded": "কাটনি যোগ কৰা হ'ল",
-    "deductionFail": "কাটনি যোগ কৰাত ব্যৰ্থ"
+    "deductionFail": "কাটনি যোগ কৰাত ব্যৰ্থ",
+    "errors": {
+      "voiceNoteRequired": "ভইচ নোটৰ প্ৰয়োজন",
+      "textNoteRequired": "পাঠ্য টোকাৰ প্ৰয়োজন",
+      "microphoneAccess": "মাইক্ৰ'ফোনৰ সুবিধা নাই। অনুগ্ৰহ কৰি মাইক্ৰ'ফোনৰ অনুমতি দিয়ক।"
+    }
   },
   "overtimeModal": {
     "title": "অতিৰিক্ত সময় লিখক",

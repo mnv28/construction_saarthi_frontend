@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ROUTES_FLAT, getRoute } from "../../../constants/routes";
 import PageHeader from "../../../components/layout/PageHeader";
+import { useAuth } from "../../auth/store";
 import Button from "../../../components/ui/Button";
 import SearchBar from "../../../components/ui/SearchBar";
 import DropdownMenu from "../../../components/ui/DropdownMenu";
@@ -28,6 +29,7 @@ export default function BuilderInvoices() {
   const { t } = useTranslation("finance");
   const navigate = useNavigate();
   const { projectId } = useParams();
+  const { selectedWorkspace } = useAuth();
 
   // State management
   const [budget, setBudget] = useState("1.2 Cr");
@@ -61,11 +63,19 @@ export default function BuilderInvoices() {
       return;
     }
 
+    if (!projectId || !selectedWorkspace) {
+      console.warn("Project ID or workspace ID is missing, cannot fetch builder invoice sections");
+      return;
+    }
+
     try {
       isFetchingSectionsRef.current = true;
       setIsLoadingSections(true);
       
-      const response = await getBuilderInvoiceSections();
+      const response = await getBuilderInvoiceSections({
+        project_id: projectId,
+        workspace_id: selectedWorkspace,
+      });
 
       // Handle different response structures
       let sectionsData = response?.data || response?.sections || response || [];
@@ -228,12 +238,23 @@ export default function BuilderInvoices() {
       return false; // Return false to prevent modal from closing
     }
 
+    if (!projectId || !selectedWorkspace) {
+      showError(
+        t("missingProjectOrWorkspace", {
+          defaultValue: "Missing project or workspace ID. Please refresh the page.",
+        })
+      );
+      return false; // Return false to prevent modal from closing
+    }
+
     try {
       isCreatingSectionRef.current = true;
       setIsCreatingSection(true);
 
       const response = await createBuilderInvoiceSection({
         name: sectionName,
+        workspace_id: selectedWorkspace,
+        project_id: projectId,
       });
 
       // Show success toast

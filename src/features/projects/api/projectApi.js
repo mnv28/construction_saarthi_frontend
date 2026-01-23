@@ -571,3 +571,56 @@ export const updateProjectStatus = async (projectId, status, currentProject = nu
     return response?.data || response || {};
   }
 };
+
+/**
+ * Get project prompt (AI insights/calculations)
+ * @param {string|number} projectId - Project ID
+ * @param {string} [feature='construction_cost'] - Feature name
+ * @returns {Promise<Object>} Prompt response
+ */
+export const getProjectPrompt = async (projectId, feature = 'construction_cost') => {
+  if (!projectId) {
+    throw new Error('Project ID is required');
+  }
+
+  try {
+    const response = await http.get(`${PROJECT_ENDPOINTS_FLAT.PROJECT_PROMPT}/${projectId}?feature=${feature}`);
+    return response?.data || response || {};
+  } catch (error) {
+    console.error('Error fetching project prompt:', error);
+    // Don't throw as this is often a background task
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Get project documents
+ * @param {string|number} projectId - Project ID
+ * @returns {Promise<Array>} List of documents
+ */
+export const getProjectDocuments = async (projectId) => {
+  if (!projectId) {
+    throw new Error('Project ID is required');
+  }
+
+  const response = await http.get(`${PROJECT_ENDPOINTS_FLAT.PROJECT_DOCUMENTS}/${projectId}`);
+
+  // Handle response structure
+  return response?.documents || response?.data?.documents || response?.data || response || [];
+};
+
+/**
+ * Get project document details
+ * @param {string|number} projectId - Project ID
+ * @param {string|number} documentId - Document ID
+ * @returns {Promise<Object>} Document details
+ */
+export const getProjectDocumentDetails = async (projectId, documentId) => {
+  if (!projectId || !documentId) {
+    throw new Error('Project ID and Document ID are required');
+  }
+
+  const response = await http.get(`${PROJECT_ENDPOINTS_FLAT.PROJECT_DOCUMENT_DETAILS}/${projectId}/${documentId}`);
+
+  return response?.document || response?.data?.document || response?.data || response || null;
+};

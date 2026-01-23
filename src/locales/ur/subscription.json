@@ -10,7 +10,7 @@
     "daysLeft": "مفت ٹرائل میں {{days}} دن باقی ہیں"
   },
   "availablePlans": {
-    "title": "دستیاب منصوبے",
+    "title": "خصوصیات",
     "saveAmount": "₹{{amount}} بچائیں",
     "bestValue": "بہترین قیمت",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "کوپن دستیاب نہیں ہیں۔"
   }
 }
-

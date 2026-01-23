@@ -29,6 +29,12 @@ export default function AudioPlayer({ src }) {
         el.pause();
         setIsPlaying(false);
       } else {
+        // Check if audio is loaded
+        if (el.readyState < 2) {
+          await new Promise(resolve => {
+            el.addEventListener('canplay', resolve, { once: true });
+          });
+        }
         await el.play();
         setIsPlaying(true);
       }
@@ -44,8 +50,16 @@ export default function AudioPlayer({ src }) {
       <audio
         ref={audioRef}
         src={src}
+        type="audio/aac"
         preload="metadata"
-        onLoadedMetadata={() => setAudioDuration(audioRef.current?.duration || 0)}
+        onLoadedMetadata={() => {
+          setAudioDuration(audioRef.current?.duration || 0);
+        }}
+        onCanPlayThrough={() => {
+          if (!audioDuration && audioRef.current) {
+            setAudioDuration(audioRef.current.duration || 0);
+          }
+        }}
         onTimeUpdate={() => setAudioCurrentTime(audioRef.current?.currentTime || 0)}
         onEnded={() => {
           setIsPlaying(false);
@@ -59,7 +73,11 @@ export default function AudioPlayer({ src }) {
           onClick={toggleAudio}
           className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center hover:bg-[#9F290A] transition-colors cursor-pointer"
         >
-          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+          {isPlaying ? (
+            <Pause className="w-5 h-5" />
+          ) : (
+            <Play className="w-5 h-5 ml-0.5" />
+          )}
         </button>
 
         <div className="flex-1 flex items-center gap-2">
@@ -67,9 +85,12 @@ export default function AudioPlayer({ src }) {
             <div
               className="h-full bg-accent rounded-full"
               style={{
-                width: audioDuration > 0 ? `${(audioCurrentTime / audioDuration) * 100}%` : '0%',
+                width:
+                  audioDuration > 0
+                    ? `${(audioCurrentTime / audioDuration) * 100}%`
+                    : '0%',
               }}
-            />
+            ></div>
           </div>
 
           <span className="text-[11px] text-primary">

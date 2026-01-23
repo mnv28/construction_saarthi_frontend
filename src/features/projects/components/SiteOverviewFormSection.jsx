@@ -86,7 +86,7 @@ function SiteOverviewFormSection({
     // If we already have a projectKey (and it's not a projectId in edit mode), upload immediately
     // Check if projectKey is a number (projectId in edit mode) vs string (projectKey in create mode)
     const isEditMode = projectKey && !isNaN(Number(projectKey)) && String(projectKey).length < 10;
-    
+
     if (projectKey && !isEditMode) {
       // In create mode, upload immediately using projectKey
       (async () => {
@@ -205,10 +205,11 @@ function SiteOverviewFormSection({
             label={t("addNewProject.form.builderName")}
             value={builderName}
             onChange={onBuilderNameChange}
+            required
             placeholder={
               isLoadingBuilders
                 ? t("addNewProject.form.loadingBuilders") ||
-                  "Loading builders..."
+                "Loading builders..."
                 : t("addNewProject.form.selectBuilder")
             }
             options={builderOptions}
@@ -227,6 +228,8 @@ function SiteOverviewFormSection({
             label={t("addNewProject.form.estStartDate")}
             value={startDate}
             onChange={setStartDate}
+            required
+            error={errors.startDate?.message}
             placeholder="dd/mm/yyyy"
           />
           <DatePicker
@@ -241,6 +244,7 @@ function SiteOverviewFormSection({
         <div className="mt-2">
           <p className="block text-sm font-medium text-primary mb-2">
             {t("addNewProject.form.projectStatus")}
+            <span className="text-accent ml-1">*</span>
           </p>
           <div className="flex items-center gap-6">
             <Radio
@@ -264,10 +268,10 @@ function SiteOverviewFormSection({
       {/* Actions */}
       <div className="mt-6 flex justify-end gap-3">
         {onCancel && (
-          <Button 
-            type="button" 
-            variant="secondary" 
-            size="sm" 
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
             className="px-6"
             onClick={onCancel}
           >
@@ -275,10 +279,10 @@ function SiteOverviewFormSection({
           </Button>
         )}
         {onSaveAndContinue && (
-          <Button 
-            type="button" 
-            variant="primary" 
-            size="sm" 
+          <Button
+            type="button"
+            variant="primary"
+            size="sm"
             className="px-6"
             onClick={onSaveAndContinue}
           >

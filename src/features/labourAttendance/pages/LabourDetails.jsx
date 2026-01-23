@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Download, Trash2 } from 'lucide-react';
+import { Download, Trash2, Mic } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../../components/layout/PageHeader';
 import Button from '../../../components/ui/Button';
@@ -12,6 +12,7 @@ import { useAuth } from '../../auth/store';
 import { useWorkspaceRole } from '../../dashboard/hooks';
 import { useLabourProfile } from '../hooks/useLabourProfile';
 import { useLabourDetailsActions } from '../hooks/useLabourDetailsActions';
+import AddNoteModal from '../components/AddNoteModal';
 import { formatCurrencyINR, formatDate, getInitials } from '../utils/formatting';
 
 export default function LabourDetails() {
@@ -239,96 +240,50 @@ export default function LabourDetails() {
 
       {/* Notes & Voice Memos */}
       <div className="pt-6 mt-6 border-t border-gray-200">
-        <h3 className="text-[18px] font-semibold text-primary mb-4">{t('labourDetails.notesAndVoiceMemos')}</h3>
-
-        {/* Add Note Form */}
-        <div className="bg-white border rounded-xl p-4 mb-4" style={{ borderColor: 'var(--color-lightGray)' }}>
-          <label className="block text-sm font-medium text-primary mb-2">{t('labourDetails.addNote', { defaultValue: 'Add Note' })}</label>
-          <textarea
-            value={noteText}
-            onChange={(e) => setNoteText(e.target.value)}
-            rows={3}
-            placeholder={t('labourDetails.writeNotePlaceholder', { defaultValue: 'Write a note…' })}
-            disabled={isSubmitting}
-            className="w-full px-4 py-3 rounded-lg border bg-white text-primary placeholder:text-secondary text-sm focus:outline-none transition-colors border-gray-200 focus:border-[rgba(6,12,18,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-
-          <div className="mt-3 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-              <input
-                type="file"
-                accept="audio/*"
-                multiple
-                disabled={isSubmitting}
-                onChange={(e) => setVoiceFile(e.target.files)}
-                className="text-sm"
-              />
-              {voiceFile && voiceFile.length > 0 && (
-                <span className="text-xs text-primary-light truncate max-w-[260px]">
-                  {voiceFile.length} {voiceFile.length === 1 ? 'file' : 'files'} selected
-                </span>
-              )}
-            </div>
-
-            <Button
-              size="sm"
-              variant="primary"
-              disabled={isSubmitting || (!noteText.trim() && (!voiceFile || voiceFile.length === 0))}
-              onClick={handleAddNote}
-              className="w-full sm:w-auto"
-            >
-              {t('labourDetails.addNote', { defaultValue: 'Add Note' })}
-            </Button>
-          </div>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-[18px] font-semibold text-primary">{t('labourDetails.notesAndVoiceMemos')}</h3>
+          <button
+            onClick={() => setActiveModal('add-note')}
+            className="flex items-center gap-2 text-accent text-sm font-medium hover:underline cursor-pointer"
+          >
+            <Mic className="w-4 h-4" />
+            {t('labourDetails.addNote', { defaultValue: 'Add Note' })}
+          </button>
         </div>
 
         {/* Notes and Voice Memos Display */}
         <div className="space-y-4">
-          {/* Display notes and voice memos interleaved */}
+          {/* Display all notes */}
           {(() => {
             const notes = Array.isArray(labour.notes) ? labour.notes : [];
             const voiceNotes = Array.isArray(labour.voiceNotes) ? labour.voiceNotes : [];
-            const voiceMemoUrl = labour.voiceMemoUrl ? [labour.voiceMemoUrl] : [];
-            const allVoiceMemos = [...voiceNotes, ...voiceMemoUrl];
 
-            // If we have notes, show them first
-            if (notes.length > 0) {
+            if (notes.length === 0 && voiceNotes.length === 0) {
               return (
-                <>
+                <p className="text-sm text-primary-light italic">
+                  {t('labourDetails.noNotes', { defaultValue: 'No notes or voice memos yet' })}
+                </p>
+              );
+            }
+
+            return (
+              <div className="space-y-4">
+                {notes.length > 0 && (
                   <ul className="list-disc pl-5 space-y-2 text-sm text-primary-light">
                     {notes.map((n, idx) => (
                       <li key={`note-${idx}`}>{n}</li>
                     ))}
                   </ul>
+                )}
 
-                  {/* Show voice memos after notes */}
-                  {allVoiceMemos.length > 0 && (
-                    <div className="space-y-3">
-                      {allVoiceMemos.map((voiceNote, idx) => (
-                        <AudioPlayer key={`voice-${idx}`} src={voiceNote} />
-                      ))}
-                    </div>
-                  )}
-                </>
-              );
-            }
-
-            // If no notes but we have voice memos, show them
-            if (allVoiceMemos.length > 0) {
-              return (
-                <div className="space-y-3">
-                  {allVoiceMemos.map((voiceNote, idx) => (
-                    <AudioPlayer key={`voice-${idx}`} src={voiceNote} />
-                  ))}
-                </div>
-              );
-            }
-
-            // If nothing, show empty state
-            return (
-              <p className="text-sm text-primary-light italic">
-                {t('labourDetails.noNotes', { defaultValue: 'No notes or voice memos yet' })}
-              </p>
+                {voiceNotes.length > 0 && (
+                  <div className="space-y-3">
+                    {voiceNotes.map((url, idx) => (
+                      <AudioPlayer key={`voice-${idx}`} src={url} />
+                    ))}
+                  </div>
+                )}
+              </div>
             );
           })()}
         </div>
@@ -393,6 +348,13 @@ export default function LabourDetails() {
         description={t('cards.deleteDescription', { defaultValue: 'Are you sure you want to remove labour from this project? This action is irreversible, and your data cannot be recovered.' })}
         confirmText={t('common.yesDelete')}
         cancelText={t('common.cancel')}
+      />
+
+      <AddNoteModal
+        isOpen={activeModal === 'add-note'}
+        onClose={() => setActiveModal(null)}
+        onAdd={handleAddNote}
+        isLoading={isSubmitting}
       />
     </div>
   );

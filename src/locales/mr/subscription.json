@@ -10,7 +10,7 @@
     "daysLeft": "मोफत चाचणीत {{days}} दिवस शिल्लक आहेत"
   },
   "availablePlans": {
-    "title": "उपलब्ध योजना",
+    "title": "वैशिष्ट्ये",
     "saveAmount": "₹{{amount}} वाचवा",
     "bestValue": "सर्वोत्तम मूल्य",
     "benefits": {
@@ -98,4 +98,3 @@
     "noCoupons": "कूपन उपलब्ध नाहीत."
   }
 }
-

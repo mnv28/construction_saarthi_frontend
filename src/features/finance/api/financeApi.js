@@ -310,16 +310,31 @@ export const deletePayableBill = async (billId) => {
 /**
  * Get all builder invoice sections
  * Try GET first, fallback to POST if needed
+ * @param {Object} params - Query parameters
+ * @param {string|number} params.workspace_id - Workspace ID
+ * @param {string|number} params.project_id - Project ID
  * @returns {Promise<Array>} List of builder invoice sections
  */
-export const getBuilderInvoiceSections = async () => {
+export const getBuilderInvoiceSections = async (params = {}) => {
+  if (!params.workspace_id || !params.project_id) {
+    throw new Error('workspace_id and project_id are required');
+  }
+
   try {
     // Try GET request first (most common for list endpoints)
-    return await http.get(FINANCE_ENDPOINTS_FLAT.BUILDER_INVOICES_SECTION_LIST);
+    return await http.get(FINANCE_ENDPOINTS_FLAT.BUILDER_INVOICES_SECTION_LIST, {
+      params: {
+        workspace_id: params.workspace_id,
+        project_id: params.project_id,
+      },
+    });
   } catch (error) {
     // If GET fails with 404, try POST (as per Postman request)
     if (error?.response?.status === 404 || error?.response?.status === 405) {
-      return await http.post(FINANCE_ENDPOINTS_FLAT.BUILDER_INVOICES_SECTION_LIST, {});
+      return await http.post(FINANCE_ENDPOINTS_FLAT.BUILDER_INVOICES_SECTION_LIST, {
+        workspace_id: params.workspace_id,
+        project_id: params.project_id,
+      });
     }
     // Re-throw other errors
     throw error;
@@ -528,6 +543,8 @@ export const deleteBuilderInvoice = async (invoiceId) => {
  * Create a new builder invoice section
  * @param {Object} data - Builder invoice section data
  * @param {string} data.name - Section name
+ * @param {string|number} data.workspace_id - Workspace ID
+ * @param {string|number} data.project_id - Project ID
  * @returns {Promise<Object>} Created builder invoice section
  */
 export const createBuilderInvoiceSection = async (data) => {
@@ -535,8 +552,14 @@ export const createBuilderInvoiceSection = async (data) => {
     throw new Error('Section name is required');
   }
   
+  if (!data.workspace_id || !data.project_id) {
+    throw new Error('workspace_id and project_id are required');
+  }
+  
   return http.post(FINANCE_ENDPOINTS_FLAT.BUILDER_INVOICES_SECTION_CREATE, {
     name: data.name.trim(),
+    workspace_id: data.workspace_id,
+    project_id: data.project_id,
   });
 };
 
@@ -674,6 +697,8 @@ export const createBank = async (data) => {
  * @param {string} data.to - To (recipient)
  * @param {number} data.amount - Amount
  * @param {string} data.method - Payment method (Cash, Bank Transfer, etc.)
+ * @param {string|number} data.project_id - Project ID
+ * @param {string|number} data.workspace_id - Workspace ID
  * @param {number} [data.bank_id] - Bank ID (optional, required if method is Bank Transfer)
  * @param {string} [data.description] - Description
  * @returns {Promise<Object>} Created payment entry
@@ -681,6 +706,10 @@ export const createBank = async (data) => {
 export const createIncome = async (data) => {
   if (!data.payment_no || !data.date || !data.from || !data.to || !data.amount || !data.method) {
     throw new Error('payment_no, date, from, to, amount, and method are required');
+  }
+  
+  if (!data.project_id || !data.workspace_id) {
+    throw new Error('project_id and workspace_id are required');
   }
   
   const payload = {
@@ -693,6 +722,8 @@ export const createIncome = async (data) => {
       : data.amount,
     method: data.method.trim(),
     description: data.description || '',
+    project_id: data.project_id,
+    workspace_id: data.workspace_id,
   };
 
   // Add bank_id only if provided

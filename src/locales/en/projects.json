@@ -94,7 +94,10 @@
       "siteNameRequired": "Site name is required",
       "addressRequired": "Address is required",
       "selectBuilder": "Please select a builder",
-      "selectStartDate": "Please select an estimated start date"
+      "selectStartDate": "Please select an estimated start date",
+      "constructionTypeRequired": "Please select a construction type",
+      "contractTypeRequired": "Please select a contract type",
+      "estimatedBudgetRequired": "Estimated budget is required"
     }
   },
   "projectDetails": {
@@ -135,4 +138,3 @@
     "fetchFailed": "Failed to load projects"
   }
 }
-

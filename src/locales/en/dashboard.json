@@ -18,6 +18,19 @@
     "addUsage": "Add Usage",
     "addUsageDescription": "Add daily material usage logs"
   },
+  "addUsagePage": {
+    "projectSite": "Project (Site)",
+    "selectProject": "Select Project",
+    "materialType": "Material Type",
+    "reusable": "Reusable",
+    "consumable": "Consumable",
+    "materialPlaceholder": "Search material...",
+    "quantity": "Quantity",
+    "description": "Description",
+    "enterText": "Enter text here",
+    "cancel": "Cancel",
+    "addLog": "Add Log"
+  },
   "projects": {
     "title": "My Projects (Sites)",
     "viewAll": "View All Projects"
@@ -37,4 +50,3 @@
     "deleteConfirmMessage": "Are you sure you want to delete"
   }
 }
-

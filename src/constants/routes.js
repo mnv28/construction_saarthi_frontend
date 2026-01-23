@@ -29,6 +29,7 @@ export const ROUTES = {
     PROJECTS: '/projects',
     SETTINGS: '/settings',
     MEMBERS: '/members',
+    ADD_USAGE: '/dashboard/add-usage',
   },
   // Account Routes
   ACCOUNT: {
@@ -366,6 +367,7 @@ export const ROUTES_FLAT = {
   PROJECTS: ROUTES.DASHBOARD.PROJECTS,
   SETTINGS: ROUTES.DASHBOARD.SETTINGS,
   MEMBERS: ROUTES.DASHBOARD.MEMBERS,
+  ADD_USAGE: ROUTES.DASHBOARD.ADD_USAGE,
 
   // Account
   MY_ACCOUNT: ROUTES.ACCOUNT.MY_ACCOUNT,

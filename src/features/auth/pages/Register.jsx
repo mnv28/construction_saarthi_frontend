@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AuthLayout from '../layouts/AuthLayout';
 import Input from '../../../components/ui/Input';
@@ -14,37 +14,45 @@ import registerImage from '../../../assets/images/Register.png';
 export default function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  
-  // Extract URL parameters
-  const refCode = searchParams.get('ref');
-  const uniqueId = searchParams.get('uniq');
-  
-  const [formData, setFormData] = useState(() => ({
+
+  // Robust extraction function
+  const getParam = (key) => {
+    const search = location.search || window.location.search;
+    const params = new URLSearchParams(search);
+    return params.get(key) || searchParams.get(key);
+  };
+
+  const refCode = getParam('ref');
+  const uniqueId = getParam('uniq');
+
+  const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
-    referralCode: refCode || '', // Pre-fill from URL using function form
+    referralCode: refCode || '',
     agreeToTerms: false,
-  }));
+  });
   const [countryCode, setCountryCode] = useState('+91');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Update referral code if URL parameters change
+  // Sync referral code if it appears in URL after initial mount
   useEffect(() => {
-    if (refCode && formData.referralCode !== refCode) {
+    const code = getParam('ref');
+    if (code && formData.referralCode !== code) {
       setFormData(prev => ({
         ...prev,
-        referralCode: refCode
+        referralCode: code
       }));
     }
-  }, [refCode]);
+  }, [location.search, searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.fullName.trim() || !formData.phone.trim() || !formData.agreeToTerms) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       const requestData = {
         country_code: countryCode,
@@ -57,7 +65,7 @@ export default function RegisterPage() {
       if (formData.referralCode.trim()) {
         requestData.referral_code = formData.referralCode.trim();
       }
-      
+
       // Add unique ID from URL if available
       if (uniqueId) {
         requestData.unique_id = uniqueId;
@@ -67,22 +75,22 @@ export default function RegisterPage() {
 
       // Show success message
       showSuccess(response?.message || t('register.otpSent', { ns: 'auth', defaultValue: 'OTP sent successfully' }));
-      
+
       // Navigate to verify OTP page
-      navigate(ROUTES_FLAT.VERIFY_OTP, { 
-        state: { 
-          phone: formData.phone.trim(), 
+      navigate(ROUTES_FLAT.VERIFY_OTP, {
+        state: {
+          phone: formData.phone.trim(),
           countryCode: countryCode,
           isFromRegister: true,
           fullName: formData.fullName.trim(),
           referralCode: formData.referralCode.trim(),
-        } 
+        }
       });
     } catch (error) {
       // Error handling - show error message
-      const errorMessage = error?.response?.data?.message || 
-                          error?.message || 
-                          t('register.otpError', { ns: 'auth', defaultValue: 'Failed to send OTP. Please try again.' });
+      const errorMessage = error?.response?.data?.message ||
+        error?.message ||
+        t('register.otpError', { ns: 'auth', defaultValue: 'Failed to send OTP. Please try again.' });
       showError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -155,8 +163,8 @@ export default function RegisterPage() {
             label={
               <>
                 {t('register.agreeToTerms', { ns: 'auth' })}{' '}
-                <Link 
-                  to="#" 
+                <Link
+                  to="#"
                   className="text-accent font-semibold"
                   onClick={(e) => {
                     e.preventDefault();
@@ -173,9 +181,9 @@ export default function RegisterPage() {
         </div>
 
         {/* Send OTP Button */}
-        <Button 
-          type="submit" 
-          variant="primary" 
+        <Button
+          type="submit"
+          variant="primary"
           className="w-full mt-4 sm:mt-6"
           disabled={!formData.fullName || !formData.phone || !formData.agreeToTerms || isLoading}
         >

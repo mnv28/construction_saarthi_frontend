@@ -19,6 +19,7 @@
   "success": "Success",
   "required": "Required",
   "secondary": "Secondary",
+  "projectOverview": "Project Overview",
   "login": "Login",
   "logout": "Logout",
   "signup": "Sign Up",
@@ -149,4 +150,3 @@
     }
   }
 }
-

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
@@ -14,7 +14,8 @@ import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { showSuccess, showError } from '../../../utils/toast';
-import { getProjectDocumentDetails } from '../../projects/api';
+import { getProjectDocumentDetails, getProjectDetails } from '../../projects/api';
+import { useAuth } from '../../auth/store';
 import { getDocumentSignatures, uploadDocumentSignature } from '../api/signatureApi';
 import SignatureCanvas from 'react-signature-canvas';
 import { Pencil } from 'lucide-react';
@@ -24,9 +25,14 @@ export default function DocumentDetails() {
   const { t } = useTranslation('documents');
   const navigate = useNavigate();
   const { projectId, documentId } = useParams();
+  const { state } = useLocation();
+  const { selectedWorkspace } = useAuth();
 
   const [document, setDocument] = useState(null);
+  const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const projectName = state?.projectName || project?.name || project?.details?.name || t('project', { defaultValue: 'Project' });
 
   //signature
   // ================= SIGNATURE SETUP =================
@@ -54,7 +60,7 @@ export default function DocumentDetails() {
 
       try {
         setIsSignatureLoading(true);
-        
+
         // Upload signature to API
         await uploadDocumentSignature({
           projectId,
@@ -72,7 +78,7 @@ export default function DocumentDetails() {
 
         setIsSignatureOpen(false);
         setActiveSigner(null);
-        
+
         showSuccess('Signature saved successfully');
       } catch (error) {
         console.error('Error saving signature:', error);
@@ -95,8 +101,20 @@ export default function DocumentDetails() {
 
       try {
         setIsLoading(true);
-        const data = await getProjectDocumentDetails(projectId, documentId);
-        setDocument(data);
+
+        // Fetch document details and project details (if name not in state)
+        const promises = [getProjectDocumentDetails(projectId, documentId)];
+
+        if (!state?.projectName) {
+          promises.push(getProjectDetails(projectId, selectedWorkspace).catch(() => null));
+        }
+
+        const [docData, projectData] = await Promise.all(promises);
+
+        setDocument(docData);
+        if (projectData) {
+          setProject(projectData);
+        }
       } catch (error) {
         console.error('Error fetching document details:', error);
         showError(t('error.fetchDetails', { defaultValue: 'Failed to load document details' }));
@@ -110,13 +128,13 @@ export default function DocumentDetails() {
 
       try {
         const signaturesData = await getDocumentSignatures(projectId, documentId);
-        
+
         if (signaturesData?.success && signaturesData?.signatures) {
           const signaturesMap = {
             contractor: null,
             client: null
           };
-          
+
           signaturesData.signatures.forEach(sig => {
             if (sig.signature_key === 'contractor_signature') {
               signaturesMap.contractor = sig.signature_image_url;
@@ -124,7 +142,7 @@ export default function DocumentDetails() {
               signaturesMap.client = sig.signature_image_url;
             }
           });
-          
+
           setSignatures(signaturesMap);
         }
       } catch (error) {
@@ -194,7 +212,7 @@ export default function DocumentDetails() {
   return (
     <div className="max-w-7xl mx-auto relative px-4 sm:px-0">
       <PageHeader
-        title={document.title}
+        title={t('details.materialQuotation', { defaultValue: 'Material Quotation' })}
         onBack={() => navigate(getRoute(ROUTES_FLAT.DOCUMENTS_PROJECT_DOCUMENTS, { projectId }))}
       >
         <div className="w-full flex justify-center md:w-auto md:justify-start">
@@ -233,13 +251,13 @@ export default function DocumentDetails() {
             {/* 1. PROJECT OVERVIEW */}
             <section>
               <h4 className="text-xs font-bold text-secondary uppercase tracking-[0.05em] text-center mb-3">
-                Project Overview
+                {t('common.projectOverview', { ns: 'common', defaultValue: 'Project Overview' })}
               </h4>
               <div className="border border-gray-200 rounded-xl overflow-hidden">
-                <TableRow label="Project ID:" value={document.project_id} isBold={true} />
-                <TableRow label="Document Status:" value="AI Generated Candidate" />
-                {/* <TableRow label="Company Name:" value="weetech" /> */}
-                <TableRow label="Generated At:" value={new Date(document.created_at).toLocaleString()} />
+                <TableRow label={`${t('project', { defaultValue: 'Project' })} ${t('common.name', { ns: 'common', defaultValue: 'Name' })}:`} value={projectName} isBold={true} />
+                <TableRow label="Project ID:" value={document.project_id} />
+                <TableRow label={`${t('status', { defaultValue: 'Status' })}:`} value="AI Generated Candidate" />
+                <TableRow label={`${t('details.generatedAt', { defaultValue: 'Generated At' })}:`} value={new Date(document.created_at).toLocaleString()} />
               </div>
             </section>
 
@@ -400,14 +418,13 @@ export default function DocumentDetails() {
                       }
                     }}
                     className={`absolute right-0 bottom-1 
-    ${signatures.contractor
+                        ${signatures.contractor
                         ? 'text-gray-300 cursor-not-allowed'
                         : 'text-accent/70 cursor-pointer hover:text-accent'}
-  `}
+                    `}
                   >
                     <Pencil size={18} strokeWidth={1.8} />
                   </span>
-
                 </div>
 
                 <p className="text-[10px] font-bold text-primary uppercase text-center tracking-widest">
@@ -433,6 +450,7 @@ export default function DocumentDetails() {
                     />
                   )}
 
+                  {/* Pencil icon (disabled after sign) */}
                   <span
                     onClick={() => {
                       if (!signatures.client) {
@@ -440,13 +458,13 @@ export default function DocumentDetails() {
                         setIsSignatureOpen(true);
                       }
                     }}
-                    className={`absolute right-0 bottom-1 text-xs 
-          ${signatures.client
+                    className={`absolute right-0 bottom-1 
+                        ${signatures.client
                         ? 'text-gray-300 cursor-not-allowed'
                         : 'text-accent/70 cursor-pointer hover:text-accent'}
-        `}
+                    `}
                   >
-                    ✏️
+                    <Pencil size={18} strokeWidth={1.8} />
                   </span>
                 </div>
 
@@ -456,9 +474,6 @@ export default function DocumentDetails() {
               </div>
 
             </section>
-
-
-
           </div>
         </div>
       </div>

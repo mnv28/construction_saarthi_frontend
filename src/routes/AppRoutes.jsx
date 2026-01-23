@@ -26,6 +26,7 @@ const EditMember = lazy(() => import('../features/auth/pages/EditMember'));
 // Dashboard
 const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 const Members = lazy(() => import('../features/dashboard/pages/Members'));
+const AddUsage = lazy(() => import('../features/dashboard/pages/AddUsage'));
 
 // Account
 const MyAccount = lazy(() => import('../features/account/pages/MyAccount'));
@@ -412,6 +413,7 @@ function AppRoutes() {
             <Route path={ROUTES_FLAT.EDIT_PROJECT} element={<AddNewProject />} />
 
             <Route path={ROUTES_FLAT.MEMBERS} element={<Members />} />
+            <Route path={ROUTES_FLAT.ADD_USAGE} element={<AddUsage />} />
             <Route path={ROUTES_FLAT.MY_ACCOUNT} element={<MyAccount />} />
             <Route path={ROUTES_FLAT.MY_PROFILE} element={<MyProfile />} />
             <Route path={ROUTES_FLAT.CHANGE_LANGUAGE} element={<ChangeLanguage />} />

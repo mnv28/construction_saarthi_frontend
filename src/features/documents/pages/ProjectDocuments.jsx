@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
 import Loader from '../../../components/ui/Loader';
 import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
-import { getProjectDocuments } from '../../projects/api';
+import { getProjectDocuments, getProjectDetails } from '../../projects/api';
+import { useAuth } from '../../auth/store';
 
 // Static project names mapping
 const staticProjectNames = {
@@ -22,24 +23,44 @@ export default function ProjectDocuments() {
   const { t } = useTranslation('documents');
   const navigate = useNavigate();
   const { projectId } = useParams();
+  const { state } = useLocation();
+  const { selectedWorkspace } = useAuth();
 
   const [documents, setDocuments] = useState([]);
+  const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const projectName = staticProjectNames[projectId] || t('project');
+  const projectName = state?.projectName || project?.name || project?.details?.name || staticProjectNames[projectId] || t('project');
 
   const handleDocumentClick = (documentId) => {
-    navigate(getRoute(ROUTES_FLAT.DOCUMENTS_DOCUMENT_DETAILS, { projectId, documentId }));
+    navigate(getRoute(ROUTES_FLAT.DOCUMENTS_DOCUMENT_DETAILS, { projectId, documentId }), {
+      state: { projectName }
+    });
   };
 
   useEffect(() => {
-    const fetchDocuments = async () => {
+    const fetchData = async () => {
       if (!projectId) return;
 
       try {
         setIsLoading(true);
-        const data = await getProjectDocuments(projectId);
-        setDocuments(data);
+        // Fetch both documents and project details
+        const promises = [getProjectDocuments(projectId)];
+
+        // Only fetch project details if name is not in state
+        if (!state?.projectName) {
+          promises.push(getProjectDetails(projectId, selectedWorkspace).catch(err => {
+            console.error('Error fetching project details:', err);
+            return null;
+          }));
+        }
+
+        const [docsData, projectData] = await Promise.all(promises);
+
+        setDocuments(docsData);
+        if (projectData) {
+          setProject(projectData);
+        }
       } catch (error) {
         console.error('Error fetching project documents:', error);
       } finally {
@@ -47,8 +68,8 @@ export default function ProjectDocuments() {
       }
     };
 
-    fetchDocuments();
-  }, [projectId]);
+    fetchData();
+  }, [projectId, selectedWorkspace, state?.projectName]);
 
   return (
     <div className="max-w-7xl mx-auto relative">

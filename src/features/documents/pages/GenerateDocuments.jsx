@@ -112,8 +112,10 @@ export default function GenerateDocuments() {
     fetchProjects();
   }, [selectedWorkspace, t]);
 
-  const handleProjectClick = (projectId) => {
-    navigate(getRoute(ROUTES_FLAT.DOCUMENTS_PROJECT_DOCUMENTS, { projectId }));
+  const handleProjectClick = (projectId, projectName) => {
+    navigate(getRoute(ROUTES_FLAT.DOCUMENTS_PROJECT_DOCUMENTS, { projectId }), {
+      state: { projectName }
+    });
   };
 
   const handleImageError = (projectId) => {
@@ -186,7 +188,7 @@ export default function GenerateDocuments() {
               return (
                 <div
                   key={project.id}
-                  onClick={() => handleProjectClick(project.id)}
+                  onClick={() => handleProjectClick(project.id, project.name)}
                   className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 cursor-pointer shadow-md"
                 >
                   {/* Project Image - Same as Daily Progress Report */}

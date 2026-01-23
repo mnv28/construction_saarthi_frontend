@@ -12,7 +12,7 @@ const ActionCards = ({ actionCards }) => {
           <button
             key={index}
             onClick={action.onClick}
-            className="bg-[#F9F5EF] rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 transition-all text-left flex items-center justify-between group border border-[rgba(6,12,18,0.06)] cursor-pointer"
+            className="bg-[#F9F5EF] rounded-xl sm:rounded-2xl p-4 sm:p-6 transition-all text-left flex items-center justify-between group border border-[rgba(6,12,18,0.06)] cursor-pointer"
           >
             <div className="flex items-center gap-4 sm:gap-6 flex-1">
               <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl bg-white border border-[rgba(231,215,193,0.6)] flex items-center justify-center flex-shrink-0">

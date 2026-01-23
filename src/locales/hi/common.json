@@ -19,6 +19,7 @@
   "success": "सफल",
   "required": "आवश्यक",
   "secondary": "द्वितीयक",
+  "projectOverview": "प्रोजेक्ट अवलोकन",
   "login": "लॉगिन",
   "logout": "लॉगआउट",
   "signup": "साइन अप",
@@ -149,4 +150,3 @@
     }
   }
 }
-

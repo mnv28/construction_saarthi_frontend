@@ -89,7 +89,7 @@ const Dashboard = () => {
       icon: Plus,
       title: t("actions.addUsage"),
       description: t("actions.addUsageDescription"),
-      onClick: () => { },
+      onClick: () => navigate(ROUTES_FLAT.ADD_USAGE),
     },
   ];
 
@@ -146,28 +146,28 @@ const Dashboard = () => {
   }, [t, navigate, isRestricted, currentUserRole]);
 
   return (
-  <>
-    <div className="max-w-7xl mx-auto">
-      <DashboardBanner onTryItNow={() => {}} />
+    <>
+      <div className="max-w-7xl mx-auto">
+        <DashboardBanner onTryItNow={() => { }} />
 
-      {!isRestricted && <StatisticsCards statistics={statistics} />}
+        {!isRestricted && <StatisticsCards statistics={statistics} />}
 
-      <ActionCards actionCards={actionCards} />
+        <ActionCards actionCards={actionCards} />
 
-      <MyProjects
-        projects={projects}
-        onCreateProject={() => navigate(PROJECT_ROUTES.ADD_NEW_PROJECT)}
-      />
+        <MyProjects
+          projects={projects}
+          onCreateProject={() => navigate(PROJECT_ROUTES.ADD_NEW_PROJECT)}
+        />
 
-      <QuickActions quickActions={quickActions} />
+        <QuickActions quickActions={quickActions} />
 
-      {/* 🔥 Bottom Finance Banner */}
-      <BottomBanner
-        onManageFinance={() => navigate(ROUTES_FLAT.FINANCE)}
-      />
-    </div>
-  </>
-);
+        {/* 🔥 Bottom Finance Banner */}
+        <BottomBanner
+          onManageFinance={() => navigate(ROUTES_FLAT.FINANCE)}
+        />
+      </div>
+    </>
+  );
 
 };
 

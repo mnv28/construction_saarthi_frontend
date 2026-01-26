@@ -97,7 +97,8 @@
       "selectStartDate": "Please select an estimated start date",
       "constructionTypeRequired": "Please select a construction type",
       "contractTypeRequired": "Please select a contract type",
-      "estimatedBudgetRequired": "Estimated budget is required"
+      "estimatedBudgetRequired": "Estimated budget is required",
+      "positiveNumberOnly": "Please enter a positive number"
     }
   },
   "projectDetails": {

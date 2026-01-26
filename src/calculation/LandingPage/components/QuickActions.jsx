@@ -25,23 +25,23 @@ const TABS = ['quantity', 'area', 'volume', 'converter', 'study', 'quiz'];
 
 const QUICK_ACTIONS = [
     { id: 1, key: 'constructionCost', icon: calculatorIcon },
-    { id: 2, key: 'steelQuantities', icon: steelIcon },
-    { id: 3, key: 'concrete', icon: concreteIcon },
-    { id: 4, key: 'brickWorkPlaster', icon: brickIcon },
-    { id: 5, key: 'roofAreaPitch', icon: roofIcon },
-    { id: 6, key: 'flooringCalculation', icon: flooringIcon },
-    { id: 7, key: 'waterTankCapacity', icon: waterTankIcon },
-    { id: 8, key: 'excavation', icon: excavationIcon },
-    { id: 9, key: 'swimmingPool', icon: waterTankIcon },
-    { id: 10, key: 'waterProofing', icon: waterProffingIcon },
-    { id: 11, key: 'metalCalculator', icon: metalCalIcon },
-    { id: 12, key: 'railConstruction', icon: railIcon },
-    { id: 13, key: 'roadCalculation', icon: roadIcon },
-    { id: 14, key: 'paint', icon: paintIcon },
-    { id: 15, key: 'diagonals', icon: diagonalsIcon },
-    { id: 16, key: 'antiTermite', icon: antiTermiteIcon },
-    { id: 17, key: 'acCapacity', icon: acCapacityIcon },
-    { id: 18, key: 'solarElectric', icon: solarIcon },
+    { id: 2, key: 'steelQuantities', icon: steelIcon, isLocked: true },
+    { id: 3, key: 'concrete', icon: concreteIcon, isLocked: true },
+    { id: 4, key: 'brickWorkPlaster', icon: brickIcon, isLocked: true },
+    { id: 5, key: 'roofAreaPitch', icon: roofIcon, isLocked: true },
+    { id: 6, key: 'flooringCalculation', icon: flooringIcon, isLocked: true },
+    { id: 7, key: 'waterTankCapacity', icon: waterTankIcon, isLocked: true },
+    { id: 8, key: 'excavation', icon: excavationIcon, isLocked: true },
+    { id: 9, key: 'swimmingPool', icon: waterTankIcon, isLocked: true },
+    { id: 10, key: 'waterProofing', icon: waterProffingIcon, isLocked: true },
+    { id: 11, key: 'metalCalculator', icon: metalCalIcon, isLocked: true },
+    { id: 12, key: 'railConstruction', icon: railIcon, isLocked: true },
+    { id: 13, key: 'roadCalculation', icon: roadIcon, isLocked: true },
+    { id: 14, key: 'paint', icon: paintIcon, isLocked: true },
+    { id: 15, key: 'diagonals', icon: diagonalsIcon, isLocked: true },
+    { id: 16, key: 'antiTermite', icon: antiTermiteIcon, isLocked: true },
+    { id: 17, key: 'acCapacity', icon: acCapacityIcon, isLocked: true },
+    { id: 18, key: 'solarElectric', icon: solarIcon, isLocked: true },
     { id: 19, key: 'solarWaterHeater', isLocked: true },
     { id: 20, key: 'plywoodSheet', isLocked: true },
     { id: 21, key: 'plum', isLocked: true },
@@ -63,6 +63,9 @@ const QuickActions = () => {
     const navigate = useNavigate();
 
     const ROUTE_MAP = {
+        constructionCost: {
+            path: '/construction-cost',
+        },
         railConstruction: {
             path: '/calculation/coming-soon',
             state: {

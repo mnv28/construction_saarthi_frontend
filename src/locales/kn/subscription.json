@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಯೋಜನೆ",
-    "daysLeft": "ಉಚಿತ ಪ್ರಯೋಗದಲ್ಲಿ {{days}} ದಿನಗಳು ಉಳಿದಿವೆ"
+    "daysLeft": "ಉಚಿತ ಪ್ರಯೋಗದಲ್ಲಿ {{days}} ದಿನಗಳು ಉಳಿದಿವೆ",
+    "noActivePlan": "ಯಾವುದೇ ಸಕ್ರಿಯ ಯೋಜನೆ ಇಲ್ಲ",
+    "selectPlanBelow": "ಪ್ರಾರಂಭಿಸಲು ಕೆಳಗಿನ ಯೋಜನೆಯನ್ನು ಆರಿಸಿ"
   },
   "availablePlans": {
     "title": "ವೈಶಿಷ್ಟ್ಯಗಳು",
     "saveAmount": "₹{{amount}} ಉಳಿಸಿ",
     "bestValue": "ಅತ್ಯುತ್ತಮ ಮೌಲ್ಯ",
+    "viewAll": "ಲಭ್ಯವಿರುವ ಎಲ್ಲಾ ಯೋಜನೆಗಳನ್ನು ವೀಕ್ಷಿಸಿ",
     "benefits": {
       "unlimitedAccess": "ಎಲ್ಲಾ ಪ್ರಸ್ತುತ + ಭವಿಷ್ಯದ ಮಾಡ್ಯೂಲ್‌ಗಳಿಗೆ ಅನಿಯಮಿತ ಪ್ರವೇಶ",
       "exportDownload": "ರಫ್ತು/ಡೌನ್‌ಲೋಡ್ ಸಾಮರ್ಥ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲಾಗಿದೆ",
@@ -26,7 +29,9 @@
       "12month": "12 ತಿಂಗಳು ಯೋಜನೆ",
       "description": "ಕೌಂಟ್ರಾಕ್ಟರ್ + 3 ಉಚಿತ ಬಳಕೆದಾರರು",
       "periodMonth": "ತಿಂಗಳು",
-      "periodMonths": "ತಿಂಗಳುಗಳು"
+      "periodMonths": "ತಿಂಗಳುಗಳು",
+      "yearly": "ವಾರ್ಷಿಕ",
+      "3years": "3 ವರ್ಷಗಳು"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "ಇನ್ನೂ ಸದಸ್ಯರು ಸೇರಿಸಲಾಗಿಲ್ಲ.",
     "noCoupons": "ಕೂಪನ್‌ಗಳು ಲಭ್ಯವಿಲ್ಲ."
+  },
+  "activities": {
+    "title": "ನಿಮ್ಮ ಚಟುವಟಿಕೆಗಳು",
+    "members": "ಸದಸ್ಯರು",
+    "purchasedMembers": "ಖರೀದಿಸಿದ ಸದಸ್ಯರು:",
+    "memberUsed": "ಬಳಸಿದ ಸದಸ್ಯರು:",
+    "calculations": "ಲೆಕ್ಕಾಚಾರಗಳು",
+    "purchasedCalculations": "ಖರೀದಿಸಿದ ಲೆಕ್ಕಾಚಾರಗಳು:",
+    "calculationUsed": "ಬಳಸಿದ ಲೆಕ್ಕಾಚಾರ:"
+  },
+  "messages": {
+    "preparingSubscription": "ಚಂದಾದಾರಿಕೆ ಸಿದ್ಧವಾಗುತ್ತಿದೆ...",
+    "subscriptionPrepared": "ಚಂದಾದಾರಿಕೆ ಯಶಸ್ವಿಯಾಗಿ ಸಿದ್ಧವಾಗಿದೆ",
+    "creatingOrder": "ಪಾವತಿ ಆದೇಶವನ್ನು ರಚಿಸಲಾಗುತ್ತಿದೆ...",
+    "orderCreated": "ಪಾವತಿ ಆದೇಶವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ",
+    "verifyingPayment": "ಪಾವತಿಯನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...",
+    "paymentVerified": "ಪಾವತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
+    "paymentSuccessful": "ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಈಗ ಸಕ್ರಿಯವಾಗಿದೆ.",
+    "selectPlanError": "ದಯವಿಟ್ಟು ಚಂದಾದಾರಿಕೆ ಯೋಜನೆಯನ್ನು ಆರಿಸಿ",
+    "razorpayLoadError": "Razorpay ಸ್ಕ್ರಿಪ್ಟ್ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ",
+    "invalidAmountError": "ಅಮಾನ್ಯ ಪಾವತಿ ಮೊತ್ತ",
+    "paymentCancelled": "ಬಳಕೆದಾರರು ಪಾವತಿಯನ್ನು ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ",
+    "generalError": "ಚಂದಾದಾರಿಕೆಯನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ವಿಫಲವಾಗಿದೆ"
   }
 }

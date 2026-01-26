@@ -6,7 +6,9 @@ import PageHeader from '../../../components/layout/PageHeader';
 import SearchBar from '../../../components/ui/SearchBar';
 import Dropdown from '../../../components/ui/Dropdown';
 import Loader from '../../../components/ui/Loader';
+import EmptyState from '../../../components/shared/EmptyState';
 import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
+import emptyStateIcon from '../../../assets/icons/EmptyState.svg';
 import { getAllProjects } from '../../projects/api/projectApi';
 import { useAuth } from '../../auth/store';
 import { showError } from '../../../utils/toast';
@@ -173,11 +175,11 @@ export default function GenerateDocuments() {
             <Loader size="lg" />
           </div>
         ) : filteredProjects.length === 0 ? (
-          <div className="flex items-center justify-center py-8 sm:py-12">
-            <div className="text-sm sm:text-base text-secondary">
-              {t('noProjectsFound')}
-            </div>
-          </div>
+          <EmptyState
+            image={emptyStateIcon}
+            title={t('noProjectsFound', { defaultValue: 'No projects found' })}
+            message={t('noProjectsFoundMessage', { defaultValue: 'Try adjusting your search or filters to find what you\'re looking for.' })}
+          />
         ) : (
           <div className="space-y-3 sm:space-y-4">
             {filteredProjects.map((project) => {

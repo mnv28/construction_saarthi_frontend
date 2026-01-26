@@ -1,9 +1,4 @@
-/**
- * Inventory Item Header Component
- * Reusable header with title, back button, and action buttons
- */
-
-import { Plus, ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2 } from 'lucide-react';
+import { Plus, ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2, Pencil } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../../components/layout/PageHeader';
 import Button from '../../../components/ui/Button';
@@ -12,6 +7,7 @@ import DropdownMenu from '../../../components/ui/DropdownMenu';
 export default function InventoryItemHeader({
   itemName,
   onBack,
+  onEdit,
   onAskForMaterial,
   onTransferMaterial,
   onRestock,
@@ -24,9 +20,14 @@ export default function InventoryItemHeader({
 
   // Build menu items based on item type
   const menuItems = [
+    ...(onEdit ? [{
+      label: t('actions.edit', { defaultValue: 'Edit Material' }),
+      onClick: onEdit,
+      icon: <Pencil className="w-4 h-4" />,
+    }] : []),
     {
       label: t('actions.restock', { defaultValue: 'Restock Material' }),
-      onClick: onRestock || (() => {}),
+      onClick: onRestock || (() => { }),
       icon: <RotateCw className="w-4 h-4" />,
     },
   ];
@@ -43,7 +44,7 @@ export default function InventoryItemHeader({
   menuItems.push(
     {
       label: t('actions.downloadPDF', { defaultValue: 'Download as PDF' }),
-      onClick: onDownloadPDF || (() => {}),
+      onClick: onDownloadPDF || (() => { }),
       icon: <Download className="w-4 h-4" />,
     },
     {
@@ -51,7 +52,7 @@ export default function InventoryItemHeader({
         defaultValue: 'Delete {{itemName}}',
         itemName,
       }),
-      onClick: onDelete || (() => {}),
+      onClick: onDelete || (() => { }),
       icon: <Trash2 className="w-4 h-4 text-accent" />,
       textColor: 'text-accent',
     }

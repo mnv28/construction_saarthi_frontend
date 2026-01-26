@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "আপনার বর্তমান পরিকল্পনা",
-    "daysLeft": "ফ্রি ট্রায়ালে {{days}} দিন বাকি"
+    "daysLeft": "ফ্রি ট্রায়ালে {{days}} দিন বাকি",
+    "noActivePlan": "কোনো সক্রিয় পরিকল্পনা নেই",
+    "selectPlanBelow": "শুরু করতে নিচে একটি পরিকল্পনা নির্বাচন করুন"
   },
   "availablePlans": {
     "title": "বৈশিষ্ট্য",
     "saveAmount": "₹{{amount}} সাশ্রয় করুন",
     "bestValue": "সেরা মূল্য",
+    "viewAll": "সমস্ত উপলব্ধ পরিকল্পনা দেখুন",
     "benefits": {
       "unlimitedAccess": "সব বর্তমান + ভবিষ্যত মডিউলে সীমাহীন অ্যাক্সেস",
       "exportDownload": "রপ্তানি/ডাউনলোড ক্ষমতা আনলক",
@@ -26,7 +29,9 @@
       "12month": "12 মাসের পরিকল্পনা",
       "description": "ঠিকাদার + 3টি বিনামূল্যে ব্যবহারকারী",
       "periodMonth": "মাস",
-      "periodMonths": "মাস"
+      "periodMonths": "মাস",
+      "yearly": "বার্ষিক",
+      "3years": "৩ বছর"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "এখনো কোনো সদস্য যোগ করা হয়নি।",
     "noCoupons": "কোনো কুপন উপলব্ধ নেই।"
+  },
+  "activities": {
+    "title": "আপনার ক্রিয়াকলাপ",
+    "members": "সদস্যগণ",
+    "purchasedMembers": "ক্রয়কৃত সদস্য:",
+    "memberUsed": "ব্যবহৃত সদস্য:",
+    "calculations": "গণনা",
+    "purchasedCalculations": "ক্রয়কৃত গণনা:",
+    "calculationUsed": "ব্যবহৃত গণনা:"
+  },
+  "messages": {
+    "preparingSubscription": "সদস্যতা প্রস্তুত করা হচ্ছে...",
+    "subscriptionPrepared": "সদস্যতা সফলভাবে প্রস্তুত করা হয়েছে",
+    "creatingOrder": "পেমেন্ট অর্ডার তৈরি করা হচ্ছে...",
+    "orderCreated": "পেমেন্ট অর্ডার সফলভাবে তৈরি করা হয়েছে",
+    "verifyingPayment": "পেমেন্ট যাচাই করা হচ্ছে...",
+    "paymentVerified": "পেমেন্ট সফলভাবে যাচাই করা হয়েছে",
+    "paymentSuccessful": "পেমেন্ট সফল! আপনার সদস্যতা এখন সক্রিয়।",
+    "selectPlanError": "অনুগ্রহ করে একটি সদস্যতা পরিকল্পনা নির্বাচন করুন",
+    "razorpayLoadError": "Razorpay স্ক্রিপ্ট লোড করতে ব্যর্থ হয়েছে",
+    "invalidAmountError": "অমান্য পেমেন্ট পরিমাণ",
+    "paymentCancelled": "ব্যবহারকারী পেমেন্ট বাতিল করেছেন",
+    "generalError": "সদস্যতা প্রক্রিয়া করতে ব্যর্থ হয়েছে"
   }
 }

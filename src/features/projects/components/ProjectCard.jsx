@@ -16,7 +16,54 @@ export default function ProjectCard({ project, onOpenDetails, onEdit, onDelete, 
   const title = project.site_name || project.name || 'Untitled project';
   const address = project.address || 'No address provided';
   const status = project.status || 'Completed';
-  const progress = project.progress ?? project.completion_percentage ?? 0;
+
+  // Calculate progress based on dates if available
+  const calculateProgress = () => {
+    // 1. Try to get dates and calculate strictly based on time
+    const startStr = project.startDate || project.start_date;
+    const endStr = project.endDate || project.completion_date || project.end_date;
+
+    if (startStr && endStr) {
+      try {
+        const startDate = new Date(startStr);
+        const endDate = new Date(endStr);
+        const today = new Date();
+
+        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+          // Set all to midnight for accurate date-only comparison
+          const s = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+          const e = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+          const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+          // If project hasn't started yet (today is before start date)
+          if (t < s) return 0;
+
+          // If project is already past end date
+          if (t >= e) return 100;
+
+          const totalDuration = e.getTime() - s.getTime();
+          const elapsedDuration = t.getTime() - s.getTime();
+
+          if (totalDuration <= 0) return 100;
+
+          const calculated = Math.round((elapsedDuration / totalDuration) * 100);
+          return Math.min(Math.max(calculated, 0), 100);
+        }
+      } catch (error) {
+        console.warn('Date parsing failed for progress calculation', error);
+      }
+    }
+
+    // 2. Fallback to status only if no valid dates are provided
+    if (status.toLowerCase() === 'completed' || status.toLowerCase() === 'complete') {
+      return 100;
+    }
+
+    // 3. Final fallback: use progress field from API if exists
+    return project.progress ?? project.completion_percentage ?? 0;
+  };
+
+  const progress = calculateProgress();
   const imageSrc = project.profile_photo || project.image || '';
   const showImage = Boolean(imageSrc) && !imageError;
 

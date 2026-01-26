@@ -70,6 +70,18 @@ function ProjectSpecificationsFormSection({
                 placeholder={t('addNewProject.form.enterValue')}
                 type="number"
                 register={register}
+                validationRules={{
+                  min: {
+                    value: 0,
+                    message: t('addNewProject.validation.positiveNumberOnly')
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                    e.preventDefault();
+                  }
+                }}
+                min={0}
                 errors={errors}
               />
             </div>
@@ -83,6 +95,18 @@ function ProjectSpecificationsFormSection({
           type="number"
           placeholder={t('addNewProject.form.currencyPlaceholder')}
           register={register}
+          validationRules={{
+            min: {
+              value: 0,
+              message: t('addNewProject.validation.positiveNumberOnly')
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+              e.preventDefault();
+            }
+          }}
+          min={0}
           errors={errors}
           labelClassName="text-primary font-normal"
         />
@@ -112,6 +136,18 @@ function ProjectSpecificationsFormSection({
           type="number"
           placeholder={t('addNewProject.form.numberOfFloorsPlaceholder')}
           register={register}
+          validationRules={{
+            min: {
+              value: 0,
+              message: t('addNewProject.validation.positiveNumberOnly')
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+              e.preventDefault();
+            }
+          }}
+          min={0}
           errors={errors}
           labelClassName="text-primary font-normal"
         />
@@ -144,7 +180,17 @@ function ProjectSpecificationsFormSection({
           required
           validationRules={{
             required: t("addNewProject.validation.estimatedBudgetRequired") || "Estimated budget is required",
+            min: {
+              value: 0,
+              message: t('addNewProject.validation.positiveNumberOnly')
+            }
           }}
+          onKeyDown={(e) => {
+            if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+              e.preventDefault();
+            }
+          }}
+          min={0}
           errors={errors}
           labelClassName="text-primary font-normal"
         />

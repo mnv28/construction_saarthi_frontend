@@ -12,6 +12,7 @@ import RichTextEditor from '../../../components/ui/RichTextEditor';
 import Radio from '../../../components/ui/Radio';
 import { useMaterials, useUnits, useInventoryTypes } from '../hooks';
 import { useAuth } from '../../../hooks/useAuth';
+import { getAvailableMaterialQuantity } from '../api/siteInventoryApi';
 import AddMaterialModal from './AddMaterialModal';
 
 export default function DestroyMaterialModal({
@@ -22,14 +23,16 @@ export default function DestroyMaterialModal({
 }) {
   const { t } = useTranslation('siteInventory');
   const { selectedWorkspace } = useAuth();
-  
+
   const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
   const [materialType, setMaterialType] = useState(null); // Dynamic inventory type ID
   const [selectedMaterial, setSelectedMaterial] = useState('');
+  const [availableQuantity, setAvailableQuantity] = useState(null);
   const [quantity, setQuantity] = useState('');
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingQuantity, setIsFetchingQuantity] = useState(false);
 
   // Filter to show only "Reusable" inventory type
   const reusableTypeOptions = useMemo(() => {
@@ -86,15 +89,15 @@ export default function DestroyMaterialModal({
       // Prevent background scroll
       const originalOverflow = document.body.style.overflow;
       const originalPaddingRight = document.body.style.paddingRight;
-      
+
       // Calculate scrollbar width to prevent layout shift
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      
+
       document.body.style.overflow = 'hidden';
       if (scrollbarWidth > 0) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
-      
+
       return () => {
         document.body.style.overflow = originalOverflow;
         document.body.style.paddingRight = originalPaddingRight;
@@ -130,13 +133,18 @@ export default function DestroyMaterialModal({
 
   const validate = () => {
     const newErrors = {};
-    
+
     if (!selectedMaterial) {
       newErrors.material = t('destroyMaterialModal.errors.materialRequired', { defaultValue: 'Material is required' });
     }
-    
+
     if (!quantity || parseFloat(quantity) <= 0) {
       newErrors.quantity = t('destroyMaterialModal.errors.quantityRequired', { defaultValue: 'Quantity is required' });
+    } else if (availableQuantity !== null && parseFloat(quantity) > availableQuantity) {
+      newErrors.quantity = t('destroyMaterialModal.errors.insufficientStock', {
+        defaultValue: 'Quantity exceeds available stock ({{available}})',
+        available: availableQuantity
+      });
     }
 
     if (!reason || reason.trim() === '') {
@@ -156,7 +164,7 @@ export default function DestroyMaterialModal({
     try {
       // Determine actual inventoryTypeId from selected material
       const actualInventoryTypeId = selectedMaterialData?.inventoryTypeId || inventoryTypeId;
-      
+
       await onDestroy?.({
         materialId: selectedMaterial,
         materialName: selectedMaterialData?.name || selectedMaterialData?.materialName || '',
@@ -178,6 +186,7 @@ export default function DestroyMaterialModal({
     if (!isLoading) {
       onClose();
       setSelectedMaterial('');
+      setAvailableQuantity(null);
       setQuantity('');
       setReason('');
       setErrors({});
@@ -186,7 +195,7 @@ export default function DestroyMaterialModal({
 
   if (!isOpen) return null;
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget && !isLoading) {
@@ -233,11 +242,41 @@ export default function DestroyMaterialModal({
               label={t('destroyMaterialModal.material', { defaultValue: 'Material' })}
               options={materialOptions || []}
               value={selectedMaterial}
-              onChange={(value) => {
+              onChange={async (value) => {
                 if (value) {
                   setSelectedMaterial(value);
+                  setAvailableQuantity(null); // Reset while fetching
                   if (errors.material) {
                     setErrors({ ...errors, material: '' });
+                  }
+
+                  // Fetch available quantity
+                  setIsFetchingQuantity(true);
+                  try {
+                    const response = await getAvailableMaterialQuantity({
+                      projectID: projectId,
+                      inventoryTypeId: materialType,
+                      materialsId: value
+                    });
+
+                    // The API returns the quantity in the totals or items
+                    // It could be an array of records or a single summary object
+                    const data = response?.data || response;
+                    let qty = 0;
+
+                    if (Array.isArray(data)) {
+                      // Sum quantities if it's an array, checking both 'Quantity' and 'quantity'
+                      qty = data.reduce((acc, item) => acc + (Number(item.Quantity) || Number(item.quantity) || 0), 0);
+                    } else if (data) {
+                      qty = Number(data.Quantity) || Number(data.quantity) || 0;
+                    }
+
+                    setAvailableQuantity(qty);
+                  } catch (error) {
+                    console.error('Error fetching material quantity:', error);
+                    setAvailableQuantity(0);
+                  } finally {
+                    setIsFetchingQuantity(false);
                   }
                 }
               }}
@@ -265,10 +304,15 @@ export default function DestroyMaterialModal({
                   setErrors({ ...errors, quantity: '' });
                 }
               }}
-              placeholder="00"
+              placeholder={
+                isFetchingQuantity
+                  ? 'Loading stock...'
+                  : (availableQuantity !== null ? `Available: ${availableQuantity}` : '00')
+              }
+              max={availableQuantity !== null ? availableQuantity : undefined}
               required
               error={errors.quantity}
-              disabled={isLoading}
+              disabled={isLoading || isFetchingQuantity}
               unit={unit}
             />
           </div>
@@ -298,19 +342,19 @@ export default function DestroyMaterialModal({
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 px-6 pb-6">
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={isLoading}
           >
             {t('destroyMaterialModal.cancel', { defaultValue: 'Cancel' })}
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={handleDestroy}
             disabled={isLoading}
           >
-            {isLoading 
+            {isLoading
               ? t('destroyMaterialModal.destroying', { defaultValue: 'Destroying...' })
               : t('destroyMaterialModal.destroy', { defaultValue: 'Destroy Material' })
             }

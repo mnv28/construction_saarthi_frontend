@@ -18,6 +18,20 @@
     "addUsage": "ઉપયોગ ઉમેરો",
     "addUsageDescription": "દૈનિક સામગ્રી ઉપયોગ લોગ ઉમેરો"
   },
+  "addUsagePage": {
+    "title": "ઉપયોગ ઉમેરો",
+    "projectSite": "પ્રોજેક્ટ (સાઇટ)",
+    "selectProject": "પ્રોજેક્ટ પસંદ કરો",
+    "materialType": "સામગ્રીનો પ્રકાર",
+    "reusable": "પુનઃઉપયોગી",
+    "consumable": "વપરાશ યોગ્ય",
+    "materialPlaceholder": "સામગ્રી શોધો...",
+    "quantity": "જથ્થો",
+    "description": "વર્ણન",
+    "enterText": "અહીં લખાણ દાખલ કરો",
+    "cancel": "રદ કરો",
+    "addLog": "લોગ ઉમેરો"
+  },
   "projects": {
     "title": "મારા પ્રોજેક્ટ્સ (સાઇટ્સ)",
     "viewAll": "બધા પ્રોજેક્ટ્સ જુઓ"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "શું તમે ખરેખર કાઢી નાખવા માંગો છો"
   }
 }
-

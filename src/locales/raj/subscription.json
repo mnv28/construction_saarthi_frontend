@@ -6,13 +6,16 @@
     "coupon": "कूपन लागू करो"
   },
   "currentPlan": {
-    "title": "तमारी वर्तमान योजना",
-    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बच्या"
+    "title": "थारी वर्तमान योजना",
+    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बच्या",
+    "noActivePlan": "कोई एक्टिव प्लान कोनी",
+    "selectPlanBelow": "सुरू करण खातिर नीचे स्यूं एक प्लान चुन ल्यो"
   },
   "availablePlans": {
     "title": "खासियत",
     "saveAmount": "₹{{amount}} बचाओ",
     "bestValue": "सबसे बढ़िया कीमत",
+    "viewAll": "सारा उपलब्ध प्लान देखो",
     "benefits": {
       "unlimitedAccess": "सगळा मौजूदा + भविष्य के मॉड्यूल में असीमित पहुंच",
       "exportDownload": "निर्यात/डाउनलोड क्षमता खुली गई",
@@ -26,7 +29,9 @@
       "12month": "12 महीना योजना",
       "description": "ठेकेदार + 3 मुफ्त यूजर",
       "periodMonth": "महीना",
-      "periodMonths": "महीना"
+      "periodMonths": "महीना",
+      "yearly": "सालाणो",
+      "3years": "3 साल"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "अब तक कोई सदस्य ना जोड़िया।",
     "noCoupons": "कोई कूपन उपलब्ध ना।"
+  },
+  "activities": {
+    "title": "थारी गतिविधियाँ",
+    "members": "सदस्य",
+    "purchasedMembers": "खरीदियोड़ा सदस्य:",
+    "memberUsed": "इस्तेमाल कीधोड़ा सदस्य:",
+    "calculations": "गणणा",
+    "purchasedCalculations": "खरीदियोड़ी गणणा:",
+    "calculationUsed": "इस्तेमाल कीधोड़ी गणणा:"
+  },
+  "messages": {
+    "preparingSubscription": "सब्सक्रिप्शन तैयार हो रयो छै...",
+    "subscriptionPrepared": "सब्सक्रिप्शन चोखी तरां स्यूं तैयार हो गयो",
+    "creatingOrder": "पेमेंट ऑर्डर बण रयो छै...",
+    "orderCreated": "पेमेंट ऑर्डर চोखी ਤरां स्यूं बण गयो",
+    "verifyingPayment": "पेमेंट जांची जा रयी छै...",
+    "paymentVerified": "पेमेंट चोखी तरां स्यूं जांच ली गयी",
+    "paymentSuccessful": "पेमेंट सफल! थारी सब्सक्रिप्शन अब एक्टिव छै।",
+    "selectPlanError": "सांई जी, एक सब्सक्रिप्शन प्लान चुन ल्यो",
+    "razorpayLoadError": "Razorpay स्क्रिप्ट लोड होबा में दिक्कत आ गयी",
+    "invalidAmountError": "पेमेंट री रकम गलत छै",
+    "paymentCancelled": "यूजर पेमेंट रद्द कर दी",
+    "generalError": "सब्सक्रिप्शन प्रोसेस होबा में दिक्कत आ गयी"
   }
 }

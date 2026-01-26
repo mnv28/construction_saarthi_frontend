@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "আপোনাৰ বৰ্তমান পৰিকল্পনা",
-    "daysLeft": "মুক্ত পৰীক্ষণত {{days}} দিন বাকী আছে"
+    "daysLeft": "মুক্ত পৰীক্ষণত {{days}} দিন বাকী আছে",
+    "noActivePlan": "কোনো সক্ৰিয় পৰিকল্পনা নাই",
+    "selectPlanBelow": "আৰম্ভ কৰিবলৈ তলৰ এটা পৰিকল্পনা বাছনি কৰক"
   },
   "availablePlans": {
     "title": "বৈশিষ্ট্যসমূহ",
     "saveAmount": "₹{{amount}} সাঁচি থওক",
     "bestValue": "শ্ৰেষ্ঠ মূল্য",
+    "viewAll": "সকলো উপলব্ধ পৰিকল্পনা চাওক",
     "benefits": {
       "unlimitedAccess": "সকলো বৰ্তমান + ভৱিষ্যতৰ মডিউললৈ সীমাহীন প্ৰৱেশ",
       "exportDownload": "ৰপ্তানি/ডাউনল'ড কৰিব পৰা ক্ষমতা খোলা হৈছে",
@@ -26,7 +29,9 @@
       "12month": "১২ মাহৰ পৰিকল্পনা",
       "description": "ঠিকাদাৰ + ৩টা মুক্ত ব্যৱহাৰকাৰী",
       "periodMonth": "মাহ",
-      "periodMonths": "মাহ"
+      "periodMonths": "মাহ",
+      "yearly": "বাৰ্ষিক",
+      "3years": "৩ বছৰ"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "এতিয়াও কোনো সদস্য যোগ কৰা হোৱা নাই।",
     "noCoupons": "কুপন উপলব্ধ নাই।"
+  },
+  "activities": {
+    "title": "আপোনাৰ কাৰ্যকলাপ",
+    "members": "সদಸ್ಯসকল",
+    "purchasedMembers": "ক্ৰয় কৰা সদস্য:",
+    "memberUsed": "ব্যৱহৃত সদস্য:",
+    "calculations": "গণনা",
+    "purchasedCalculations": "ক্ৰয় কৰা গণনা:",
+    "calculationUsed": "ব্যৱহৃত গণনা:"
+  },
+  "messages": {
+    "preparingSubscription": "সদস্যতা প্ৰস্তুত কৰি থকা হৈছে...",
+    "subscriptionPrepared": "সদস্যতা সফলতাৰে প্ৰস্তুত কৰা হৈছে",
+    "creatingOrder": "পৰিশোধৰ অৰ্ডাৰ সৃষ্টি কৰি থকা হৈছে...",
+    "orderCreated": "পৰিশোধৰ অৰ্ডাৰ সফলতাৰে সৃষ্টি কৰা হৈছে",
+    "verifyingPayment": "পৰিশোধ পৰীক্ষা কৰি থকা হৈছে...",
+    "paymentVerified": "পৰিশোধ সফলতাৰে পৰীক্ষা কৰা হৈছে",
+    "paymentSuccessful": "পৰিশোধ সফল! আপোনাৰ সদস্যতা এতিয়া সক্ৰিয়।",
+    "selectPlanError": "অনুগ্ৰহ কৰি এক সদস্যতা পৰিকল্পনা বাছনি কৰক",
+    "razorpayLoadError": "Razorpay স্ক্ৰিপ্ট লোড কৰাত ব্যৰ্থ হৈছে",
+    "invalidAmountError": "অমান্য পৰিশোধৰ পৰিমাণ",
+    "paymentCancelled": "ব্যৱহাৰকাৰীয়ে পৰিশোধ বাতিল কৰিছে",
+    "generalError": "সদস্যতা প্ৰক্ৰিয়াকৰণ কৰাত ব্যৰ্থ হৈছে"
   }
 }

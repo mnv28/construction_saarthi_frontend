@@ -39,6 +39,8 @@ export const useProjects = (workspaceId) => {
         getMediaUrl(project.media?.profilePhoto) ||
         getMediaUrl(p.profilePhoto) ||
         null,
+      startDate: p.startDate || p.start_date || project.startDate || project.start_date,
+      endDate: p.endDate || p.completion_date || p.end_date || project.endDate || project.completion_date || project.end_date,
       originalData: project,
     };
   }, []);
@@ -79,7 +81,7 @@ export const useProjects = (workspaceId) => {
       // Status filter: match exact status or handle variations
       const projectStatus = (p.status || '').toLowerCase();
       let matchesStatus = true;
-      
+
       if (status) {
         // Handle status variations
         if (status === 'in_progress' || status === 'in process') {
@@ -92,7 +94,7 @@ export const useProjects = (workspaceId) => {
           matchesStatus = projectStatus === status;
         }
       }
-      
+
       if (!matchesStatus) return false;
 
       // Search filter

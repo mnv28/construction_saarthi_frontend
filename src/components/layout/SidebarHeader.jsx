@@ -30,7 +30,7 @@ const getWorkspaceInitials = (workspace) => {
 /* Workspace List Item */
 const WorkspaceItem = ({ workspace, isActive, onSwitch }) => {
   const colors = getWorkspaceColor(workspace.color);
-  
+
   return (
     <button
       onClick={() => onSwitch(workspace)}
@@ -85,9 +85,10 @@ const SidebarHeader = () => {
   const navigate = useNavigate();
   const { selectedWorkspace: storeSelectedWorkspace, selectWorkspace, logout: authLogout, user } = useAuth();
   const dropdownRef = useRef(null);
-  
-  // Get logged-in user's ID to find their role in workspace members
+
+  // Get logged-in user's info
   const loggedInUserId = user?.id?.toString() || user?.user_id?.toString() || '';
+  const userPhone = user?.phone_number || user?.phone || '';
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -126,25 +127,27 @@ const SidebarHeader = () => {
         const mappedWorkspaces = list.map((workspace, index) => {
           // Find logged-in user's role from workspace members array
           let userRole = '';
-          
-          if (loggedInUserId && workspace.members && Array.isArray(workspace.members)) {
+
+          if (workspace.members && Array.isArray(workspace.members)) {
             const currentUserMember = workspace.members.find(
-              (member) => member.id?.toString() === loggedInUserId
+              (member) =>
+                (loggedInUserId && (member.id?.toString() === loggedInUserId || member.user_id?.toString() === loggedInUserId)) ||
+                (userPhone && (member.phone_number === userPhone || member.phone === userPhone))
             );
             if (currentUserMember?.role) {
               userRole = currentUserMember.role;
-            } else if (workspace.isOwner) {
-              userRole = "owner";
             }
-          } else if (workspace.isOwner) {
-            userRole = "owner";
           }
-        
+
+          if (!userRole) {
+            userRole = workspace.role || (workspace.isOwner ? "owner" : "");
+          }
+
           return {
             ...workspace,
             role: userRole,
             initials: workspace.initials || getInitials(workspace.name),
-            color: WORKSPACE_COLORS[index % WORKSPACE_COLORS.length], 
+            color: WORKSPACE_COLORS[index % WORKSPACE_COLORS.length],
           };
         });
 
@@ -189,7 +192,7 @@ const SidebarHeader = () => {
 
   /* Logout */
   const handleLogoutClick = useCallback(() => {
-    setShowDropdown(false); 
+    setShowDropdown(false);
     setShowLogoutConfirm(true);
   }, []);
 
@@ -265,7 +268,7 @@ const SidebarHeader = () => {
                             backgroundColor: colors.bg,
                             border: `1px solid ${colors.border}`,
                             color: colors.text,
-                            }}
+                          }}
                         >
                           {getWorkspaceInitials(currentWorkspace)}
                         </div>
@@ -279,30 +282,30 @@ const SidebarHeader = () => {
                         </div>
                       </div>
 
-                    <button 
-                      onClick={() => {
-                        const workspaceId = currentWorkspace?.id || storeSelectedWorkspace;
-                        if (workspaceId) {
-                          if (workspaceId !== storeSelectedWorkspace) {
-                            selectWorkspace(workspaceId);
+                      <button
+                        onClick={() => {
+                          const workspaceId = currentWorkspace?.id || storeSelectedWorkspace;
+                          if (workspaceId) {
+                            if (workspaceId !== storeSelectedWorkspace) {
+                              selectWorkspace(workspaceId);
+                            }
+                            navigate(ROUTES_FLAT.MEMBERS);
+                          } else {
+                            showError('Please select a workspace first');
                           }
-                          navigate(ROUTES_FLAT.MEMBERS);
-                        } else {
-                          showError('Please select a workspace first');
-                        }
-                      }}
-                      className="w-full bg-[#FBFBFB] border border-gray-200 rounded-[10px] py-2 px-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors"
-                    >
-                      <Users className="w-5 h-5" /> 
-                      <span className="text-sm text-secondary ">
-                        Invite & View Members
-                      </span>
-                    </button>
+                        }}
+                        className="w-full bg-[#FBFBFB] border border-gray-200 rounded-[10px] py-2 px-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors"
+                      >
+                        <Users className="w-5 h-5" />
+                        <span className="text-sm text-secondary ">
+                          Invite & View Members
+                        </span>
+                      </button>
                     </div>
                   );
                 })()}
 
-                {/* All Workspace List */}  
+                {/* All Workspace List */}
                 {workspaces.map((workspace) => (
                   <WorkspaceItem
                     key={workspace.id}
@@ -313,7 +316,7 @@ const SidebarHeader = () => {
                 ))}
 
                 {/* Create Workspace */}
-                <button 
+                <button
                   onClick={() => {
                     setShowDropdown(false);
                     navigate(ROUTES_FLAT.CREATE_WORKSPACE);

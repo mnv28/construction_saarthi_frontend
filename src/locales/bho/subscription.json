@@ -6,13 +6,16 @@
     "coupon": "कूपन लागू करीं"
   },
   "currentPlan": {
-    "title": "आपके वर्तमान योजना",
-    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बाकी बा"
+    "title": "राउर वर्तमान योजना",
+    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बाकी बा",
+    "noActivePlan": "कोई सक्रिय योजना नइखे",
+    "selectPlanBelow": "शروع करे खातिर नीचे से एगो योजना चुनीं"
   },
   "availablePlans": {
     "title": "विशेषता",
     "saveAmount": "₹{{amount}} बचावीं",
     "bestValue": "सबसे बढ़िया कीमत",
+    "viewAll": "सब उपलब्ध योजना देखीं",
     "benefits": {
       "unlimitedAccess": "सभ मौजूदा + भविष्य के मॉड्यूल में असीमित पहुंच",
       "exportDownload": "निर्यात/डाउनलोड क्षमता खुलल बा",
@@ -26,7 +29,9 @@
       "12month": "12 महीना योजना",
       "description": "ठेकेदार + 3 मुफ्त यूजर",
       "periodMonth": "महीना",
-      "periodMonths": "महीना"
+      "periodMonths": "महीना",
+      "yearly": "सालाना",
+      "3years": "3 साल"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "अब तक कोनो सदस्य ना जोड़ल बा।",
     "noCoupons": "कोनो कूपन उपलब्ध ना बा।"
+  },
+  "activities": {
+    "title": "राउر गतिविधियाँ",
+    "members": "सदस्य",
+    "purchasedMembers": "खरीदल सदस्य:",
+    "memberUsed": "इस्तेमाल भईल सदस्य:",
+    "calculations": "गणना",
+    "purchasedCalculations": "खरीदल गणना:",
+    "calculationUsed": "इस्तेमाल भईल गणना:"
+  },
+  "messages": {
+    "preparingSubscription": "सदस्यता तैयार हो रहल बा...",
+    "subscriptionPrepared": "सदस्यता सफलता से तैयार हो गईल",
+    "creatingOrder": "भुगतान ऑर्डर बन रहল बा...",
+    "orderCreated": "भुगतान ऑर्डर सफलता से बन गईल",
+    "verifyingPayment": "भुगतान के जाँचल जा रहल बा...",
+    "paymentVerified": "भुगतान सफलता से जाँच लिहलं गईल",
+    "paymentSuccessful": "भुगतान सफल! राउर सदस्यता अब सक्रिय बा।",
+    "selectPlanError": "कृपया एगो सदस्यता योजना चुनीं",
+    "razorpayLoadError": "Razorpay स्क्रिप्ट लोड करे में विफल",
+    "invalidAmountError": "अमान्य भुगतान राशि",
+    "paymentCancelled": "उपयोगकर्ता भुगतान रद्द क देहलें",
+    "generalError": "सदस्यता प्रक्रिया में विफल"
   }
 }

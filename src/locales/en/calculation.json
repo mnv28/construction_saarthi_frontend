@@ -3,6 +3,8 @@
         "history": "History",
         "totalCalculations": "Total Calculations",
         "usedCalculations": "Used Calculations",
+        "availableCalculations": "Available",
+        "totalOrders": "Total Orders",
         "buyCalculations": "Buy Calculations"
     },
     "quickActions": {
@@ -15,7 +17,7 @@
             "quiz": "Quiz"
         },
         "items": {
-            "constructionCost": "Construction Cost",
+            "constructionCost": "Construction Calculation",
             "steelQuantities": "Steel Quantities",
             "concrete": "Concrete",
             "brickWorkPlaster": "Brick Work & Plaster",
@@ -79,6 +81,9 @@
         "enterValue": "Enter value",
         "constructionArea": "Construction Area",
         "constructionCost": "Construction Cost",
+        "constructionCity": "Construction City",
+        "constructionLanguage": "Construction Language",
+        "additionalNote": "Additional Note",
         "reset": "Reset",
         "calculate": "Calculate",
         "materialQuantity": "Material Quantity",
@@ -89,7 +94,9 @@
             "unit": "Unit",
             "inputName": "Input Name",
             "symbol": "Symbol",
-            "value": "Value"
+            "value": "Value",
+            "amount": "Amount",
+            "viewDetails": "View Details"
         },
         "materials": {
             "cement": "Cement",

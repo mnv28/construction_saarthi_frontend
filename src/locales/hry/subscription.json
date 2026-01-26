@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "तेरा वर्तमान योजना",
-    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बचे"
+    "daysLeft": "मुफ्त ट्रायल में {{days}} दिन बचे",
+    "noActivePlan": "कोई एक्टिव प्लान कोनी",
+    "selectPlanBelow": "शुरू करन खातिर नीचे तै एक प्लान चुण लो"
   },
   "availablePlans": {
     "title": "खासियत",
     "saveAmount": "₹{{amount}} बचाओ",
     "bestValue": "सबसे बढ़िया कीमत",
+    "viewAll": "सारे उपलब्ध प्लान देखो",
     "benefits": {
       "unlimitedAccess": "सभ मौजूदा + भविष्य के मॉड्यूल में असीमित पहुंच",
       "exportDownload": "निर्यात/डाउनलोड क्षमता खुली",
@@ -26,7 +29,9 @@
       "12month": "12 महीना योजना",
       "description": "ठेकेदार + 3 मुफ्त यूजर",
       "periodMonth": "महीना",
-      "periodMonths": "महीना"
+      "periodMonths": "महीना",
+      "yearly": "सालाना",
+      "3years": "3 साल"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "अब तक कोई सदस्य ना जोड़े।",
     "noCoupons": "कोई कूपन उपलब्ध ना।"
+  },
+  "activities": {
+    "title": "थारी गतिविधियाँ",
+    "members": "सदस्य",
+    "purchasedMembers": "खरीदे होये सदस्य:",
+    "memberUsed": "इस्तेमाल होये सदस्य:",
+    "calculations": "गणना",
+    "purchasedCalculations": "खरीदी होई गणना:",
+    "calculationUsed": "इस्तेमाल होई गणना:"
+  },
+  "messages": {
+    "preparingSubscription": "सब्सक्रिप्शन तैयार होवे स...",
+    "subscriptionPrepared": "सब्सक्रिप्शन बढ़िया तै तैयार हो गयी",
+    "creatingOrder": "पेमेंट ऑर्डर बण रह्या स...",
+    "orderCreated": "पेमेंट ऑर्डर बढ़िया तै बण गया",
+    "verifyingPayment": "पेमेंट जांची जावे स...",
+    "paymentVerified": "पेमेंट बढ़िया तै जांच ली गई",
+    "paymentSuccessful": "पेमेंट सफल! थारी सब्सक्रिप्शन इब एक्टिव स।",
+    "selectPlanError": "एजी, एक सब्सक्रिप्शन प्लान चुण लो",
+    "razorpayLoadError": "Razorpay स्क्रिप्ट लोड होण में गड़बड़ हो गयी",
+    "invalidAmountError": "पेमेंट की रकम गलत सै",
+    "paymentCancelled": "यूजर ने पेमेंट रद्द कर दी",
+    "generalError": "सब्सक्रिप्शन प्रोसेस होण में गड़बड़ हो गयी"
   }
 }

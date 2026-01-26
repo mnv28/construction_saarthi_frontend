@@ -12,6 +12,8 @@ import Button from '../../../components/ui/Button';
 import Dropdown from '../../../components/ui/Dropdown';
 import ConfirmModal from '../../../components/ui/ConfirmModal';
 import Loader from '../../../components/ui/Loader';
+import EmptyState from '../../../components/shared/EmptyState';
+import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 import { ProjectCard } from '../components';
 import { PROJECT_ROUTES } from '../constants';
 import { useAuth } from '../../../hooks/useAuth';
@@ -180,16 +182,15 @@ export default function Projects() {
             <Loader size="lg" />
           </div>
         ) : filteredProjects.length === 0 ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <p className="text-secondary text-lg mb-2">{t('emptyState.noProjects')}</p>
-              <p className="text-secondary text-sm">
-                {searchQuery || statusFilter
-                  ? t('emptyState.adjustSearch')
-                  : t('emptyState.getStarted')}
-              </p>
-            </div>
-          </div>
+          <EmptyState
+            image={EmptyStateSvg}
+            title={t('emptyState.noProjects')}
+            message={searchQuery || statusFilter
+              ? t('emptyState.adjustSearch')
+              : t('emptyState.getStarted')}
+            actionLabel={!searchQuery && !statusFilter && !isRestricted ? t('actions.addNewProject') : undefined}
+            onAction={!searchQuery && !statusFilter && !isRestricted ? handleAddNewProject : undefined}
+          />
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4">

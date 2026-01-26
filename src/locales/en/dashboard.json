@@ -13,12 +13,13 @@
   },
   "actions": {
     "aiPowered": "AI Powered",
-    "constructionCalculator": "Construction Calculator",
+    "constructionCalculator": "Construction Calculation",
     "calculatorDescription": "Get accurate material & cost estimates",
     "addUsage": "Add Usage",
     "addUsageDescription": "Add daily material usage logs"
   },
   "addUsagePage": {
+    "title": "Add Usage",
     "projectSite": "Project (Site)",
     "selectProject": "Select Project",
     "materialType": "Material Type",

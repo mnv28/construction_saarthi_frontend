@@ -14,12 +14,17 @@ import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import Button from '../../../components/ui/Button';
 import { showError, showSuccess } from '../../../utils/toast';
 import { getSiteInventory, useMaterial, destroyMaterial } from '../api/siteInventoryApi';
+import { useWorkspaceRole } from '../../dashboard/hooks';
 
 export default function InventoryItemDetails() {
   const { t } = useTranslation('siteInventory');
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
+  const currentUserRole = useWorkspaceRole();
+
+  // Check if user can add/edit/delete (supervisor role cannot)
+  const canModifyInventory = currentUserRole?.toLowerCase() !== 'supervisor';
 
   const projectId = location.state?.projectId;
   const projectName = location.state?.projectName;
@@ -241,16 +246,29 @@ export default function InventoryItemDetails() {
     });
   };
 
+  const handleEdit = () => {
+    navigate(ROUTES_FLAT.EDIT_SITE_INVENTORY.replace(':id', id), {
+      state: projectId ? { projectId, projectName } : undefined,
+    });
+  };
+
+  const inventoryTypeId = item.inventoryTypeId?.toString();
+  const isConsumable = item.material?.typeName?.toLowerCase().includes('consumable') ||
+    item.material?.inventoryType?.toLowerCase().includes('consumable') ||
+    item.inventoryType?.toLowerCase().includes('consumable');
+
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-0">
       {/* Header */}
       <InventoryItemHeader
         itemName={itemName}
         onBack={handleBack}
+        onEdit={canModifyInventory ? handleEdit : null}
         onAskForMaterial={handleAskForMaterial}
         onTransferMaterial={handleTransferMaterial}
         onDestroy={() => setDestroyModalOpen(true)}
         onDelete={() => { }}
+        isConsumable={isConsumable}
       />
 
       {/* Item Info */}

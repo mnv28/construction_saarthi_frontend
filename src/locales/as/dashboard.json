@@ -18,6 +18,20 @@
     "addUsage": "ব্যৱহাৰ যোগ কৰক",
     "addUsageDescription": "দৈনিক সামগ্ৰী ব্যৱহাৰ লগ যোগ কৰক"
   },
+  "addUsagePage": {
+    "title": "ব্যৱহাৰ যোগ কৰক",
+    "projectSite": "প্ৰকল্প (ছাইট)",
+    "selectProject": "প্ৰকল্প বাছনি কৰক",
+    "materialType": "সামগ্ৰীৰ প্ৰকাৰ",
+    "reusable": "পুনৰ ব্যৱহাৰযোগ্য",
+    "consumable": "ব্যৱহাৰযোগ্য",
+    "materialPlaceholder": "সামগ্ৰী বিচাৰক...",
+    "quantity": "পৰিমাণ",
+    "description": "বিৱৰণ",
+    "enterText": "ইয়াত পাঠ লিখক",
+    "cancel": "বাতিল কৰক",
+    "addLog": "লগ যোগ কৰক"
+  },
   "projects": {
     "title": "মোৰ প্ৰকল্পসমূহ (ছাইটসমূহ)",
     "viewAll": "সকলো প্ৰকল্প চাওক"
@@ -36,5 +50,4 @@
     "deleteConfirmTitle": "সদস্য আঁতৰাওক",
     "deleteConfirmMessage": "আপুনি নিশ্চিতনে আঁতৰাব বিচাৰে"
   }
-} 
-
+}

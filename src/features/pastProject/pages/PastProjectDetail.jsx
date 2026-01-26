@@ -12,6 +12,7 @@ import Loader from '../../../components/ui/Loader';
 import PageHeader from '../../../components/layout/PageHeader';
 import { PAST_PROJECT_ROUTES } from '../constants';
 import { getRoute } from '../../../constants/routes';
+import { useAuth } from '../../../hooks/useAuth';
 import pencilIcon from '../../../assets/icons/pencil.svg';
 import PastProjectBanner from '../components/PastProjectBanner';
 import PastProjectDocumentsGallery from '../components/PastProjectDocumentsGallery';
@@ -23,6 +24,7 @@ export default function PastProjectDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
+  const { selectedWorkspace } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -30,13 +32,21 @@ export default function PastProjectDetail() {
   const projectFromState = location.state?.project;
   const [project, setProject] = useState(projectFromState);
 
+  // Synchronize state if navigation state changes
   useEffect(() => {
-    // If no project in state, fetch by ID from API
-    if (!project && id) {
+    if (location.state?.project) {
+      setProject(location.state.project);
+    }
+  }, [location.state?.project]);
+
+  useEffect(() => {
+    // If no project data or we want to refresh, fetch by ID
+    // We pass selectedWorkspace for fallback logic in the API
+    if (id && (!project || location.state?.refresh)) {
       setIsLoading(true);
       setError(null);
-      
-      getPastProjectById(id)
+
+      getPastProjectById(id, selectedWorkspace)
         .then((projectData) => {
           setProject(projectData);
         })
@@ -53,7 +63,7 @@ export default function PastProjectDetail() {
           setIsLoading(false);
         });
     }
-  }, [id, project, t]);
+  }, [id, selectedWorkspace, t, location.state?.refresh]);
 
   const handleBack = () => {
     navigate(PAST_PROJECT_ROUTES.LIST);

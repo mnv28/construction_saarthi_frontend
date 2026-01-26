@@ -18,6 +18,20 @@
     "addUsage": "उपयोग जोड़ें",
     "addUsageDescription": "दैनिक सामग्री उपयोग लॉग जोड़ें"
   },
+  "addUsagePage": {
+    "title": "उपयोग जोड़ो",
+    "projectSite": "प्रोजेक्ट (साइट)",
+    "selectProject": "प्रोजेक्ट चुनो",
+    "materialType": "सामग्री के प्रकार",
+    "reusable": "पुनः प्रयोज्य",
+    "consumable": "उपभोग्य",
+    "materialPlaceholder": "सामग्री खोजो...",
+    "quantity": "मात्रा",
+    "description": "विवरण",
+    "enterText": "इड़े लिखो",
+    "cancel": "रद्द करो",
+    "addLog": "लॉग जोड़ो"
+  },
   "projects": {
     "title": "मेरे प्रोजेक्ट (साइट्स)",
     "viewAll": "सभी प्रोजेक्ट देखें"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "तूं सच्चै मिटावण चाहतो है"
   }
 }
-

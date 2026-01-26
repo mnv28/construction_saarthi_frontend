@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
 import Loader from '../../../components/ui/Loader';
+import EmptyState from '../../../components/shared/EmptyState';
 import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
+import emptyStateIcon from '../../../assets/icons/EmptyState.svg';
 import { getProjectDocuments, getProjectDetails } from '../../projects/api';
 import { useAuth } from '../../auth/store';
 
@@ -90,9 +92,13 @@ export default function ProjectDocuments() {
             <Loader size="lg" />
           </div>
         ) : documents.length === 0 ? (
-          <div className="flex items-center justify-center py-20">
-            <p className="text-secondary">{t('noDocumentsFound', { defaultValue: 'No documents found' })}</p>
-          </div>
+          <EmptyState
+            image={emptyStateIcon}
+            title={t('noDocumentsFound', { defaultValue: 'No documents found' })}
+            message={t('noDocumentsFoundMessage', { defaultValue: 'You haven\'t generated any documents for this project yet.' })}
+            // actionLabel={t('generateDocuments')}
+            // onAction={() => navigate(ROUTES_FLAT.DOCUMENTS)}
+          />
         ) : (
           documents.map((document) => (
             <div

@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "તમારી વર્તમાન યોજના",
-    "daysLeft": "મફત ટ્રાયલમાં {{days}} દિવસ બાકી"
+    "daysLeft": "મફત ટ્રાયલમાં {{days}} દિવસ બાકી",
+    "noActivePlan": "કોઈ સક્રિય યોજના નથી",
+    "selectPlanBelow": "શરૂ કરવા માટે નીચેની યોજના પસંદ કરો"
   },
   "availablePlans": {
     "title": "વિશેષતાઓ",
     "saveAmount": "₹{{amount}} બચાવો",
     "bestValue": "શ્રેષ્ઠ મૂલ્ય",
+    "viewAll": "બધી ઉપલબ્ધ યોજનાઓ જુઓ",
     "benefits": {
       "unlimitedAccess": "બધા વર્તમાન + ભવિષ્યના મોડ્યુલોની અમર્યાદિત પ્રવેશ",
       "exportDownload": "નિકાસ/ડાઉનલોડ ક્ષમતાઓ અનલૉક",
@@ -26,7 +29,9 @@
       "12month": "12 મહિનાની યોજના",
       "description": "કોન્ટ્રેક્ટર + 3 મફત વપરાશકર્તાઓ",
       "periodMonth": "મહિનો",
-      "periodMonths": "મહિના"
+      "periodMonths": "મહિના",
+      "yearly": "વાર્ષિક",
+      "3years": "૩ વર્ષ"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "હજુ સુધી કોઈ સભ્ય ઉમેર્યો નથી.",
     "noCoupons": "કોઈ કૂપન ઉપલબ્ધ નથી."
+  },
+  "activities": {
+    "title": "તમારી પ્રવૃત્તિઓ",
+    "members": "સભ્યો",
+    "purchasedMembers": "ખરીદેલા સભ્યો:",
+    "memberUsed": "વપરાયેલા સભ્યો:",
+    "calculations": "ગણતરીઓ",
+    "purchasedCalculations": "ખરીદેલ ગણતરીઓ:",
+    "calculationUsed": "વપરાયેલ ગણતરી:"
+  },
+  "messages": {
+    "preparingSubscription": "સબ્સ્ક્રિપ્શન તૈયાર કરી રહ્યાં છીએ...",
+    "subscriptionPrepared": "સબ્સ્ક્રિપ્શન સફળતાપૂર્વક તૈયાર થયું",
+    "creatingOrder": "પેમેન્ટ ઓર્ડર બનાવી રહ્યાં છીએ...",
+    "orderCreated": "પેમેન્ટ ઓર્ડર સફળતાપૂર્વક બનાવવામાં આવ્યો",
+    "verifyingPayment": "પેમેન્ટ વેરિફાય કરી રહ્યાં છીએ...",
+    "paymentVerified": "પેમેન્ટ સફળતાપૂર્વક વેરિફાય થયું",
+    "paymentSuccessful": "પેમેન્ટ સફળ! તમારું સબ્સ્ક્રિપ્શન હવે સક્રિય છે.",
+    "selectPlanError": "કૃપા કરીને સબ્સ્ક્રિપ્શન પ્લાન પસંદ કરો",
+    "razorpayLoadError": "Razorpay સ્ક્રિપ્ટ લોડ કરવામાં નિષ્ફળ",
+    "invalidAmountError": "અમાન્ય પેમેન્ટ રકમ",
+    "paymentCancelled": "વપરાશકર્તા દ્વારા પેમેન્ટ રદ કરવામાં આવ્યું",
+    "generalError": "સબ્સ્ક્રિપ્શન પ્રોસેસ કરવામાં નિષ્ફળ"
   }
 }

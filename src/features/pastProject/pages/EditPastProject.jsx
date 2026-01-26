@@ -17,7 +17,7 @@ import Loader from '../../../components/ui/Loader';
 import documentIcon from '../../../assets/icons/document.svg';
 import { PAST_PROJECT_ROUTES } from '../constants';
 import { getRoute } from '../../../constants/routes';
-import { getPastProjectById, updatePastProject, uploadPastProjectMedia } from '../api/pastProjectApi';
+import { getPastProjectById, updatePastProject, uploadPastProjectMedia, startPastProject } from '../api/pastProjectApi';
 import { useAuth } from '../../../hooks/useAuth';
 import { showSuccess, showError } from '../../../utils/toast';
 
@@ -37,7 +37,7 @@ const getMediaType = (mediaItem) => {
   const url = mediaItem.url || '';
   const typeId = String(mediaItem.typeId || '');
   const urlLower = url.toLowerCase();
-  
+
   // Check file extension
   if (urlLower.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i)) {
     return 'photo';
@@ -48,14 +48,14 @@ const getMediaType = (mediaItem) => {
   if (urlLower.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i)) {
     return 'document';
   }
-  
+
   // Check typeId
   if (typeId === '1' || typeId === '3' || typeId === '12' || typeId === 1 || typeId === 3 || typeId === 12) {
     if (urlLower.match(/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i)) return 'video';
     if (urlLower.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i)) return 'document';
     return 'photo';
   }
-  
+
   return 'document';
 };
 
@@ -77,14 +77,17 @@ export default function EditPastProject() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [projectKey, setProjectKey] = useState(null);
   const [newMediaFiles, setNewMediaFiles] = useState([]);
   const [newDocumentFiles, setNewDocumentFiles] = useState([]);
+  const [uploadedFileUrls, setUploadedFileUrls] = useState([]); // Store URLs of files uploaded via /upload API
 
   // Fetch project data from API
   useEffect(() => {
     if (!isAddMode && !project && id) {
       setIsLoading(true);
-      getPastProjectById(id)
+      getPastProjectById(id, selectedWorkspace)
         .then((projectData) => {
           setProject(projectData);
         })
@@ -101,6 +104,38 @@ export default function EditPastProject() {
         });
     }
   }, [id, project, isAddMode, t]);
+
+  // Initialize projectKey - call start API to get a key for this edit session
+  useEffect(() => {
+    let mounted = true;
+
+    const initializeProjectKey = async () => {
+      if (!selectedWorkspace || projectKey) return;
+
+      setIsInitializing(true);
+      try {
+        const startResponse = await startPastProject(selectedWorkspace);
+        const newProjectKey = startResponse?.projectKey || startResponse?.data?.projectKey;
+
+        if (newProjectKey && mounted) {
+          setProjectKey(newProjectKey);
+          console.log('ProjectKey initialized for edit session:', newProjectKey);
+        }
+      } catch (error) {
+        console.error('Error initializing project key:', error);
+      } finally {
+        if (mounted) {
+          setIsInitializing(false);
+        }
+      }
+    };
+
+    initializeProjectKey();
+
+    return () => {
+      mounted = false;
+    };
+  }, [selectedWorkspace, projectKey]);
 
   // Cleanup object URLs on unmount
   useEffect(() => {
@@ -209,7 +244,6 @@ export default function EditPastProject() {
     }
 
     if (isAddMode) {
-      // Add mode - navigate to add page
       navigate(PAST_PROJECT_ROUTES.ADD);
       return;
     }
@@ -220,86 +254,67 @@ export default function EditPastProject() {
     }
 
     setIsSaving(true);
-
     try {
-      // Update project details (include projectKey if available, similar to create API)
-      await updatePastProject(id, {
+      // Combine all new files to upload (for the PUT request)
+      const allNewFiles = [...newMediaFiles, ...newDocumentFiles];
+
+      // Update project details calling PUT API as per Image 2
+      const response = await updatePastProject(id, {
         name: projectName.trim(),
         address: address.trim(),
-        ...(project?.projectKey && { projectKey: project.projectKey }),
+        projectKey: projectKey || project?.projectKey,
+        files: allNewFiles,
       }, selectedWorkspace);
 
-      // Upload new media files if any
-      if (newMediaFiles.length > 0) {
-        if (project?.projectKey) {
-          try {
-            await uploadPastProjectMedia(project.projectKey, newMediaFiles);
-            showSuccess(t('success.mediaUploaded', { defaultValue: 'Media files uploaded successfully!' }));
-          } catch (uploadError) {
-            console.error('Error uploading media:', uploadError);
-            const errorMessage =
-              uploadError?.response?.data?.message ||
-              uploadError?.message ||
-              t('error.uploadFailed', { defaultValue: 'Failed to upload media files' });
-            showError(errorMessage);
-            // Don't fail the whole save if upload fails
-          }
-        } else {
-          console.warn('Project key not available, skipping media upload');
-        }
-      }
-
-      // Upload new document files if any
-      if (newDocumentFiles.length > 0) {
-        if (project?.projectKey) {
-          try {
-            await uploadPastProjectMedia(project.projectKey, newDocumentFiles);
-            showSuccess(t('success.documentsUploaded', { defaultValue: 'Documents uploaded successfully!' }));
-          } catch (uploadError) {
-            console.error('Error uploading documents:', uploadError);
-            const errorMessage =
-              uploadError?.response?.data?.message ||
-              uploadError?.message ||
-              t('error.uploadFailed', { defaultValue: 'Failed to upload documents' });
-            showError(errorMessage);
-            // Don't fail the whole save if upload fails
-          }
-        } else {
-          console.warn('Project key not available, skipping document upload');
-        }
-      }
-
-      // Refetch project data to get latest updates
-      const updatedProject = await getPastProjectById(id);
+      // Refresh project data
+      const updatedProject = await getPastProjectById(id, selectedWorkspace);
       setProject(updatedProject);
 
       showSuccess(t('success.projectUpdated', { defaultValue: 'Project updated successfully!' }));
+      setNewMediaFiles([]);
+      setNewDocumentFiles([]);
 
-      // Navigate to detail page with updated project
       navigate(getRoute(PAST_PROJECT_ROUTES.DETAILS, { id }), {
-        state: { project: updatedProject },
+        state: { project: updatedProject, refresh: true },
       });
     } catch (error) {
       console.error('Error updating project:', error);
-      console.error('Error response data:', error?.response?.data);
-      
-      // Extract detailed error message
-      const errorData = error?.response?.data;
-      let errorMessage = 
-        errorData?.message ||
-        errorData?.error ||
-        errorData?.errors?.[0]?.message ||
-        error?.message ||
-        t('error.updateFailed', { defaultValue: 'Failed to update project. Please try again.' });
-      
-      // Add status code info for debugging
-      if (error?.response?.status) {
-        console.error(`Update failed with status ${error.response.status}:`, errorMessage);
-      }
-      
+      const errorMessage = error.response?.data?.message || error.message || t('error.updateFailed');
       showError(errorMessage);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const uploadFilesImmediately = async (files) => {
+    if (!projectKey) {
+      // If projectKey is not yet initialized, we can't upload immediately
+      console.warn('ProjectKey not ready for immediate upload');
+      return false;
+    }
+
+    setIsUploading(true);
+    try {
+      const fileArray = Array.from(files);
+      if (fileArray.length > 0) {
+        const response = await uploadPastProjectMedia(projectKey, fileArray);
+
+        // Add newly uploaded file URLs to our state track
+        if (response?.uploadedFiles) {
+          const newUrls = response.uploadedFiles.map(f => f.url);
+          setUploadedFileUrls(prev => [...prev, ...newUrls]);
+        }
+
+        showSuccess(t('success.filesUploaded', { defaultValue: 'Files uploaded successfully!' }));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error in immediate upload:', error);
+      showError(t('error.uploadFailed', { defaultValue: 'Immediate upload failed' }));
+      return false;
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -330,11 +345,14 @@ export default function EditPastProject() {
 
     setMediaItems((prev) => [...prev, ...filesWithPreview]);
     setNewMediaFiles((prev) => [...prev, ...fileArray]);
+
+    // Integrate immediate upload as requested
+    await uploadFilesImmediately(fileArray);
   };
 
   const handleDocumentsUpload = async (files) => {
     const fileArray = Array.from(files);
-    
+
     // Filter only PDF files
     const pdfFiles = fileArray.filter((file) => {
       const fileType = file.type || '';
@@ -362,6 +380,9 @@ export default function EditPastProject() {
 
     setDocumentItems((prev) => [...prev, ...filesWithPreview]);
     setNewDocumentFiles((prev) => [...prev, ...pdfFiles]);
+
+    // Integrate immediate upload as requested
+    await uploadFilesImmediately(pdfFiles);
   };
 
   const handleRemoveMedia = (idToRemove) => {
@@ -427,261 +448,261 @@ export default function EditPastProject() {
   }
 
   return (
-      <div className="max-w-7xl mx-auto">
-        {/* Page Header */}
-        <PageHeader
-          title={
-            isAddMode
-              ? t('addTitle', { ns: 'pastProjects', defaultValue: 'Add Project (Site)' })
-              : projectName || project?.site_name || project?.name || t('editTitle', { ns: 'pastProjects', defaultValue: 'Edit Project' })
-          }
-          showBackButton={true}
-          backTo={PAST_PROJECT_ROUTES.LIST}
+    <div className="max-w-7xl mx-auto">
+      {/* Page Header */}
+      <PageHeader
+        title={
+          isAddMode
+            ? t('addTitle', { ns: 'pastProjects', defaultValue: 'Add Project (Site)' })
+            : projectName || project?.site_name || project?.name || t('editTitle', { ns: 'pastProjects', defaultValue: 'Edit Project' })
+        }
+        showBackButton={true}
+        backTo={PAST_PROJECT_ROUTES.LIST}
+      />
+
+      {/* Basic details */}
+      <div className="space-y-4">
+        {/* Project Name */}
+        <Input
+          label={t('projectName', { ns: 'pastProjects', defaultValue: 'Project Name' })}
+          placeholder={t('projectNamePlaceholder', {
+            ns: 'pastProjects',
+            defaultValue: 'Enter project name',
+          })}
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          required
         />
 
-        {/* Basic details */}
-        <div className="space-y-4">
-          {/* Project Name */}
-          <Input
-            label={t('projectName', { ns: 'pastProjects', defaultValue: 'Project Name' })}
-            placeholder={t('projectNamePlaceholder', {
-              ns: 'pastProjects',
-              defaultValue: 'Enter project name',
-            })}
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            required
-          />
+        {/* Address */}
+        <Input
+          label={t('address', { ns: 'pastProjects', defaultValue: 'Address' })}
+          placeholder={t('addressPlaceholder', {
+            ns: 'pastProjects',
+            defaultValue: 'Enter site address',
+          })}
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          required
+        />
+      </div>
 
-          {/* Address */}
-          <Input
-            label={t('address', { ns: 'pastProjects', defaultValue: 'Address' })}
-            placeholder={t('addressPlaceholder', {
-              ns: 'pastProjects',
-              defaultValue: 'Enter site address',
-            })}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          />
-        </div>
+      {/* Upload Images / Videos */}
+      <div className="my-6 space-y-2">
+        <p className="text-xs sm:text-sm font-medium text-primary">
+          {t('uploadImagesVideos', {
+            ns: 'pastProjects',
+            defaultValue: 'Upload Images/Videos*',
+          })}
+        </p>
+        <FileUpload
+          title={t('uploadTitle', {
+            ns: 'pastProjects',
+            defaultValue: 'Upload Photos/ Videos / Documents',
+          })}
+          supportedFormats={t('supportedFormats', {
+            ns: 'pastProjects',
+            defaultValue: 'JPG, PNG, Mp4, PDF',
+          })}
+          maxSize={10}
+          maxSizeUnit="MB"
+          maxSizeText={t('maxSizeEach', {
+            ns: 'pastProjects',
+            defaultValue: '10MB each',
+          })}
+          supportedFormatLabel={t('supportedFormatsLabel', {
+            ns: 'pastProjects',
+            defaultValue: 'Supported Format:',
+          })}
+          onFileSelect={handleMediaUpload}
+          accept=".jpg,.jpeg,.png,.mp4,.pdf"
+          uploadButtonText={
+            isUploading
+              ? t('uploading', { defaultValue: 'Uploading...' })
+              : t('uploadButton', {
+                ns: 'pastProjects',
+                defaultValue: 'Upload',
+              })
+          }
+        />
 
-        {/* Upload Images / Videos */}
-        <div className="my-6 space-y-2">
-          <p className="text-xs sm:text-sm font-medium text-primary">
-            {t('uploadImagesVideos', {
-              ns: 'pastProjects',
-              defaultValue: 'Upload Images/Videos*',
-            })}
-          </p>
-          <FileUpload
-            title={t('uploadTitle', {
-              ns: 'pastProjects',
-              defaultValue: 'Upload Photos/ Videos / Documents',
-            })}
-            supportedFormats={t('supportedFormats', {
-              ns: 'pastProjects',
-              defaultValue: 'JPG, PNG, Mp4, PDF',
-            })}
-            maxSize={10}
-            maxSizeUnit="MB"
-            maxSizeText={t('maxSizeEach', {
-              ns: 'pastProjects',
-              defaultValue: '10MB each',
-            })}
-            supportedFormatLabel={t('supportedFormatsLabel', {
-              ns: 'pastProjects',
-              defaultValue: 'Supported Format:',
-            })}
-            onFileSelect={handleMediaUpload}
-            accept=".jpg,.jpeg,.png,.mp4,.pdf"
-            uploadButtonText={
-              isUploading
-                ? t('uploading', { defaultValue: 'Uploading...' })
-                : t('uploadButton', {
-                    ns: 'pastProjects',
-                    defaultValue: 'Upload',
-                  })
-            }
-          />
-
-          {/* Media Preview */}
-          {mediaItems.length > 0 && (
-            <div className="mt-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {mediaItems.map((item) => (
-                  <div key={item.id} className="relative group">
-                    {item.type === 'image' && item.url ? (
-                      <div className="relative">
-                        <img
-                          src={item.url}
-                          alt={item.name || 'Photo'}
-                          className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMedia(item.id)}
-                          disabled={isSaving}
-                          className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
+        {/* Media Preview */}
+        {mediaItems.length > 0 && (
+          <div className="mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {mediaItems.map((item) => (
+                <div key={item.id} className="relative group">
+                  {item.type === 'image' && item.url ? (
+                    <div className="relative">
+                      <img
+                        src={item.url}
+                        alt={item.name || 'Photo'}
+                        className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(item.id)}
+                        disabled={isSaving}
+                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : item.type === 'video' && item.url ? (
+                    <div className="relative">
+                      <video
+                        src={item.url}
+                        className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+                        <Video className="w-6 h-6 text-white" />
                       </div>
-                    ) : item.type === 'video' && item.url ? (
-                      <div className="relative">
-                        <video
-                          src={item.url}
-                          className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
-                          <Video className="w-6 h-6 text-white" />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMedia(item.id)}
-                          disabled={isSaving}
-                          className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ) : item.url ? (
-                      <div className="relative">
-                        <img
-                          src={item.url}
-                          alt={item.name || 'Media'}
-                          className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMedia(item.id)}
-                          disabled={isSaving}
-                          className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Upload Documents */}
-        <div className="my-6 space-y-2">
-          <p className="text-xs sm:text-sm font-medium text-primary">
-            {t('uploadDocuments', {
-              ns: 'pastProjects',
-              defaultValue: 'Upload Documents',
-            })}
-          </p>
-          <FileUpload
-            title={t('uploadTitle', {
-              ns: 'pastProjects',
-              defaultValue: 'Upload Photos/ Videos / Documents',
-            })}
-            supportedFormats="PDF"
-            maxSize={10}
-            maxSizeUnit="MB"
-            maxSizeText={t('maxSizeEach', {
-              ns: 'pastProjects',
-              defaultValue: '10MB each',
-            })}
-            supportedFormatLabel={t('supportedFormatsLabel', {
-              ns: 'pastProjects',
-              defaultValue: 'Supported Format:',
-            })}
-            onFileSelect={handleDocumentsUpload}
-            accept=".pdf"
-            uploadButtonText={
-              isUploading
-                ? t('uploading', { defaultValue: 'Uploading...' })
-                : t('uploadButton', {
-                    ns: 'pastProjects',
-                    defaultValue: 'Upload',
-                  })
-            }
-          />
-
-          {/* Documents list - UI same as Relevant Documents in PastProjectDocumentsGallery */}
-          {documentItems.length > 0 && (
-            <div className="mt-4 space-y-3">
-              {documentItems.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="flex items-center bg-white gap-3 p-4 rounded-xl group cursor-pointer border border-gray-200"
-                  onClick={() => handleViewDocument(doc)}
-                >
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <img src={documentIcon} alt="Document" className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-primary truncate">{doc.name}</p>
-                    <p className="text-xs text-primary-light ">
-                      {doc.size}
-                    </p>
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <DropdownMenu
-                      items={[
-                        {
-                          label: t('detail.viewDocument', { ns: 'pastProjects', defaultValue: 'View Document' }),
-                          onClick: () => handleViewDocument(doc),
-                          icon: <Eye className="w-4 h-4" />,
-                        },
-                        {
-                          label: t('delete', { ns: 'common', defaultValue: 'Delete' }),
-                          onClick: () => handleRemoveDocument(doc.id),
-                          icon: <Trash2 className="w-4 h-4 text-accent" />,
-                          textColor: 'text-accent',
-                        },
-                      ]}
-                      position="right"
-                    />
-                  </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(item.id)}
+                        disabled={isSaving}
+                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : item.url ? (
+                    <div className="relative">
+                      <img
+                        src={item.url}
+                        alt={item.name || 'Media'}
+                        className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(item.id)}
+                        disabled={isSaving}
+                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
-          )}
-        </div>
-
-        {/* Actions */}
-        <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3 pb-10">
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className="w-full sm:w-auto px-6"
-            onClick={() => navigate(PAST_PROJECT_ROUTES.LIST)}
-            disabled={isSaving}
-          >
-            {t('cancel', { ns: 'common', defaultValue: 'Cancel' })}
-          </Button>
-          <Button
-            type="button"
-            variant="primary"
-            size="sm"
-            className="w-full sm:w-auto px-6"
-            onClick={handleSave}
-            disabled={isSaving}
-          >
-            {isSaving ? (
-              <div className="flex items-center gap-2">
-                <Loader size="sm" />
-                <span>{t('saving', { defaultValue: 'Saving...' })}</span>
-              </div>
-            ) : (
-              t('saveProject', { ns: 'pastProjects', defaultValue: 'Save Project' })
-            )}
-          </Button>
-        </div>
+          </div>
+        )}
       </div>
+
+      {/* Upload Documents */}
+      <div className="my-6 space-y-2">
+        <p className="text-xs sm:text-sm font-medium text-primary">
+          {t('uploadDocuments', {
+            ns: 'pastProjects',
+            defaultValue: 'Upload Documents',
+          })}
+        </p>
+        <FileUpload
+          title={t('uploadTitle', {
+            ns: 'pastProjects',
+            defaultValue: 'Upload Photos/ Videos / Documents',
+          })}
+          supportedFormats="PDF"
+          maxSize={10}
+          maxSizeUnit="MB"
+          maxSizeText={t('maxSizeEach', {
+            ns: 'pastProjects',
+            defaultValue: '10MB each',
+          })}
+          supportedFormatLabel={t('supportedFormatsLabel', {
+            ns: 'pastProjects',
+            defaultValue: 'Supported Format:',
+          })}
+          onFileSelect={handleDocumentsUpload}
+          accept=".pdf"
+          uploadButtonText={
+            isUploading
+              ? t('uploading', { defaultValue: 'Uploading...' })
+              : t('uploadButton', {
+                ns: 'pastProjects',
+                defaultValue: 'Upload',
+              })
+          }
+        />
+
+        {/* Documents list - UI same as Relevant Documents in PastProjectDocumentsGallery */}
+        {documentItems.length > 0 && (
+          <div className="mt-4 space-y-3">
+            {documentItems.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex items-center bg-white gap-3 p-4 rounded-xl group cursor-pointer border border-gray-200"
+                onClick={() => handleViewDocument(doc)}
+              >
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <img src={documentIcon} alt="Document" className="w-5 h-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-primary truncate">{doc.name}</p>
+                  <p className="text-xs text-primary-light ">
+                    {doc.size}
+                  </p>
+                </div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <DropdownMenu
+                    items={[
+                      {
+                        label: t('detail.viewDocument', { ns: 'pastProjects', defaultValue: 'View Document' }),
+                        onClick: () => handleViewDocument(doc),
+                        icon: <Eye className="w-4 h-4" />,
+                      },
+                      {
+                        label: t('delete', { ns: 'common', defaultValue: 'Delete' }),
+                        onClick: () => handleRemoveDocument(doc.id),
+                        icon: <Trash2 className="w-4 h-4 text-accent" />,
+                        textColor: 'text-accent',
+                      },
+                    ]}
+                    position="right"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Actions */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3 pb-10">
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="w-full sm:w-auto px-6"
+          onClick={() => navigate(PAST_PROJECT_ROUTES.LIST)}
+          disabled={isSaving}
+        >
+          {t('cancel', { ns: 'common', defaultValue: 'Cancel' })}
+        </Button>
+        <Button
+          type="button"
+          variant="primary"
+          size="sm"
+          className="w-full sm:w-auto px-6"
+          onClick={handleSave}
+          disabled={isSaving}
+        >
+          {isSaving ? (
+            <div className="flex items-center gap-2">
+              <Loader size="sm" />
+              <span>{t('saving', { defaultValue: 'Saving...' })}</span>
+            </div>
+          ) : (
+            t('saveProject', { ns: 'pastProjects', defaultValue: 'Save Project' })
+          )}
+        </Button>
+      </div>
+    </div>
   );
 }
 

@@ -18,6 +18,20 @@
     "addUsage": "استعمال شامل کریں",
     "addUsageDescription": "روزانہ مواد استعمال لاگ شامل کریں"
   },
+  "addUsagePage": {
+    "title": "استعمال شامل کریں",
+    "projectSite": "منصوبہ (سائٹ)",
+    "selectProject": "منصوبہ منتخب کریں",
+    "materialType": "مواد کی قسم",
+    "reusable": "دوبارہ قابل استعمال",
+    "consumable": "قابل استعمال",
+    "materialPlaceholder": "مواد تلاش کریں...",
+    "quantity": "مقدار",
+    "description": "تفصیل",
+    "enterText": "یہاں متن درج کریں",
+    "cancel": "منسوخ کریں",
+    "addLog": "لاگ شامل کریں"
+  },
   "projects": {
     "title": "میرے منصوبے (سائٹس)",
     "viewAll": "تمام منصوبے دیکھیں"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "کیا آپ واقعی حذف کرنا چاہتے ہیں"
   }
 }
-

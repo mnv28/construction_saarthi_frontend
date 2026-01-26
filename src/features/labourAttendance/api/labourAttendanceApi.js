@@ -74,9 +74,17 @@ export const deleteLabour = async (labourId) => {
 export const getProjectLabours = async ({ workspaceId, projectId }) => {
   if (!workspaceId) throw new Error('Workspace ID is required');
   if (!projectId) throw new Error('Project ID is required');
-  return http.get(E.LABOUR.PROJECT_LABOURS, {
-    params: { workspaceId: Number(workspaceId), projectId: Number(projectId) },
-  });
+  try {
+    return await http.get(E.LABOUR.PROJECT_LABOURS, {
+      params: { workspaceId: Number(workspaceId), projectId: Number(projectId) },
+      silentError: true,
+    });
+  } catch (error) {
+    if (error.response?.status === 404) {
+      return [];
+    }
+    throw error;
+  }
 };
 
 export const moveLabourToProject = async ({ labour_id, new_project_id }) => {
@@ -100,8 +108,18 @@ export const getAttendance = async ({ workspace_id, project_id, date, labour_id 
   if (labour_id !== null && labour_id !== undefined) {
     params.labour_id = Number(labour_id);
   }
-
-  return http.get(E.ATTENDANCE.GET, { params });
+  try {
+    return await http.get(E.ATTENDANCE.GET, {
+      params,
+      silentError: true,
+    });
+  } catch (error) {
+    if (error.response?.status === 404) {
+      // If no attendance records found, return empty structure to avoid UI errors
+      return { success: true, attendanceRecords: [], totals: {} };
+    }
+    throw error;
+  }
 };
 
 export const createAttendance = async ({
@@ -216,19 +234,19 @@ export const getLabourProfile = async ({ workspaceId, labourId }) => {
 
   // Map API response to expected format for LabourDetails UI
   const notes = notesArray;
-  
+
   // Handle voice notes - check if they are objects with url field
   let voiceMemos = [];
   if (data.voiceMemos && Array.isArray(data.voiceMemos)) {
-    voiceMemos = data.voiceMemos.map(item => 
+    voiceMemos = data.voiceMemos.map(item =>
       typeof item === 'string' ? item : (item.url || item.audio || item)
     );
   } else if (data.voiceNotes && Array.isArray(data.voiceNotes)) {
-    voiceMemos = data.voiceNotes.map(item => 
+    voiceMemos = data.voiceNotes.map(item =>
       typeof item === 'string' ? item : (item.url || item.audio || item)
     );
   } else if (data.voice_notes && Array.isArray(data.voice_notes)) {
-    voiceMemos = data.voice_notes.map(item => 
+    voiceMemos = data.voice_notes.map(item =>
       typeof item === 'string' ? item : (item.url || item.audio || item)
     );
   }

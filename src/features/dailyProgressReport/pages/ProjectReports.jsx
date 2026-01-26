@@ -18,6 +18,8 @@ import { useWorkspaceRole } from '../../dashboard/hooks';
 import { useAuth } from '../../auth/store/authStore';
 import { useDPRLogs } from '../hooks/useDPRLogs';
 import addCircleIcon from '../../../assets/icons/Add Circle.svg';
+import EmptyState from '../../../components/shared/EmptyState';
+import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 
 export default function ProjectReports() {
   const { t } = useTranslation('dpr');
@@ -197,23 +199,17 @@ export default function ProjectReports() {
             <Loader size="lg" />
           </div>
         ) : (!selectedDate && !timeFilter && !searchQuery) ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <p className="text-secondary text-lg mb-2">{t('emptyState.noReports')}</p>
-              <p className="text-secondary text-sm">
-                {t('emptyState.getStarted')}
-              </p>
-            </div>
-          </div>
+          <EmptyState
+            image={EmptyStateSvg}
+            title={t('emptyState.noReports')}
+            message={t('emptyState.getStarted')}
+          />
         ) : filteredReports.length === 0 ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <p className="text-secondary text-lg mb-2">{t('emptyState.noReports')}</p>
-              <p className="text-secondary text-sm">
-                {t('emptyState.adjustSearch')}
-              </p>
-            </div>
-          </div>
+          <EmptyState
+            image={EmptyStateSvg}
+            title={t('emptyState.noReports')}
+            message={t('emptyState.adjustSearch')}
+          />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredReports.map((report) => (

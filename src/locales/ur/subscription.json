@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "آپ کا موجودہ منصوبہ",
-    "daysLeft": "مفت ٹرائل میں {{days}} دن باقی ہیں"
+    "daysLeft": "مفت ٹرائل میں {{days}} دن باقی ہیں",
+    "noActivePlan": "کوئی فعال پلان نہیں",
+    "selectPlanBelow": "شروع کرنے کے لیے نیچے دیے گئے پلان میں سے ایک منتخب کریں"
   },
   "availablePlans": {
     "title": "خصوصیات",
     "saveAmount": "₹{{amount}} بچائیں",
     "bestValue": "بہترین قیمت",
+    "viewAll": "تمام دستیاب پلان دیکھیں",
     "benefits": {
       "unlimitedAccess": "تمام موجودہ + مستقبل کے ماڈیولز تک لامحدود رسائی",
       "exportDownload": "برآمد/ڈاؤن لوڈ کی صلاحیتیں کھول دی گئیں",
@@ -26,7 +29,9 @@
       "12month": "12 ماہ کا منصوبہ",
       "description": "ٹھیکیدار + 3 مفت صارفین",
       "periodMonth": "مہینہ",
-      "periodMonths": "مہینے"
+      "periodMonths": "مہینے",
+      "yearly": "سالانہ",
+      "3years": "3 سال"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "ابھی تک کوئی ممبر شامل نہیں کیا گیا۔",
     "noCoupons": "کوپن دستیاب نہیں ہیں۔"
+  },
+  "activities": {
+    "title": "آپ کی سرگرمیاں",
+    "members": "ممبران",
+    "purchasedMembers": "خریدے گئے ممبران:",
+    "memberUsed": "استعمال شدہ ممبر:",
+    "calculations": "حساب کتاب",
+    "purchasedCalculations": "خریدی گئی حساب کتاب:",
+    "calculationUsed": "استعمال شدہ حساب کتاب:"
+  },
+  "messages": {
+    "preparingSubscription": "سبسکرپشن تیار کی جا رہی ہے...",
+    "subscriptionPrepared": "سبسکرپشن کامیابی سے تیار ہو گئی",
+    "creatingOrder": "ادائیگی کا آرڈر تیار کیا جا رہا ہے...",
+    "orderCreated": "ادائیگی का آرڈر کامیابی سے تیار ہو گیا",
+    "verifyingPayment": "ادائیگی کی تصدیق کی جا رہی ہے...",
+    "paymentVerified": "ادائیگی کی تصدیق کامیابی سے ہو گئی",
+    "paymentSuccessful": "ادائیگی کامیاب! آپ کی سبسکرپشن اب فعال ہے۔",
+    "selectPlanError": "براہ کرم سبسکرپشن پلان منتخب کریں",
+    "razorpayLoadError": "Razorpay اسکرپٹ لوڈ کرنے میں ناکام",
+    "invalidAmountError": "غلط ادائیگی کی رقم",
+    "paymentCancelled": "صارف نے ادائیگی منسوخ کر دی",
+    "generalError": "سبسکرپشن پروسیس کرنے میں ناکام"
   }
 }

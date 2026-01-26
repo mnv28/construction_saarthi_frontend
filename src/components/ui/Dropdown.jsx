@@ -158,7 +158,7 @@ export default function Dropdown({
 
           {showSeparator && (
             <>
-              <div className="border-t border-gray-200 my-2"></div>
+              <div className="border-t border-gray-200 "></div>
 
               {onAddNew && (
                 <button
@@ -169,7 +169,7 @@ export default function Dropdown({
                     // Always open modal (either CustomModal or default AddItemModal)
                     setIsModalOpen(true);
                   }}
-                  className="w-full px-4 py-1 flex items-center gap-2 text-sm text-accent font-medium hover:bg-gray-50 rounded-xl transition-colors cursor-pointer"
+                  className="w-full px-4 py-2 flex items-center gap-2 text-sm text-accent font-medium hover:bg-gray-50 rounded-xl transition-colors cursor-pointer"
                 >
                   <div className="w-4 h-4 rounded-full bg-accent flex items-center justify-center">
                     <Plus className="w-3 h-3 text-white" strokeWidth={3} />

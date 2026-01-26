@@ -18,6 +18,20 @@
     "addUsage": "वापर जोडा",
     "addUsageDescription": "दैनंदिन सामग्री वापर लॉग जोडा"
   },
+  "addUsagePage": {
+    "title": "वापर जोडा",
+    "projectSite": "प्रकल्प (साइट)",
+    "selectProject": "प्रकल्प निवडा",
+    "materialType": "सामग्रीचा प्रकार",
+    "reusable": "पुनर्वापरण्यायोग्य",
+    "consumable": "वापरण्यायोग्य",
+    "materialPlaceholder": "सामग्री शोधा...",
+    "quantity": "प्रमाण",
+    "description": "वर्णन",
+    "enterText": "येथे मजकूर प्रविष्ट करा",
+    "cancel": "रद्द करा",
+    "addLog": "लॉग जोडा"
+  },
   "projects": {
     "title": "माझे प्रकल्प (साइट्स)",
     "viewAll": "सर्व प्रकल्प पहा"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "आपण खरोखर हटवू इच्छिता"
   }
 }
-

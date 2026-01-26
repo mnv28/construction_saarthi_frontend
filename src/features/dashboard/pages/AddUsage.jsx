@@ -10,24 +10,61 @@ import RichTextEditor from '../../../components/ui/RichTextEditor';
 import { getAllProjects } from '../../projects/api/projectApi';
 import { useAuth } from '../../auth/store';
 import Button from '../../../components/ui/Button';
+import Loader from '../../../components/ui/Loader';
+import { useInventoryTypes, useMaterials } from '../../siteInventory/hooks';
 
 
 export default function AddUsage() {
-    const { t } = useTranslation(['dashboard', 'common']);
+    const { t } = useTranslation(['dashboard', 'common', 'calculation']);
     const navigate = useNavigate();
     const { selectedWorkspace } = useAuth();
 
     const [projects, setProjects] = useState([]);
     const [isLoadingProjects, setIsLoadingProjects] = useState(false);
 
+    const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
+
     const [formData, setFormData] = useState({
         projectId: '',
-        materialType: 'consumable',
-        materialSearch: '',
+        materialType: '',
+        materialId: '',
         quantity: '',
-        unit: 'Bags',
+        unit: '',
         description: ''
     });
+
+    const { materials, materialOptions, isLoadingMaterials, createNewMaterial } = useMaterials(formData.materialType);
+
+    // Set default material type when options are loaded
+    useEffect(() => {
+        if (inventoryTypeOptions.length > 0 && !formData.materialType) {
+            handleChange('materialType', inventoryTypeOptions[0].value);
+        }
+    }, [inventoryTypeOptions, formData.materialType]);
+
+    // Clear materialId when materialType changes
+    useEffect(() => {
+        if (formData.materialType) {
+            setFormData(prev => ({
+                ...prev,
+                materialId: '',
+                unit: ''
+            }));
+        }
+    }, [formData.materialType]);
+
+    // Update unit when material is selected
+    useEffect(() => {
+        if (formData.materialId && materials.length > 0) {
+            const selectedMaterial = materials.find(m => (m.id || m._id || m.materialId) === formData.materialId);
+            if (selectedMaterial) {
+                setFormData(prev => ({
+                    ...prev,
+                    unit: selectedMaterial.unit_name || selectedMaterial.unitName || ''
+                }));
+            }
+        }
+    }, [formData.materialId, materials]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -37,7 +74,7 @@ export default function AddUsage() {
                 const data = await getAllProjects(selectedWorkspace);
                 const projectOptions = data.map(p => ({
                     value: p.id || p.project_id,
-                    label: p.name || p.details?.name || 'Untitled Project'
+                    label: p.name || p.details?.name || t('common.untitledProject', { ns: 'common' })
                 }));
                 setProjects(projectOptions);
             } catch (error) {
@@ -47,7 +84,7 @@ export default function AddUsage() {
             }
         };
         fetchProjects();
-    }, [selectedWorkspace]);
+    }, [selectedWorkspace, t]);
 
     const handleChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -64,9 +101,9 @@ export default function AddUsage() {
 
     return (
         <div className="max-w-7xl mx-auto min-h-screen flex flex-col">
-            <div className="flex-1 px-4 sm:px-6 pb-24">
+            <div className="flex-1 pb-24">
                 <PageHeader
-                    title={t('addUsagePage.title', { defaultValue: 'Add Usage' })}
+                    title={t('addUsagePage.title')}
                     onBack={() => navigate(-1)}
                 />
 
@@ -74,12 +111,12 @@ export default function AddUsage() {
                     {/* Project Selection */}
                     <div className="space-y-2">
                         <Dropdown
-                            label={t('addUsagePage.projectSite', { defaultValue: 'Project (Site)' })}
+                            label={t('addUsagePage.projectSite')}
                             required
                             options={projects}
                             value={formData.projectId}
                             onChange={(val) => handleChange('projectId', val)}
-                            placeholder={t('addUsagePage.selectProject', { defaultValue: 'Select Project' })}
+                            placeholder={t('addUsagePage.selectProject')}
                             disabled={isLoadingProjects}
                             className=""
                         />
@@ -88,45 +125,44 @@ export default function AddUsage() {
                     {/* Material Type */}
                     <div className="space-y-4">
                         <span className="block text-primary font-medium">
-                            {t('addUsagePage.materialType', { defaultValue: 'Material Type' })}
+                            {t('addUsagePage.materialType')}
                         </span>
-                        <div className="flex items-center gap-10">
-                            <Radio
-                                label={t('addUsagePage.reusable', { defaultValue: 'Reusable' })}
-                                name="materialType"
-                                value="reusable"
-                                checked={formData.materialType === 'reusable'}
-                                onChange={() => handleChange('materialType', 'reusable')}
-                                className="font-medium"
-                            />
-                            <Radio
-                                label={t('addUsagePage.consumable', { defaultValue: 'Consumable' })}
-                                name="materialType"
-                                value="consumable"
-                                checked={formData.materialType === 'consumable'}
-                                onChange={() => handleChange('materialType', 'consumable')}
-                                className="font-medium"
-                            />
+                        <div className="flex items-center gap-6 flex-wrap">
+                            {isLoadingInventoryTypes ? (
+                                <Loader size="sm" />
+                            ) : (
+                                inventoryTypeOptions.map((type) => (
+                                    <Radio
+                                        key={type.value}
+                                        label={type.label}
+                                        name="materialType"
+                                        value={type.value}
+                                        checked={formData.materialType?.toString() === type.value?.toString()}
+                                        onChange={(e) => handleChange('materialType', e.target.value)}
+                                        className="font-medium"
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
 
-                    {/* Material Search */}
-                    <div className="relative">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-                            <Search className="w-5 h-5 text-[#060C1280]" />
-                        </div>
-                        <Input
-                            placeholder={t('addUsagePage.materialPlaceholder', { defaultValue: 'Ceme' })}
-                            value={formData.materialSearch}
-                            onChange={(e) => handleChange('materialSearch', e.target.value)}
-                            className="[&>input]:pl-12 "
+                    {/* Material Selection */}
+                    <div className="space-y-2">
+                        <Dropdown
+                            label={t('addUsagePage.material', { defaultValue: 'Material' })}
+                            required
+                            options={materialOptions}
+                            value={formData.materialId}
+                            onChange={(val) => handleChange('materialId', val)}
+                            placeholder={t('addUsagePage.materialPlaceholder', { defaultValue: 'Select Material' })}
+                            disabled={isLoadingMaterials}
                         />
                     </div>
 
                     {/* Quantity */}
                     <div className="space-y-2">
                         <label className="block text-primary font-medium">
-                            {t('addUsagePage.quantity', { defaultValue: 'Quantity' })}*
+                            {t('addUsagePage.quantity')}*
                         </label>
                         <div className="relative flex items-center">
                             <Input
@@ -151,30 +187,30 @@ export default function AddUsage() {
                     {/* Description */}
                     <div className="space-y-3">
                         <label className="block text-sm sm:text-base font-semibold text-black">
-                            {t('addUsagePage.description', { defaultValue: 'Description' })}
+                            {t('addUsagePage.description')}
                         </label>
                         <RichTextEditor
                             value={formData.description}
                             onChange={(val) => handleChange('description', val)}
-                            placeholder={t('addUsagePage.enterText', { defaultValue: 'Enter text here' })}
+                            placeholder={t('addUsagePage.enterText')}
                             className="!rounded-3xl"
                         />
                     </div>
                     {/* Footer Buttons */}
-                    <div className="flex items-center justify-end gap-3">
+                    <div className="flex items-center gap-3 w-full md:justify-end md:w-auto">
                         <Button
                             variant="secondary"
-                            className="px-10 py-3"
+                            className="flex-1 md:flex-none md:w-auto md:px-10 "
                             onClick={handleCancel}
                         >
-                            {t('addUsagePage.cancel', { defaultValue: 'Cancel' })}
+                            {t('addUsagePage.cancel')}
                         </Button>
                         <Button
                             variant="primary"
-                            className="px-10 py-3"
+                            className="flex-1 md:flex-none md:w-auto md:px-10 "
                             onClick={handleSubmit}
                         >
-                            {t('addUsagePage.addLog', { defaultValue: 'Add Log' })}
+                            {t('addUsagePage.addLog')}
                         </Button>
                     </div>
                 </div>

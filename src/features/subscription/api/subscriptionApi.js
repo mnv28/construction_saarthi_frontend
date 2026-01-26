@@ -205,3 +205,17 @@ export const reportPaymentFailure = async (payload) => {
   }
 };
 
+/**
+ * Get subscription members and calculations summary
+ * @returns {Promise<Object>} Summary data including total, used and available calculations
+ */
+export const getMembersCalculationsSummary = async () => {
+  try {
+    const response = await http.get(SUBSCRIPTION_ENDPOINTS_FLAT.MEMBERS_CALC_SUMMARY);
+    return response?.data || response;
+  } catch (error) {
+    console.error('Get members calculations summary error:', error);
+    throw error;
+  }
+};
+

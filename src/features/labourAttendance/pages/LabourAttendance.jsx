@@ -16,6 +16,8 @@ import { formatCurrencyINR } from '../utils/formatting';
 import { useAuth } from '../../../features/auth/store';
 import { useProjectsAll } from '../hooks/useProjectsAll';
 import { useCategories } from '../hooks/useCategories';
+import EmptyState from '../../../components/shared/EmptyState';
+import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 
 function LabourAttendance() {
     const { projectId } = useParams();
@@ -394,19 +396,28 @@ function LabourAttendance() {
 
             {/* Labour list */}
             <div className="mt-6">
-                <LabourAttendanceCards
-                    projectId={projectId}
-                    projectName={projectName}
-                    labourList={finalFilteredLabourList}
-                    onStatusChange={handleStatusChange}
-                    onMarkPaidLeave={handleMarkPaidLeave}
-                    onDeleteLabour={handleDeleteLabour}
-                    onRefresh={refetchLabours}
-                    isLoading={isLoadingLabours}
-                    dateRange={dateRange}
-                    onAttendanceDataChange={handleAttendanceDataChange}
-                />
-
+                {!isLoadingLabours && finalFilteredLabourList.length === 0 ? (
+                    <EmptyState
+                        image={EmptyStateSvg}
+                        title={t('common.noLabourFound', { defaultValue: 'No Labor Found' })}
+                        message={t('common.noLabourMessage', { defaultValue: 'Add labor to this project to start tracking attendance' })}
+                        actionLabel={t('common.addLabour')}
+                        onAction={handleAddReport}
+                    />
+                ) : (
+                    <LabourAttendanceCards
+                        projectId={projectId}
+                        projectName={projectName}
+                        labourList={finalFilteredLabourList}
+                        onStatusChange={handleStatusChange}
+                        onMarkPaidLeave={handleMarkPaidLeave}
+                        onDeleteLabour={handleDeleteLabour}
+                        onRefresh={refetchLabours}
+                        isLoading={isLoadingLabours}
+                        dateRange={dateRange}
+                        onAttendanceDataChange={handleAttendanceDataChange}
+                    />
+                )}
             </div>
         </div>
     );

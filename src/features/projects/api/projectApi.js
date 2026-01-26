@@ -594,6 +594,16 @@ export const getProjectPrompt = async (projectId, feature = 'construction_cost')
 };
 
 /**
+ * Calculate project (AI based calculations)
+ * @param {Object} data - Calculation request data
+ * @returns {Promise<Object>} Calculation results
+ */
+export const calculateProject = async (data) => {
+  const response = await http.post(PROJECT_ENDPOINTS_FLAT.PROJECT_CALCULATE, data);
+  return response?.data || response || {};
+};
+
+/**
  * Get project documents
  * @param {string|number} projectId - Project ID
  * @returns {Promise<Array>} List of documents
@@ -623,4 +633,38 @@ export const getProjectDocumentDetails = async (projectId, documentId) => {
   const response = await http.get(`${PROJECT_ENDPOINTS_FLAT.PROJECT_DOCUMENT_DETAILS}/${projectId}/${documentId}`);
 
   return response?.document || response?.data?.document || response?.data || response || null;
+};
+/**
+ * Get calculation history
+ * @returns {Promise<Array>} List of calculation history items
+ */
+export const getCalculationHistory = async () => {
+  try {
+    const response = await http.get(PROJECT_ENDPOINTS_FLAT.PROJECT_CALCULATION_HISTORY);
+    // Handle various response formats
+    const data = response?.data || response?.history || response?.calculations || response;
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching calculation history:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get calculation details by ID
+ * @param {string|number} calculationId - Calculation ID
+ * @returns {Promise<Object>} Calculation details
+ */
+export const getCalculationDetails = async (calculationId) => {
+  if (!calculationId) {
+    throw new Error('Calculation ID is required');
+  }
+
+  try {
+    const response = await http.get(`${PROJECT_ENDPOINTS_FLAT.PROJECT_CALCULATION_DETAILS}/${calculationId}`);
+    return response?.data || response || {};
+  } catch (error) {
+    console.error('Error fetching calculation details:', error);
+    throw error;
+  }
 };

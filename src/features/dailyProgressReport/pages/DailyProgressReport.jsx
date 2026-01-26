@@ -14,6 +14,8 @@ import { ROUTES, getRoute } from '../../../constants/routes';
 import { getAllProjects } from '../../projects/api/projectApi';
 import { useAuth } from '../../auth/store';
 import { showError } from '../../../utils/toast';
+import EmptyState from '../../../components/shared/EmptyState';
+import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 
 export default function DailyProgressReport() {
   const { t } = useTranslation('dpr');
@@ -49,11 +51,11 @@ export default function DailyProgressReport() {
         isFetchingRef.current = true;
         setIsLoadingProjects(true);
         const response = await getAllProjects(selectedWorkspace);
-        
+
         // Transform API response to match component structure
         const transformedProjects = response.map((project) => {
           const details = project.details || {};
-          
+
           // Get image from profilePhoto
           const getImageUrl = (media) => {
             if (!media) return null;
@@ -120,61 +122,58 @@ export default function DailyProgressReport() {
   }, [projects, searchQuery, statusFilter]);
 
   return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-0">
-        {/* Header Section */}
-        <div className="mb-6">
-          <PageHeader title={t('header.title')}
+    <div className="max-w-7xl mx-auto px-4 sm:px-0">
+      {/* Header Section */}
+      <div className="mb-6">
+        <PageHeader title={t('header.title')}
           showBackButton={false}
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 flex-1 w-full lg:justify-end">
-              <SearchBar
-                placeholder={t('search.placeholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full sm:w-auto sm:min-w-[260px]"
-              />
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 flex-1 w-full lg:justify-end">
+            <SearchBar
+              placeholder={t('search.placeholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full sm:w-auto sm:min-w-[260px]"
+            />
 
-              <Filter
-                options={STATUS_OPTIONS}
-                value={statusFilter}
-                onChange={setStatusFilter}
-                placeholder={t('filter.label')}
-                className="w-full sm:w-[140px] flex-shrink-0"
-              />
-            </div>
-          </PageHeader>
-        </div>
-
-        {/* Projects List */}
-        {isLoadingProjects ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <p className="text-secondary text-lg">{t('loading', { defaultValue: 'Loading projects...' })}</p>
-            </div>
+            <Filter
+              options={STATUS_OPTIONS}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              placeholder={t('filter.label')}
+              className="w-full sm:w-[140px] flex-shrink-0"
+            />
           </div>
-        ) : filteredProjectsList.length === 0 ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <p className="text-secondary text-lg mb-2">{t('emptyState.noProjects')}</p>
-              <p className="text-secondary text-sm">
-                {searchQuery || statusFilter
-                  ? t('emptyState.adjustSearch')
-                  : t('emptyState.getStarted')}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4">
-            {filteredProjectsList.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onClick={() => handleProjectClick(project)}
-              />
-            ))}
-          </div>
-        )}
+        </PageHeader>
       </div>
+
+      {/* Projects List */}
+      {isLoadingProjects ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <p className="text-secondary text-lg">{t('loading', { defaultValue: 'Loading projects...' })}</p>
+          </div>
+        </div>
+      ) : filteredProjectsList.length === 0 ? (
+        <EmptyState
+          image={EmptyStateSvg}
+          title={t('emptyState.noProjects')}
+          message={searchQuery || statusFilter
+            ? t('emptyState.adjustSearch')
+            : t('emptyState.getStarted')}
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {filteredProjectsList.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onClick={() => handleProjectClick(project)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

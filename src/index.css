@@ -14,7 +14,7 @@ body {
   scrollbar-color: #B02E0C #F3F4F6;
 }
 
-.scrollbar-accent > * {
+.scrollbar-accent>* {
   direction: ltr;
 }
 
@@ -34,4 +34,71 @@ body {
 
 .scrollbar-accent::-webkit-scrollbar-thumb:hover {
   background: #9F290A;
+}
+
+/* Print Utilities */
+@media print {
+
+  /* Set page margins to zero to hide browser-added headers/footers (URL, Date, Page Title) */
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 1.5cm !important;
+    /* Re-introduce content margin within the page */
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide UI elements rigorously */
+  nav,
+  aside,
+  header,
+  footer,
+  .no-print,
+  button,
+  [role="button"],
+  .fixed,
+  .sticky,
+  .PageHeader-back-button,
+  /* Specifically target back buttons if needed */
+  #sidebar,
+  #navbar {
+    display: none !important;
+  }
+
+  /* Reset layout for print */
+  .xl\:ml-\[300px\],
+  .lg\:ml-\[260px\],
+  .pt-16 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-top: 0 !important;
+    width: 100% !important;
+    transform: none !important;
+  }
+
+  /* Ensure content is full width and high quality */
+  .max-w-7xl,
+  .max-w-5xl {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .shadow-xl,
+  .shadow-sm,
+  .shadow-md {
+    box-shadow: none !important;
+    border: 1px solid #eee !important;
+    /* Subtle border for structure since shadow is gone */
+  }
+
+  /* Ensure AI image/badge is kept if desired, or hidden if noisy */
+  .ai-badge-capture {
+    display: block !important;
+    opacity: 1 !important;
+  }
 }

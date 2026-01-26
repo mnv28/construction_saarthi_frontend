@@ -129,6 +129,25 @@ export const getSiteInventoryList = async (params = {}) => {
 };
 
 /**
+ * Get available quantity for a specific material in a project
+ * @param {Object} params
+ * @param {string|number} params.projectID
+ * @param {string|number} params.inventoryTypeId
+ * @param {string|number} params.materialsId
+ * @returns {Promise<Object>} API response including quantity
+ */
+export const getAvailableMaterialQuantity = async (params) => {
+  const queryParams = new URLSearchParams();
+  queryParams.append('projectID', params.projectID);
+  queryParams.append('inventoryTypeId', params.inventoryTypeId);
+  queryParams.append('materialsId', params.materialsId);
+  queryParams.append('includeTotals', 'true');
+
+  const url = `${SITE_INVENTORY_ENDPOINTS_FLAT.SITE_INVENTORY_LIST}?${queryParams.toString()}`;
+  return http.get(url, { silentError: true });
+};
+
+/**
  * Get list of materials
  * @param {string|number} workspaceId - Workspace ID (required)
  * @param {string|number} inventoryTypeId - Inventory type ID (required: 1=Reusable, 2=Consumable)

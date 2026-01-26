@@ -20,17 +20,17 @@ http.interceptors.request.use(
   (config) => {
     // Get token from localStorage
     const token = localStorage.getItem('token');
-    
+
     // Add token to headers if available
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     // For FormData, remove default Content-Type to let axios/browser set it with boundary
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
     }
-    
+
     return config;
   },
   (error) => {
@@ -49,7 +49,9 @@ http.interceptors.response.use(
     if (error.response) {
       // Server responded with error status
       const { status, data } = error.response;
-      
+
+      const silentError = error.config?.silentError;
+
       switch (status) {
         case 401:
           localStorage.removeItem('token');
@@ -57,27 +59,27 @@ http.interceptors.response.use(
           break;
         case 403:
           // Forbidden
-          console.error('Access forbidden');
+          if (!silentError) console.error('Access forbidden');
           break;
         case 404:
           // Not found
-          console.error('Resource not found');
+          if (!silentError) console.error('Resource not found');
           break;
         case 500:
           // Server error
-          console.error('Server error');
+          if (!silentError) console.error('Server error');
           break;
         default:
-          console.error('API Error:', data?.message || error.message);
+          if (!silentError) console.error('API Error:', data?.message || error.message);
       }
     } else if (error.request) {
       // Request made but no response received
-      console.error('Network error - No response from server');
+      if (!error.config?.silentError) console.error('Network error - No response from server');
     } else {
       // Something else happened
-      console.error('Error:', error.message);
+      if (!error.config?.silentError) console.error('Error:', error.message);
     }
-    
+
     return Promise.reject(error);
   }
 );

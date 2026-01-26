@@ -29,7 +29,7 @@
     "destroy": "Destroy Material",
     "addLogUsage": "Add Log Usage",
     "downloadPDF": "Download as PDF",
-    "edit": "Edit",
+    "edit": "Edit Material",
     "delete": "Delete",
     "deleteItem": "Delete {{itemName}}"
   },
@@ -93,7 +93,7 @@
       "message": "No restock requests found"
     }
   },
-    "addNewAsk": {
+  "addNewAsk": {
     "title": "Add New Ask",
     "material": "Material",
     "materialPlaceholder": "Select material",
@@ -207,13 +207,19 @@
     }
   },
   "addInventory": {
-    "title": "Add New Inventory",
-    "reusable": "Reusable",
-    "consumable": "Consumable",
+    "itemName": "Item Name",
+    "itemNamePlaceholder": "Eg. \"Bamboo\"",
+    "brand": "Brand",
+    "brandPlaceholder": "Enter brand name",
+    "category": "Category",
+    "categoryPlaceholder": "Select Category",
     "material": "Material",
     "materialPlaceholder": "Select material",
     "quantity": "Quantity",
+    "unit": "Unit",
+    "unitPlaceholder": "Select Unit",
     "costPerUnit": "Cost Per Unit",
+    "totalCost": "Total Cost",
     "totalPrice": "Total Price",
     "checkInDate": "Check In Date",
     "vendor": "Vendor",
@@ -231,8 +237,10 @@
     "adding": "Adding...",
     "success": "Inventory item added successfully",
     "errors": {
+      "itemNameRequired": "Item name is required",
       "materialRequired": "Material is required",
       "quantityRequired": "Quantity is required",
+      "unitRequired": "Unit is required",
       "checkInDateRequired": "Check in date is required",
       "vendorRequired": "Vendor is required",
       "lowStockAlertRequired": "Low stock alert is required",
@@ -311,4 +319,3 @@
     "cancel": "Cancel"
   }
 }
-

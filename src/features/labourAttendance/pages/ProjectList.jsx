@@ -13,6 +13,8 @@ import Dropdown from '../../../components/ui/Dropdown';
 import { useAuth } from '../../auth/store';
 import { useLabourAttendanceProjects } from '../hooks/useLabourAttendanceProjects';
 import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
+import EmptyState from '../../../components/shared/EmptyState';
+import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
 
 export default function ProjectList() {
     const { t } = useTranslation('labourAttendance');
@@ -89,11 +91,11 @@ export default function ProjectList() {
                         </div>
                     </div>
                 ) : filteredProjects.length === 0 ? (
-                    <div className="flex items-center justify-center py-8 sm:py-12">
-                        <div className="text-sm sm:text-base text-secondary">
-                            {t('projectList.noProjects')}
-                        </div>
-                    </div>
+                    <EmptyState
+                        image={EmptyStateSvg}
+                        title={t('projectList.noProjects', { defaultValue: 'No Projects Found' })}
+                        message={t('projectList.noProjectsMessage', { defaultValue: 'You don\'t have any active projects for labor attendance yet.' })}
+                    />
                 ) : (
                     <div className="space-y-3 sm:space-y-4">
                         {filteredProjects.map((project) => {

@@ -7,11 +7,18 @@ export default function InputField({
     unit,
     suffix,
     onUnitClick,
+    type = "text",
+    inputMode = "text",
 }) {
 
     //  POSITIVE NUMBER HANDLER
     const handleChange = (e) => {
         const val = e.target.value;
+
+        if (inputMode !== 'numeric') {
+            onChange(e);
+            return;
+        }
 
         // allow empty
         if (val === '') {
@@ -61,8 +68,8 @@ export default function InputField({
 
             {/* INPUT */}
             <input
-                type="text"
-                inputMode="numeric"
+                type={type}
+                inputMode={inputMode}
                 value={value}
                 onChange={handleChange}
                 placeholder={placeholder}

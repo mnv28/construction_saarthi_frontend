@@ -21,12 +21,13 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
     hasActiveSubscription,
     planSummary,
     isLoadingSummary,
+    isLoadingSubscriptions,
     fetchPlanSummary
   } = useSubscriptions();
 
   const [calculationQuantity, setCalculationQuantity] = useState(25); // Default increment unit
   const [isCalcEditEnabled, setIsCalcEditEnabled] = useState(false);
-  const [memberQuantity, setMemberQuantity] = useState(1);
+  const [memberQuantity, setMemberQuantity] = useState(0);
   const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const [isLoadingMembers, setIsLoadingMembers] = useState(true);
@@ -36,6 +37,7 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
   const freeMembersCount = planSummary?.members?.available ?? (purchasedPlan?.free_sub_user_count || 0);
   const freeCalculationsCount = planSummary?.calculations?.available ?? (purchasedPlan?.free_calculation || 0);
   const planName = hasActiveSubscription && purchasedPlan ? purchasedPlan.name : 'Free';
+  const isLoading = isLoadingSummary || isLoadingSubscriptions;
 
   // Prices - use dynamic prices from purchasedPlan, fallback to defaults
   const memberPrice = parseFloat(purchasedPlan?.addMember?.price_per_member || 99);
@@ -106,58 +108,80 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
 
   const handleMemberAdded = () => {
     setRefreshKey(prev => prev + 1);
+    // If we want the counter to increment when a member is added via modal:
+    setMemberQuantity(prev => prev + 1);
   };
 
   const handleViewAddedMembers = () => {
     navigate(ROUTES_FLAT.SUBSCRIPTION_ADDED_MEMBERS);
   };
 
+  // Sync internal counters with backend data to match the price in the bottom bar
+  useEffect(() => {
+    if (planSummary) {
+      const purchasedMembers = planSummary?.members?.purchased ?? 0;
+      const purchasedCalcs = planSummary?.calculations?.purchased ?? 0;
+
+      // Calculate number of packs (e.g., 25 calculations = 1 pack)
+      const packs = calculationMinPack > 0 ? Math.floor(purchasedCalcs / calculationMinPack) : purchasedCalcs;
+
+      setMemberQuantity(purchasedMembers);
+      setCalculationQuantity(packs);
+    } else if (purchasedPlan) {
+      const purchasedMembers = purchasedPlan?.total_members_purchased ?? 0;
+      const purchasedCalcs = purchasedPlan?.total_calculations_purchased ?? 0;
+      const packs = calculationMinPack > 0 ? Math.floor(purchasedCalcs / calculationMinPack) : purchasedCalcs;
+
+      setMemberQuantity(purchasedMembers);
+      setCalculationQuantity(packs);
+    }
+  }, [planSummary, purchasedPlan, calculationMinPack]);
+
   // Toggle Calculation Edit
   const handleToggleCalcEdit = () => {
     setIsCalcEditEnabled(prev => !prev);
   };
 
-  // Notify parent when calculation quantity changes
-  useEffect(() => {
-    if (onCalculationChange) {
-      onCalculationChange(calculationQuantity);
-    }
-  }, [calculationQuantity, onCalculationChange]);
-
-  // Notify parent when members change
-  useEffect(() => {
-    if (onUsersChange) {
-      // Assuming memberQuantity is the additional users being purchased
-      // Total main users + sub users check
-      const mainUsersCount = 1; // Default
-      const subUsersCount = (members.length || freeMembersCount) + (memberQuantity - 1);
-      onUsersChange(mainUsersCount, subUsersCount);
-    }
-  }, [memberQuantity, members, onUsersChange, freeMembersCount]);
-
   // Calculation Counter
   const handleCalcIncrement = () => {
     if (!isCalcEditEnabled) return;
-    setCalculationQuantity(prev => prev + 1);
+    const newQty = calculationQuantity + 1;
+    setCalculationQuantity(newQty);
     handleUpdateAddon('calculation', 'add');
+    if (onCalculationChange) {
+      onCalculationChange(newQty * (calculationMinPack || 25));
+    }
   };
 
   const handleCalcDecrement = () => {
-    if (!isCalcEditEnabled || calculationQuantity <= 1) return;
-    setCalculationQuantity(prev => prev - 1);
+    if (!isCalcEditEnabled || calculationQuantity <= 0) return;
+    const newQty = Math.max(0, calculationQuantity - 1);
+    setCalculationQuantity(newQty);
     handleUpdateAddon('calculation', 'remove');
+    if (onCalculationChange) {
+      onCalculationChange(newQty * (calculationMinPack || 25));
+    }
   };
 
   // Member Counter
   const handleMemberIncrement = () => {
-    setMemberQuantity(prev => prev + 1);
+    const newQty = memberQuantity + 1;
+    setMemberQuantity(newQty);
     handleUpdateAddon('member', 'add');
+    if (onUsersChange) {
+      // Just pass newQty as subUsers, assuming 1 main user as default
+      onUsersChange(1, newQty);
+    }
   };
 
   const handleMemberDecrement = () => {
-    if (memberQuantity <= 1) return;
-    setMemberQuantity(prev => prev - 1);
+    if (memberQuantity <= 0) return;
+    const newQty = memberQuantity - 1;
+    setMemberQuantity(newQty);
     handleUpdateAddon('member', 'remove');
+    if (onUsersChange) {
+      onUsersChange(1, newQty);
+    }
   };
 
   return (
@@ -166,38 +190,37 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
         {t('addOns.title', { defaultValue: 'Add-ons' })}
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Members Add-on Card */}
         <div className="bg-[#F6F6F6CC] rounded-2xl border border-[#060C120F] flex flex-col">
-          <div className="p-4 md:p-5 flex-1">
-            <div className="mb-4">
-              <h3 className="text-base font-medium text-primary">
+          <div className="p-4 sm:p-5 flex-1">
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <h3 className="text-base sm:text-lg font-medium text-primary">
                 {t('addOns.availableMembers')} <span className="text-accent">{freeMembersCount}</span>
               </h3>
-              <p className="text-[13px] text-[#060C1280] mt-1">
-                {t('addOns.membersSubtext', { count: freeMembersCount, plan: planName })}
-              </p>
-            </div>
-
-            {/* Inner White Box */}
-            <div className="bg-white rounded-xl p-4">
-              <div
-                className="flex items-center gap-2 mb-4 cursor-pointer group"
+              <button
+                className="flex items-center gap-1.5 cursor-pointer group shrink-0 w-fit"
                 onClick={handleAddMemberClick}
               >
                 <img
                   src={addCircleIcon}
                   alt="Add"
-                  className="w-5 h-5 flex-shrink-0"
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                 />
-                <span className="text-accent text-sm md:text-base font-medium">
+                <span className="text-accent text-xs sm:text-sm font-medium">
                   {t('addOns.addMoreMembers')}
                 </span>
-              </div>
+              </button>
+            </div>
+            <p className="text-xs sm:text-[13px] text-[#060C1280] mb-4 leading-snug">
+              {t('addOns.membersSubtext', { count: freeMembersCount, plan: planName })}
+            </p>
 
-              <div className="flex items-center gap-4">
+            {/* Inner White Box */}
+            <div className="bg-white rounded-xl p-3 sm:p-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                 {/* Custom Counter Control */}
-                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1">
+                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1 w-fit">
                   <button
                     onClick={handleMemberDecrement}
                     className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"
@@ -224,50 +247,51 @@ export default function AddOns({ onCalculationChange, onUsersChange }) {
             {/* Bottom Row */}
             <button
               onClick={handleViewAddedMembers}
-              className="flex items-center justify-between mt-2 cursor-pointer"
+              className="flex items-center justify-between mt-3 cursor-pointer w-full group"
             >
-              <span className=" text-primary">
+              <span className="text-sm text-primary group-hover:text-accent transition-colors">
                 {t('addOns.viewAllAddedMembers')}
               </span>
-              <ChevronRight className="w-4 h-4 text-[#060C124D] inline-block" />
+              <ChevronRight className="w-4 h-4 text-[#060C124D] group-hover:text-accent transition-colors" />
             </button>
           </div>
-
-
         </div>
 
         {/* Calculations Add-on Card */}
         <div className="bg-[#F6F6F6CC] rounded-2xl border border-[#060C120F] flex flex-col">
-          <div className="p-4 md:p-5 flex-1 text-left">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base font-medium text-primary">
-                  {t('addOns.availableCalculations')} <span className="text-accent">{freeCalculationsCount}</span>
-                </h3>
-                <p className="text-[13px] text-[#060C1280] mt-1">
-                  {t('addOns.calculationsSubtext', { count: freeCalculationsCount, plan: planName })}
-                </p>
-              </div>
-              <div
-                className="flex items-center gap-1 cursor-pointer group shrink-0"
+          <div className="p-4 sm:p-5 flex-1 text-left">
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <h3 className="text-base sm:text-lg font-medium text-primary">
+                {t('addOns.availableCalculations')} <span className="text-accent">{freeCalculationsCount}</span>
+              </h3>
+              <button
+                className="flex items-center gap-1.5 cursor-pointer group shrink-0 w-fit"
                 onClick={handleToggleCalcEdit}
               >
                 <img
                   src={addCircleIcon}
                   alt="Add"
-                  className="w-5 h-5 flex-shrink-0"
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                 />
-                <span className="text-accent text-[11px] md:text-sm font-medium whitespace-nowrap">
-                  {t('addOns.addMoreCalculationPacks')}
+                <span className="text-accent text-xs sm:text-sm font-medium">
+                  <span className="hidden md:inline lg:hidden xl:inline">
+                    {t('addOns.addMoreCalculationPacks', { defaultValue: 'Add more calculation packs' })}
+                  </span>
+                  <span className="inline md:hidden lg:inline xl:hidden">
+                    {t('addOns.addCalculation', { defaultValue: 'Add calculation' })}
+                  </span>
                 </span>
-              </div>
+              </button>
             </div>
+            <p className="text-xs sm:text-[13px] text-[#060C1280] mb-4 leading-snug">
+              {t('addOns.calculationsSubtext', { count: freeCalculationsCount, plan: planName })}
+            </p>
 
             {/* Inner White Box */}
-            <div className={`bg-white rounded-xl p-4 transition-all ${!isCalcEditEnabled ? 'opacity-50 pointer-events-none' : ''}`}>
-              <div className="flex items-center justify-between gap-4">
+            <div className={`bg-white rounded-xl p-3 sm:p-4 transition-all ${!isCalcEditEnabled ? 'opacity-50 pointer-events-none' : ''}`}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                 {/* Custom Counter Control */}
-                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1">
+                <div className="flex items-center gap-2 border border-[#060C121A] rounded-lg bg-white p-1 w-fit">
                   <button
                     onClick={handleCalcDecrement}
                     className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 rounded-md transition-colors"

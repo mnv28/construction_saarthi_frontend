@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "आपली सध्याची योजना",
-    "daysLeft": "मोफत चाचणीत {{days}} दिवस शिल्लक आहेत"
+    "daysLeft": "मोफत चाचणीत {{days}} दिवस शिल्लक आहेत",
+    "noActivePlan": "कोणतीही सक्रिय योजना नाही",
+    "selectPlanBelow": "सुरू करण्यासाठी खालील योजना निवडा"
   },
   "availablePlans": {
     "title": "वैशिष्ट्ये",
     "saveAmount": "₹{{amount}} वाचवा",
     "bestValue": "सर्वोत्तम मूल्य",
+    "viewAll": "सर्व उपलब्ध योजना पहा",
     "benefits": {
       "unlimitedAccess": "सर्व वर्तमान + भविष्यातील मॉड्युलमध्ये अमर्यादित प्रवेश",
       "exportDownload": "निर्यात/डाउनलोड क्षमता अनलॉक केली",
@@ -26,7 +29,9 @@
       "12month": "12 महिन्याची योजना",
       "description": "ठेकेदार + 3 विनामूल्य वापरकर्ते",
       "periodMonth": "महिना",
-      "periodMonths": "महिने"
+      "periodMonths": "महिने",
+      "yearly": "वार्षिक",
+      "3years": "३ वर्षे"
     }
   },
   "addOns": {
@@ -96,5 +101,28 @@
   "emptyState": {
     "noMembers": "अद्याप सदस्य जोडलेले नाहीत.",
     "noCoupons": "कूपन उपलब्ध नाहीत."
+  },
+  "activities": {
+    "title": "तुमच्या क्रियाकलाप",
+    "members": "सदस्य",
+    "purchasedMembers": "खरेदी केलेले सदस्य:",
+    "memberUsed": "वापरलेले सदस्य:",
+    "calculations": "गणना",
+    "purchasedCalculations": "खरेदी केलेल्या गणना:",
+    "calculationUsed": "वापरलेली गणना:"
+  },
+  "messages": {
+    "preparingSubscription": "सदस्यता तयार करत आहे...",
+    "subscriptionPrepared": "सदस्यता यशस्वीरित्या तयार झाली",
+    "creatingOrder": "पेमेंट ऑर्डर तयार करत आहे...",
+    "orderCreated": "पेमेंट ऑर्डर यशस्वीरित्या तयार झाली",
+    "verifyingPayment": "पेमेंट पडताळून पाहत आहे...",
+    "paymentVerified": "पेमेंट यशस्वीरित्या पडताळून पाहिले",
+    "paymentSuccessful": "पेमेंट यशस्वी! तुमची सदस्यता आता सक्रिय आहे.",
+    "selectPlanError": "कृपया सदस्यता योजना निवडा",
+    "razorpayLoadError": "Razorpay स्क्रिप्ट लोड करण्यात अक्षम",
+    "invalidAmountError": "अवैध पेमेंट रक्कम",
+    "paymentCancelled": "वापरकर्त्याने पेमेंट रद्द केले",
+    "generalError": "सदस्यता प्रक्रिया अयशस्वी"
   }
 }

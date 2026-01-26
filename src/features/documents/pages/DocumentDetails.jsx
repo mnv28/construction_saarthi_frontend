@@ -12,6 +12,7 @@ import Loader from '../../../components/ui/Loader';
 import downloadIcon from '../../../assets/icons/Download Minimalistic.svg';
 import aiPoweredIcon from '../../../assets/icons/aipowered.svg';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import 'jspdf-autotable';
 import { showSuccess, showError } from '../../../utils/toast';
 import { getProjectDocumentDetails, getProjectDetails } from '../../projects/api';
@@ -47,6 +48,7 @@ export default function DocumentDetails() {
   const [isSignatureLoading, setIsSignatureLoading] = useState(false);
 
   const sigCanvasRef = useRef(null);
+  const documentRef = useRef(null);
 
   const handleClearSignature = () => {
     if (sigCanvasRef.current) {
@@ -156,7 +158,8 @@ export default function DocumentDetails() {
   }, [projectId, documentId, t]);
 
   const handleDownload = () => {
-    if (!document) return;
+    // We use window.print() because it handles modern CSS like 'oklch' 
+    // and complex layouts perfectly, whereas html2canvas does not.
     window.print();
   };
 

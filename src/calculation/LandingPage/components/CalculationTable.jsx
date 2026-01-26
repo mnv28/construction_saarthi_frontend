@@ -2,8 +2,8 @@ import React from 'react';
 
 const CalculationTable = ({ title, data, headers }) => {
     return (
-        <div className="mb-10 w-full overflow-hidden">
-            <h3 className="text-[18px] font-medium text-primary mb-4 ml-1">
+        <div className=" w-full overflow-hidden">
+            <h3 className="text-sm font-medium text-primary my-2 ml-1">
                 {title}
             </h3>
 
@@ -14,7 +14,7 @@ const CalculationTable = ({ title, data, headers }) => {
                             {headers.map((header, index) => (
                                 <th
                                     key={index}
-                                    className="px-6 py-4 text-sm font-medium text-primary border-r border-[#ECECEF] last:border-r-0"
+                                    className="px-6 py-3 text-sm font-medium text-primary border-r border-[#ECECEF] last:border-r-0"
                                 >
                                     {header}
                                 </th>
@@ -27,7 +27,7 @@ const CalculationTable = ({ title, data, headers }) => {
                                 {Object.values(row).map((value, colIndex) => (
                                     <td
                                         key={colIndex}
-                                        className="px-6 py-4 text-sm text-secondary font-medium border-r border-[#ECECEF] last:border-r-0"
+                                        className="px-6 py-3 text-sm text-secondary font-medium border-r border-[#ECECEF] last:border-r-0"
                                     >
                                         {value}
                                     </td>

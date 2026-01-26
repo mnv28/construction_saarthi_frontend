@@ -18,6 +18,20 @@
     "addUsage": "ব্যবহার যোগ করুন",
     "addUsageDescription": "দৈনিক উপকরণ ব্যবহার লগ যোগ করুন"
   },
+  "addUsagePage": {
+    "title": "ব্যবহার যোগ করুন",
+    "projectSite": "প্রকল্প (সাইট)",
+    "selectProject": "প্রকল্প চয়ন করুন",
+    "materialType": "উপকরণের ধরন",
+    "reusable": "পুনর্ব্যবহারযোগ্য",
+    "consumable": "ব্যবহারযোগ্য",
+    "materialPlaceholder": "উপকরণ খুঁজুন...",
+    "quantity": "পরিমাণ",
+    "description": "বিবরণ",
+    "enterText": "এখানে পাঠ্য লিখুন",
+    "cancel": "বাতিল",
+    "addLog": "লগ যোগ করুন"
+  },
   "projects": {
     "title": "আমার প্রকল্প (সাইট)",
     "viewAll": "সমস্ত প্রকল্প দেখুন"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "আপনি কি নিশ্চিতভাবে মুছতে চান"
   }
 }
-

@@ -3,7 +3,7 @@
  * Displays a single inventory item with details and actions
  */
 
-import { ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2, Plus } from 'lucide-react';
+import { ArrowLeftRight, RotateCw, AlertTriangle, Download, Trash2, Plus, Pencil } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 
@@ -23,7 +23,7 @@ export default function InventoryItemCard({
   formatCurrency,
 }) {
   const itemId = item.id || item._id;
-  
+
   // Handle new API response structure
   // New structure: item.material.name OR item.materialName, item.Description, item.quantityDetails[]
   // Old structure: item.name, item.specification, item.quantity
@@ -34,17 +34,18 @@ export default function InventoryItemCard({
     item.itemName ||
     'Unnamed Item';
   const specification = item.Description || item.specification || item.spec || '';
-  
+
   // Handle quantityDetails array (new structure)
   const quantityDetails = item.quantityDetails || [];
-  let quantity = item.quantity ?? item.Quantity ?? 0;
-  let costPerUnit = item.costPerUnit || item.unitPrice || 0;
-  
+  // Prioritize Quantity (capitalized) if quantity (lowercase) is 0 or undefined, as per user API data
+  let quantity = item.Quantity || item.quantity || item.itemCount || 0;
+  let costPerUnit = item.costPerUnit || item.unitPrice || item.price || 0;
+
   if (quantityDetails.length > 0) {
     // Sum up all quantity values for total quantity
     quantity = quantityDetails.reduce((sum, detail) => {
       const detailQty =
-        detail.itemCount ?? detail.Quantity ?? detail.quantity ?? 0;
+        detail.Quantity ?? detail.quantity ?? detail.itemCount ?? 0;
       return sum + (parseFloat(detailQty) || 0);
     }, 0);
 
@@ -63,15 +64,18 @@ export default function InventoryItemCard({
       costPerUnit = parseFloat(firstPrice) || 0;
     }
   }
-  
-  // Get unit - new structure has material.unitId
-  // TODO: Map unitId to unit name if units list is available
-  const quantityUnit = item.quantityUnit || item.unit || item?.material?.unitName || 
+
+  // Get unit - check all possible unit field names
+  const quantityUnit =
+    item.unitName ||
+    item.quantityUnit ||
+    item.unit ||
+    item?.material?.unitName ||
     (item?.material?.unitId ? `Unit ${item.material.unitId}` : 'piece');
-  
+
   const totalPrice = item.totalPrice || (quantity * costPerUnit);
-  const date = item.date || item.createdAt || item.updatedAt;
-  
+  const date = item.date || item.createdAt || item.updatedAt || item.lastUpdatedAt;
+
   // Determine if item is consumable based on inventoryTypeId dynamically
   const inventoryTypeId = item.inventoryTypeId?.toString();
   // Find inventory type from API to check if it's consumable
@@ -81,15 +85,15 @@ export default function InventoryItemCard({
   // Check if the inventory type name contains 'consumable' (case-insensitive)
   const typeName = itemInventoryType?.name || itemInventoryType?.typeName || '';
   const isConsumable = typeName.toLowerCase().includes('consumable');
-  
+
   // Consumable specific fields
   // For consumable, quantityDetails might track purchased vs used
   const purchased = item.purchased || item.purchasedQuantity || quantity;
-  const currentStock = item.currentStock || item.stock || quantity;
+  const currentStock = item.currentStock || item.stock || item.Quantity || item.quantity || quantity;
   const purchasedPrice = item.purchasedPrice || item.purchasePrice || costPerUnit;
 
   return (
-    <div 
+    <div
       className="bg-white rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
       onClick={() => onViewDetails?.(item)}
     >
@@ -124,41 +128,46 @@ export default function InventoryItemCard({
             <div onClick={(e) => e.stopPropagation()}>
               <DropdownMenu
                 items={[
+                  ...(onEdit ? [{
+                    label: t('actions.edit', { defaultValue: 'Edit Material' }),
+                    onClick: () => onEdit?.(item),
+                    icon: <Pencil className="w-4 h-4" />,
+                  }] : []),
                   ...(onRestock ? [{
                     label: t('actions.restock', { defaultValue: 'Restock Material' }),
                     onClick: () => onRestock?.(item),
                     icon: <RotateCw className="w-4 h-4" />,
                   }] : []),
-                ...(isConsumable
-                  ? [
+                  ...(isConsumable
+                    ? [
                       {
                         label: t('actions.addLogUsage', { defaultValue: 'Add Log Usage' }),
                         onClick: () => onLogUsage?.(item),
                         icon: <Plus className="w-4 h-4" />,
                       },
                     ]
-                  : [
+                    : [
                       {
                         label: t('actions.destroy', { defaultValue: 'Destroy Material' }),
                         onClick: () => onDestroy?.(item),
                         icon: <AlertTriangle className="w-4 h-4" />,
                       },
                     ]),
-                {
-                  label: t('actions.downloadPDF', { defaultValue: 'Download as PDF' }),
-                  onClick: () => onDownloadPDF?.(item),
-                  icon: <Download className="w-4 h-4" />,
-                },
-                ...(onDelete ? [{
-                  label: t('actions.deleteItem', {
-                    defaultValue: 'Delete {{itemName}}',
-                    itemName: itemName,
-                  }),
-                  onClick: () => onDelete?.(itemId),
-                  icon: <Trash2 className="w-4 h-4 text-accent" />,
-                  textColor: 'text-accent',
-                }] : []),      
-              ]}
+                  {
+                    label: t('actions.downloadPDF', { defaultValue: 'Download as PDF' }),
+                    onClick: () => onDownloadPDF?.(item),
+                    icon: <Download className="w-4 h-4" />,
+                  },
+                  ...(onDelete ? [{
+                    label: t('actions.deleteItem', {
+                      defaultValue: 'Delete {{itemName}}',
+                      itemName: itemName,
+                    }),
+                    onClick: () => onDelete?.(itemId),
+                    icon: <Trash2 className="w-4 h-4 text-accent" />,
+                    textColor: 'text-accent',
+                  }] : []),
+                ]}
               />
             </div>
           </div>

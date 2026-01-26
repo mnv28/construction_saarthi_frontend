@@ -18,12 +18,12 @@ export default function SubscriptionBottomBar({
 
   // Get data from planSummary or fallback to selectedPlan/defaults
   const apiPlan = planSummary?.plan;
-  const payableAmount = apiPlan?.payable_amount ?? (selectedPlan?.price || 0) + (calculationPrice || 0);
-  const planName = apiPlan?.plan_name || selectedPlan?.name || purchasedPlan?.name || 'Monthly';
-  const planPeriod = selectedPlan?.period || purchasedPlan?.billing_period || 'Month';
+  const payableAmount = apiPlan?.payable_amount ?? selectedPlan?.price ?? 0;
+  const planName = apiPlan?.plan_name || selectedPlan?.name || purchasedPlan?.name || t('availablePlans.plans.monthly');
+  const planPeriod = selectedPlan?.period || purchasedPlan?.billing_period || t('availablePlans.plans.periodMonth');
 
   // Format description
-  const description = selectedPlan?.description || purchasedPlan?.description || t('availablePlans.plans.description', { defaultValue: 'Contractor + 3 Free Users' });
+  const description = apiPlan?.description || selectedPlan?.description || purchasedPlan?.description || t('availablePlans.plans.description');
 
   const handleCancel = () => {
     if (onCancel) {

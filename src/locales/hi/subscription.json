@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "आपकी वर्तमान योजना",
-    "daysLeft": "नि:शुल्क परीक्षण में {{days}} दिन शेष"
+    "daysLeft": "नि:शुल्क परीक्षण में {{days}} दिन शेष",
+    "noActivePlan": "कोई सक्रिय योजना नहीं",
+    "selectPlanBelow": "आरंभ करने के लिए नीचे एक योजना चुनें"
   },
   "availablePlans": {
     "title": "विशेषताएं",
     "saveAmount": "₹{{amount}} बचाएं",
     "bestValue": "सर्वोत्तम मूल्य",
+    "viewAll": "सभी उपलब्ध योजनाएं देखें",
     "benefits": {
       "unlimitedAccess": "सभी वर्तमान + भविष्य के मॉड्यूल तक असीमित पहुंच",
       "exportDownload": "निर्यात/डाउनलोड क्षमताएं अनलॉक",
@@ -100,5 +103,28 @@
   "emptyState": {
     "noMembers": "अभी तक कोई सदस्य नहीं जोड़ा गया है।",
     "noCoupons": "कोई कूपन उपलब्ध नहीं है।"
+  },
+  "activities": {
+    "title": "आपकी गतिविधियां",
+    "members": "सदस्य",
+    "purchasedMembers": "खरीदे गए सदस्य:",
+    "memberUsed": "सदस्य उपयोग किए गए:",
+    "calculations": "गणनाएं",
+    "purchasedCalculations": "खरीदी गई गणनाएं:",
+    "calculationUsed": "गणना उपयोग की गई:"
+  },
+  "messages": {
+    "preparingSubscription": "सदस्यता तैयार की जा रही है...",
+    "subscriptionPrepared": "सदस्यता सफलतापूर्वक तैयार की गई",
+    "creatingOrder": "भुगतान ऑर्डर बनाया जा रहा है...",
+    "orderCreated": "भुगतान ऑर्डर सफलतापूर्वक बनाया गया",
+    "verifyingPayment": "भुगतान सत्यापित किया जा रहा है...",
+    "paymentVerified": "भुगतान सफलतापूर्वक सत्यापित किया गया",
+    "paymentSuccessful": "भुगतान सफल! आपकी सदस्यता अब सक्रिय है।",
+    "selectPlanError": "कृपया एक सदस्यता योजना चुनें",
+    "razorpayLoadError": "Razorpay स्क्रिप्ट लोड करने में विफल",
+    "invalidAmountError": "अमान्य भुगतान राशि",
+    "paymentCancelled": "उपयोगकर्ता ने भुगतान रद्द कर दिया",
+    "generalError": "सदस्यता संसाधित करने में विफल"
   }
 }

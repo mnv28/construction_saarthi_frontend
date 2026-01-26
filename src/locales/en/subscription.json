@@ -7,12 +7,15 @@
   },
   "currentPlan": {
     "title": "Your Current Plan",
-    "daysLeft": "{{days}} Days left in Free Trial"
+    "daysLeft": "{{days}} Days left in Free Trial",
+    "noActivePlan": "No active plan",
+    "selectPlanBelow": "Select a plan below to get started"
   },
   "availablePlans": {
-    "title": "Available Plans",
+    "title": "Features",
     "saveAmount": "Save ₹{{amount}}",
     "bestValue": "Best Value",
+    "viewAll": "View all available plans",
     "benefits": {
       "unlimitedAccess": "Unlimited access to all current + future modules",
       "exportDownload": "Export/Download capabilities unlocked",
@@ -108,5 +111,19 @@
     "calculations": "Calculations",
     "purchasedCalculations": "Purchased Calculations:",
     "calculationUsed": "Calculation Used:"
+  },
+  "messages": {
+    "preparingSubscription": "Preparing subscription...",
+    "subscriptionPrepared": "Subscription prepared successfully",
+    "creatingOrder": "Creating payment order...",
+    "orderCreated": "Payment order created successfully",
+    "verifyingPayment": "Verifying payment...",
+    "paymentVerified": "Payment verified successfully",
+    "paymentSuccessful": "Payment successful! Your subscription is now active.",
+    "selectPlanError": "Please select a subscription plan",
+    "razorpayLoadError": "Failed to load Razorpay script",
+    "invalidAmountError": "Invalid payment amount",
+    "paymentCancelled": "User cancelled payment",
+    "generalError": "Failed to process subscription"
   }
 }

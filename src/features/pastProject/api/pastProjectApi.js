@@ -25,7 +25,7 @@ export const getPastProjects = async (workspaceId, filters = {}) => {
   try {
     // Check if filters are provided
     const hasFilters = filters.projectKey || filters.name || filters.status || filters.address;
-    
+
     // Use axios.request for GET with body (non-standard but as per API example)
     const response = await axios.request({
       method: 'GET',
@@ -129,7 +129,7 @@ export const createPastProject = async (workspaceId, data) => {
  * @param {string|number} projectId - Project ID
  * @returns {Promise<Object>} Project details with pastWorkMedia
  */
-export const getPastProjectById = async (projectId) => {
+export const getPastProjectById = async (projectId, workspaceId = null) => {
   if (!projectId) {
     throw new Error('Project ID is required');
   }
@@ -144,8 +144,27 @@ export const getPastProjectById = async (projectId) => {
       },
     });
 
-    return response.data?.data || response.data;
+    const projectData = response.data?.data || response.data;
+    if (projectData) return projectData;
+
+    throw new Error('Project not found');
   } catch (error) {
+    // Fallback: If detail fetch fails and we have workspaceId, try to find in list
+    if (workspaceId && (error.response?.status === 404 || error.response?.status === 500)) {
+      try {
+        const allPastProjects = await getPastProjects(workspaceId);
+        const project = allPastProjects.find(p =>
+          String(p.id) === String(projectId) ||
+          String(p.projectKey) === String(projectId) ||
+          String(p._id) === String(projectId)
+        );
+
+        if (project) return project;
+      } catch (fallbackError) {
+        console.error('Fallback fetch failed:', fallbackError);
+      }
+    }
+
     throw error;
   }
 };
@@ -165,121 +184,51 @@ export const updatePastProject = async (projectId, data, workspaceId = null) => 
     throw new Error('Project ID is required');
   }
 
-  if (!data.name || !data.address) {
-    throw new Error('Project name and address are required');
-  }
-
   const token = localStorage.getItem('token');
-  
-  // Build request body - include projectKey if available (similar to create API)
-  // Backend requires 'files' to be an array (even if empty) - 'files is not iterable' error occurs otherwise
-  const requestBody = {
-    name: data.name,
-    address: data.address,
-    files: Array.isArray(data.files) ? data.files : [], // Always ensure files is an array
-  };
-  
-  // Include projectKey if provided (backend might require it)
-  if (data.projectKey) {
-    requestBody.projectKey = data.projectKey;
-  }
-  
-  // Include workspaceId if provided
-  if (workspaceId) {
-    requestBody.workspaceId = workspaceId;
-  }
-  
-  // Try different endpoint patterns based on common API structures
-  const endpointsToTry = [];
-  
-  // Pattern 1: PUT /my-past-work/update/:projectId (ID in URL) - Most common pattern
-  endpointsToTry.push({
-    url: `${config.API_BASE_URL}${PAST_PROJECT_ENDPOINTS_FLAT.PAST_PROJECT_UPDATE}/${projectId}`,
-    body: requestBody,
-  });
-  
-  // Pattern 2: PUT /my-past-work/update (ID in body)
-  endpointsToTry.push({
-    url: `${config.API_BASE_URL}${PAST_PROJECT_ENDPOINTS_FLAT.PAST_PROJECT_UPDATE}`,
-    body: {
-      id: projectId,
-      ...requestBody,
-    },
-  });
-  
-  // Pattern 3: PUT /my-past-work/update/:workspaceId/:projectId (if workspaceId provided)
-  if (workspaceId) {
-    endpointsToTry.push({
-      url: `${config.API_BASE_URL}${PAST_PROJECT_ENDPOINTS_FLAT.PAST_PROJECT_UPDATE}/${workspaceId}/${projectId}`,
-      body: {
-        name: data.name,
-        address: data.address,
-        files: Array.isArray(data.files) ? data.files : [], // Always ensure files is an array
-        ...(data.projectKey && { projectKey: data.projectKey }),
-      },
-    });
-  }
+  const url = `${config.API_BASE_URL}${PAST_PROJECT_ENDPOINTS_FLAT.PAST_PROJECT_UPDATE}/${projectId}`;
 
-  let lastError = null;
-  
-  for (const endpoint of endpointsToTry) {
-    try {
-      // Ensure files is always a proper array (not undefined/null)
-      const bodyToSend = {
-        ...endpoint.body,
-        files: Array.isArray(endpoint.body.files) ? endpoint.body.files : [],
-      };
-      
-      const response = await axios.put(
-        endpoint.url,
-        bodyToSend,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
+  try {
+    // ALWAYS use FormData because the backend error 'files is not iterable' suggests 
+    // it expects a multipart request to process file logic, even if no new files are being added.
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('address', data.address);
+    if (data.projectKey) formData.append('projectKey', data.projectKey);
+    if (workspaceId) formData.append('workspaceId', workspaceId);
+
+    // Append any new files to the 'files' key as demonstrated in working Postman request.
+    if (data.files && Array.isArray(data.files)) {
+      data.files.forEach((file) => {
+        const fileToAppend = file instanceof File ? file : (file.file instanceof File ? file.file : null);
+        if (fileToAppend) {
+          formData.append('files', fileToAppend);
         }
-      );
-
-      return response.data?.data || response.data;
-    } catch (error) {
-      lastError = error;
-      
-      // If 404, try next pattern
-      if (error.response?.status === 404) {
-        continue;
-      }
-      
-      // If 500, endpoint exists but server error - extract detailed error message
-      // Don't try other patterns for 500, throw immediately with detailed error
-      if (error.response?.status === 500) {
-        const errorData = error.response?.data;
-        const errorMessage = 
-          errorData?.message || 
-          errorData?.error ||
-          (typeof errorData === 'string' ? errorData : null) ||
-          error.message ||
-          'Server error occurred while updating project';
-        
-        // Create enhanced error with server message
-        const enhancedError = new Error(errorMessage);
-        enhancedError.response = error.response;
-        enhancedError.config = error.config;
-        enhancedError.status = 500;
-        throw enhancedError;
-      }
-      
-      // For other errors (400, 401, 403, etc.), throw immediately
-      throw error;
+      });
     }
+
+    const response = await axios.put(url, formData, {
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+        // axios will correctly set multipart/form-data boundary
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('API Update Error:', error.response?.data || error.message);
+
+    const errorData = error.response?.data;
+    const errorMessage =
+      errorData?.message ||
+      errorData?.error ||
+      (typeof errorData === 'string' ? errorData : null) ||
+      error.message ||
+      'Failed to update project';
+
+    const enhancedError = new Error(errorMessage);
+    enhancedError.response = error.response;
+    throw enhancedError;
   }
-  
-  // If all patterns failed with 404, throw the last error
-  if (lastError) {
-    throw lastError;
-  }
-  
-  throw new Error('Failed to update past project: No suitable endpoint found.');
 };
 
 /**
@@ -298,10 +247,10 @@ export const uploadPastProjectMedia = async (projectKey, files) => {
   }
 
   const formData = new FormData();
-  
+
   // Add projectKey to formData
   formData.append('projectKey', projectKey);
-  
+
   // Add all files with key 'media'
   files.forEach((file) => {
     if (file instanceof File) {

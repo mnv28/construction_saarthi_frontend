@@ -10,6 +10,7 @@ import PageHeader from '../../../components/layout/PageHeader';
 import Radio from '../../../components/ui/Radio';
 import Dropdown from '../../../components/ui/Dropdown';
 import NumberInput from '../../../components/ui/NumberInput';
+import Input from '../../../components/ui/Input';
 import DatePicker from '../../../components/ui/DatePicker';
 import FileUpload from '../../../components/ui/FileUpload';
 import RichTextEditor from '../../../components/ui/RichTextEditor';
@@ -37,23 +38,25 @@ export default function AddSiteInventory() {
 
   const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
   const [inventoryType, setInventoryType] = useState(null); // Dynamic inventory type ID
+  const [itemName, setItemName] = useState('');
+  const [brand, setBrand] = useState('');
   const [selectedMaterial, setSelectedMaterial] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState('');
   const [costPerUnit, setCostPerUnit] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
   const [checkInDate, setCheckInDate] = useState(null);
   const [selectedVendor, setSelectedVendor] = useState('');
-  const [lowStockAlert, setLowStockAlert] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [conditionDescription, setConditionDescription] = useState('');
-  
+
   // Set default inventory type when options are loaded
   useEffect(() => {
     if (inventoryTypeOptions.length > 0 && !inventoryType) {
       setInventoryType(inventoryTypeOptions[0].value);
     }
   }, [inventoryTypeOptions, inventoryType]);
-  
+
   const inventoryTypeId = inventoryType;
   const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
   const { unitOptions } = useUnits(selectedWorkspace);
@@ -109,7 +112,7 @@ export default function AddSiteInventory() {
   const loadVendors = async () => {
     try {
       const vendorsArray = await getVendors(selectedWorkspace);
-      
+
       const options = vendorsArray.map((vendor) => {
         const value = vendor.id || vendor._id || vendor.vendorId;
         const label = vendor.full_name;
@@ -118,7 +121,7 @@ export default function AddSiteInventory() {
           label: String(label),
         };
       });
-      
+
       setVendorOptions(options);
     } catch (error) {
       console.error('Error loading vendors:', error);
@@ -133,10 +136,10 @@ export default function AddSiteInventory() {
         ...materialData,
         type: inventoryType, // Use current inventory type
       });
-      
+
       // Select the newly created material
       setSelectedMaterial(newOption.value);
-      
+
       return newOption;
     } catch (error) {
       // Error is already handled in the hook
@@ -184,7 +187,7 @@ export default function AddSiteInventory() {
         // Use full_name for display; fallback to name from modal
         label: createdVendor.full_name || vendorData.name || '',
       };
-      
+
       setVendorOptions((prev) => [...prev, newOption]);
       setSelectedVendor(newOption.value);
       showSuccess(t('addStock.vendorAdded', { defaultValue: 'Vendor added successfully' }));
@@ -201,12 +204,12 @@ export default function AddSiteInventory() {
     try {
       setIsLoadingProjects(true);
       const projects = await getAllProjects(workspaceId);
-      
+
       const options = projects.map((project) => ({
         value: project.id || project.project_id || project._id,
         label: project.name || project.title || project.projectName || 'Untitled Project',
       }));
-      
+
       setProjectOptions(options);
     } catch (error) {
       console.error('Error loading projects:', error);
@@ -221,7 +224,7 @@ export default function AddSiteInventory() {
       const fileType = file.type || '';
       const isValidType = fileType.startsWith('image/') || fileType.startsWith('video/');
       const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
-      
+
       if (!isValidType) {
         showError(t('addInventory.errors.invalidFileType', { defaultValue: 'Only JPG, PNG, and MP4 files are allowed' }));
         return false;
@@ -242,54 +245,60 @@ export default function AddSiteInventory() {
 
   const validate = () => {
     const newErrors = {};
-    
+    if (!itemName) {
+      newErrors.itemName = t('addInventory.errors.itemNameRequired', { defaultValue: 'Item name is required' });
+    }
+
     if (!selectedMaterial) {
       newErrors.material = t('addInventory.errors.materialRequired', { defaultValue: 'Material is required' });
     }
-    
+
     if (!quantity || parseFloat(quantity) <= 0) {
       newErrors.quantity = t('addInventory.errors.quantityRequired', { defaultValue: 'Quantity is required' });
     }
-    
+
+    if (!selectedUnit) {
+      newErrors.unit = t('addInventory.errors.unitRequired', { defaultValue: 'Unit is required' });
+    }
+
     if (!checkInDate) {
       newErrors.checkInDate = t('addInventory.errors.checkInDateRequired', { defaultValue: 'Check in date is required' });
     }
-    
+
     if (!selectedVendor) {
       newErrors.vendor = t('addInventory.errors.vendorRequired', { defaultValue: 'Vendor is required' });
-    }
-    
-    if (!lowStockAlert || parseFloat(lowStockAlert) <= 0) {
-      newErrors.lowStockAlert = t('addInventory.errors.lowStockAlertRequired', { defaultValue: 'Low stock alert is required' });
     }
 
     if (uploadedFiles.length === 0) {
       newErrors.files = t('addInventory.errors.filesRequired', { defaultValue: 'At least one photo or video is required' });
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validate()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Use inventoryType directly as inventoryTypeId (it's already the ID)
       const inventoryTypeId = inventoryType;
 
       // Use project ID from navigation context (if available)
       const projectID = projectContextId || '';
-      
+
       const formData = {
+        name: itemName,
+        brand: brand,
         materialsId: selectedMaterial,
         quantity: quantity,
+        unitId: selectedUnit,
         costPerUnit: costPerUnit || '0',
         totalPrice: totalPrice || '0',
         projectID: projectID,
@@ -299,11 +308,10 @@ export default function AddSiteInventory() {
         files: uploadedFiles, // Array of files
         // Optional fields
         checkInDate: checkInDate ? checkInDate.toISOString().split('T')[0] : '',
-        lowStockAlert: lowStockAlert || '',
       };
-      
+
       await createSiteInventory(formData);
-      
+
       showSuccess(t('addInventory.success', { defaultValue: 'Inventory item added successfully' }));
       navigate(ROUTES_FLAT.SITE_INVENTORY, {
         state: projectContextId ? { projectId: projectContextId, projectName: projectContextName } : undefined,
@@ -350,12 +358,43 @@ export default function AddSiteInventory() {
           )}
         </div>
 
-        {/* Form Fields - Two Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Material */}
-          <div>
+        {/* Form Fields - Layout following image */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          {/* Item Name */}
+          <Input
+            label={t('addInventory.itemName', { defaultValue: 'Item Name' })}
+            placeholder={t('addInventory.itemNamePlaceholder', { defaultValue: 'Eg. "Bamboo"' })}
+            value={itemName}
+            onChange={(e) => {
+              setItemName(e.target.value);
+              if (errors.itemName) {
+                setErrors((prev) => ({ ...prev, itemName: '' }));
+              }
+            }}
+            required
+            error={errors.itemName}
+          />
+
+          {/* Unit Dropdown */}
+          <Dropdown
+            label={t('addInventory.unit', { defaultValue: 'Unit' })}
+            options={unitOptions}
+            value={selectedUnit}
+            onChange={(value) => {
+              setSelectedUnit(value);
+              if (errors.unit) {
+                setErrors((prev) => ({ ...prev, unit: '' }));
+              }
+            }}
+            placeholder={t('addInventory.unitPlaceholder', { defaultValue: 'Select Unit' })}
+            error={errors.unit}
+            required
+          />
+
+          {/* Category (Material) - Full Width on mobile, spans 2 cols if needed but image shows it full width below item/brand */}
+          <div className="lg:col-span-2">
             <Dropdown
-              label={t('addInventory.material', { defaultValue: 'Material' })}
+              label={t('addInventory.category', { defaultValue: 'Category' })}
               options={materialOptions}
               value={selectedMaterial}
               onChange={(value) => {
@@ -364,7 +403,7 @@ export default function AddSiteInventory() {
                   setErrors((prev) => ({ ...prev, material: '' }));
                 }
               }}
-              placeholder={t('addInventory.materialPlaceholder', { defaultValue: 'Select material' })}
+              placeholder={t('addInventory.categoryPlaceholder', { defaultValue: 'Select Category' })}
               error={errors.material}
               required
               disabled={isLoadingMaterials}
@@ -377,67 +416,54 @@ export default function AddSiteInventory() {
           </div>
 
           {/* Quantity */}
-          <div>
-            <NumberInput
-              label={t('addInventory.quantity', { defaultValue: 'Quantity' })}
-              placeholder="00"
-              value={quantity}
-              onChange={(e) => {
-                setQuantity(e.target.value);
-                if (errors.quantity) {
-                  setErrors((prev) => ({ ...prev, quantity: '' }));
-                }
-              }}
-              required
-              error={errors.quantity}
-              unit={unit}
-              className="w-full"
-            />
-          </div>
+          <NumberInput
+            label={t('addInventory.quantity', { defaultValue: 'Quantity' })}
+            placeholder="00"
+            value={quantity}
+            onChange={(e) => {
+              setQuantity(e.target.value);
+              if (errors.quantity) {
+                setErrors((prev) => ({ ...prev, quantity: '' }));
+              }
+            }}
+            required
+            error={errors.quantity}
+            className="w-full"
+          />
+
+          {/* Brand */}
+          <Input
+            label={`${t('addInventory.brand', { defaultValue: 'Brand' })} (Optional)`}
+            placeholder={t('addInventory.brandPlaceholder', { defaultValue: 'Enter brand name' })}
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
+
+
 
           {/* Cost Per Unit */}
-          <div>
-            <NumberInput
-              label={t('addInventory.costPerUnit', { defaultValue: 'Cost Per Unit' })}
-              placeholder="00"
-              value={costPerUnit}
-              onChange={(e) => setCostPerUnit(e.target.value)}
-              unit={unit}
-              showCurrency
-              className="w-full"
-            />
-          </div>
+          <NumberInput
+            label={t('addInventory.costPerUnit', { defaultValue: 'Cost Per Unit' })}
+            placeholder="00"
+            value={costPerUnit}
+            onChange={(e) => setCostPerUnit(e.target.value)}
+            unit={unitOptions.find(u => u.value === selectedUnit)?.label || ''}
+            showCurrency
+            className="w-full"
+          />
 
-          {/* Total Price */}
-          <div>
-            <NumberInput
-              label={t('addInventory.totalPrice', { defaultValue: 'Total Price' })}
-              placeholder="00"
-              value={totalPrice}
-              onChange={(e) => {
-                setTotalPrice(e.target.value);
-              }}
-              showCurrency
-              className="w-full"
-            />
-          </div>
-
-          {/* Check In Date */}
-          <div>
-            <DatePicker
-              label={t('addInventory.checkInDate', { defaultValue: 'Check In Date' })}
-              value={checkInDate}
-              onChange={(date) => {
-                setCheckInDate(date);
-                if (errors.checkInDate) {
-                  setErrors((prev) => ({ ...prev, checkInDate: '' }));
-                }
-              }}
-              placeholder="DD/MM/YYYY"
-              required
-              error={errors.checkInDate}
-            />
-          </div>
+          {/* Total Cost */}
+          <NumberInput
+            label={t('addInventory.totalCost', { defaultValue: 'Total Cost' })}
+            placeholder="00"
+            value={totalPrice}
+            onChange={(e) => {
+              setTotalPrice(e.target.value);
+            }}
+            required
+            showCurrency
+            className="w-full"
+          />
 
           {/* Vendor */}
           <div>
@@ -463,22 +489,20 @@ export default function AddSiteInventory() {
             />
           </div>
 
-          {/* Low Stock Alert */}
+          {/* Check In Date */}
           <div>
-            <NumberInput
-              label={t('addInventory.lowStockAlert', { defaultValue: 'Low Stock Alert' })}
-              placeholder="00"
-              value={lowStockAlert}
-              onChange={(e) => {
-                setLowStockAlert(e.target.value);
-                if (errors.lowStockAlert) {
-                  setErrors((prev) => ({ ...prev, lowStockAlert: '' }));
+            <DatePicker
+              label={t('addInventory.checkInDate', { defaultValue: 'Check In Date' })}
+              value={checkInDate}
+              onChange={(date) => {
+                setCheckInDate(date);
+                if (errors.checkInDate) {
+                  setErrors((prev) => ({ ...prev, checkInDate: '' }));
                 }
               }}
+              placeholder="DD/MM/YYYY"
               required
-              error={errors.lowStockAlert}
-              unit={unit}
-              className="w-full"
+              error={errors.checkInDate}
             />
           </div>
         </div>
@@ -502,7 +526,7 @@ export default function AddSiteInventory() {
           {errors.files && (
             <p className="mt-1 text-sm text-accent">{errors.files}</p>
           )}
-          
+
           {/* Display uploaded files */}
           {uploadedFiles.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">

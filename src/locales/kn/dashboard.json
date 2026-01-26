@@ -18,6 +18,20 @@
     "addUsage": "ಬಳಕೆ ಸೇರಿಸಿ",
     "addUsageDescription": "ದೈನಂದಿನ ಸಾಮಗ್ರಿ ಬಳಕೆ ಲಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ"
   },
+  "addUsagePage": {
+    "title": "ಬಳಕೆ ಸೇರಿಸಿ",
+    "projectSite": "ಯೋಜನೆ (ಸೈಟ್)",
+    "selectProject": "ಯೋಜನೆಯನ್ನು ಆರಿಸಿ",
+    "materialType": "ಸಾಮಗ್ರಿ ಪ್ರಕಾರ",
+    "reusable": "ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ",
+    "consumable": "ಬಳಸಬಹುದಾದ",
+    "materialPlaceholder": "ಸಾಮಗ್ರಿಯನ್ನು ಹುಡುಕಿ...",
+    "quantity": "ಪ್ರಮಾಣ",
+    "description": "ವಿವರಣೆ",
+    "enterText": "ಇಲ್ಲಿ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ",
+    "cancel": "ರದ್ದುಮಾಡಿ",
+    "addLog": "ಲಾಗ್ ಸೇರಿಸಿ"
+  },
   "projects": {
     "title": "ನನ್ನ ಯೋಜನೆಗಳು (ಸೈಟ್‌ಗಳು)",
     "viewAll": "ಎಲ್ಲಾ ಯೋಜನೆಗಳನ್ನು ವೀಕ್ಷಿಸಿ"
@@ -37,4 +51,3 @@
     "deleteConfirmMessage": "ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಲು ಬಯಸುವಿರಾ"
   }
 }
-

@@ -427,14 +427,8 @@ function UploadDocumentsSection({ t, onFilesChange, projectKey, existingFiles })
                   {files.map((file, fileIndex) => (
                     <div key={file.id} className="relative group cursor-pointer">
                       <div className="aspect-video rounded-lg overflow-hidden border border-gray-200 max-w-[200px] mx-auto relative bg-gray-100">
-                        {file.isExisting ? (
-                          <img
-                            src={file.thumbnail || file.url}
-                            alt={file.name || `Video ${fileIndex + 1}`}
-                            className="w-full h-full object-cover"
-                            onClick={() => window.open(file.url, '_blank')}
-                          />
-                        ) : (
+                        {/* Render video or thumbnail */}
+                        {(file.isExisting && !file.url?.match(/\.(jpeg|jpg|png|gif|webp)$/i)) || (!file.isExisting) ? (
                           <video
                             src={file.url}
                             className={`w-full h-full object-cover ${file.isUploading ? 'opacity-50' : ''}`}
@@ -452,12 +446,28 @@ function UploadDocumentsSection({ t, onFilesChange, projectKey, existingFiles })
                               e.target.parentNode.classList.add('flex', 'items-center', 'justify-center', 'bg-gray-200');
                             }}
                           />
+                        ) : (
+                          <img
+                            src={file.thumbnail || file.url}
+                            alt={file.name || `Video ${fileIndex + 1}`}
+                            className={`w-full h-full object-cover ${file.isUploading ? 'opacity-50' : ''}`}
+                            onClick={() => window.open(file.url, '_blank')}
+                          />
                         )}
+
+                        {/* Play Button */}
                         {!file.isUploading && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all pointer-events-none">
                             <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
                               <Play className="w-5 h-5 text-primary ml-0.5" fill="currentColor" />
                             </div>
+                          </div>
+                        )}
+
+                        {/* Video Type Badge */}
+                        {!file.isUploading && (
+                          <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-white uppercase tracking-wide z-10">
+                            {file.name?.split('.').pop() || 'VIDEO'}
                           </div>
                         )}
                         {file.isUploading && (

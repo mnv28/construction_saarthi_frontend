@@ -321,8 +321,8 @@ export default function PastProjectDocumentsGallery({
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`pb-3 text-sm font-medium transition-colors md:px-6 ${activeTab === tab.id
-                    ? 'text-accent border-b-2 border-accent'
-                    : 'text-secondary hover:text-primary'
+                  ? 'text-accent border-b-2 border-accent'
+                  : 'text-secondary hover:text-primary'
                   }`}
               >
                 {tab.label}
@@ -406,46 +406,70 @@ export default function PastProjectDocumentsGallery({
                         className="relative group cursor-pointer w-[140px] sm:w-[160px]"
                       >
                         <div className="aspect-square rounded-xl overflow-hidden border border-gray-200 relative bg-gray-100">
+                          {/* Video Thumbnail or Video Element */}
+                          {!file.url?.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
+                            <video
+                              src={file.url}
+                              className={`w-full h-full object-cover ${isVideoLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+                              preload="metadata"
+                              muted
+                              playsInline
+                              onLoadedData={() => {
+                                setLoadingImages((prev) => {
+                                  const set = new Set(prev);
+                                  set.delete(file.id);
+                                  return set;
+                                });
+                              }}
+                              onLoadStart={() => {
+                                setLoadingImages((prev) => new Set(prev).add(file.id));
+                              }}
+                              onClick={() => window.open(file.url, '_blank')}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.parentNode.classList.add('flex', 'items-center', 'justify-center', 'bg-gray-200');
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={file.thumbnail || file.url}
+                              alt={file.name || 'Video'}
+                              className={`w-full h-full object-cover ${isVideoLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+                              onLoad={() => {
+                                setLoadingImages((prev) => {
+                                  const set = new Set(prev);
+                                  set.delete(file.id);
+                                  return set;
+                                });
+                              }}
+                              onLoadStart={() => {
+                                setLoadingImages((prev) => new Set(prev).add(file.id));
+                              }}
+                              onClick={() => window.open(file.url, '_blank')}
+                            />
+                          )}
+
                           {isVideoLoading && (
-                            <div className="absolute inset-0 flex items-center justify-center z-10">
+                            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
                               <Loader size="sm" />
                             </div>
                           )}
 
-                          <img
-                            src={file.thumbnail || file.url}
-                            alt={file.name || 'Video'}
-                            className={`w-full h-full object-cover ${isVideoLoading
-                                ? 'opacity-0'
-                                : 'opacity-100'
-                              } transition-opacity`}
-                            onLoad={() => {
-                              setLoadingImages((prev) => {
-                                const set = new Set(prev);
-                                set.delete(file.id);
-                                return set;
-                              });
-                            }}
-                            onLoadStart={() => {
-                              setLoadingImages(
-                                (prev) => new Set(prev).add(file.id)
-                              );
-                            }}
-                            onClick={() =>
-                              window.open(file.url, '_blank')
-                            }
-                          />
-
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 shadow-md flex items-center justify-center">
-                              <Play
-                                className="w-7 h-7 sm:w-8 sm:h-8 text-primary ml-0.5"
-                                fill="currentColor"
-                              />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors pointer-events-none">
+                            <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                              <Play className="w-5 h-5 text-primary ml-0.5" fill="currentColor" />
                             </div>
+                          </div>
+
+                          {/* Video Type Badge */}
+                          <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[8px] font-semibold text-white uppercase tracking-wide z-10 pointer-events-none">
+                            {file.name?.split('.').pop() || 'VIDEO'}
                           </div>
                         </div>
 
+                        {/* Note: This is a view-only gallery usually, but we implement delete if needed here.
+                            However, the original code had a remove button which seems surprising for a 'Detail' view unless it's editable.
+                            Keeping it consistent with the original code provided. */}
                         <button
                           type="button"
                           onClick={(e) => {
@@ -456,7 +480,7 @@ export default function PastProjectDocumentsGallery({
                               )
                             );
                           }}
-                          className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/90 hover:bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                          className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/90 hover:bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
                         >
                           <X className="w-3 h-3 text-primary" />
                         </button>

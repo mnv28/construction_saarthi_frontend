@@ -54,7 +54,8 @@ export default function VideoCard({ video, onPlay, onDelete }) {
     <div className="relative group cursor-pointer" onClick={() => onPlay?.(video) || (video.url && window.open(video.url, '_blank'))}>
       {/* Video Thumbnail */}
       <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-100">
-        {thumbnailUrl ? (
+        {/* Video Thumbnail or Video Element */}
+        {thumbnailUrl && !thumbnailUrl.match(/\.(mp4|mov|avi|mkv|webm)$/i) ? (
           <img
             src={thumbnailUrl}
             alt={videoName}
@@ -62,16 +63,29 @@ export default function VideoCard({ video, onPlay, onDelete }) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-            <Play className="w-12 h-12 text-gray-400" />
-          </div>
+          <video
+            src={video.url}
+            className="w-full h-full object-cover"
+            preload="metadata"
+            muted
+            playsInline
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentNode.classList.add('flex', 'items-center', 'justify-center', 'bg-gray-200');
+            }}
+          />
         )}
-        
+
         {/* Play Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
-          <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center hover:bg-black/90 transition-colors shadow-lg">
-            <Play className="w-7 h-7 text-white ml-1" fill="white" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors pointer-events-none">
+          <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+            <Play className="w-5 h-5 text-primary ml-0.5" fill="currentColor" />
           </div>
+        </div>
+
+        {/* Video Type Badge */}
+        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-white uppercase tracking-wide z-10 pointer-events-none">
+          {videoName?.split('.').pop() || 'VIDEO'}
         </div>
 
         {/* Options Menu - Only show if there are menu items */}

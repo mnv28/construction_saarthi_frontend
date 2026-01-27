@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Eye, Trash2, Video } from 'lucide-react';
+import { X, Eye, Trash2, Video, Play } from 'lucide-react';
 
 import PageHeader from '../../../components/layout/PageHeader';
 import Button from '../../../components/ui/Button';
@@ -38,13 +38,16 @@ const getMediaType = (mediaItem) => {
   const typeId = String(mediaItem.typeId || '');
   const urlLower = url.toLowerCase();
 
+  // Explicit check for video extensions first
+  if (urlLower.match(/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i)) {
+    return 'video';
+  }
+
   // Check file extension
   if (urlLower.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i)) {
     return 'photo';
   }
-  if (urlLower.match(/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i)) {
-    return 'video';
-  }
+
   if (urlLower.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i)) {
     return 'document';
   }
@@ -255,15 +258,63 @@ export default function EditPastProject() {
 
     setIsSaving(true);
     try {
-      // Combine all new files to upload (for the PUT request)
-      const allNewFiles = [...newMediaFiles, ...newDocumentFiles];
+      // 1. Process Media Items (Photos + Videos)
+      const processedMediaFiles = await Promise.all(mediaItems.map(async (item) => {
+        // If it's a new file, return the File object
+        if (item.isNew && item.file) return item.file;
 
-      // Update project details calling PUT API as per Image 2
+        // If it's an existing file, fetch and convert to File
+        if (item.url) {
+          try {
+            // Skip if it looks like a local blob url that isn't flagged as new (shouldn't happen but safety check)
+            if (item.url.startsWith('blob:') && !item.isNew) return null;
+
+            const response = await fetch(item.url);
+            const blob = await response.blob();
+            const filename = item.name || getFileNameFromUrl(item.url);
+            // Simple type inference
+            let type = blob.type;
+            if (!type || type === 'application/octet-stream') {
+              if (item.type === 'video') type = 'video/mp4';
+              else if (item.type === 'photo') type = 'image/jpeg';
+            }
+
+            return new File([blob], filename, { type });
+          } catch (e) {
+            console.error("Failed to convert existing file for re-upload", item.url, e);
+            return null;
+          }
+        }
+        return null;
+      }));
+
+      // 2. Process Document Items
+      const processedDocFiles = await Promise.all(documentItems.map(async (item) => {
+        if (item.isNew && item.file) return item.file;
+
+        if (item.url) {
+          try {
+            const response = await fetch(item.url);
+            const blob = await response.blob();
+            const filename = item.name || getFileNameFromUrl(item.url);
+            return new File([blob], filename, { type: 'application/pdf' });
+          } catch (e) {
+            console.error("Failed to convert existing doc for re-upload", item.url, e);
+            return null;
+          }
+        }
+        return null;
+      }));
+
+      // Combine all files
+      const allFiles = [...processedMediaFiles, ...processedDocFiles].filter(Boolean);
+
+      // Update project details
       const response = await updatePastProject(id, {
         name: projectName.trim(),
         address: address.trim(),
         projectKey: projectKey || project?.projectKey,
-        files: allNewFiles,
+        files: allFiles,
       }, selectedWorkspace);
 
       // Refresh project data
@@ -549,19 +600,89 @@ export default function EditPastProject() {
                       </button>
                     </div>
                   ) : item.type === 'video' && item.url ? (
-                    <div className="relative">
-                      <video
-                        src={item.url}
-                        className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
-                        <Video className="w-6 h-6 text-white" />
+                    <div className="relative h-24 sm:h-28 rounded-lg overflow-hidden border border-gray-200 bg-gray-100">
+                      {/* Video Thumbnail or Video Element */}
+                      {!item.url?.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
+                        <video
+                          src={item.url}
+                          className="w-full h-full object-cover"
+                          preload="metadata"
+                          muted
+                          playsInline
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentNode.classList.add('flex', 'items-center', 'justify-center', 'bg-gray-200');
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={item.thumbnail || item.url}
+                          alt={item.name || 'Video'}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+
+                      {/* Play Button Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors pointer-events-none">
+                        <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                          <Play className="w-4 h-4 text-primary ml-0.5" fill="currentColor" />
+                        </div>
                       </div>
+
+                      {/* Video Type Badge */}
+                      <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[8px] font-semibold text-white uppercase tracking-wide z-10 pointer-events-none">
+                        {item.name?.split('.').pop() || 'VIDEO'}
+                      </div>
+
                       <button
                         type="button"
                         onClick={() => handleRemoveMedia(item.id)}
                         disabled={isSaving}
-                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
+                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer z-20 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (item.url && (item.type === 'video' || item.url.match(/\.(mp4|avi|mov|wmv|flv|webm|mkv)(\?.*)?$/i))) ? (
+                    <div className="relative h-24 sm:h-28 rounded-lg overflow-hidden border border-gray-200 bg-gray-100">
+                      {/* Video Thumbnail or Video Element */}
+                      {!item.url?.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
+                        <video
+                          src={item.url}
+                          className="w-full h-full object-cover"
+                          preload="metadata"
+                          muted
+                          playsInline
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentNode.classList.add('flex', 'items-center', 'justify-center', 'bg-gray-200');
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={item.thumbnail || item.url}
+                          alt={item.name || 'Video'}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+
+                      {/* Play Button Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors pointer-events-none">
+                        <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                          <Play className="w-4 h-4 text-primary ml-0.5" fill="currentColor" />
+                        </div>
+                      </div>
+
+                      {/* Video Type Badge */}
+                      <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[8px] font-semibold text-white uppercase tracking-wide z-10 pointer-events-none">
+                        {item.name?.split('.').pop() || 'VIDEO'}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(item.id)}
+                        disabled={isSaving}
+                        className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 cursor-pointer z-20 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors"
                       >
                         <X className="w-4 h-4" />
                       </button>

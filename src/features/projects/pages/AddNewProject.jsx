@@ -198,18 +198,41 @@ function AddNewProject() {
     }
 
     try {
-      const mediaFiles = [
+      // Convert all media to File objects (re-upload approach required by backend)
+      const allMediaItems = [
         ...(uploadedFiles.videos || []),
         ...(uploadedFiles.photos || []),
         ...(uploadedFiles.documents || []),
-      ].map(item => {
-        // If file is already on server (has ID and is marked as existing/uploaded), just send the ID as a string
-        if (item.id && (item.isExisting || item.isUploaded)) return String(item.id);
+      ];
+
+      const mediaFiles = await Promise.all(allMediaItems.map(async (item) => {
         // If it's a new file that has a binary File object
         if (item.file instanceof File) return item.file;
         if (item instanceof File) return item;
+
+        // If file is already on server (has URL), fetch and convert to File to re-upload
+        // This is necessary because the backend replaces the entire media list
+        if (item.url && (item.isExisting || item.isUploaded)) {
+          try {
+            const response = await fetch(item.url);
+            const blob = await response.blob();
+            // Create a File object from the blob
+            const filename = item.name || item.fileName || item.url.split('/').pop() || 'existing_file';
+            const file = new File([blob], filename, { type: blob.type || item.type || 'application/octet-stream' });
+            return file;
+          } catch (error) {
+            console.error("Failed to convert existing file to blob used for re-upload:", item.url, error);
+            // If we can't convert it, we can try sending the ID as a fallback, 
+            // but likely the backend will delete it if it expects Files.
+            // Returning the string ID as a last resort.
+            return String(item.id);
+          }
+        }
+
         return null;
-      }).filter(Boolean);
+      }));
+
+      const validMediaFiles = mediaFiles.filter(Boolean);
 
       if (isEditMode && projectId) {
         // Edit mode: Use editProject hook
@@ -229,7 +252,7 @@ function AddNewProject() {
           projectDescription: data.projectDescription || "",
           projectStatus: data.projectStatus || "pending",
           profilePhoto: profilePhoto,
-          media: mediaFiles.length > 0 ? mediaFiles : null,
+          media: validMediaFiles.length > 0 ? validMediaFiles : null,
         });
 
         // Navigate to projects list

@@ -119,7 +119,7 @@ export default function ProjectGalleryDetails() {
   const groupedPhotos = activeTab === 'photos' ? groupItemsByDate(filteredItems) : {};
 
   const isLoading = isLoadingProject || isLoadingGallery;
-  
+
   // Check if user can delete (builder role cannot delete)
   const canDelete = currentUserRole?.toLowerCase() !== 'builder';
 
@@ -174,19 +174,19 @@ export default function ProjectGalleryDetails() {
       // Validate file types and sizes
       const validFiles = files.filter((file) => {
         const fileType = file.type || '';
-        const isValidType = 
-          fileType.startsWith('image/') || 
-          fileType.startsWith('video/') || 
+        const isValidType =
+          fileType.startsWith('image/') ||
+          fileType.startsWith('video/') ||
           fileType === 'application/pdf';
         const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
-        
+
         if (!isValidType) {
           showError(t('upload.error', { defaultValue: 'Invalid file type. Only JPG, PNG, MP4, and PDF are allowed.' }));
         }
         if (!isValidSize) {
           showError(t('upload.error', { defaultValue: 'File size exceeds 10MB limit.' }));
         }
-        
+
         return isValidType && isValidSize;
       });
 
@@ -204,7 +204,7 @@ export default function ProjectGalleryDetails() {
             previewUrl: fileType === 'photo' || fileType === 'video' ? createPreviewUrl(file) : null,
           };
         });
-        
+
         setSelectedFiles((prev) => [...prev, ...filesWithPreview]);
       }
     }
@@ -218,19 +218,57 @@ export default function ProjectGalleryDetails() {
 
     try {
       setIsUploading(true);
-      
-      // Extract File instances from selectedFiles
-      const fileInstances = selectedFiles.map(f => f.file || f).filter(f => f instanceof File);
-      
-      if (fileInstances.length === 0) {
-        throw new Error('No valid file instances found');
+
+      // 1. Get existing media from the project object
+      const existingMedia = project?.media || [];
+
+      // Filter out profile photos (typeId 1) to prevent them from being duplicated as gallery images
+      const galleryMediaOnly = existingMedia.filter(item => {
+        const typeId = String(item.typeId || item.type_id || '');
+        return typeId !== '1';
+      });
+
+      // 2. Convert existing media URLs to File objects for re-upload
+      // This is required because the backend replaces the entire media list on update
+      const existingFilesConverted = await Promise.all(galleryMediaOnly.map(async (item) => {
+        if (!item.url) return null;
+
+        try {
+          const response = await fetch(item.url);
+          const blob = await response.blob();
+
+          // Determine filename
+          const filename = item.name || item.fileName || item.url.split('/').pop() || `existing_file_${item.id}`;
+
+          // Determine MIME type
+          const type = blob.type || item.type || 'application/octet-stream';
+
+          return new File([blob], filename, { type });
+        } catch (error) {
+          console.error("Failed to convert existing file for re-upload:", item.url, error);
+          return null;
+        }
+      }));
+
+      // 3. Extract new File instances from selectedFiles
+      const newFileInstances = selectedFiles.map(f => f.file || f).filter(f => f instanceof File);
+
+      // 4. Combine existing files (that were successfully converted) and new files
+      const allFilesToUpload = [...existingFilesConverted.filter(Boolean), ...newFileInstances];
+
+      if (allFilesToUpload.length === 0) {
+        throw new Error('No valid files to upload');
       }
-      
-      await uploadProjectMedia(finalProjectId, fileInstances);
+
+      await uploadProjectMedia(finalProjectId, allFilesToUpload);
+
       showSuccess(t('upload.success', { defaultValue: 'Files uploaded successfully' }));
       setSelectedFiles([]);
-      // Refetch gallery items
-      refetch();
+
+      // Reload the page to ensure project details (project.media) are fresh for any subsequent uploads
+      // This prevents overwriting recent uploads if the user uploads again immediately
+      window.location.reload();
+
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error?.message || t('upload.error', { defaultValue: 'Failed to upload files' });
       showError(errorMessage);
@@ -323,7 +361,7 @@ export default function ProjectGalleryDetails() {
           title={t('projectNotFound', { defaultValue: 'Project Not Found' })}
           showBackButton
           backTo={ROUTES_FLAT.PROJECT_GALLERY}
-          className="capitalize!" 
+          className="capitalize!"
         />
         <EmptyState
           icon="inbox"
@@ -391,7 +429,7 @@ export default function ProjectGalleryDetails() {
               Clear All
             </Button>
           </div>
-          
+
           {/* Files Preview Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-4">
             {selectedFiles.map((file, index) => {
@@ -487,7 +525,7 @@ export default function ProjectGalleryDetails() {
               onClick={handleUpload}
               disabled={isUploading || selectedFiles.length === 0}
             >
-              {isUploading 
+              {isUploading
                 ? t('upload.uploading', { defaultValue: 'Uploading...' })
                 : t('upload.button', { defaultValue: 'Upload' })
               }

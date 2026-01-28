@@ -33,6 +33,7 @@ export default function DestroyMaterialModal({
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingQuantity, setIsFetchingQuantity] = useState(false);
+  const [inventoryId, setInventoryId] = useState(null);
 
   // Filter to show only "Reusable" inventory type
   const reusableTypeOptions = useMemo(() => {
@@ -72,6 +73,7 @@ export default function DestroyMaterialModal({
         const reusableValue = reusableTypeOptions[0].value;
         setMaterialType(reusableValue);
       }
+      setInventoryId(null);
     }
   }, [isOpen, reusableTypeOptions]);
 
@@ -166,6 +168,7 @@ export default function DestroyMaterialModal({
       const actualInventoryTypeId = selectedMaterialData?.inventoryTypeId || inventoryTypeId;
 
       await onDestroy?.({
+        inventoryId: inventoryId || selectedMaterial,
         materialId: selectedMaterial,
         materialName: selectedMaterialData?.name || selectedMaterialData?.materialName || '',
         quantity: parseFloat(quantity),
@@ -187,6 +190,7 @@ export default function DestroyMaterialModal({
       onClose();
       setSelectedMaterial('');
       setAvailableQuantity(null);
+      setInventoryId(null);
       setQuantity('');
       setReason('');
       setErrors({});
@@ -267,8 +271,17 @@ export default function DestroyMaterialModal({
                     if (Array.isArray(data)) {
                       // Sum quantities if it's an array, checking both 'Quantity' and 'quantity'
                       qty = data.reduce((acc, item) => acc + (Number(item.Quantity) || Number(item.quantity) || 0), 0);
+                      // For "Destroy", we need a specific inventory ID. 
+                      // Pick the first item that has quantity, or just the first item.
+                      const itemWithStock = data.find(it => (Number(it.Quantity) || Number(it.quantity) || 0) > 0);
+                      if (itemWithStock) {
+                        setInventoryId(itemWithStock.id || itemWithStock._id);
+                      } else if (data.length > 0) {
+                        setInventoryId(data[0].id || data[0]._id);
+                      }
                     } else if (data) {
                       qty = Number(data.Quantity) || Number(data.quantity) || 0;
+                      setInventoryId(data.id || data._id);
                     }
 
                     setAvailableQuantity(qty);

@@ -52,7 +52,7 @@
     },
     "tabComingSoon": "ఈ లక్షణం త్వరలో వస్తుంది...",
     "transferRequests": {
-        "beingSent": "మీ ప్రాజెక్ట్ నుండి పంపబడుతున్నాయి",
+        "beingSent": "పంపబడుతున్నాయి",
         "to": "నుండి",
         "status": {
             "approved": "అనుమోదించబడింది",

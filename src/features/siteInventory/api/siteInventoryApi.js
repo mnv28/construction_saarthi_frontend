@@ -76,10 +76,19 @@ export const getSiteInventory = async (id) => {
 export const updateSiteInventory = async (id, data) => {
   const formData = new FormData();
 
-  // Append all fields from data
+  // Append text fields and files
   Object.keys(data).forEach((key) => {
     if (data[key] !== null && data[key] !== undefined) {
-      if (data[key] instanceof File) {
+      if (key === 'files' && Array.isArray(data[key])) {
+        data[key].forEach((file) => {
+          if (file instanceof File) {
+            formData.append('files', file);
+          }
+        });
+      } else if (Array.isArray(data[key])) {
+        // Handle other arrays as needed, or skip if not supported by backend
+        formData.append(key, data[key]);
+      } else if (data[key] instanceof File) {
         formData.append(key, data[key]);
       } else {
         formData.append(key, data[key]);
@@ -181,6 +190,16 @@ export const getMaterialsList = async (workspaceId, inventoryTypeId) => {
  */
 export const createMaterial = async (data) => {
   return http.post(SITE_INVENTORY_ENDPOINTS_FLAT.MATERIALS_CREATE, data);
+};
+
+/**
+ * Update existing material
+ * @param {string|number} id - Material ID
+ * @param {Object} data - Material data (name, unitId)
+ * @returns {Promise<Object>} API response
+ */
+export const updateMaterial = async (id, data) => {
+  return http.put(`${SITE_INVENTORY_ENDPOINTS_FLAT.MATERIALS_UPDATE}/${id}`, data);
 };
 
 /**

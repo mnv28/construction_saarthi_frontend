@@ -24,8 +24,9 @@ import { useAuth } from '../../../hooks/useAuth';
 import { useMaterials, useUnits, useInventoryTypes } from '../hooks';
 import { useVendors } from '../../vendors/hooks';
 import AddMaterialModal from '../components/AddMaterialModal';
+import EditMaterialModal from '../components/EditMaterialModal';
 import AddVendorModal from '../components/AddVendorModal';
-import { X } from 'lucide-react';
+import { X, Pencil } from 'lucide-react';
 
 export default function AddSiteInventory() {
   const { t } = useTranslation('siteInventory');
@@ -38,6 +39,8 @@ export default function AddSiteInventory() {
 
   const { inventoryTypeOptions, isLoading: isLoadingInventoryTypes } = useInventoryTypes();
   const [inventoryType, setInventoryType] = useState(null); // Dynamic inventory type ID
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [materialToEdit, setMaterialToEdit] = useState(null);
   const [itemName, setItemName] = useState('');
   const [brand, setBrand] = useState('');
   const [selectedMaterial, setSelectedMaterial] = useState('');
@@ -59,14 +62,12 @@ export default function AddSiteInventory() {
   }, [inventoryTypeOptions, inventoryType]);
 
   const inventoryTypeId = inventoryType;
-  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
+  const { materials, materialOptions, isLoadingMaterials, createNewMaterial, updateExistingMaterial, refetch: refetchMaterials } = useMaterials(inventoryTypeId);
   const { unitOptions } = useUnits(selectedWorkspace);
   const { getVendors, createVendor, isLoading: isLoadingVendors } = useVendors();
   const [vendorOptions, setVendorOptions] = useState([]);
-  const [projectOptions, setProjectOptions] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingProjects, setIsLoadingProjects] = useState(false);
 
   // Get unit name from selected material, fallback to inventory type based unit
   const selectedMaterialData = materials.find((m) => (m.id || m._id || m.materialId) === selectedMaterial);
@@ -74,7 +75,7 @@ export default function AddSiteInventory() {
   const materialUnitId = selectedMaterialData?.unitId;
   const unitOption = unitOptions.find((u) => u.value === materialUnitId);
   // Show unit name (label), not unit ID
-  const unit = unitOption?.label || selectedMaterialData?.unitName || (inventoryType === 'reusable' ? 'sq.ft' : 'piece');
+  const unit = selectedMaterialData?.unit_name || unitOption?.label || selectedMaterialData?.unitName || (inventoryType === 'reusable' ? 'sq.ft' : 'piece');
 
   // Calculate total price when quantity or cost per unit changes
   useEffect(() => {
@@ -102,13 +103,6 @@ export default function AddSiteInventory() {
     if (!selectedWorkspace) return;
     loadVendors();
   }, [selectedWorkspace, getVendors]);
-
-  // Fetch projects
-  useEffect(() => {
-    if (workspaceId) {
-      loadProjects();
-    }
-  }, [workspaceId]);
 
   const loadVendors = async () => {
     try {
@@ -142,6 +136,15 @@ export default function AddSiteInventory() {
       setSelectedMaterial(newOption.value);
 
       return newOption;
+    } catch (error) {
+      // Error is already handled in the hook
+      throw error;
+    }
+  };
+
+  const handleUpdateMaterial = async (materialData) => {
+    try {
+      await updateExistingMaterial(materialData.id, materialData);
     } catch (error) {
       // Error is already handled in the hook
       throw error;
@@ -201,25 +204,6 @@ export default function AddSiteInventory() {
     }
   };
 
-  const loadProjects = async () => {
-    try {
-      setIsLoadingProjects(true);
-      const projects = await getAllProjects(workspaceId);
-
-      const options = projects.map((project) => ({
-        value: project.id || project.project_id || project._id,
-        label: project.name || project.title || project.projectName || 'Untitled Project',
-      }));
-
-      setProjectOptions(options);
-    } catch (error) {
-      console.error('Error loading projects:', error);
-      setProjectOptions([]);
-    } finally {
-      setIsLoadingProjects(false);
-    }
-  };
-
   const handleFileSelect = (files) => {
     const validFiles = Array.from(files).filter((file) => {
       const fileType = file.type || '';
@@ -246,10 +230,6 @@ export default function AddSiteInventory() {
 
   const validate = () => {
     const newErrors = {};
-
-    if (!selectedProject) {
-      newErrors.project = t('addInventory.errors.projectRequired', { defaultValue: 'Project is required' });
-    }
 
     if (!selectedMaterial) {
       newErrors.material = t('addInventory.errors.materialRequired', { defaultValue: 'Material is required' });
@@ -352,29 +332,10 @@ export default function AddSiteInventory() {
 
         {/* Form Fields - Layout following image */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          {/* Project Selection */}
+          {/* Material */}
           <div className="lg:col-span-2">
             <Dropdown
-              label={t('addInventory.project', { defaultValue: 'Project' })}
-              options={projectOptions}
-              value={selectedProject}
-              onChange={(value) => {
-                setSelectedProject(value);
-                if (errors.project) {
-                  setErrors((prev) => ({ ...prev, project: '' }));
-                }
-              }}
-              placeholder={t('addInventory.projectPlaceholder', { defaultValue: 'Select Project' })}
-              error={errors.project}
-              required
-              disabled={isLoadingProjects}
-            />
-          </div>
-
-          {/* Category (Material) */}
-          <div className="lg:col-span-2">
-            <Dropdown
-              label={t('addInventory.category', { defaultValue: 'Category' })}
+              label={t('addInventory.material', { defaultValue: 'Material' })}
               options={materialOptions}
               value={selectedMaterial}
               onChange={(value) => {
@@ -383,7 +344,7 @@ export default function AddSiteInventory() {
                   setErrors((prev) => ({ ...prev, material: '' }));
                 }
               }}
-              placeholder={t('addInventory.categoryPlaceholder', { defaultValue: 'Select Category' })}
+              placeholder={t('addInventory.materialPlaceholder', { defaultValue: 'Select Material' })}
               error={errors.material}
               required
               disabled={isLoadingMaterials}
@@ -392,6 +353,23 @@ export default function AddSiteInventory() {
               onAddNew={handleAddNewMaterial}
               customModal={AddMaterialModal}
               customModalProps={{ materialType: inventoryType, t }}
+              renderOption={(option, isSelected) => (
+                <div className="flex items-center justify-between w-full group">
+                  <span className={`${isSelected ? "font-medium text-primary" : "text-primary/70"} text-sm`}>
+                    {option.label}
+                  </span>
+                  <div
+                    className="bg-gray-200 w-6 h-6 flex items-center justify-center rounded-lg text-gray-400 hover:text-accent transition-all duration-200"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent selection
+                      setMaterialToEdit(option);
+                      setIsEditModalOpen(true);
+                    }}
+                  >
+                    <Pencil className="w-3.5 h-3.5 text-gray-800 hover:text-accent" />
+                  </div>
+                </div>
+              )}
             />
           </div>
 
@@ -509,10 +487,10 @@ export default function AddSiteInventory() {
 
           {/* Display uploaded files */}
           {uploadedFiles.length > 0 && (
-            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="mt-4 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
               {uploadedFiles.map((file, index) => (
                 <div key={index} className="relative group">
-                  <div className=" aspect-square border-black-soft border-2 rounded-lg">
+                  <div className="aspect-square border border-gray-100 rounded-lg overflow-hidden">
                     <img
                       src={URL.createObjectURL(file)}
                       alt={`Upload ${index + 1}`}
@@ -522,9 +500,9 @@ export default function AddSiteInventory() {
                   <button
                     type="button"
                     onClick={() => handleRemoveFile(index)}
-                    className="absolute top-2 right-2 bg-accent text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    className="absolute top-1 right-1 bg-accent text-white rounded-full p-0.5 group-hover:opacity-100 transition-opacity cursor-pointer"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-3 h-3" />
                   </button>
                 </div>
               ))}
@@ -565,6 +543,17 @@ export default function AddSiteInventory() {
           </Button>
         </div>
       </form>
+
+      {/* Edit Material Modal */}
+      <EditMaterialModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setMaterialToEdit(null);
+        }}
+        onSave={handleUpdateMaterial}
+        material={materialToEdit}
+      />
     </div>
   );
 }

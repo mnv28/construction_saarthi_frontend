@@ -9,7 +9,7 @@ export const SITE_INVENTORY_ENDPOINTS = {
     LIST: '/inventoryItem/inventory/list', // GET /inventoryItem/inventory/list?projectID=12&inventoryTypeId=2
     GET: '/inventoryItem/inventory', // GET /inventoryItem/inventory/{id} - Get single item
     CREATE: '/inventoryItem/create', // POST /inventoryItem/create
-    UPDATE: '/site-inventory/edit', // PUT /site-inventory/edit/{id}
+    UPDATE: '/inventoryItem/edit', // PUT /inventoryItem/edit/{id}
     DELETE: '/site-inventory', // DELETE /site-inventory/{id}
     TRANSFER_REQUESTS: '/inventoryItem/transferRequests', // GET /inventoryItem/transferRequests?scope=incoming&projectID=23
     TRANSFER_APPROVE: '/inventoryItem/transferRequest/approve', // POST /inventoryItem/transferRequest/approve/:transferRequestId
@@ -27,6 +27,7 @@ export const SITE_INVENTORY_ENDPOINTS = {
   MATERIALS: {
     LIST: '/material', // GET /materials/all/:workspaceid - List all materials
     CREATE: '/material/create', // POST /materials/create - Create new material
+    UPDATE: '/material', // PUT /material/:id - Update existing material
   },
   // Units Endpoints
   UNITS: {
@@ -66,6 +67,7 @@ export const SITE_INVENTORY_ENDPOINTS_FLAT = {
   // Materials resources
   MATERIALS_LIST: SITE_INVENTORY_ENDPOINTS.MATERIALS.LIST, // GET /materials
   MATERIALS_CREATE: SITE_INVENTORY_ENDPOINTS.MATERIALS.CREATE, // POST /materials/create
+  MATERIALS_UPDATE: SITE_INVENTORY_ENDPOINTS.MATERIALS.UPDATE, // PUT /material/:id
   // Units
   UNITS_LIST: SITE_INVENTORY_ENDPOINTS.UNITS.LIST, // GET /unit/all/:workspaceid
   UNITS_CREATE: SITE_INVENTORY_ENDPOINTS.UNITS.CREATE, // POST /unit/create

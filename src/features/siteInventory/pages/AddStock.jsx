@@ -21,12 +21,12 @@ export default function AddStock() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedWorkspace } = useAuth();
-  
+
   const { request, item, projectId, projectName } = location.state || {};
-  
+
   // Use item if available (from InventoryItemCard restock), otherwise use request (from RestockRequestCard)
   const restockData = item || request;
-  
+
   const [quantity, setQuantity] = useState('');
   const [costPerUnit, setCostPerUnit] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
@@ -40,17 +40,18 @@ export default function AddStock() {
   // Get unit from restockData (item or request)
   // For item: check material.unitId or quantityUnit
   // For request: check quantityUnit
-  const unit = restockData?.quantityUnit || 
-               restockData?.unit || 
-               restockData?.material?.unitName || 
-               (restockData?.material?.unitId ? `Unit ${restockData.material.unitId}` : 'piece');
-  
+  const unit = restockData?.unitName ||
+    restockData?.material?.unitName ||
+    restockData?.quantityUnit ||
+    restockData?.unit ||
+    (restockData?.material?.unitId ? `Unit ${restockData.material.unitId}` : 'piece');
+
   // Get material name
-  const materialName = restockData?.material?.name || 
-                       restockData?.materialName || 
-                       restockData?.name || 
-                       restockData?.itemName || 
-                       '';
+  const materialName = restockData?.material?.name ||
+    restockData?.materialName ||
+    restockData?.name ||
+    restockData?.itemName ||
+    '';
 
   // Fetch vendors from API
   useEffect(() => {
@@ -79,15 +80,15 @@ export default function AddStock() {
     if (!selectedWorkspace) {
       return;
     }
-    
+
     try {
       setIsLoadingVendors(true);
       const response = await getVendorsList(selectedWorkspace);
-      
+
       // Handle different response structures
       // API response structure: { users: [...] } or direct array
       let vendorsArray = [];
-      
+
       if (Array.isArray(response?.users)) {
         vendorsArray = response.users;
       } else if (Array.isArray(response?.data?.users)) {
@@ -101,7 +102,7 @@ export default function AddStock() {
       } else if (response?.data && typeof response.data === 'object') {
         vendorsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
       }
-      
+
       // Transform vendors to dropdown options format
       const options = vendorsArray.map((vendor) => {
         const vendorLabel = vendor.full_name || vendor.name || vendor.vendorName || vendor.label || 'Unknown Vendor';
@@ -110,7 +111,7 @@ export default function AddStock() {
           label: String(vendorLabel), // Ensure it's always a string
         };
       });
-      
+
       setVendorOptions(options);
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error?.message || t('addStock.errors.vendorLoadFailed', { defaultValue: 'Failed to load vendors' });
@@ -126,7 +127,7 @@ export default function AddStock() {
       showError(t('addStock.errors.workspaceRequired', { defaultValue: 'Workspace is required' }));
       return;
     }
-    
+
     try {
       // Create vendor via API
       const response = await createVendor({
@@ -137,23 +138,23 @@ export default function AddStock() {
         address: vendorData.address,
         workspace_id: selectedWorkspace,
       });
-      
+
       // Get the created vendor data
       const createdVendor = response?.data?.data || response?.data || vendorData;
-      
+
       // Add to options list
       const newOption = {
         value: createdVendor.id || createdVendor._id || Date.now().toString(),
         label: String(createdVendor.full_name || createdVendor.name || vendorData.name || 'Unknown Vendor'),
       };
-      
+
       setVendorOptions((prev) => [...prev, newOption]);
-      
+
       // Select the newly created vendor
       setSelectedVendor(newOption.value);
-      
+
       showSuccess(t('addStock.vendorAdded', { defaultValue: 'Vendor added successfully' }));
-      
+
       return newOption;
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error?.message || t('addStock.vendorAddFailed', { defaultValue: 'Failed to add vendor' });
@@ -171,51 +172,51 @@ export default function AddStock() {
 
   const validate = () => {
     const newErrors = {};
-    
+
     if (!quantity || parseFloat(quantity) <= 0) {
       newErrors.quantity = t('addStock.errors.quantityRequired', { defaultValue: 'Quantity is required' });
     }
-    
+
     if (!selectedVendor) {
       newErrors.vendor = t('addStock.errors.vendorRequired', { defaultValue: 'Vendor is required' });
     }
-    
+
     if (!totalPrice || parseFloat(totalPrice) <= 0) {
       newErrors.totalPrice = t('addStock.errors.totalPriceRequired', { defaultValue: 'Total price is required' });
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validate()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Get inventory ID from item or request
       const inventoryId = item?.id || item?._id || request?.inventoryId || request?.id;
-      
+
       if (!inventoryId) {
         showError(t('addStock.errors.inventoryIdRequired', { defaultValue: 'Inventory ID is required' }));
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!projectId) {
         showError(t('addStock.errors.projectRequired', { defaultValue: 'Project ID is required' }));
         setIsSubmitting(false);
         return;
       }
-      
+
       // Get inventoryTypeId from item or request
       const inventoryTypeId = item?.inventoryTypeId || request?.inventoryTypeId || 1; // Default to 1 (reusable)
-      
+
       // Call restock API
       await restockMaterial({
         inventoryId: inventoryId,
@@ -225,17 +226,17 @@ export default function AddStock() {
         price: parseFloat(costPerUnit) || 0,
         inventoryTypeId: inventoryTypeId,
       });
-      
+
       showSuccess(t('addStock.success', { defaultValue: 'Stock added successfully' }));
-      
+
       // Navigate back after success
       navigate(ROUTES_FLAT.SITE_INVENTORY, {
         state: projectId ? { projectId, projectName } : undefined,
       });
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || 
-                          error?.message || 
-                          t('addStock.errors.restockFailed', { defaultValue: 'Failed to add stock. Please try again.' });
+      const errorMessage = error?.response?.data?.message ||
+        error?.message ||
+        t('addStock.errors.restockFailed', { defaultValue: 'Failed to add stock. Please try again.' });
       showError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -257,7 +258,7 @@ export default function AddStock() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <PageHeader
         title={materialName ? `${t('addStock.title', { defaultValue: 'Restock Material' })} • ${materialName}` : t('addStock.title', { defaultValue: 'Restock Material' })}
         showBackButton
@@ -283,6 +284,7 @@ export default function AddStock() {
                 }}
                 required
                 error={errors.quantity}
+                // unit={unit}
                 className="w-full"
               />
             </div>

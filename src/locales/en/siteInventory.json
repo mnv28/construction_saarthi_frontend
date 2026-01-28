@@ -52,7 +52,7 @@
   },
   "tabComingSoon": "This feature is coming soon...",
   "transferRequests": {
-    "beingSent": "are being sent from your project",
+    "beingSent": "are being sent from",
     "to": "to",
     "status": {
       "approved": "Approved",

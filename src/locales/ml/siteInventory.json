@@ -52,7 +52,7 @@
     },
     "tabComingSoon": "ഈ സവിശേഷത ഉടൻ വരുന്നു...",
     "transferRequests": {
-        "beingSent": "നിങ്ങളുടെ പ്രോജക്റ്റിൽ നിന്ന് അയയ്ക്കുന്നു",
+        "beingSent": "അയയ്ക്കുന്നു",
         "to": "നിന്ന്",
         "status": {
             "approved": "അനുവദിച്ചു",

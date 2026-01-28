@@ -52,7 +52,7 @@
     },
     "tabComingSoon": "ई सुविधा जल्दी आ रहल बा...",
     "transferRequests": {
-        "beingSent": "तोहार प्रोजेक्ट से भेजल जा रहल बा",
+        "beingSent": "भेजल जा रहल बा",
         "to": "से",
         "status": {
             "approved": "मंजूर",
@@ -80,8 +80,8 @@
         "approve": "मंजूर करीं",
         "approving": "मंजूर हो रहल बा...",
         "errors": {
-          "quantityRequired": "मात्रा जरूरी बा",
-          "totalPriceRequired": "कुल मूल्य जरूरी बा"
+            "quantityRequired": "मात्रा जरूरी बा",
+            "totalPriceRequired": "कुल मूल्य जरूरी बा"
         }
     },
     "rejectModal": {

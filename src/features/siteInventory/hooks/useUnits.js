@@ -32,11 +32,11 @@ export const useUnits = (workspaceId) => {
       setIsLoadingUnits(true);
       setError(null);
       const response = await getUnitsList(workspaceId);
-      
+
       // Handle different response structures
       // API response structure: { message: "...", unitTypes: [...] }
       let unitsArray = [];
-      
+
       if (Array.isArray(response?.data?.unitTypes)) {
         unitsArray = response.data.unitTypes;
       } else if (Array.isArray(response?.unitTypes)) {
@@ -50,15 +50,15 @@ export const useUnits = (workspaceId) => {
       } else if (response?.data && typeof response.data === 'object') {
         unitsArray = response.data.data || Object.values(response.data).filter(Array.isArray)[0] || [];
       }
-      
+
       setUnits(unitsArray);
-      
+
       // Transform units to dropdown options format
       const options = unitsArray.map((unit) => ({
-        value: unit.id || unit._id || unit.unitId,
+        value: (unit.id || unit._id || unit.unitId)?.toString() || '',
         label: unit.name || unit.unitName || unit.label || unit,
       }));
-      
+
       setUnitOptions(options);
     } catch (err) {
       console.error('Error fetching units:', err);
@@ -90,33 +90,33 @@ export const useUnits = (workspaceId) => {
     try {
       setIsCreatingUnit(true);
       setError(null);
-      
+
       const response = await createUnit({
         name: unitData.name || unitData.label,
         wsId: workspaceId,
       });
-      
+
       // Get the created unit data
       const createdUnit = response?.data?.data || response?.data || unitData;
-      
+
       // Add to units list
       const newUnit = {
         id: createdUnit.id || createdUnit._id,
         name: createdUnit.name || unitData.name || unitData.label,
       };
-      
+
       setUnits((prev) => [...prev, newUnit]);
-      
+
       // Add to options list
       const newOption = {
         value: newUnit.id || Date.now().toString(),
         label: newUnit.name,
       };
-      
+
       setUnitOptions((prev) => [...prev, newOption]);
-      
+
       showSuccess(t('addNewAsk.unitAdded', { defaultValue: 'Unit added successfully' }));
-      
+
       return newOption;
     } catch (err) {
       console.error('Error creating unit:', err);

@@ -112,7 +112,7 @@ export default function TransferRequestCard({
       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
         <div className="flex-1 w-full">
           <p className="text-sm sm:text-base text-secondary flex flex-wrap items-center gap-1 mb-3 sm:mb-0">
-            <span className="font-medium text-primary">{displayQuantity} </span> 
+            <span className="font-medium text-primary">{displayQuantity} </span>
             <span>{materialName}</span>
             <span>
               {t('transferRequests.beingSent', {
@@ -123,13 +123,13 @@ export default function TransferRequestCard({
               <span className="font-medium text-primary">{fromProjectLabel}</span>
             )}
             <span>
-              {t('transferRequests.to', { defaultValue: 'to your project' })}
+              {t('transferRequests.to', { defaultValue: 'to' })}
             </span>
             {toProjectLabel && (
               <span className="font-medium text-primary">{toProjectLabel}</span>
             )}
           </p>
-          
+
           {/* Status Badge and Timestamp for Approved/Rejected */}
           {status?.toLowerCase() !== 'pending' && (
             <div className="flex items-center gap-2 mt-2 sm:mt-0 sm:justify-end">
@@ -182,7 +182,7 @@ export default function TransferRequestCard({
           <p className="text-sm font-medium text-primary mb-3">
             {t('transferRequests.rejectionReason', { defaultValue: 'Your reason for rejection' })}
           </p>
-          
+
           <div className="space-y-3">
             {/* Audio Player - same style as AskForMaterialCard */}
             {rejectionAudio && (
@@ -241,7 +241,7 @@ export default function TransferRequestCard({
                 </div>
               </>
             )}
-            
+
             {/* Text Reason */}
             {rejectionReason && (
               <p className="text-sm ">

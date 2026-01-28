@@ -52,7 +52,7 @@
     },
     "tabComingSoon": "এই বৈশিষ্ট্যটো সোনকালে আহিব...",
     "transferRequests": {
-        "beingSent": "আপোনাৰ প্ৰজেক্টৰ পৰা পঠিওৱা হৈছে",
+        "beingSent": "পঠিওৱা হৈছে",
         "to": "ৰ পৰা",
         "status": {
             "approved": "অনুমোদন কৰা হৈছে",

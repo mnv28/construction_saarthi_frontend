@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeftRight, Plus } from 'lucide-react';
+import { ArrowLeftRight, Plus, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
 import PageHeader from '../../../components/layout/PageHeader';
 import EmptyState from '../../../components/shared/EmptyState';
 import EmptyStateSvg from '../../../assets/icons/EmptyState.svg';
@@ -252,13 +253,14 @@ export default function SiteInventory() {
     try {
       // Call destroy material API
       await destroyMaterial({
-        inventoryId: destroyData.materialId, // materialId is used as inventoryId
+        inventoryId: destroyData.inventoryId,
         quantity: destroyData.quantity,
         reason: destroyData.reason || '',
       });
 
-      // After successful API call, reload destroy materials list
+      // After successful API call, reload destroy materials list and inventory
       await loadDestroyMaterials();
+      await loadInventoryItems();
       showSuccess(t('destroyMaterials.success', { defaultValue: 'Material destroyed successfully' }));
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error?.message || t('errors.destroyFailed', { defaultValue: 'Failed to destroy material' });
@@ -268,8 +270,123 @@ export default function SiteInventory() {
   };
 
   const handleDownloadPDF = (item) => {
-    // TODO: Implement PDF download functionality
-    console.log('Download PDF for item:', item);
+    try {
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+      let y = 30;
+
+      // Header background
+      doc.setFillColor(248, 250, 252);
+      doc.rect(0, 0, pageWidth, 50, 'F');
+
+      // Title
+      doc.setFontSize(24);
+      doc.setTextColor(15, 23, 42); // slate-900
+      doc.setFont(undefined, 'bold');
+      doc.text('Inventory Item Report', margin, y);
+      y += 12;
+
+      // Project Info
+      doc.setFontSize(11);
+      doc.setTextColor(71, 85, 105); // slate-600
+      doc.setFont(undefined, 'normal');
+      if (projectName) {
+        doc.text(`${t('project', { defaultValue: 'Project' })}: ${projectName}`, margin, y);
+      }
+      doc.text(`${t('date', { defaultValue: 'Date' })}: ${formatDate(new Date())}`, pageWidth - margin, y, { align: 'right' });
+
+      y = 65;
+
+      // Main Item Name
+      const itemName = (
+        item?.material?.name ||
+        item?.materialName ||
+        item?.name ||
+        item?.itemName ||
+        'Unnamed Item'
+      ).toUpperCase();
+
+      doc.setFontSize(18);
+      doc.setTextColor(15, 23, 42);
+      doc.setFont(undefined, 'bold');
+      doc.text(itemName, margin, y);
+
+      y += 5;
+      doc.setDrawColor(226, 232, 240); // slate-200
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 15;
+
+      // Item Information Grid
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139); // slate-500
+
+      const isConsumable = (item?.inventoryTypeName || '').toLowerCase().includes('consumable') || item?.inventoryTypeId === 2;
+      const quantityUnit = item?.material?.unitName || item?.unitName || item?.quantityUnit || '';
+
+      const details = [
+        { label: t('category', { defaultValue: 'Category' }), value: item?.inventoryTypeName || (item?.inventoryTypeId === 1 ? 'Reusable' : 'Consumable') },
+        { label: isConsumable ? t('currentStock', { defaultValue: 'Current Stock' }) : t('quantity', { defaultValue: 'Quantity' }), value: `${item?.currentStock ?? item?.quantity ?? 0} ${quantityUnit}` },
+        { label: isConsumable ? t('purchasedPrice', { defaultValue: 'Purchased Price' }) : t('costPerUnit', { defaultValue: 'Cost Per Unit' }), value: `${formatCurrency(item?.costPerUnit ?? item?.purchasedPrice ?? 0)}/${quantityUnit}` },
+        { label: t('totalValue', { defaultValue: 'Total Value' }), value: formatCurrency(item?.totalPrice ?? ((item?.currentStock || item?.quantity || 0) * (item?.costPerUnit || item?.purchasedPrice || 0)) ?? 0) },
+        { label: t('brand', { defaultValue: 'Brand' }), value: item?.brand || '-' },
+        { label: t('checkedIn', { defaultValue: 'Checked In' }), value: formatDate(item?.checkInDate || item?.createdAt) }
+      ];
+
+      details.forEach((detail, index) => {
+        const colWidth = (pageWidth - 2 * margin) / 2;
+        const col = index % 2;
+        const row = Math.floor(index / 2);
+        const startX = margin + col * colWidth;
+        const startY = y + row * 18;
+
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(71, 85, 105);
+        doc.text(detail.label, startX, startY);
+
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(15, 23, 42);
+        doc.text(String(detail.value), startX, startY + 6);
+      });
+
+      y += Math.ceil(details.length / 2) * 18 + 10;
+
+      // Description Section
+      if (item?.Description || item?.description) {
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(71, 85, 105);
+        doc.text(t('description', { defaultValue: 'Description' }), margin, y);
+        y += 7;
+
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(51, 65, 85);
+
+        const rawDesc = (item.Description || item.description || '').replace(/<[^>]*>/g, '');
+        const descLines = doc.splitTextToSize(rawDesc, pageWidth - 2 * margin);
+
+        // Check for page overflow
+        if (y + descLines.length * 6 > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+        }
+
+        doc.text(descLines, margin, y);
+      }
+
+      // Footer
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184); // slate-400
+      doc.text('Construction Saarthi - Your Construction Companion', margin, pageHeight - 10);
+      doc.text(`Page 1`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+
+      const fileName = `${itemName.replace(/\s+/g, '_')}_Report_${new Date().getTime()}.pdf`;
+      doc.save(fileName);
+      showSuccess(t('pdfDownloadSuccess', { defaultValue: 'PDF report generated successfully' }));
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      showError(t('pdfDownloadError', { defaultValue: 'Failed to generate PDF report' }));
+    }
   };
 
   const formatDate = (dateString) => {
@@ -1027,11 +1144,18 @@ export default function SiteInventory() {
           setDestroyModalOpen(false);
           setDestroyItem(null);
         }}
-        onLogUsage={(logData) => {
-          // TODO: Integrate destroy material API
-          console.log('Destroy material from list page:', logData);
-          setDestroyModalOpen(false);
-          setDestroyItem(null);
+        onLogUsage={async (logData) => {
+          try {
+            await handleAddDestroyMaterial({
+              inventoryId: logData.id || logData._id,
+              quantity: logData.quantity,
+              reason: logData.reason || '',
+            });
+            setDestroyModalOpen(false);
+            setDestroyItem(null);
+          } catch (error) {
+            // Error handling is inside handleAddDestroyMaterial
+          }
         }}
         item={destroyItem}
         title={t('destroyModal.title', {

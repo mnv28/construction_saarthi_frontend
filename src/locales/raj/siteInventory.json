@@ -52,7 +52,7 @@
     },
     "tabComingSoon": "यह सुविधा जल्द ही आ रही है...",
     "transferRequests": {
-        "beingSent": "तुम्हारे प्रोजेक्ट से भेजे जा रहे हैं",
+        "beingSent": "भेजे जा रहे हैं",
         "to": "से",
         "status": {
             "approved": "मंजूर",

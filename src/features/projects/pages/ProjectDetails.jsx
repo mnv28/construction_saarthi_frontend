@@ -18,7 +18,7 @@ import pencilIcon from '../../../assets/icons/pencil.svg';
 import PageHeader from '../../../components/layout/PageHeader';
 import { useProjectDetails } from '../hooks';
 import { useRestrictedRole } from '../../dashboard/hooks';
-import RemoveMemberModal from '../../../components/ui/RemoveMemberModal';
+import ConfirmModal from '../../../components/ui/ConfirmModal';
 import { deleteProject } from '../api';
 import { showSuccess, showError } from '../../../utils/toast';
 
@@ -253,18 +253,29 @@ export default function ProjectDetails() {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <RemoveMemberModal
+      <ConfirmModal
         isOpen={!!projectToDelete}
         onClose={() => setProjectToDelete(null)}
         onConfirm={handleDeleteConfirm}
-        isLoading={isDeleting}
         title={t('deleteModal.title', { defaultValue: 'Delete Project' })}
-        description={t('deleteModal.message', {
-          name: projectToDelete?.site_name || projectToDelete?.name,
-          defaultValue: `Are you sure you want to delete ${projectToDelete?.site_name || projectToDelete?.name}? This action is irreversible, and your data cannot be recovered.`
-        })}
+        maxWidthClass="max-w-xl"
+        message={
+          projectToDelete ? (
+            <p>
+              {t('deleteModal.message')}{' '}
+              <span className="font-medium text-primary">
+                {projectToDelete.site_name || projectToDelete.name}
+              </span>{' '}
+              {t('deleteModal.messageSuffix')}
+            </p>
+          ) : (
+            ''
+          )
+        }
         confirmText={t('deleteModal.confirm', { defaultValue: 'Yes, Delete' })}
-        cancelText={t('common:cancel', { defaultValue: 'Cancel' })}
+        cancelText={t('cancel', { ns: 'common', defaultValue: 'Cancel' })}
+        confirmVariant="primary"
+        isLoading={isDeleting}
       />
     </div>
   );

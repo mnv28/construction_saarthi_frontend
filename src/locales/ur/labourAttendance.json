@@ -26,7 +26,7 @@
     "noImage": "کوئی تصویر نہیں"
   },
   "attendancePage": {
-    "searchPlaceholder": "نام یا کردار سے تلاش کریں",
+    "searchPlaceholder": "مزدور تلاش کریں",
     "datePlaceholder": "DD/MM/YYYY",
     "downloadSuccess": "رپورٹ کامیابی سے ڈاؤن لوڈ ہو گئی",
     "downloadFail": "رپورٹ ڈاؤن لوڈ کرنے میں ناکام",
@@ -48,6 +48,7 @@
       "viewEditLabour": "مزدور دیکھیں/ترمیم کریں",
       "moveToAnotherProject": "دوسرے پروجیکٹ میں منتقل کریں",
       "payAdvance": "ایڈوانس ادا کریں",
+      "payBonus": "بونس ادا کریں",
       "addBonus": "بونس شامل کریں",
       "addDeduction": "کٹوتی شامل کریں",
       "deleteLabour": "مزدور حذف کریں"

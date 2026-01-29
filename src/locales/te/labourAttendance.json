@@ -26,7 +26,7 @@
     "noImage": "చిత్రం లేదు"
   },
   "attendancePage": {
-    "searchPlaceholder": "పేరు లేదా పాత్ర ద్వారా శోధించండి",
+    "searchPlaceholder": "శ్రామికను శోధించండి",
     "datePlaceholder": "DD/MM/YYYY",
     "downloadSuccess": "రిపోర్ట్ విజయవంతంగా డౌన్\u200cలోడ్ చేయబడింది",
     "downloadFail": "రిపోర్ట్ డౌన్\u200cలోడ్ చేయడంలో విఫలమైంది",
@@ -48,6 +48,7 @@
       "viewEditLabour": "శ్రామికను చూడండి/సవరించండి",
       "moveToAnotherProject": "మరొక ప్రాజెక్ట్\u200cకు తరలించండి",
       "payAdvance": "అడ్వాన్స్ చెల్లించండి",
+      "payBonus": "బోనస్ చెల్లించండి",
       "addBonus": "బోనస్ జోడించండి",
       "addDeduction": "కట్\u200cతను జోడించండి",
       "deleteLabour": "శ్రామికను తొలగించు"

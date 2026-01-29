@@ -20,6 +20,7 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   "past-work": "sidebar.mainMenu.pastWork",
   addpastwork: "pastProjects.addTitle",
   "business-card": "sidebar.mainMenu.businessCard",
+  addBusinessCard: "businessCard.add.title",
   "site-inventory": "sidebar.mainMenu.siteInventory",
   notes: "notes.title",
   addNewNote: "notes.addNewNote",
@@ -65,6 +66,7 @@ const Navbar = () => {
   const { t: tFinance } = useTranslation("finance");
   const { t: tLabourAttendance } = useTranslation("labourAttendance");
   const { t: tCalculation } = useTranslation("calculation");
+  const { t: tBusinessCard } = useTranslation("businessCard");
   const location = useLocation();
   const navigate = useNavigate();
   const { user: authUser } = useAuth();
@@ -166,19 +168,47 @@ const Navbar = () => {
       if (segments.length === 1) return wrapWithContext(items);
       const projectId = segments[1];
       const projectPath = `/labour-attendance/${projectId}`;
-      if (!fromProjects) items.push({ id: projectName || projectId, path: projectPath });
+
+      if (!fromProjects) {
+        if (typeof state.projectName === "string" && state.projectName.trim()) {
+          items.push({ id: state.projectName.trim(), path: projectPath });
+        } else {
+          items.push({ id: projectId, path: projectPath });
+        }
+      }
+
       if (segments.length > 2) {
         if (segments[2] === "add-labour") {
-          const editName = state.editLabour?.name;
-          items.push({ id: editName || "add-labour", path: projectPath + "/add-labour" });
+          const editLabourName = state.editLabour?.name || null;
+          if (editLabourName && typeof editLabourName === "string" && editLabourName.trim()) {
+            items.push({ id: editLabourName.trim(), path: projectPath + "/add-labour" });
+          } else {
+            items.push({ id: "add-labour", path: projectPath + "/add-labour" });
+          }
         } else if (segments[2] === "labour" && segments.length > 3) {
           const labourName = state.labour?.name || state.editLabour?.name || state.labourName || segments[3];
           items.push({ id: labourName, path: projectPath + "/labour/" + segments[3] });
+          segments.slice(4).forEach((seg, i) => {
+            items.push({ id: seg, path: createPath(i + 4) });
+          });
         } else {
-          segments.slice(2).forEach((seg, i) => items.push({ id: seg, path: createPath(i + 2) }));
+          segments.slice(2).forEach((seg, i) => {
+            items.push({ id: seg, path: createPath(i + 2) });
+          });
         }
       }
       return wrapWithContext(items);
+    }
+
+    // Handle business-card routes
+    if (rootSegment === "business-card" && segments.length > 1) {
+      if (segments[1] === "add") {
+        return wrapWithContext([
+          { id: "business-card", path: createPath(0) },
+          { id: "addBusinessCard", path: createPath(1) },
+        ]);
+      }
+      return wrapWithContext(segments.map((seg, i) => ({ id: seg, path: createPath(i) })));
     }
 
     // 3. SITE INVENTORY
@@ -249,13 +279,21 @@ const Navbar = () => {
   }, [location.pathname, location.state]);
 
   const currentBreadcrumb = useMemo(() => {
+    if (!Array.isArray(breadcrumbs) || breadcrumbs.length === 0) return "Dashboard";
+
     const lastObj = breadcrumbs[breadcrumbs.length - 1];
-    const last = lastObj ? lastObj.id : "dashboard";
+    const lastId = lastObj?.id || "dashboard";
+    const last = String(lastId);
 
     // Try original case first, then lowercase for camelCase keys like "addNewNote"
-    const translationKey = BREADCRUMB_TRANSLATION_KEYS[last] ||
-      BREADCRUMB_TRANSLATION_KEYS[last.toLowerCase()] ||
-      "";
+    let translationKey = "";
+    if (Object.prototype.hasOwnProperty.call(BREADCRUMB_TRANSLATION_KEYS, last)) {
+      translationKey = BREADCRUMB_TRANSLATION_KEYS[last];
+    } else if (Object.prototype.hasOwnProperty.call(BREADCRUMB_TRANSLATION_KEYS, last.toLowerCase())) {
+      translationKey = BREADCRUMB_TRANSLATION_KEYS[last.toLowerCase()];
+    }
+
+    if (typeof translationKey !== "string") translationKey = "";
 
     // Use builderClient namespace for vendor-specific translations
     if (translationKey && translationKey.startsWith("builderClient.")) {
@@ -306,6 +344,13 @@ const Navbar = () => {
       });
     }
 
+    // Use businessCard namespace for business card-related translations
+    if (translationKey && translationKey.startsWith("businessCard.")) {
+      return tBusinessCard(translationKey.replace("businessCard.", ""), {
+        defaultValue: last.replace(/-/g, " "),
+      });
+    }
+
     if (translationKey) {
       return t(translationKey, {
         defaultValue: last.replace(/-/g, " "),
@@ -314,7 +359,7 @@ const Navbar = () => {
 
     // Fallback: return the original value if no translation key found
     return last.replace(/-/g, " ");
-  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance, tCalculation]);
+  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance, tCalculation, tBusinessCard]);
 
   return (
     <header className="fixed top-0 left-0 right-0 xl:left-[300px] lg:left-[260px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
@@ -398,6 +443,13 @@ const Navbar = () => {
                     // Use calculation namespace for calculation-related translations
                     if (translationKey && translationKey.startsWith("calculation.")) {
                       return tCalculation(translationKey.replace("calculation.", ""), {
+                        defaultValue: crumb.replace(/-/g, " "),
+                      });
+                    }
+
+                    // Use businessCard namespace for business card-related translations
+                    if (translationKey && translationKey.startsWith("businessCard.")) {
+                      return tBusinessCard(translationKey.replace("businessCard.", ""), {
                         defaultValue: crumb.replace(/-/g, " "),
                       });
                     }

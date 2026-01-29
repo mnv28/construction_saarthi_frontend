@@ -26,7 +26,7 @@
     "noImage": "No image"
   },
   "attendancePage": {
-    "searchPlaceholder": "Search by name or role",
+    "searchPlaceholder": "Search labours",
     "datePlaceholder": "DD/MM/YYYY",
     "downloadSuccess": "Report downloaded successfully",
     "downloadFail": "Failed to download report",
@@ -48,6 +48,7 @@
       "viewEditLabour": "View/Edit Labour",
       "moveToAnotherProject": "Move To Another Project",
       "payAdvance": "Pay Advance",
+      "payBonus": "Pay Bonus",
       "addBonus": "Add Bonus",
       "addDeduction": "Add Deduction",
       "deleteLabour": "Delete Labour"

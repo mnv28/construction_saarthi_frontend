@@ -26,7 +26,7 @@
     "noImage": "કોઈ છબી નથી"
   },
   "attendancePage": {
-    "searchPlaceholder": "નામ અથવા ભૂમિકા દ્વારા શોધો",
+    "searchPlaceholder": "મજૂરો શોધો",
     "datePlaceholder": "DD/MM/YYYY",
     "downloadSuccess": "રિપોર્ટ સફળતાપૂર્વક ડાઉનલોડ થયો",
     "downloadFail": "રિપોર્ટ ડાઉનલોડ કરવામાં નિષ્ફળ",
@@ -48,6 +48,7 @@
       "viewEditLabour": "મજૂર જુઓ/સંપાદન કરો",
       "moveToAnotherProject": "બીજા પ્રોજેક્ટમાં સ્થાનાંતરિત કરો",
       "payAdvance": "એડવાન્સ ચૂકવો",
+      "payBonus": "બોનસ ચૂકવો",
       "addBonus": "બોનસ ઉમેરો",
       "addDeduction": "કપાત ઉમેરો",
       "deleteLabour": "મજૂર કાઢી નાખો"

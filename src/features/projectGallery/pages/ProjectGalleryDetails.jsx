@@ -467,7 +467,11 @@ export default function ProjectGalleryDetails() {
       </div>
 
       {/* Content */}
-      {isLoadingGallery ? null : filteredItems.length === 0 ? (
+      {isLoadingGallery ? (
+        <div className="flex items-center justify-center py-20">
+          <Loader size="lg" />
+        </div>
+      ) : filteredItems.length === 0 ? (
         <EmptyState
           image={EmptyStateSvg}
           title={emptyStateConfig.title}

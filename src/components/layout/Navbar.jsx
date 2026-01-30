@@ -250,6 +250,24 @@ const Navbar = () => {
       const editIndex = segments.findIndex((seg, idx) => idx > 0 && seg === "edit");
       if (editIndex !== -1) processed[editIndex].id = "editNote";
 
+       // Handle Project Notes: /notes/projects/:projectId
+       if (segments[1] === "projects" && segments.length > 2) {
+        // Skip "projects" segment in display if desired, or keep it. 
+        // User screenshot shows "Notes / Projects / 20", so "projects" is visible.
+        // We just want to replace "20" with the name.
+        if (typeof location.state?.projectName === "string" && location.state.projectName.trim()) {
+          processed[2].id = location.state.projectName.trim();
+        }
+      }
+
+      // Handle Note Details: /notes/:id
+      // segments[0] is "notes", segments[1] is the ID
+      if (segments.length === 2 && segments[1] !== "add") {
+         if (typeof location.state?.noteTitle === "string" && location.state.noteTitle.trim()) {
+            processed[1].id = location.state.noteTitle.trim();
+         }
+      }
+
       return processed;
     }
 

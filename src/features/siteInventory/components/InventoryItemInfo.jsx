@@ -3,7 +3,7 @@
  * Displays item name, unit, and optional details (lastUpdated or projectName)
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function InventoryItemInfo({
   itemName,
@@ -13,17 +13,25 @@ export default function InventoryItemInfo({
   projectName,
   formatDate,
 }) {
-  const { t } = useTranslation('siteInventory');
+  const { t } = useTranslation("siteInventory");
 
   return (
     <div className="mb-4 sm:mb-6">
+      {/* Material Name */}
       <p className="text-primary font-medium text-base sm:text-lg">
-        {specification || itemName} <span className="text-secondary">• {quantityUnit}</span>
+        {itemName} <span className="text-secondary">• {quantityUnit}</span>
       </p>
 
+      {/* Description */}
+      {specification && (
+        <p className="text-secondary text-sm mt-1">{specification}</p>
+      )}
+
+      {/* Last Updated */}
       {lastUpdated && (
         <p className="text-secondary text-sm mt-1">
-          {t('itemDetails.lastUpdated', { defaultValue: 'Last Updated' })}: {formatDate(lastUpdated)}
+          {t("itemDetails.lastUpdated", { defaultValue: "Last Updated" })}:{" "}
+          {formatDate(lastUpdated)}
         </p>
       )}
 
@@ -33,4 +41,3 @@ export default function InventoryItemInfo({
     </div>
   );
 }
-

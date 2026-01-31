@@ -47,7 +47,7 @@ export default function AddBuilder() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Page Header */}
       <PageHeader
         title={t('form.addBuilder', { defaultValue: 'Add Builder' })}

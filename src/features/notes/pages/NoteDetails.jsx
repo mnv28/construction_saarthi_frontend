@@ -43,7 +43,13 @@ export default function NoteDetails() {
   }, [note]);
 
   const handleEdit = () => {
-    navigate(getRoute(ROUTES_FLAT.NOTES_EDIT, { id }));
+    navigate(getRoute(ROUTES_FLAT.NOTES_EDIT, { id }), {
+      state: {
+        projectName: note?.project,
+        projectId: note?.originalData?.projects?.[0]?.projectId, // Assuming first project
+        noteTitle: note?.title
+      }
+    });
   };
 
   const handleToggleReminder = () => {
@@ -445,7 +451,7 @@ export default function NoteDetails() {
             </div>
 
             {/* Reminder */}
-            {note.reminder && (
+            {/* {note.reminder && (
               <div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-3">
                   <div>
@@ -460,7 +466,7 @@ export default function NoteDetails() {
                   />
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         )}
       </div>

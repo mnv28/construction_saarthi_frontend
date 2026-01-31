@@ -252,19 +252,76 @@ const Navbar = () => {
 
        // Handle Project Notes: /notes/projects/:projectId
        if (segments[1] === "projects" && segments.length > 2) {
-        // Skip "projects" segment in display if desired, or keep it. 
-        // User screenshot shows "Notes / Projects / 20", so "projects" is visible.
-        // We just want to replace "20" with the name.
         if (typeof location.state?.projectName === "string" && location.state.projectName.trim()) {
           processed[2].id = location.state.projectName.trim();
         }
       }
 
-      // Handle Note Details: /notes/:id
-      // segments[0] is "notes", segments[1] is the ID
-      if (segments.length === 2 && segments[1] !== "add") {
+      // Handle Add Note, Note Details, Edit Note
+      // Check if we have project info in state to inject intermediate breadcrumb
+      if (
+        typeof location.state?.projectName === "string" && 
+        location.state.projectName.trim() &&
+        location.state.projectId &&
+        segments[1] !== "projects"
+      ) {
+        // We want: Notes > Project Name > [Add/Details/Edit]
+        const projectCrumb = { 
+          id: location.state.projectName.trim(), 
+          path: `/notes/projects/${location.state.projectId}`,
+          
+        };
+        
+        // Insert after 'notes' (index 0)
+        processed.splice(1, 0, projectCrumb);
+        
+        // If it was /notes/add, processed was [notes, add]. Now [notes, project, add].
+        // If it was /notes/:id, processed was [notes, :id]. Now [notes, project, :id].
+        
+        // Fix up paths for subsequent segments? 
+        // No, `createPath` works on url segments index. Inserting a virtual crumb breaks the index mapping if we rely on loop index.
+        // But `processed` objects already have their paths computed from `createPath`.
+        // The projectCrumb has a custom path.
+        // For subsequent items (like "add" or ":id"), their path is `/notes/add` or `/notes/:id`. 
+        // This is chemically correct (navigate to that URL). 
+        // Visually: Notes > Project > Add.
+        // Clicking Add -> /notes/add. Correct.
+        // Clicking Project -> /notes/projects/:id. Correct.
+        // Clicking Notes -> /notes. Correct.
+      }
+
+      // Handle Note Details Title Override
+      // If we inserted project crumb, the note ID is now at index 2 (length 3) or later?
+      // No, `processed` array length changed.
+      // Search for the ID segment. It is the one that is NOT 'notes', 'add', 'edit', 'projects', or the project crumb.
+      const lastCrumb = processed[processed.length - 1];
+      if (
+        segments.length === 2 && 
+        segments[1] !== "add" && 
+        segments[1] !== "projects"
+      ) {
          if (typeof location.state?.noteTitle === "string" && location.state.noteTitle.trim()) {
-            processed[1].id = location.state.noteTitle.trim();
+            // Find the last crumb and update it
+            if (lastCrumb) lastCrumb.id = location.state.noteTitle.trim();
+         }
+      }
+      
+      // Handle Edit Note Title Override
+      // Path: /notes/:id/edit
+      if (
+        segments.length === 3 && 
+        segments[2] === "edit"
+      ) {
+         // Maybe show [Note Title] > Edit Note ?
+         // Currently: Notes > [Project?] > [ID] > Edit Note
+         // Users might prefer: Notes > [Project?] > [Note Title] > Edit Note
+         // We can update the ID segment if title is available.
+         // ID segment is at index 1 (original).
+         // In `processed`, finding it is tricky if we spliced.
+         // Let's find by path.
+         const idSegmentIndex = processed.findIndex(p => p.path === `/notes/${segments[1]}`);
+         if (idSegmentIndex !== -1 && typeof location.state?.noteTitle === "string" && location.state.noteTitle.trim()) {
+            processed[idSegmentIndex].id = location.state.noteTitle.trim();
          }
       }
 

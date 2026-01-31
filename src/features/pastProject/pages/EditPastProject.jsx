@@ -612,7 +612,7 @@ export default function EditPastProject() {
         {/* Media Preview */}
         {mediaItems.length > 0 && (
           <div className="mt-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-6 gap-3">
               {mediaItems.map((item) => (
                 <div key={item.id} className="relative group">
                   {item.type === 'image' && item.url ? (
@@ -620,7 +620,7 @@ export default function EditPastProject() {
                       <img
                         src={item.url}
                         alt={item.name || 'Photo'}
-                        className="w-full h-24 sm:h-28 object-cover rounded-lg border border-gray-200"
+                        className="w-full aspect-square object-cover rounded-lg border border-gray-200"
                       />
                       <button
                         type="button"

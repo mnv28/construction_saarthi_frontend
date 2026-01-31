@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Camera, X } from 'lucide-react';
 import { useAuth } from '../../auth/store';
+import { ROUTES_FLAT } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
 import Input from '../../../components/ui/Input';
 import PhoneInput from '../../../components/ui/PhoneInput';
@@ -181,6 +182,9 @@ export default function MyProfile() {
 
     // Call hook's updateProfile function
     await updateProfile(formData);
+    
+    // Redirect to My Account page
+    navigate(ROUTES_FLAT.MY_ACCOUNT);
   };
 
   const handleCancel = () => {

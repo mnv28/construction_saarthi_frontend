@@ -11,7 +11,6 @@ import { ROUTES_FLAT, getRoute } from '../../../constants/routes';
 import PageHeader from '../../../components/layout/PageHeader';
 import SearchBar from '../../../components/ui/SearchBar';
 import DatePicker from '../../../components/ui/DatePicker';
-import Toggle from '../../../components/ui/Toggle';
 import Button from '../../../components/ui/Button';
 import emptyStateIcon from '../../../assets/icons/EmptyState.svg';
 import { useNotes } from '../hooks/useNotes';
@@ -38,7 +37,11 @@ export default function ProjectNotes() {
 
   const handleNoteClick = (note) => {
     navigate(getRoute(ROUTES_FLAT.NOTES_DETAILS, { id: note.id }), {
-      state: { noteTitle: note.title }
+      state: { 
+        noteTitle: note.title,
+        projectName: projectName,
+        projectId: projectId
+      }
     });
   };
 
@@ -58,7 +61,13 @@ export default function ProjectNotes() {
       }
 
       // Navigate to add note form with noteKey in state
-      navigate(ROUTES_FLAT.NOTES_ADD, { state: { noteKey } });
+      navigate(ROUTES_FLAT.NOTES_ADD, { 
+        state: { 
+          noteKey,
+          projectName: projectName,
+          projectId: projectId
+        } 
+      });
     } catch (error) {
       console.error('Error starting note:', error);
       const errorMessage = error?.response?.data?.message ||
@@ -68,10 +77,7 @@ export default function ProjectNotes() {
     }
   };
 
-  const toggleReminder = (id) => {
-    // Static toggle - in real app, this would update the state via API
-    console.log('Toggle reminder:', id);
-  };
+
 
   // Filter notes based on search query (API already filters by projectId)
   const filteredReminders = useMemo(() => {
@@ -94,14 +100,6 @@ export default function ProjectNotes() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full sm:flex-1 lg:w-[300px] lg:flex-none sm:min-w-0"
           />
-          <div className="flex-shrink-0 w-full sm:w-auto">
-            <DatePicker
-              value={dateRange}
-              onChange={setDateRange}
-              placeholder={t('selectDateRange')}
-              className="w-full sm:w-auto sm:min-w-[180px]"
-            />
-          </div>
           {notes.length > 0 && (
             <button
               onClick={handleAddNote}
@@ -158,23 +156,15 @@ export default function ProjectNotes() {
                 className="bg-white rounded-xl p-4 cursor-pointer shadow-md transition-shadow"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <h3 className="text-base font-semibold text-primary mb-1">
                       {reminder.title}
                     </h3>
-                    <p className="text-sm text-secondary">{t('reminder', { defaultValue: 'Reminder' })}</p>
-                    <p className="text-sm font-medium">
-                      {reminder.date} - {reminder.time}
-                    </p>
-                  </div>
-                  <div className="flex items-center">
-                    <Toggle
-                      checked={reminder.isActive}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        toggleReminder(reminder.id);
-                      }}
-                    />
+                    {reminder.textnote && (
+                      <p className="text-sm text-secondary line-clamp-1">
+                        {reminder.textnote}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

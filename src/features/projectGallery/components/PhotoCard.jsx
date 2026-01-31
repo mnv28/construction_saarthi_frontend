@@ -46,7 +46,7 @@ export default function PhotoCard({ photo, onView, onDelete }) {
   return (
     <div className="relative group cursor-pointer" onClick={() => onView?.(photo) || (photo.url && window.open(photo.url, '_blank'))}>
       {/* Photo Thumbnail */}
-      <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100">
+      <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-100">
         {imageUrl ? (
           <img
             src={imageUrl}

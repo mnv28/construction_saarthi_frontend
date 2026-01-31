@@ -25,8 +25,10 @@ export default function NotesList() {
   const { projects, isLoading } = useNotesProjects(selectedWorkspace);
 
   const statusOptions = [
+    { value: '', label: t('all', { defaultValue: 'All' }) },
     { value: 'completed', label: t('completed') },
     { value: 'inProgress', label: t('inProgress') },
+    { value: 'upcoming', label: t('upcoming') },
   ];
 
   const handleProjectClick = (project) => {
@@ -43,9 +45,26 @@ export default function NotesList() {
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
       const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSearch;
+      
+      let matchesStatus = true;
+      if (statusFilter) {
+        // Normalize status for comparison
+        const pStatus = (project.status || '').toLowerCase();
+        
+        if (statusFilter === 'completed') {
+           matchesStatus = pStatus === 'completed' || pStatus === 'complete';
+        } else if (statusFilter === 'inProgress') {
+           // Match various "in progress" states or default to showing everything NOT completed?
+           // The user specifically asked for "in progress".
+           matchesStatus = pStatus === 'inprogress' || pStatus === 'in progress' || pStatus === 'ongoing' || pStatus === 'active'; 
+        } else if (statusFilter === 'upcoming') {
+           matchesStatus = pStatus === 'upcoming' || pStatus === 'pending' || pStatus === 'planned';
+        }
+      }
+      
+      return matchesSearch && matchesStatus;
     });
-  }, [projects, searchQuery]);
+  }, [projects, searchQuery, statusFilter]);
 
   return (
     <div className="max-w-7xl mx-auto">

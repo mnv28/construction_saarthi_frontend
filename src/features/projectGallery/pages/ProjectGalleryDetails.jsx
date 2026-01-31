@@ -324,7 +324,7 @@ export default function ProjectGalleryDetails() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-center py-20">
           <Loader size="lg" />
         </div>
@@ -334,7 +334,7 @@ export default function ProjectGalleryDetails() {
 
   if (!project) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-7xl mx-auto">
         <PageHeader
           title={t('projectNotFound', { defaultValue: 'Project Not Found' })}
           showBackButton
@@ -356,7 +356,7 @@ export default function ProjectGalleryDetails() {
   const emptyStateConfig = getEmptyStateConfig();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+    <div className="max-w-7xl">
       {/* Header Section */}
       <PageHeader
         title={projectName}
@@ -584,7 +584,7 @@ export default function ProjectGalleryDetails() {
                   })}
                 </h3>
                 {/* Videos Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-4">
                   {items.map((item, index) => (
                     <VideoCard
                       key={item.id || item.url || index}
@@ -617,7 +617,7 @@ export default function ProjectGalleryDetails() {
                   })}
                 </h3>
                 {/* Photos Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-4">
                   {items.map((item, index) => (
                     <PhotoCard
                       key={item.id || item.url || index}

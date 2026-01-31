@@ -112,6 +112,7 @@ export const useNotesProjects = (workspaceId) => {
           budget: budgetFormatted,
           balance: balanceFormatted,
           image: getImageUrl(),
+          status: project.status || details.status || 'inProgress', // Default to inProgress if missing
         };
       });
 

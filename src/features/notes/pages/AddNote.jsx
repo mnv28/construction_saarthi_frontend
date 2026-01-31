@@ -67,6 +67,11 @@ export default function AddNote() {
   useEffect(() => {
     const noteKeyFromState = location.state?.noteKey;
     
+    // Set project ID from navigation state
+    if (location.state?.projectId) {
+      setAssignTo(String(location.state.projectId));
+    }
+
     if (noteKeyFromState) {
       // Use noteKey from navigation state (passed from ProjectNotes)
       setNoteKey(noteKeyFromState);
@@ -126,10 +131,10 @@ export default function AddNote() {
       return;
     }
 
-    if (!reminderDateTime) {
-      showError(t('form.required', { defaultValue: 'Reminder date is required' }));
-      return;
-    }
+    // if (!reminderDateTime) {
+    //   showError(t('form.required', { defaultValue: 'Reminder date is required' }));
+    //   return;
+    // }
 
     if (!noteKey) {
       showError('Note not initialized. Please refresh and try again.');
@@ -154,7 +159,8 @@ export default function AddNote() {
         projectIds: [Number(assignTo)],
         file_type: file_type,
         text: textNote.trim() || '',
-        reminderDate: reminderDateTime,
+        text: textNote.trim() || '',
+        // reminderDate: reminderDateTime,
       };
 
       await createNote(noteData);
@@ -302,7 +308,7 @@ export default function AddNote() {
             required
           />
 
-          {/* Assign To */}
+{/*           
           <div>
             <label className="block text-sm font-normal text-black mb-2">
               {t('form.assignTo')}<span>*</span>
@@ -314,7 +320,7 @@ export default function AddNote() {
               placeholder={isLoadingProjects ? t('loading', { defaultValue: 'Loading...' }) : t('form.selectProject')}
               disabled={isLoadingProjects || projectOptions.length === 0}
             />
-          </div>
+          </div> */}
 
           {/* Notes Type */}
           <div>
@@ -447,13 +453,13 @@ export default function AddNote() {
           )}
 
           {/* Add Reminder */}
-          <DateTimePicker
+          {/* <DateTimePicker
             label={t('form.addReminder')}
             value={reminderDateTime}
             onChange={setReminderDateTime}
             placeholder="DD/MM/YYYY HH:MM"
             required
-          />
+          /> */}
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:justify-end pt-4">

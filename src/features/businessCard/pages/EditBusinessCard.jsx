@@ -47,14 +47,14 @@ export default function EditBusinessCard() {
 
   if (isFetching) {
     return (
-      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+      <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
         <Loader size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Page Header */}
       <PageHeader
         title={t('edit.title', { defaultValue: 'Edit Business Card' })}

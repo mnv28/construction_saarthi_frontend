@@ -101,6 +101,22 @@ export const useNotes = (projectId = null) => {
           time: timeStr,
           isActive: note.isActive !== undefined ? note.isActive : isActive,
           projectId: projectId,
+          textnote: (() => {
+            // Try to find text in noteDocs first (most reliable source based on API response)
+            const textDoc = note.noteDocs?.find(doc => doc.file_type === 'Text');
+            let content = textDoc?.text || noteDetails.textnote || note.textnote || noteDetails.text || note.text || noteDetails.description || note.description || '';
+            
+            // Strip HTML tags if content is a string
+            if (content && typeof content === 'string') {
+              // Simple regex to strip HTML tags
+              content = content.replace(/<[^>]*>?/gm, ' ');
+              // Decode HTML entities (basic ones)
+              content = content.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+              // Trim whitespace
+              content = content.trim();
+            }
+            return content;
+          })(),
           // Keep original data for reference
           originalData: note,
         };

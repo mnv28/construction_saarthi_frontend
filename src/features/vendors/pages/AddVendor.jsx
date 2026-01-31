@@ -49,7 +49,7 @@ export default function AddVendor() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Page Header */}
       <PageHeader
         title={t('form.addVendor', { defaultValue: 'Add Vendor' })}

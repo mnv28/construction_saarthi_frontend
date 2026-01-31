@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -90,7 +90,12 @@ export default function MyAccount() {
   const navigate = useNavigate();
 
   // Fetch profile data to get profile picture
-  const { profile } = useProfile();
+  const { profile, refetch } = useProfile();
+
+  // Refetch profile on mount to ensure fresh data after edit
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -98,8 +103,8 @@ export default function MyAccount() {
   // Get profile picture from profile data or user data
   const profilePicture = profile?.profile || profile?.profile_picture || user?.profile || user?.profile_picture || null;
 
-  const userName = user?.full_name || user?.name || profile?.full_name || 'User';
-  const userPhone = formatPhone(user || profile);
+  const userName = profile?.full_name || profile?.name || user?.full_name || user?.name || 'User';
+  const userPhone = formatPhone(profile || user);
   const avatarColor = getAvatarColor(userName);
   const avatarStyle = getAvatarStyle(avatarColor);
   const initials = getInitials(userName);

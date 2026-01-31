@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
 import LabourAmountModal from '../../../components/ui/LabourAmountModal';
@@ -78,6 +78,7 @@ export default function LabourAttendanceCards({
 }) {
   const { t } = useTranslation('labourAttendance');
   const navigate = useNavigate();
+  const location = useLocation();
   const { selectedWorkspace } = useAuth();
   const [activeModal, setActiveModal] = useState(null); // 'move' | 'advance' | 'bonus' | 'deduction' | null
   const [activeLabour, setActiveLabour] = useState(null);
@@ -253,6 +254,8 @@ export default function LabourAttendanceCards({
         state: {
           projectName,
           labour,
+          fromProjects: location.state?.fromProjects,
+          fromDashboard: location.state?.fromDashboard,
         },
       }
     );
@@ -740,7 +743,7 @@ export default function LabourAttendanceCards({
                 <DropdownMenu
                   openDirection="up"
                   items={[
-                    { label: t('cards.menu.markPaidLeave'), onClick: () => handleMarkPaidLeave(labour.id) },
+                    // { label: t('cards.menu.markPaidLeave'), onClick: () => handleMarkPaidLeave(labour.id) },
                     { label: t('cards.menu.viewEditLabour'), onClick: () => handleViewEditLabour(labour), highlight: true },
                     { label: t('cards.menu.moveToAnotherProject'), onClick: () => handleMoveToProject(labour) },
                     { label: t('cards.menu.payAdvance'), onClick: () => handlePayAdvance(labour) },

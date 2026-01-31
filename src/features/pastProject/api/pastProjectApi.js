@@ -179,7 +179,7 @@ export const getPastProjectById = async (projectId, workspaceId = null) => {
  * @param {string|number} workspaceId - Optional workspace ID (if needed by API)
  * @returns {Promise<Object>} Updated project
  */
-export const updatePastProject = async (projectId, data, workspaceId = null) => {
+export const updatePastProject = async (projectId, data) => {
   if (!projectId) {
     throw new Error('Project ID is required');
   }
@@ -188,15 +188,11 @@ export const updatePastProject = async (projectId, data, workspaceId = null) => 
   const url = `${config.API_BASE_URL}${PAST_PROJECT_ENDPOINTS_FLAT.PAST_PROJECT_UPDATE}/${projectId}`;
 
   try {
-    // ALWAYS use FormData because the backend error 'files is not iterable' suggests 
-    // it expects a multipart request to process file logic, even if no new files are being added.
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('address', data.address);
-    if (data.projectKey) formData.append('projectKey', data.projectKey);
-    if (workspaceId) formData.append('workspaceId', workspaceId);
 
-    // Append any new files to the 'files' key as demonstrated in working Postman request.
+    // Append files - only what's provided
     if (data.files && Array.isArray(data.files)) {
       data.files.forEach((file) => {
         const fileToAppend = file instanceof File ? file : (file.file instanceof File ? file.file : null);
@@ -209,25 +205,14 @@ export const updatePastProject = async (projectId, data, workspaceId = null) => 
     const response = await axios.put(url, formData, {
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
-        // axios will correctly set multipart/form-data boundary
-      }
+      },
+      timeout: 30000, // 30 seconds
     });
 
     return response.data;
   } catch (error) {
     console.error('API Update Error:', error.response?.data || error.message);
-
-    const errorData = error.response?.data;
-    const errorMessage =
-      errorData?.message ||
-      errorData?.error ||
-      (typeof errorData === 'string' ? errorData : null) ||
-      error.message ||
-      'Failed to update project';
-
-    const enhancedError = new Error(errorMessage);
-    enhancedError.response = error.response;
-    throw enhancedError;
+    throw error;
   }
 };
 

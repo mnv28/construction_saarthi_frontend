@@ -18,7 +18,7 @@ import pencilIcon from '../../../assets/icons/pencil.svg';
 import PageHeader from '../../../components/layout/PageHeader';
 import { useProjectDetails } from '../hooks';
 import { useRestrictedRole } from '../../dashboard/hooks';
-import RemoveMemberModal from '../../../components/ui/RemoveMemberModal';
+import ConfirmModal from '../../../components/ui/ConfirmModal';
 import { deleteProject } from '../api';
 import { showSuccess, showError } from '../../../utils/toast';
 
@@ -67,63 +67,61 @@ export default function ProjectDetails() {
 
   const handleToolClick = (toolId) => {
     // Navigate to specific tool pages based on toolId
+    const navigationState = {
+      projectName: project?.site_name || project?.name,
+      projectId: project?.id,
+      fromProjects: true
+    };
+
     switch (toolId) {
       case 'inventory':
         // Navigate to site inventory with project context
-        navigate(ROUTES_FLAT.SITE_INVENTORY, {
-          state: {
-            projectId: project?.id,
-            projectName: project?.site_name || project?.name,
-          },
-        });
+        navigate(ROUTES_FLAT.SITE_INVENTORY, { state: navigationState });
         break;
       case 'finance':
         // Navigate to finance project detail page
         if (project?.id) {
           navigate(getRoute(ROUTES_FLAT.FINANCE_PROJECT_DETAILS, { projectId: project.id }), {
-            state: { projectName: project.site_name || project.name }
+            state: navigationState
           });
         }
         break;
       case 'calculator':
         if (project?.id) {
           navigate(getRoute(ROUTES_FLAT.CALCULATION_PROJECT_DETAILS, { projectId: project.id }), {
-            state: {
-              projectName: project?.site_name || project?.name,
-            },
+            state: navigationState
           });
         }
         break;
       case 'documents':
         if (project?.id) {
           navigate(getRoute(ROUTES_FLAT.DOCUMENTS_PROJECT_DOCUMENTS, { projectId: project.id }), {
-            state: {
-              projectName: project?.site_name || project?.name,
-            },
+            state: navigationState
           });
         }
         break;
       case 'labour':
         if (project?.id) {
-          navigate(getRoute(ROUTES_FLAT.LABOUR_ATTENDANCE_PROJECT, { projectId: project.id }));
+          navigate(getRoute(ROUTES_FLAT.LABOUR_ATTENDANCE_PROJECT, { projectId: project.id }), {
+            state: navigationState
+          });
         }
         break;
       case 'gallery':
         if (project?.id) {
-          navigate(getRoute(ROUTES_FLAT.PROJECT_GALLERY_DETAILS, { projectId: project.id }));
+          navigate(getRoute(ROUTES_FLAT.PROJECT_GALLERY_DETAILS, { projectId: project.id }), {
+            state: navigationState
+          });
         }
         break;
       case 'dpr':
-        navigate(ROUTES_FLAT.DPR, {
-          state: {
-            projectId: project?.id,
-            projectName: project?.site_name || project?.name,
-          },
-        });
+        navigate(ROUTES_FLAT.DPR, { state: navigationState });
         break;
       case 'notes':
         if (project?.id) {
-          navigate(getRoute(ROUTES_FLAT.NOTES_PROJECT_NOTES, { projectId: project.id }));
+          navigate(getRoute(ROUTES_FLAT.NOTES_PROJECT_NOTES, { projectId: project.id }), {
+            state: navigationState
+          });
         }
         break;
       default:
@@ -276,18 +274,29 @@ export default function ProjectDetails() {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <RemoveMemberModal
+      <ConfirmModal
         isOpen={!!projectToDelete}
         onClose={() => setProjectToDelete(null)}
         onConfirm={handleDeleteConfirm}
-        isLoading={isDeleting}
         title={t('deleteModal.title', { defaultValue: 'Delete Project' })}
-        description={t('deleteModal.message', {
-          name: projectToDelete?.site_name || projectToDelete?.name,
-          defaultValue: `Are you sure you want to delete ${projectToDelete?.site_name || projectToDelete?.name}? This action is irreversible, and your data cannot be recovered.`
-        })}
+        maxWidthClass="max-w-xl"
+        message={
+          projectToDelete ? (
+            <p>
+              {t('deleteModal.message')}{' '}
+              <span className="font-medium text-primary">
+                {projectToDelete.site_name || projectToDelete.name}
+              </span>{' '}
+              {t('deleteModal.messageSuffix')}
+            </p>
+          ) : (
+            ''
+          )
+        }
         confirmText={t('deleteModal.confirm', { defaultValue: 'Yes, Delete' })}
-        cancelText={t('common:cancel', { defaultValue: 'Cancel' })}
+        cancelText={t('cancel', { ns: 'common', defaultValue: 'Cancel' })}
+        confirmVariant="primary"
+        isLoading={isDeleting}
       />
     </div>
   );

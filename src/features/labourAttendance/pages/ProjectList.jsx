@@ -5,7 +5,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '../../../components/layout/PageHeader';
 import SearchBar from '../../../components/ui/SearchBar';
@@ -21,6 +21,7 @@ import { ChevronDown } from 'lucide-react';
 export default function ProjectList() {
     const { t } = useTranslation(['labourAttendance', 'projects']);
     const navigate = useNavigate();
+    const location = useLocation();
     const { selectedWorkspace } = useAuth();
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -51,6 +52,7 @@ export default function ProjectList() {
         navigate(path, {
             state: {
                 projectName: project.name,
+                fromDashboard: location.state?.fromDashboard,
             },
         });
     };
@@ -86,12 +88,12 @@ export default function ProjectList() {
     return (
         <div className="max-w-7xl mx-auto">
             <PageHeader title={t('projectList.title')} onBack={() => navigate(-1)}>
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 md:gap-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 md:gap-3">
                     <SearchBar
                         placeholder={t('projectList.searchProjects')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full sm:flex-1 lg:w-[300px] lg:flex-none sm:min-w-0"
+                        className="w-full lg:w-[200px]"
                     />
                     <Dropdown
                         options={statusOptions}

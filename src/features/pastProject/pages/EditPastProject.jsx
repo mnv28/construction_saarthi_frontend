@@ -17,7 +17,7 @@ import Loader from '../../../components/ui/Loader';
 import documentIcon from '../../../assets/icons/document.svg';
 import { PAST_PROJECT_ROUTES } from '../constants';
 import { getRoute } from '../../../constants/routes';
-import { getPastProjectById, updatePastProject, uploadPastProjectMedia, startPastProject } from '../api/pastProjectApi';
+import { getPastProjectById, updatePastProject, startPastProject } from '../api/pastProjectApi';
 import { useAuth } from '../../../hooks/useAuth';
 import { showSuccess, showError } from '../../../utils/toast';
 
@@ -84,7 +84,6 @@ export default function EditPastProject() {
   const [projectKey, setProjectKey] = useState(null);
   const [newMediaFiles, setNewMediaFiles] = useState([]);
   const [newDocumentFiles, setNewDocumentFiles] = useState([]);
-  const [uploadedFileUrls, setUploadedFileUrls] = useState([]); // Store URLs of files uploaded via /upload API
 
   // Fetch project data from API
   useEffect(() => {
@@ -252,6 +251,7 @@ export default function EditPastProject() {
   }, [projectName, project, location.state?.projectName, location.pathname, navigate]);
 
   const handleSave = async () => {
+    console.log('handleSave initiated');
     if (!projectName.trim()) {
       showError(t('validation.projectNameRequired', { defaultValue: 'Project name is required' }));
       return;
@@ -274,63 +274,18 @@ export default function EditPastProject() {
 
     setIsSaving(true);
     try {
-      // 1. Process Media Items (Photos + Videos)
-      const processedMediaFiles = await Promise.all(mediaItems.map(async (item) => {
-        // If it's a new file, return the File object
-        if (item.isNew && item.file) return item.file;
+      // Collect only NEW files that haven't been uploaded yet
+      const newFiles = [
+        ...mediaItems.filter(item => item.isNew && item.file).map(item => item.file),
+        ...documentItems.filter(item => item.isNew && item.file).map(item => item.file)
+      ];
 
-        // If it's an existing file, fetch and convert to File
-        if (item.url) {
-          try {
-            // Skip if it looks like a local blob url that isn't flagged as new (shouldn't happen but safety check)
-            if (item.url.startsWith('blob:') && !item.isNew) return null;
-
-            const response = await fetch(item.url);
-            const blob = await response.blob();
-            const filename = item.name || getFileNameFromUrl(item.url);
-            // Simple type inference
-            let type = blob.type;
-            if (!type || type === 'application/octet-stream') {
-              if (item.type === 'video') type = 'video/mp4';
-              else if (item.type === 'photo') type = 'image/jpeg';
-            }
-
-            return new File([blob], filename, { type });
-          } catch (e) {
-            console.error("Failed to convert existing file for re-upload", item.url, e);
-            return null;
-          }
-        }
-        return null;
-      }));
-
-      // 2. Process Document Items
-      const processedDocFiles = await Promise.all(documentItems.map(async (item) => {
-        if (item.isNew && item.file) return item.file;
-
-        if (item.url) {
-          try {
-            const response = await fetch(item.url);
-            const blob = await response.blob();
-            const filename = item.name || getFileNameFromUrl(item.url);
-            return new File([blob], filename, { type: 'application/pdf' });
-          } catch (e) {
-            console.error("Failed to convert existing doc for re-upload", item.url, e);
-            return null;
-          }
-        }
-        return null;
-      }));
-
-      // Combine all files
-      const allFiles = [...processedMediaFiles, ...processedDocFiles].filter(Boolean);
-
-      // Update project details
+      // Update project details in ONE API call
       const response = await updatePastProject(id, {
         name: projectName.trim(),
         address: address.trim(),
         projectKey: projectKey || project?.projectKey,
-        files: allFiles,
+        files: newFiles,
       }, selectedWorkspace);
 
       // Refresh project data
@@ -357,37 +312,6 @@ export default function EditPastProject() {
     }
   };
 
-  const uploadFilesImmediately = async (files) => {
-    if (!projectKey) {
-      // If projectKey is not yet initialized, we can't upload immediately
-      console.warn('ProjectKey not ready for immediate upload');
-      return false;
-    }
-
-    setIsUploading(true);
-    try {
-      const fileArray = Array.from(files);
-      if (fileArray.length > 0) {
-        const response = await uploadPastProjectMedia(projectKey, fileArray);
-
-        // Add newly uploaded file URLs to our state track
-        if (response?.uploadedFiles) {
-          const newUrls = response.uploadedFiles.map(f => f.url);
-          setUploadedFileUrls(prev => [...prev, ...newUrls]);
-        }
-
-        showSuccess(t('success.filesUploaded', { defaultValue: 'Files uploaded successfully!' }));
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error('Error in immediate upload:', error);
-      showError(t('error.uploadFailed', { defaultValue: 'Immediate upload failed' }));
-      return false;
-    } finally {
-      setIsUploading(false);
-    }
-  };
 
   const getFileType = (file) => {
     const type = file.type || '';
@@ -400,7 +324,7 @@ export default function EditPastProject() {
     return URL.createObjectURL(file);
   };
 
-  const handleMediaUpload = async (files) => {
+  const handleMediaUpload = (files) => {
     const fileArray = Array.from(files);
     const filesWithPreview = fileArray.map((file) => {
       const fileType = getFileType(file);
@@ -416,12 +340,9 @@ export default function EditPastProject() {
 
     setMediaItems((prev) => [...prev, ...filesWithPreview]);
     setNewMediaFiles((prev) => [...prev, ...fileArray]);
-
-    // Integrate immediate upload as requested
-    await uploadFilesImmediately(fileArray);
   };
 
-  const handleDocumentsUpload = async (files) => {
+  const handleDocumentsUpload = (files) => {
     const fileArray = Array.from(files);
 
     // Filter only PDF files
@@ -451,9 +372,6 @@ export default function EditPastProject() {
 
     setDocumentItems((prev) => [...prev, ...filesWithPreview]);
     setNewDocumentFiles((prev) => [...prev, ...pdfFiles]);
-
-    // Integrate immediate upload as requested
-    await uploadFilesImmediately(pdfFiles);
   };
 
   const handleRemoveMedia = (idToRemove) => {

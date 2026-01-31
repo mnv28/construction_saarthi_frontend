@@ -39,9 +39,14 @@ const BREADCRUMB_TRANSLATION_KEYS = {
   "expenses-paid": "finance.expensesPaid",
   "expenses-to-pay": "finance.expensesToPay",
   sections: "finance.sections",
-  "labour-attendance": "sidebar.mainMenu.labourAttendance",
+  "labour-attendance": "labourAttendance.common.labourAttendance",
   "add-labour": "labourAttendance.common.addLabour",
   calculation: "calculation.breadcrumbs.calculation",
+  "construction-calculation": "calculation.breadcrumbs.calculation",
+  "construction-cost": "calculation.quickActions.items.constructionCost",
+  "calculation-history": "calculation.projectDetails.history",
+  "calculation-details": "calculation.projectDetails.calculationDetails",
+  reports: "sidebar.mainMenu.dpr",
   concrete: "calculation.quickActions.items.concrete",
   "by-volume": "calculation.concrete.sections.byVolume",
   "curbed-stone-1": "calculation.concrete.curbedStone.curbStone1",
@@ -108,76 +113,112 @@ const Navbar = () => {
     const segments = location.pathname.split("/").filter(Boolean);
     if (segments.length === 0) return [{ id: "dashboard", path: "/" }];
 
+    const state = location.state || {};
+    const projectName = typeof state.projectName === "string" ? state.projectName.trim() : null;
+    const fromProjects = !!state.fromProjects;
+    const fromDashboard = !!state.fromDashboard;
     const createPath = (idx) => "/" + segments.slice(0, idx + 1).join("/");
 
-    // If we're on a project details page and have projectName in route state,
-    // replace the numeric ID segment with the human-readable project name.
-    if (
-      segments[0] === "projects" &&
-      segments.length > 1 &&
-      typeof location.state?.projectName === "string" &&
-      location.state.projectName.trim()
-    ) {
-      const processed = [
-        { id: segments[0], path: createPath(0) },
-        { id: location.state.projectName.trim(), path: createPath(1) },
-      ];
-
-      // Append any remaining segments (like "edit", "details" etc.)
-      if (segments.length > 2) {
-        segments.slice(2).forEach((seg, i) => {
-          processed.push({ id: seg, path: createPath(i + 2) });
-        });
+    // --- Helper for Prepending Parent context ---
+    const wrapWithContext = (items) => {
+      if (fromDashboard) {
+        return [{ id: "dashboard", path: "/" }, ...items];
       }
+      return items;
+    };
 
-      return processed;
+    // --- Helper for Project-Context Prefix ---
+    const getProjectPrefix = (featureId, featurePath) => {
+      if (fromProjects && projectName) {
+        let projectId = state.projectId || segments[segments.indexOf("projects") + 1];
+        if (!projectId && segments[0] === featureId && segments.length > 1) projectId = segments[1];
+        if (!projectId && segments[0] === "past-work" && segments.length > 1) projectId = segments[1];
+        if (!projectId && segments[0] === "gallery" && segments.length > 1) projectId = segments[1];
+        if (!projectId && segments[0] === "construction-calculation" && segments.length > 1) projectId = segments[1];
+
+        if (projectId) {
+          // If the feature is project-specific, we should link to the project's view of that feature
+          const projectFeaturePath = (featureId === "labour-attendance" || featureId === "finance" || featureId === "documents" || featureId === "notes")
+            ? `${featurePath}/${projectId}`
+            : featurePath;
+
+          return [
+            { id: "projects", path: "/projects" },
+            { id: projectName, path: `/projects/${projectId}` },
+            { id: featureId, path: projectFeaturePath },
+          ];
+        }
+      }
+      return [{ id: featureId, path: featurePath }];
+    };
+
+    const rootSegment = segments[0];
+
+    // 1. PROJECTS
+    if (rootSegment === "projects") {
+      const items = [{ id: "projects", path: "/projects" }];
+      if (segments.length > 1) items.push({ id: projectName || segments[1], path: createPath(1) });
+      if (segments.length > 2) segments.slice(2).forEach((seg, i) => items.push({ id: seg, path: createPath(i + 2) }));
+      return wrapWithContext(items);
     }
 
-    // If we're on site-inventory page and have projectName in route state,
-    // show breadcrumb as: Projects / ProjectName / Site Inventory
-    if (
-      segments[0] === "site-inventory" &&
-      typeof location.state?.projectName === "string" &&
-      location.state.projectName.trim()
-    ) {
-      // Assuming project ID is also in state for the link, otherwise fallback to just projects list
-      const projectPath = location.state?.projectId ? `/projects/${location.state.projectId}` : '/projects';
-      return [
-        { id: "projects", path: "/projects" },
-        { id: location.state.projectName.trim(), path: projectPath },
-        { id: segments[0], path: createPath(0) },
-      ];
+    // 2. LABOUR ATTENDANCE
+    if (rootSegment === "labour-attendance") {
+      const items = getProjectPrefix("labour-attendance", "/labour-attendance");
+      if (segments.length === 1) return wrapWithContext(items);
+      const projectId = segments[1];
+      const projectPath = `/labour-attendance/${projectId}`;
+
+      if (!fromProjects) {
+        if (typeof state.projectName === "string" && state.projectName.trim()) {
+          items.push({ id: state.projectName.trim(), path: projectPath });
+        } else {
+          items.push({ id: projectId, path: projectPath });
+        }
+      }
+
+      if (segments.length > 2) {
+        if (segments[2] === "add-labour") {
+          const editLabourName = state.editLabour?.name || null;
+          if (editLabourName && typeof editLabourName === "string" && editLabourName.trim()) {
+            items.push({ id: editLabourName.trim(), path: projectPath + "/add-labour" });
+          } else {
+            items.push({ id: "add-labour", path: projectPath + "/add-labour" });
+          }
+        } else if (segments[2] === "labour" && segments.length > 3) {
+          const labourName = state.labour?.name || state.editLabour?.name || state.labourName || segments[3];
+          items.push({ id: labourName, path: projectPath + "/labour/" + segments[3] });
+          segments.slice(4).forEach((seg, i) => {
+            items.push({ id: seg, path: createPath(i + 4) });
+          });
+        } else {
+          segments.slice(2).forEach((seg, i) => {
+            items.push({ id: seg, path: createPath(i + 2) });
+          });
+        }
+      }
+      return wrapWithContext(items);
     }
 
     // Handle business-card routes
-    if (segments[0] === "business-card" && segments.length > 1) {
+    if (rootSegment === "business-card" && segments.length > 1) {
       if (segments[1] === "add") {
-        return [
+        return wrapWithContext([
           { id: "business-card", path: createPath(0) },
           { id: "addBusinessCard", path: createPath(1) },
-        ];
+        ]);
       }
-      return segments.map((seg, i) => ({ id: seg, path: createPath(i) }));
+      return wrapWithContext(segments.map((seg, i) => ({ id: seg, path: createPath(i) })));
     }
 
-    // Handle labour-attendance routes
-    if (segments[0] === "labour-attendance" && segments.length > 1) {
-      const processed = [{ id: segments[0], path: createPath(0) }];
-
-      // Replace project ID with project name if available
-      if (typeof location.state?.projectName === "string" && location.state.projectName.trim()) {
-        processed.push({ id: location.state.projectName.trim(), path: createPath(1) });
-      } else {
-        processed.push({ id: segments[1], path: createPath(1) });
-      }
-
-      // Handle add-labour route
-      if (segments.length > 2 && segments[2] === "add-labour") {
-        const editLabourName = location.state?.editLabour?.name || null;
-
-        if (editLabourName && typeof editLabourName === "string" && editLabourName.trim()) {
-          processed.push({ id: editLabourName.trim(), path: createPath(2) });
+    // 3. SITE INVENTORY
+    if (rootSegment === "site-inventory") {
+      const items = getProjectPrefix("site-inventory", "/site-inventory");
+      if (segments.length > 1) {
+        if (state.item?.name || state.consumable?.name) {
+          items.push({ id: state.item?.name || state.consumable?.name, path: createPath(segments.length - 1) });
         } else {
+<<<<<<< HEAD
           processed.push({ id: "add-labour", path: createPath(2) });
         }
         return processed;
@@ -326,74 +367,167 @@ const Navbar = () => {
       }
 
       return processed;
-    }
-
-    // Handle finance routes
-    if (segments[0] === "finance" && segments.length > 1) {
-      const processed = [{ id: "finance", path: "/finance" }];
-      if (segments[1] === "projects" && segments.length > 2) {
-        // Skip "projects" segment in display, go straight to project name
-        const projectName = location.state?.projectName || null;
-        processed.push({
-          id: (projectName && typeof projectName === "string" && projectName.trim()) ? projectName.trim() : segments[2],
-          path: createPath(2) // /finance/projects/:id
-        });
-
-        if (segments.length === 3) {
-          return processed;
-        } else if (segments.length > 3) {
-          if (["builder-invoices", "payment-received", "expenses-paid", "expenses-to-pay"].includes(segments[3])) {
-            processed.push({ id: segments[3], path: createPath(3) });
-
-            if (segments[3] === "builder-invoices" && segments[4] === "sections" && segments.length > 5) {
-              processed.push({ id: "sections", path: createPath(4) });
-              processed.push({ id: segments[5], path: createPath(5) });
-            } else if (segments[3] === "expenses-to-pay" && segments[4] === "sections" && segments.length > 5) {
-              processed.push({ id: "sections", path: createPath(4) });
-              processed.push({ id: segments[5], path: createPath(5) });
-            }
-          }
+=======
+          segments.slice(1).forEach((seg, i) => items.push({ id: seg, path: createPath(i + 1) }));
         }
-        return processed;
       }
-      return [{ id: "finance", path: "/finance" }, ...segments.slice(1).map((s, i) => ({ id: s, path: createPath(i + 1) }))];
+      return wrapWithContext(items);
+>>>>>>> origin/main
     }
 
-    // Handle documents routes
-    if (segments[0] === "documents" && segments.length > 1) {
+    // 4. FINANCE
+    if (rootSegment === "finance") {
+      const items = getProjectPrefix("finance", "/finance");
       if (segments[1] === "projects" && segments.length > 2) {
-        // This block in original code was returning: ["documents", "projects", NAME, "documents", ...] which seems redundant or specific to design
-        // Retaining logic but assigning paths.
-        // Original: processedSegments.push("projects", segments[2], "documents");
-        // Paths: /documents/projects -> /documents/projects/:id -> /documents/projects/:id/documents (?? typically redundancy in UI logic)
-        // Let's assume standard pathing for links.
-        const projectName = location.state?.projectName || segments[2];
-        const items = [
-          { id: "documents", path: "/documents" },
-          { id: "projects", path: "/documents/projects" }, // Likely not a real page but we'll link it
-          { id: projectName, path: createPath(2) },
-          { id: "documents", path: createPath(2) + "/documents" } // Assuming this exists?
-        ];
-
-        if (segments.length >= 5 && segments[3] === "documents") {
-          items.push({ id: "proposal", path: createPath(4) }); // "proposal" hardcoded in original for length >= 5
-        }
-        return items;
+        if (!fromProjects) items.push({ id: projectName || segments[2], path: `/finance/projects/${segments[2]}` });
+        if (segments.length > 3) segments.slice(3).forEach((seg, i) => items.push({ id: seg, path: createPath(i + 3) }));
+      } else if (segments.length > 1) {
+        segments.slice(1).forEach((seg, i) => items.push({ id: seg, path: createPath(i + 1) }));
       }
+      return wrapWithContext(items);
     }
 
-    // Default map
-    return segments.map((seg, i) => ({ id: seg, path: createPath(i) }));
+// 5. DPR / DOCUMENTS / NOTES / GALLERY
+if (["dpr", "documents", "notes", "gallery"].includes(rootSegment)) {
+  const items = getProjectPrefix(rootSegment, `/${rootSegment}`);
+  const pidIdx = segments.indexOf("projects");
+  const projectId =
+    pidIdx !== -1
+      ? segments[pidIdx + 1]
+      : rootSegment === "gallery"
+      ? segments[1]
+      : null;
+
+  if (projectId && !fromProjects) {
+    items.push({
+      id: projectName || projectId,
+      path: `/${rootSegment}/${pidIdx !== -1 ? "projects/" : ""}${projectId}`
+    });
+  }
+
+  const startIdx = pidIdx !== -1 ? pidIdx + 2 : rootSegment === "gallery" ? 2 : 1;
+
+  if (segments.length > startIdx) {
+    segments.slice(startIdx).forEach((seg, i) => {
+      let id = seg;
+
+      // NOTES-specific naming
+      if (rootSegment === "notes") {
+        if (seg === "add") id = "addNewNote";
+        if (seg === "edit") id = "editNote";
+
+        // /notes/:id → note title
+        if (
+          segments.length === startIdx + 1 &&
+          seg !== "add" &&
+          typeof location.state?.noteTitle === "string"
+        ) {
+          id = location.state.noteTitle.trim();
+        }
+      }
+
+      if (seg === "documents" && rootSegment === "documents") return;
+      items.push({ id, path: createPath(i + startIdx) });
+    });
+  }
+
+  return wrapWithContext(items);
+}
+
+
+// 6. PAST WORK
+if (rootSegment === "past-work") {
+  const items = [{ id: "past-work", path: "/past-work" }];
+
+  if (segments.length > 1) {
+    if (segments[1] === "add") {
+      items.push({ id: "addpastwork", path: "/past-work/add" });
+    } else {
+      items.push({
+        id: projectName || segments[1],
+        path: `/past-work/${segments[1]}`
+      });
+    }
+  }
+
+  if (segments.length > 2) {
+    segments.slice(2).forEach((seg, i) =>
+      items.push({ id: seg, path: createPath(i + 2) })
+    );
+  }
+
+  return wrapWithContext(items);
+}
+
+
+// Handle finance routes
+if (segments[0] === "finance" && segments.length > 1) {
+  const processed = [{ id: "finance", path: "/finance" }];
+
+  if (segments[1] === "projects" && segments.length > 2) {
+    const projectName = location.state?.projectName || null;
+
+    processed.push({
+      id:
+        projectName && typeof projectName === "string" && projectName.trim()
+          ? projectName.trim()
+          : segments[2],
+      path: createPath(2)
+    });
+
+    if (segments.length === 3) return processed;
+
+    if (
+      ["builder-invoices", "payment-received", "expenses-paid", "expenses-to-pay"]
+        .includes(segments[3])
+    ) {
+      processed.push({ id: segments[3], path: createPath(3) });
+
+      if (
+        ["builder-invoices", "expenses-to-pay"].includes(segments[3]) &&
+        segments[4] === "sections" &&
+        segments.length > 5
+      ) {
+        processed.push({ id: "sections", path: createPath(4) });
+        processed.push({ id: segments[5], path: createPath(5) });
+      }
+    }
+  }
+
+  return processed;
+}
+
+    // 7. CALCULATION
+    if (rootSegment === "construction-calculation") {
+      const items = getProjectPrefix("construction-calculation", "/construction-calculation");
+      if (segments.length > 1 && !fromProjects) items.push({ id: projectName || segments[1], path: `/construction-calculation/${segments[1]}` });
+      if (segments.length > 1) segments.slice(1).forEach((seg, i) => {
+        if (seg === segments[1] && !fromProjects) return;
+        if (seg === segments[1] && fromProjects) return;
+        items.push({ id: seg, path: createPath(i + 1) });
+      });
+      return wrapWithContext(items);
+    }
+
+    return wrapWithContext(segments.map((seg, i) => ({ id: seg, path: createPath(i) })));
   }, [location.pathname, location.state]);
 
   const currentBreadcrumb = useMemo(() => {
+    if (!Array.isArray(breadcrumbs) || breadcrumbs.length === 0) return "Dashboard";
+
     const lastObj = breadcrumbs[breadcrumbs.length - 1];
-    const last = lastObj ? lastObj.id : "dashboard";
+    const lastId = lastObj?.id || "dashboard";
+    const last = String(lastId);
 
     // Try original case first, then lowercase for camelCase keys like "addNewNote"
-    const translationKey = BREADCRUMB_TRANSLATION_KEYS[last] ||
-      BREADCRUMB_TRANSLATION_KEYS[last.toLowerCase()] ||
-      "";
+    let translationKey = "";
+    if (Object.prototype.hasOwnProperty.call(BREADCRUMB_TRANSLATION_KEYS, last)) {
+      translationKey = BREADCRUMB_TRANSLATION_KEYS[last];
+    } else if (Object.prototype.hasOwnProperty.call(BREADCRUMB_TRANSLATION_KEYS, last.toLowerCase())) {
+      translationKey = BREADCRUMB_TRANSLATION_KEYS[last.toLowerCase()];
+    }
+
+    if (typeof translationKey !== "string") translationKey = "";
 
     // Use builderClient namespace for vendor-specific translations
     if (translationKey && translationKey.startsWith("builderClient.")) {
@@ -459,7 +593,7 @@ const Navbar = () => {
 
     // Fallback: return the original value if no translation key found
     return last.replace(/-/g, " ");
-  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance, tCalculation]);
+  }, [breadcrumbs, t, tBuilderClient, tPastProjects, tNotes, tDocuments, tFinance, tLabourAttendance, tCalculation, tBusinessCard]);
 
   return (
     <header className="fixed top-0 left-0 right-0 xl:left-[300px] lg:left-[260px] py-3 px-4 md:px-8 bg-white border-b border-black-soft z-40 flex items-center justify-between ">
